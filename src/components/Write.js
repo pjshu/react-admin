@@ -155,8 +155,6 @@ export default function Write() {
         <form
           onSubmit={handleOnSubmit}
           id="postForm"
-          action="http://127.0.0.1:5000/api/admin/posts/"
-          method="post"
           className={classes.container}
           noValidate
           autoComplete="off">
@@ -203,11 +201,25 @@ export default function Write() {
   }
 
   function handleOnSubmit(e) {
+    const api = "http://127.0.0.1:5000/api/admin/posts/";
     e.preventDefault();
-    const postForm = {...form};
-    delete postForm.tempTags;
-    axios.post(e.target.action, postForm).then(res => {
-      console.log(res.data);
+    let postForm = new FormData();
+    Object.keys(form).forEach(key => {
+      postForm.append(key, form[key]);
+    });
+    postForm.delete('tempTags');
+
+    async function getImage() {
+      for (const image of images) {
+        const blob = await fetch(image.url).then(r => r.blob());
+        postForm.append('images', blob,image.name);
+      }
+    }
+
+    getImage().then(() => {
+      axios.post(api, postForm).then(res => {
+        console.log(res.data);
+      });
     });
   }
 
