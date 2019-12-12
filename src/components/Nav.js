@@ -16,8 +16,8 @@ import {
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MenuIcon from '@material-ui/icons/Menu';
 import {Link, Route, Switch} from "react-router-dom";
-import Article from "./Article";
-import Write from "./Write";
+import Article from "../containers/Article/Article";
+import Write from "../containers/Write/Write";
 
 
 const drawerWidth = 240;

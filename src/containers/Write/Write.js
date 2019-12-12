@@ -42,16 +42,21 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function Write() {
+export default function Write(props) {
   const classes = useStyles();
-  const [form, setForm] = useState({
-    tempTags: '',
-    title: "",
-    tags: [],
-    timeStamp: new Date() * 1,
-    contents: "",
-    publish: false,
-  });
+  const {
+    row,
+    post,
+    tempTags,
+    deleteTag,
+    changeTitle,
+    changeTempTag,
+    changePublish,
+    addTag,
+    changeRow,
+    handleSubmit,
+    changeContents
+  } = props;
   const [images, setImages] = useState([]);
   const [imageIsHidden, setIsHidden] = useState(false);
   const [isPost, setIsPost] = useState(true);
@@ -61,8 +66,8 @@ export default function Write() {
     <Grid container justify="center" direction="column" className={classes.root} spacing={3}>
       <Grid item>
         <TextField
-          onChange={(e) => setForm({...form, title: e.target.value})}
-          value={form.title}
+          onChange={(e) => changeTitle(e.target.value)}
+          value={post.title}
           fullWidth={true}
           form="postForm"
           id="outlined-basic"
@@ -73,8 +78,8 @@ export default function Write() {
         <Grid item>
           <TextField
             onKeyDown={handleKeyDown}
-            onChange={(e) => setForm({...form, tempTags: e.target.value})}
-            value={form.tempTags}
+            onChange={(e) => changeTempTag(e.target.value)}
+            value={tempTags}
             form="postForm"
             id="outlined-basic"
             label="标签"
@@ -82,13 +87,13 @@ export default function Write() {
         </Grid>
         <Grid item>
           {
-            form.tags.map(item => (
+            post.tags.map(item => (
               <Chip
                 key={item}
                 size="medium"
                 label={item}
                 color="primary"
-                onDelete={() => handleOnTagDelete(item)}/>
+                onDelete={() => deleteTag(item)}/>
             ))
           }
         </Grid>
@@ -144,8 +149,8 @@ export default function Write() {
             control={
               <Checkbox
                 color="primary"
-                checked={form.publish}
-                onChange={() => setForm({...form, publish: !form.publish})}/>}
+                checked={post.publish}
+                onChange={changePublish}/>}
             label="发布"
             labelPlacement="end"
           />
@@ -160,11 +165,10 @@ export default function Write() {
           autoComplete="off">
           <TextField
             name="contents"
-            value={form.contents}
+            value={post.contents}
             inputRef={textarea}
-            id="outlined-multiline-static"
             multiline
-            rows="1"
+            rows={row}
             fullWidth={true}
             placeholder="支持Markdown"
             className={classes.textField}
@@ -176,7 +180,7 @@ export default function Write() {
       <Grid item>
         <ReactMarkdown
           escapeHtml={false}
-          source={form.contents}
+          source={post.contents}
           renderers={{code: CodeBlock}}/>
       </Grid>
       <Grid implementation="css">
@@ -184,44 +188,6 @@ export default function Write() {
       </Grid>
     </Grid>
   );
-
-  function handleOnTagDelete(item) {
-    const tempTags = new Set(form.tags);
-    tempTags.delete(item);
-    setForm({...form, tags: [...tempTags]});
-  }
-
-  function handleKeyDown(e) {
-    if (e.keyCode === 13) {
-      //去重
-      const tags = new Set(form.tags);
-      tags.add(form.tempTags);
-      setForm({...form, tags: [...tags], tempTags: ''});
-    }
-  }
-
-  function handleOnSubmit(e) {
-    const api = "http://127.0.0.1:5000/api/admin/posts/";
-    e.preventDefault();
-    let postForm = new FormData();
-    Object.keys(form).forEach(key => {
-      postForm.append(key, form[key]);
-    });
-    postForm.delete('tempTags');
-
-    async function getImage() {
-      for (const image of images) {
-        const blob = await fetch(image.url).then(r => r.blob());
-        postForm.append('images', blob,image.name);
-      }
-    }
-
-    getImage().then(() => {
-      axios.post(api, postForm).then(res => {
-        console.log(res.data);
-      });
-    });
-  }
 
   function ImageList(props) {
     const {iconStyle, containerStyle} = props;
@@ -250,6 +216,22 @@ export default function Write() {
       </Grid>
     );
   }
+
+
+  function handleOnSubmit(e) {
+    const api = "http://127.0.0.1:5000/api/admin/posts/";
+    e.preventDefault();
+    let postForm = new FormData();
+    Object.keys(form).forEach(key => {
+      postForm.append(key, form[key]);
+    });
+    postForm.delete('tempTags');
+
+    axios.post(api, postForm).then(res => {
+      console.log(res.data);
+    });
+  }
+
 
   function handleShrink() {
     if (isPostShrink) {
@@ -284,25 +266,45 @@ export default function Write() {
 
   function handleImageUpload(e) {
     const file = e.target.files;
+    const api = "http://127.0.0.1:5000/api/admin/posts/";
     for (let i = 0; i < file.length; i++) {
       const url = window.URL.createObjectURL(file[i]);
       setImages((images) => [...images, {name: file[i].name, url}]);
       setForm(form => ({...form, contents: form.contents + `![${file[i].name}](${url})`}));
     }
     textarea.current.focus();
+    let postForm = new FormData();
+
+    async function getImage() {
+      for (const image of images) {
+        const blob = await fetch(image.url).then(r => r.blob());
+        postForm.append('images', blob, image.name);
+      }
+    }
+
+    getImage().then(() => {
+      axios.post(api, postForm).then(res => {
+        console.log(res.data);
+      });
+    });
+  }
+
+  function handleKeyDown(e) {
+    if (e.keyCode === 13) {
+      addTag(e.target.value);
+    }
   }
 
   function handleOnReset() {
-    textarea.current.value = '';
-    textarea.current.rows = 1;
-    setForm({...form, contents: ''});
+    changeContents('');
+    changeRow(1);
   }
 
   function handleRowChange(e) {
-    const element = e.target;
-    if (element.scrollHeight / 19 !== element.row) {
-      element.rows = element.scrollHeight / 19;
+    const ele = e.target;
+    if (ele.scrollHeight / 19 !== ele.rows) {
+      ele.rows = ele.scrollHeight / 19;
     }
-    setForm({...form, contents: e.target.value});
+    changeRow(ele.value);
   }
 }

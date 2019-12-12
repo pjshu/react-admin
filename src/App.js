@@ -1,17 +1,15 @@
 import React from 'react';
-import {BrowserRouter as Router, Route} from "react-router-dom";
-import Nav from "./components/Nav";
-import CssBaseline from '@material-ui/core/CssBaseline';
+import store from './redux/configureStore';
+import {Provider} from 'react-redux';
+import Root from "./Router";
+import { hot } from 'react-hot-loader/root'
 
 function App() {
   return (
-    <>
-      <CssBaseline/>
-      <Router>
-        <Route path="/admin"><Nav/></Route>
-      </Router>
-    </>
+    <Provider store={store}>
+      <Root/>
+    </Provider>
   );
 }
 
-export default App;
+export default process.env.NODE_ENV === "development" ? hot(App) : App
