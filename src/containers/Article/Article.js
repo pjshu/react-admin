@@ -1,36 +1,42 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Divider, Fab, Grid, List, ListItem, ListItemText, makeStyles} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import AddIcon from '@material-ui/icons/Add';
-import {useRequests} from "../../hook";
+// import {useRequests} from "../../hook";
+import api from '../../contants/api';
+import axios from 'axios';
+import router from '../../contants/router'
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  list: {
     width: '100%',
     maxWidth: 500,
     backgroundColor: theme.palette.background.paper,
   },
   icon: {
     position: "fixed",
+    zIndex: 6,
     right: "20px",
   },
-
 }));
 
 
-export default function Article() {
+export default function Article(props) {
+  const {setTimeStamp,history} = props;
   const classes = useStyles();
-  const API = '/api/admin/posts';
-  const data = useRequests(API);
-  const Route = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />);
+  // const API = '/api/admin/posts';
+  // const data = useRequests(API);
   return (
-    <Grid container direction="column" alignItems="center" spacing={4}>
-      <Grid className={classes.icon} title="写文章" component={Route} to="/admin/write">
+    <Grid container direction="column" alignItems="center">
+      <Grid
+        className={classes.icon}
+        title="写文章"
+        onClick={handleOnClick}>
         <Fab color="primary" aria-label="edit">
           <AddIcon/>
         </Fab>
       </Grid>
-      <Grid className={classes.root}>
+      <Grid className={classes.list}>
         <List>
           <ListItem button>
             <ListItemText primary="title1"/>
@@ -51,5 +57,15 @@ export default function Article() {
       </Grid>
     </Grid>
   );
+
+  function handleOnClick() {
+    const timeStamp = new Date() * 1;
+    setTimeStamp(timeStamp);
+    axios.post(api.posts, {timeStamp}).then(r => {
+      if(r.date.status === 'success'){
+        history.push(router.ADMIN_WRITE)
+      }
+    });
+  }
 }
 

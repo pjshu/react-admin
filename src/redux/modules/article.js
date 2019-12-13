@@ -4,8 +4,12 @@ export const types = {
   CHANGE_PUBLISH: 'CHANGE_PUBLISH',
   DELETE_TAG: 'DELETE_TAG',
   ADD_TAG: 'ADD_TAG',
-  CHANGE_ROW: 'ADD_ROW',
-  CHANGE_CONTENTS: 'CHANGE_CONTENTS'
+  CHANGE_ROWS: 'CHANGE_ROWS',
+  CHANGE_CONTENTS: 'CHANGE_CONTENTS',
+  ADD_IMAGE: 'ADD_IMAGE',
+  ADD_CONTENTS: 'ADD_CONTENTS',
+  DELETE_IMAGE: 'DELETE_IMAGE',
+  SET_TIMESTAMP: 'ADD_TIMESTAMP'
 };
 
 export const actions = {
@@ -29,22 +33,39 @@ export const actions = {
     value
   }),
   changeRow: (value) => ({
-    type: types.CHANGE_ROW,
+    type: types.CHANGE_ROWS,
     value
   }),
   changeContents: (value) => ({
     type: types.CHANGE_CONTENTS,
     value
+  }),
+  addImage: (value) => ({
+    type: types.ADD_IMAGE,
+    value
+  }),
+  addContents: (value) => ({
+    type: types.ADD_CONTENTS,
+    value
+  }),
+  deleteImage: (value) => ({
+    type: types.DELETE_IMAGE,
+    value
+  }),
+  setTimeStamp: (value) => ({
+    type: types.SET_TIMESTAMP,
+    value
   })
 };
 
 const initialState = {
+  images: [],
   rows: 1,
   tempTags: '',
   post: {
     title: "",
     tags: [],
-    timeStamp: new Date() * 1,
+    timeStamp: 0,
     contents: "",
     publish: false,
   }
@@ -69,9 +90,21 @@ export default function reducer(state = initialState, action) {
       let temp = new Set(state.post.tags);
       temp.add(value);
       return {...state, tempTags: '', post: {...post, tags: [...temp]}};
-    case types.CHANGE_ROW:
-      return {...state, row: value};
+    case types.CHANGE_ROWS:
+      return {...state, rows: value};
     case types.CHANGE_CONTENTS:
       return {...state, post: {...post, contents: value}};
+    case types.ADD_IMAGE:
+      return {...state, images: [...state.images, value]};
+    case types.ADD_CONTENTS:
+      return {...state, post: {...post, contents: post.contents + value}};
+    case types.DELETE_IMAGE:
+      let tempImages = [...state.images];
+      tempImages.splice(tempImages.findIndex(item => item === value), 1);
+      return {...state, images: tempImages};
+    case types.SET_TIMESTAMP:
+      return {...state, post: {...post, timeStamp: value}};
+    default:
+      return state;
   }
 }

@@ -1,4 +1,5 @@
 {
   "ADMIN": "/admin",
+  "ADMIN_WRITE": "/admin/write",
   "ADMIN_USER": "/admin/user"
 }

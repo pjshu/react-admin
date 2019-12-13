@@ -1,3 +1,3 @@
-import Write from './Write';
+import Write from './Container';
 
 export default Write;

@@ -1,3 +1,4 @@
 {
-  "posts": "/api/admin/posts/"
+  "posts": "http:1270.0.0.1:5000/api/admin/posts/",
+  "images": "http:1270.0.0.1:5000/api/admin/posts/images/"
 }

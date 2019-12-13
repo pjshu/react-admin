@@ -9,11 +9,10 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import BackspaceIcon from '@material-ui/icons/Backspace';
-import CollectionsIcon from '@material-ui/icons/Collections';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import axios from 'axios';
+import api from '../../contants/api';
 
 const useStyles = makeStyles(theme => ({
   hr: {
@@ -45,21 +44,22 @@ const useStyles = makeStyles(theme => ({
 export default function Write(props) {
   const classes = useStyles();
   const {
-    row,
+    rows,
     post,
+    images,
     tempTags,
     deleteTag,
+    addImage,
     changeTitle,
     changeTempTag,
     changePublish,
     addTag,
     changeRow,
-    handleSubmit,
+    addContents,
+    deleteImage,
     changeContents
   } = props;
-  const [images, setImages] = useState([]);
   const [imageIsHidden, setIsHidden] = useState(false);
-  const [isPost, setIsPost] = useState(true);
   const [isPostShrink, setIsPostShrink] = useState(true);
   const textarea = createRef();
   return (
@@ -69,8 +69,6 @@ export default function Write(props) {
           onChange={(e) => changeTitle(e.target.value)}
           value={post.title}
           fullWidth={true}
-          form="postForm"
-          id="outlined-basic"
           label="标题"
           variant="outlined"/>
       </Grid>
@@ -80,8 +78,6 @@ export default function Write(props) {
             onKeyDown={handleKeyDown}
             onChange={(e) => changeTempTag(e.target.value)}
             value={tempTags}
-            form="postForm"
-            id="outlined-basic"
             label="标签"
             variant="outlined"/>
         </Grid>
@@ -126,26 +122,18 @@ export default function Write(props) {
             />
           </Button>
         </Grid>
-        <Grid title={isPost ? "查看已上传图片" : "查看文章"} onClick={() => setIsPost(!isPost)}>
-          <Button component="label">
-            {
-              isPost ? <CollectionsIcon/> : <AssignmentIcon/>
-            }
-          </Button>
-        </Grid>
-        <Grid title={isPostShrink ? "展开" : "收缩"} onClick={() => handleShrink()}>
+        <Grid title={isPostShrink ? "展开" : "收缩"} onClick={handleShrink}>
           <Button component={"label"}>
             {
-              isPostShrink ? <ArrowDropUpIcon/> : <ArrowDropDownIcon/>
+              isPostShrink ? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>
             }
           </Button>
         </Grid>
         <Grid title="保存">
-          <Button component="button" type="submit" form="postForm"><CloudUploadIcon/></Button>
+          <Button component="button"><CloudUploadIcon/></Button>
         </Grid>
         <Grid item>
           <FormControlLabel
-            form="postForm"
             control={
               <Checkbox
                 color="primary"
@@ -159,7 +147,6 @@ export default function Write(props) {
       <Grid item>
         <form
           onSubmit={handleOnSubmit}
-          id="postForm"
           className={classes.container}
           noValidate
           autoComplete="off">
@@ -168,12 +155,12 @@ export default function Write(props) {
             value={post.contents}
             inputRef={textarea}
             multiline
-            rows={row}
+            rows={rows}
             fullWidth={true}
             placeholder="支持Markdown"
             className={classes.textField}
             margin="normal"
-            onChange={handleRowChange}
+            onChange={handleContentsChange}
           />
         </form>
       </Grid>
@@ -218,16 +205,8 @@ export default function Write(props) {
   }
 
 
-  function handleOnSubmit(e) {
-    const api = "http://127.0.0.1:5000/api/admin/posts/";
-    e.preventDefault();
-    let postForm = new FormData();
-    Object.keys(form).forEach(key => {
-      postForm.append(key, form[key]);
-    });
-    postForm.delete('tempTags');
-
-    axios.post(api, postForm).then(res => {
+  function handleOnSubmit() {
+    axios.post(api.posts, post).then(res => {
       console.log(res.data);
     });
   }
@@ -235,45 +214,41 @@ export default function Write(props) {
 
   function handleShrink() {
     if (isPostShrink) {
-      textarea.current.rows = textarea.current.scrollHeight / 19;
+      changeRow(textarea.current.scrollHeight / 19);
     } else {
+      changeRow(1);
       textarea.current.rows = 1;
     }
     setIsPostShrink(!isPostShrink);
   }
 
   function handleImageDelete(image) {
-    const {url, name} = image;
-    const tempImages = images.slice();
-    tempImages.splice(tempImages.findIndex(item => item.name === name), 1);
-    setImages([...tempImages]);
-    window.URL.revokeObjectURL(url);
+    deleteImage(image);
+    window.URL.revokeObjectURL(image.url);
   }
 
   function handleFileUpload(e) {
     const file = e.target.files;
     if (file.length > 1) {
-      alert("上传多个markdown文件,内容会叠加在一起");
+      alert("仅支持单个上传");
     }
-    for (let i = 0; i < file.length; i++) {
-      const reader = new FileReader();
-      reader.readAsText(file[i]);
-      reader.onload = function (event) {
-        setForm(form => ({...form, contents: form.contents + event.target.result}));
-      };
-    }
+    const reader = new FileReader();
+    reader.readAsText(file[0]);
+    reader.onload = function (res) {
+      addContents(res.target.result);
+    };
   }
 
   function handleImageUpload(e) {
     const file = e.target.files;
-    const api = "http://127.0.0.1:5000/api/admin/posts/";
     for (let i = 0; i < file.length; i++) {
       const url = window.URL.createObjectURL(file[i]);
-      setImages((images) => [...images, {name: file[i].name, url}]);
-      setForm(form => ({...form, contents: form.contents + `![${file[i].name}](${url})`}));
+      addImage({name: file[i].name, url});
+      addContents(`![${file[i].name}](${url})`);
     }
-    textarea.current.focus();
     let postForm = new FormData();
+    console.log(post.timeStamp);
+    postForm.append('timeStamp', post.timeStamp);
 
     async function getImage() {
       for (const image of images) {
@@ -283,8 +258,8 @@ export default function Write(props) {
     }
 
     getImage().then(() => {
-      axios.post(api, postForm).then(res => {
-        console.log(res.data);
+      axios.post(api.images, postForm).then(res => {
+        console.log(res)
       });
     });
   }
@@ -300,11 +275,12 @@ export default function Write(props) {
     changeRow(1);
   }
 
-  function handleRowChange(e) {
+  function handleContentsChange(e) {
     const ele = e.target;
-    if (ele.scrollHeight / 19 !== ele.rows) {
-      ele.rows = ele.scrollHeight / 19;
+    const rows = ele.scrollHeight / 19;
+    if (rows !== ele.rows) {
+      changeRow(rows);
     }
-    changeRow(ele.value);
+    changeContents(e.target.value);
   }
 }

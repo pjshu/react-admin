@@ -2,22 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c490632-172c-4e36-843c-9cfec310f3b0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Router.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Article/Container.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Article/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Write/Container.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Write/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/redux/configureStore.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/redux/modules/article.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/TopNav.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config-overrides.js" beforeDir="false" afterPath="$PROJECT_DIR$/config-overrides.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Article.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Article/Article.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CodeBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Write/CodeBlock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Nav.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Write.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Write/Write.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Nav.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Article/Article.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Article/Article.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Article/Container.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Article/Container.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Article/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Article/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Write/Container.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Write/Container.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Write/Write.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Write/Write.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Write/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Write/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contants/api.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/contants/api.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contants/router.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/contants/router.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/configureStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/configureStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/modules/article.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/modules/article.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,6 +45,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="CSS File" />
         <option value="JavaScript File" />
       </list>
     </option>
@@ -57,6 +59,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.stylelint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -129,7 +132,11 @@
       <workItem from="1576042137009" duration="4782000" />
       <workItem from="1576152864004" duration="93000" />
       <workItem from="1576153213887" duration="1666000" />
-      <workItem from="1576156163261" duration="7542000" />
+      <workItem from="1576156163261" duration="8252000" />
+      <workItem from="1576204862689" duration="9226000" />
+      <workItem from="1576217947246" duration="11279000" />
+      <workItem from="1576236453062" duration="4708000" />
+      <workItem from="1576241270913" duration="3040000" />
     </task>
     <servers />
   </component>
