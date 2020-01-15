@@ -1,4 +1,8 @@
 {
-  "posts": "http:1270.0.0.1:5000/api/admin/posts/",
-  "images": "http:1270.0.0.1:5000/api/admin/posts/images/"
+  "register": "/admin/auth/register/",
+  "login": "/admin/auth/login/",
+  "logout": "/admin/auth/logout/",
+  "post": "/admin/posts/",
+  "images": "/admin/images/",
+  "posts": "/admin/posts/page/"
 }

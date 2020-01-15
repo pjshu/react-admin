@@ -1,0 +1,10 @@
+html, body, #root {
+    height: 100%;
+    background: #eee;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}

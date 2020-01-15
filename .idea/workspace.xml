@@ -2,23 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c490632-172c-4e36-843c-9cfec310f3b0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/TopNav.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Nav.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Router.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/config/editorConfig.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Write/Setting.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/auth/Login.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/auth/register.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/global.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/pjs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/pjs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Nav.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Router.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/TopNav.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Article/Article.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Article/Article.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Article/Container.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Article/Container.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Article/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Article/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Write/Container.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Write/Container.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Write/CodeBlock.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Write/Write.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Write/Write.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Write/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Write/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/contants/api.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/contants/api.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/contants/router.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/contants/router.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/configureStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/configureStore.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/modules/article.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/modules/article.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/misc/requests.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/http.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -74,11 +77,13 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/containers/Article" />
       <recent name="$PROJECT_DIR$/src/containers/Write" />
+      <recent name="$PROJECT_DIR$/src/containers/Article" />
+      <recent name="$PROJECT_DIR$/src/components" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -137,6 +142,19 @@
       <workItem from="1576217947246" duration="11279000" />
       <workItem from="1576236453062" duration="4708000" />
       <workItem from="1576241270913" duration="3040000" />
+      <workItem from="1576248041791" duration="33000" />
+      <workItem from="1576902533981" duration="1735000" />
+      <workItem from="1576935502239" duration="113000" />
+      <workItem from="1578709361298" duration="11200000" />
+      <workItem from="1578727891443" duration="7075000" />
+      <workItem from="1578793535073" duration="2991000" />
+      <workItem from="1578809786315" duration="13531000" />
+      <workItem from="1578832695996" duration="1450000" />
+      <workItem from="1578834577551" duration="7284000" />
+      <workItem from="1578900527663" duration="1273000" />
+      <workItem from="1578986045372" duration="5277000" />
+      <workItem from="1578992883300" duration="9447000" />
+      <workItem from="1579052952156" duration="17584000" />
     </task>
     <servers />
   </component>

@@ -2,6 +2,9 @@
   <dictionary name="pjs">
     <words>
       <w>axios</w>
+      <w>braft</w>
+      <w>formik</w>
+      <w>syntaxs</w>
     </words>
   </dictionary>
 </component>
