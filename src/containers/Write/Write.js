@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Container, Grid, makeStyles, TextField} from "@material-ui/core";
 import {Field, Form, Formik} from 'formik';
 import 'braft-editor/dist/index.css';
@@ -22,7 +22,10 @@ export default function Write(props) {
   const onSubmit = (values) => {
     console.log(values);
   };
-
+  useEffect(() => {
+    // 获取!!所有!!tag,获取本文内容,标题,状态(私密/公开)
+    console.log('get info from server');
+  }, []);
   const classes = useStyle();
   const [open, setOpen] = React.useState(false);
   return (
@@ -36,6 +39,7 @@ export default function Write(props) {
           props => (
             <Form onKeyDown={(e) => handleOnSave(e, props.values)}>
               <Grid container alignItems="center">
+                {/* TODO: 添加未填写标题提示*/}
                 <Field
                   name="title"
                   as={TextField}
@@ -46,16 +50,14 @@ export default function Write(props) {
                   <SettingButton {...{open, setOpen}}/>
                 </Grid>
               </Grid>
-              <Field
-                as={BraftEditor}
+              <BraftEditor
                 name="article"
-                onBlur={() => {
-                }}
                 onChange={value => {
                   props.setFieldValue('article', value);
                 }}
               />
               <Setting {...{open}}/>
+
             </Form>
           )
         }
@@ -63,11 +65,11 @@ export default function Write(props) {
     </Container>
   );
 
-  function handleOnSave(e,value) {
+  function handleOnSave(e, value) {
     if (e.keyCode === 83 && e.ctrlKey) {
       value = {...value};
       value.article = value.article.toHTML();
-      console.log('submit',value);
+      console.log('submit', value);
     }
   }
 }

@@ -12,6 +12,7 @@ import DescriptionIcon from '@material-ui/icons/Description';
 import {Field, useFormikContext} from 'formik';
 import BraftEditor from "../../config/editorConfig";
 import {markdown} from "markdown";
+import Tags from './Tags';
 
 const drawerWidth = 240;
 
@@ -70,6 +71,7 @@ export function Setting(props) {
           />
         </Button>
       </Grid>
+      <Tags {...{tags: values.tags, setFieldValue}}/>
     </Drawer>
   );
 

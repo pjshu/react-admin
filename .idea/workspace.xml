@@ -2,26 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c490632-172c-4e36-843c-9cfec310f3b0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Nav.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Router.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/config/editorConfig.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Write/Setting.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/auth/Login.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/auth/register.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/global.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/pjs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/pjs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Write/Tags.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Write/test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Router.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TopNav.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Article/Article.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Article/Article.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Write/CodeBlock.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Write/Setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Write/Setting.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Write/Write.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Write/Write.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contants/api.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/contants/api.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contants/router.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/contants/router.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/misc/requests.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/http.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -61,7 +48,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/react/test" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.stylelint" value="true" />
@@ -154,7 +141,10 @@
       <workItem from="1578900527663" duration="1273000" />
       <workItem from="1578986045372" duration="5277000" />
       <workItem from="1578992883300" duration="9447000" />
-      <workItem from="1579052952156" duration="17584000" />
+      <workItem from="1579052952156" duration="18668000" />
+      <workItem from="1579080173833" duration="696000" />
+      <workItem from="1579083665938" duration="601000" />
+      <workItem from="1579084634686" duration="10517000" />
     </task>
     <servers />
   </component>
