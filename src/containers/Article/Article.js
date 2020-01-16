@@ -1,27 +1,29 @@
 import React from "react";
-import {Divider, Fab, Grid, List, ListItem, ListItemText, makeStyles} from "@material-ui/core";
+import {Fab, Grid, makeStyles} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 // import {useRequests} from "../../hook";
-import api from '../../contants/api';
-import http from '../../misc/http';
+import {newPost} from '../../helpers/http';
 import router from '../../contants/router';
+import Table from './Table';
+import getCurrentTime from "../../helpers/datetime";
 
 const useStyles = makeStyles(theme => ({
   list: {
     width: '100%',
-    maxWidth: 500,
+    maxWidth: 800,
     backgroundColor: theme.palette.background.paper,
   },
   icon: {
     position: "fixed",
     zIndex: 6,
-    right: "20px",
+    right: 10,
+    bottom: 10
   },
 }));
 
 
 export default function Article(props) {
-  const {setTimeStamp, history} = props;
+  const {setCurrentTime, history} = props;
   const classes = useStyles();
   // const API = '/api/admin/posts';
   // const data = useRequests(API);
@@ -36,31 +38,15 @@ export default function Article(props) {
         </Fab>
       </Grid>
       <Grid className={classes.list}>
-        <List>
-          <ListItem button>
-            <ListItemText primary="title1"/>
-          </ListItem>
-          <Divider/>
-          <ListItem button>
-            <ListItemText primary="title1"/>
-          </ListItem>
-          <Divider/>
-          <ListItem button>
-            <ListItemText primary="title1"/>
-          </ListItem>
-          <Divider/>
-          <ListItem button>
-            <ListItemText primary="title1"/>
-          </ListItem>
-        </List>
+        <Table {...{history}}/>
       </Grid>
     </Grid>
   );
 
   function handleOnClick() {
-    const timeStamp = new Date() * 1;
-    setTimeStamp(timeStamp);
-    http.post(api.posts, {timeStamp}).then(res => {
+    const currentTime = getCurrentTime();
+    setCurrentTime(currentTime);
+    newPost(currentTime).then(res => {
       if (res.data.status === 'success') {
         history.push(router.ADMIN_WRITE);
       }

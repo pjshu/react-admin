@@ -3,14 +3,18 @@ import store from './redux/configureStore';
 import {Provider} from 'react-redux';
 import Root from "./components/Nav";
 import {hot} from 'react-hot-loader/root';
-import CssBaseline from "@material-ui/core/CssBaseline";
-import './global.css'
+import {BrowserRouter as Router, Route} from "react-router-dom";
+import router from './contants/router';
+import './global.css';
 
 function App() {
   return (
     <Provider store={store}>
-      <CssBaseline/>
-      <Root/>
+      <Router>
+        <Route path={router.HOME}>
+          <Root/>
+        </Route>
+      </Router>
     </Provider>
   );
 }

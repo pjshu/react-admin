@@ -1,8 +1,8 @@
 import Article from './Article';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
-import {actions } from "../../redux/modules/article";
-import {withRouter} from 'react-router-dom'
+import {actions} from "../../redux/modules/article";
+import {withRouter} from 'react-router-dom';
 
 
 const mapDispatchToProps = (dispatch) =>

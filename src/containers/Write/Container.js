@@ -4,10 +4,12 @@ import {connect} from 'react-redux';
 import Write from './Write';
 import {withRouter} from "react-router-dom";
 
+
 const mapStateToProps = (state) => {
-  const {post, tempTags, rows, images} = state.article;
-  return {post, tempTags, rows, images};
+  const {currentTime} = state.article;
+  return {currentTime};
 };
+
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch);
 

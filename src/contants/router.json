@@ -1,6 +1,7 @@
 {
-  "LOGIN": "/login",
+  "HOME": "/admin",
+  "LOGIN": "/admin/login",
   "ADMIN": "/admin",
-  "ADMIN_WRITE": "/admin/write",
+  "ADMIN_WRITE": "/admin/post",
   "ADMIN_USER": "/admin/user"
 }

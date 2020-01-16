@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Container, Grid, makeStyles, TextField} from "@material-ui/core";
 import {Field, Form, Formik} from 'formik';
 import 'braft-editor/dist/index.css';
@@ -8,6 +8,7 @@ import BraftEditor from '../../config/editorConfig';
 import 'braft-extensions/dist/emoticon.css';
 import {object} from 'yup';
 import {Setting, SettingButton} from "./Setting";
+import {requirePost} from "../../helpers/http";
 
 const useStyle = makeStyles({
   root: {
@@ -18,20 +19,36 @@ const useStyle = makeStyles({
 });
 
 export default function Write(props) {
+  const {currentTime, history} = props;
+  const [initialValues, setInitialValues] = useState({
+    title: '',
+    tags: [],
+    visibility: '私密',
+    article: '',
+    createDate: currentTime
+  });
   const validationSchema = object({});
   const onSubmit = (values) => {
     console.log(values);
   };
   useEffect(() => {
-    // 获取!!所有!!tag,获取本文内容,标题,状态(私密/公开)
-    console.log('get info from server');
+    const path = history.location.pathname.split('/');
+    const postId = path[path.length - 1];
+    requirePost(postId).then(res => {
+      const data = res.data.data;
+      data.article = BraftEditor.createEditorState(data.article);
+      console.log(data);
+      setInitialValues(data);
+    });
+    // 获取!!所有!!tag(包括本篇文章不包含的tag),获取本文内容,标题,状态(私密/公开)
   }, []);
   const classes = useStyle();
   const [open, setOpen] = React.useState(false);
   return (
     <Container className={classes.root} maxWidth={false}>
       <Formik
-        initialValues={{title: '', tags: [], visibility: '私密', article: BraftEditor.createEditorState(null)}}
+        enableReinitialize={true}
+        initialValues={initialValues}
         onSubmit={(values) => onSubmit(values)}
         validationSchema={validationSchema}
       >
@@ -52,6 +69,7 @@ export default function Write(props) {
               </Grid>
               <BraftEditor
                 name="article"
+                value={props.values.article}
                 onChange={value => {
                   props.setFieldValue('article', value);
                 }}

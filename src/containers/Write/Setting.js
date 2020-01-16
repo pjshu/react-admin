@@ -13,6 +13,7 @@ import {Field, useFormikContext} from 'formik';
 import BraftEditor from "../../config/editorConfig";
 import {markdown} from "markdown";
 import Tags from './Tags';
+import CreateDate from "./CreateDate";
 
 const drawerWidth = 240;
 
@@ -72,6 +73,7 @@ export function Setting(props) {
         </Button>
       </Grid>
       <Tags {...{tags: values.tags, setFieldValue}}/>
+      <CreateDate {...{createDate: values.createDate, setFieldValue}}/>
     </Drawer>
   );
 

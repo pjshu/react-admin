@@ -4,6 +4,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete/Autocomplete";
 
 const Tags = (props) => {
   const {tags, setFieldValue} = props;
+  console.log('test',tags)
   return (
     <div>
       <Autocomplete

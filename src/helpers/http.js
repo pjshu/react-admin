@@ -1,4 +1,6 @@
 import axios from "axios";
+import api from '../contants/api';
+import {options} from "../config/tableConfig";
 
 let base = '/api';
 let localhost = 'http://127.0.0.1:5000';
@@ -33,5 +35,31 @@ axios.interceptors.response.use(data => {
   return Promise.reject(error);
 });
 
+// 分页获取文章
+const requirePosts = async (page = 1, pageSize = options.pageSize) => {
+  return await axios.get(api.posts, {params: {...{page, pageSize}}});
+};
+//获取一篇文章
+const requirePost = async (postId) => {
+  return await axios.get(api.post, {params: {postId}});
+};
+const modifyPost = async (data) => {
+  return await axios.put(api.post, {data: data});
+};
+
+const deletePost = async (id) => {
+  return await axios.delete(api.post, {data: id});
+};
+
+const newPost = async (time) => {
+  return await axios.post(api.post, {data: time});
+};
 
 export default axios;
+export {
+  requirePosts,
+  modifyPost,
+  deletePost,
+  newPost,
+  requirePost
+};
