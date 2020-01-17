@@ -5,7 +5,6 @@ import AddIcon from '@material-ui/icons/Add';
 import {newPost} from '../../helpers/http';
 import router from '../../contants/router';
 import Table from './Table';
-import getCurrentTime from "../../helpers/datetime";
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -22,8 +21,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function Article(props) {
-  const {setCurrentTime, history} = props;
+export default function Article({history}) {
   const classes = useStyles();
   // const API = '/api/admin/posts';
   // const data = useRequests(API);
@@ -44,11 +42,10 @@ export default function Article(props) {
   );
 
   function handleOnClick() {
-    const currentTime = getCurrentTime();
-    setCurrentTime(currentTime);
-    newPost(currentTime).then(res => {
-      if (res.data.status === 'success') {
-        history.push(router.ADMIN_WRITE);
+    newPost().then(res => {
+      const {status, data} = res.data;
+      if (status === 'success' && data) {
+        history.push(`${router.ADMIN_POST}/${data.postId}?newPost=true`);
       }
     });
   }

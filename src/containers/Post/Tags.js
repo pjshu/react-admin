@@ -2,16 +2,15 @@ import React from 'react';
 import {TextField} from '@material-ui/core';
 import Autocomplete from "@material-ui/lab/Autocomplete/Autocomplete";
 
-const Tags = (props) => {
-  const {tags, setFieldValue} = props;
-  console.log('test',tags)
+const Tags = ({allTags,tags, setFieldValue}) => {
   return (
     <div>
       <Autocomplete
         multiple
         freeSolo
+        value={tags}
         defaultValue={tags}
-        options={tags}
+        options={allTags}
         onChange={(_, value) => setFieldValue('tags', value)}
         renderInput={params => (
           <TextField

@@ -51,8 +51,8 @@ const deletePost = async (id) => {
   return await axios.delete(api.post, {data: id});
 };
 
-const newPost = async (time) => {
-  return await axios.post(api.post, {data: time});
+const newPost = async () => {
+  return await axios.post(api.post);
 };
 
 export default axios;

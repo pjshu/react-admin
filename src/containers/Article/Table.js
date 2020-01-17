@@ -4,8 +4,7 @@ import {columns, localization, options, tableIcons} from "../../config/tableConf
 import {requirePosts} from "../../helpers/http";
 import router from '../../contants/router'
 
-export default function Tables(props) {
-  const {history} = props;
+export default function Tables({history}) {
   // TODO: 数据没加载时,加载动画
   useEffect(() => {
     requirePosts().then(res => {
@@ -29,8 +28,7 @@ export default function Tables(props) {
         console.log(size);
       }}
       onRowClick={(_, post) => {
-        console.log(history)
-        history.push(`${router.ADMIN_WRITE}/${post.id}`);
+        history.push(`${router.ADMIN_POST}/${post.id}`);
       }}
       editable={{
         onRowUpdate: (newData, oldData) =>

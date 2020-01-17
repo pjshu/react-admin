@@ -2,29 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c490632-172c-4e36-843c-9cfec310f3b0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/config/tableConfig.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Article/Table.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Write/CreateDate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/helpers/datetime.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TODO.md" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Router.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Article/Article.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Article/Article.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Article/Container.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Article/Container.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Write/Container.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Write/Container.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Write/Setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Write/Setting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Write/Tags.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Write/Tags.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Write/Write.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Write/Write.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Write/test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contants/api.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/contants/api.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Article/Table.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Article/Table.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Write/Container.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Post/Container.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Write/CreateDate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Post/CreateDate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Write/Setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Post/Setting.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Write/Tags.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Post/Tags.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Write/Write.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Post/Post.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Write/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Post/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/contants/router.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/contants/router.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/misc/http.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/http.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/modules/article.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/modules/article.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/http.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/http.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -211,6 +200,10 @@
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
     <state x="238" y="394" width="474" height="315" key="cloudConfig.SelfSettingsDialog/0.24.1920.1056@0.24.1920.1056" timestamp="1579171443810" />
+    <state x="512" y="217" width="896" height="670" key="find.popup" timestamp="1579270353918">
+      <screen x="0" y="24" width="1920" height="1056" />
+    </state>
+    <state x="512" y="217" width="896" height="670" key="find.popup/0.24.1920.1056@0.24.1920.1056" timestamp="1579270353918" />
     <state x="578" y="257" width="761" height="679" key="search.everywhere.popup" timestamp="1579181861543">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>

@@ -34,9 +34,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function Setting(props) {
+export function Setting({open}) {
   const classes = useStyles();
-  const {open} = props;
   const {values, setFieldValue} = useFormikContext();
   return (
     <Drawer
@@ -72,7 +71,7 @@ export function Setting(props) {
           />
         </Button>
       </Grid>
-      <Tags {...{tags: values.tags, setFieldValue}}/>
+      <Tags {...{tags: values.tags, setFieldValue, allTags: values.allTags}}/>
       <CreateDate {...{createDate: values.createDate, setFieldValue}}/>
     </Drawer>
   );
@@ -90,8 +89,7 @@ export function Setting(props) {
   }
 }
 
-export function SettingButton(props) {
-  const {open, setOpen} = props;
+export function SettingButton({open, setOpen}) {
   return (
     <IconButton
       color="inherit"

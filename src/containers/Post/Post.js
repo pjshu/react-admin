@@ -18,36 +18,39 @@ const useStyle = makeStyles({
   }
 });
 
-export default function Write(props) {
-  const {currentTime, history} = props;
+function Post({history}) {
   const [initialValues, setInitialValues] = useState({
     title: '',
     tags: [],
     visibility: '私密',
     article: '',
-    createDate: currentTime
+    createDate: new Date()
   });
   const validationSchema = object({});
   const onSubmit = (values) => {
     console.log(values);
   };
+  const path = history.location.pathname.split('/');
+  const searchParam = history.location.search.split('=');
+  const postId = path[path.length - 1];
+  const isNewPost = searchParam[searchParam.length - 1];
   useEffect(() => {
-    const path = history.location.pathname.split('/');
-    const postId = path[path.length - 1];
-    requirePost(postId).then(res => {
-      const data = res.data.data;
-      data.article = BraftEditor.createEditorState(data.article);
-      console.log(data);
-      setInitialValues(data);
-    });
+    if (!isNewPost) {
+      requirePost(postId).then(res => {
+        const data = res.data.data;
+        data.article = BraftEditor.createEditorState(data.article);
+        console.log(data);
+        setInitialValues(data);
+      });
+    }
     // 获取!!所有!!tag(包括本篇文章不包含的tag),获取本文内容,标题,状态(私密/公开)
-  }, []);
+  }, [postId]);
   const classes = useStyle();
   const [open, setOpen] = React.useState(false);
   return (
     <Container className={classes.root} maxWidth={false}>
       <Formik
-        enableReinitialize={true}
+        enableReinitialize
         initialValues={initialValues}
         onSubmit={(values) => onSubmit(values)}
         validationSchema={validationSchema}
@@ -75,7 +78,6 @@ export default function Write(props) {
                 }}
               />
               <Setting {...{open}}/>
-
             </Form>
           )
         }
@@ -91,3 +93,5 @@ export default function Write(props) {
     }
   }
 }
+
+export default Post;
