@@ -8,43 +8,57 @@ import BraftEditor from '../../config/editorConfig';
 import 'braft-extensions/dist/emoticon.css';
 import {object} from 'yup';
 import {Setting, SettingButton} from "./Setting";
-import {requirePost} from "../../helpers/http";
+import {modifyPost, requireAllTags, requirePost} from "../../helpers/http";
+import {formatTime} from "../../helpers/datetime";
 
 const useStyle = makeStyles({
   root: {
     background: "#fff",
     padding: 30,
     borderRadius: 4
-  }
+  },
 });
 
 function Post({history}) {
-  const [initialValues, setInitialValues] = useState({
-    title: '',
-    tags: [],
-    visibility: '私密',
-    article: '',
-    createDate: new Date()
-  });
   const validationSchema = object({});
   const onSubmit = (values) => {
-    console.log(values);
+    const data = {...values};
+    data.article = data.article.toHTML();
+    data.postId = postId;
+    modifyPost(data).then(res => {
+      console.log(res);
+    }).catch(error => {
+      console.log(error);
+    });
   };
   const path = history.location.pathname.split('/');
   const searchParam = history.location.search.split('=');
   const postId = path[path.length - 1];
   const isNewPost = searchParam[searchParam.length - 1];
+  const [initialValues, setInitialValues] = useState({
+    postId:postId,
+    title: '',
+    tags: [],
+    visibility: '私密',
+    article: BraftEditor.createEditorState(null),
+    allTags: [],
+    createDate: new Date(),
+    changeDate: formatTime(new Date())
+  });
   useEffect(() => {
-    if (!isNewPost) {
+    // 获取所有标签,用于自动补全
+    if (isNewPost) {
+      requireAllTags().then(res => {
+        setInitialValues({...initialValues, allTags: res.data.data});
+      });
+    } else {
       requirePost(postId).then(res => {
         const data = res.data.data;
         data.article = BraftEditor.createEditorState(data.article);
-        console.log(data);
         setInitialValues(data);
       });
     }
-    // 获取!!所有!!tag(包括本篇文章不包含的tag),获取本文内容,标题,状态(私密/公开)
-  }, [postId]);
+  }, [postId, isNewPost]);
   const classes = useStyle();
   const [open, setOpen] = React.useState(false);
   return (
@@ -77,7 +91,7 @@ function Post({history}) {
                   props.setFieldValue('article', value);
                 }}
               />
-              <Setting {...{open}}/>
+              <Setting {...{open, setOpen,history}}/>
             </Form>
           )
         }
@@ -87,9 +101,7 @@ function Post({history}) {
 
   function handleOnSave(e, value) {
     if (e.keyCode === 83 && e.ctrlKey) {
-      value = {...value};
-      value.article = value.article.toHTML();
-      console.log('submit', value);
+      onSubmit(value);
     }
   }
 }

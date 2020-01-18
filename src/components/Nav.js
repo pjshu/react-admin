@@ -21,7 +21,8 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Router from './Router';
-
+import {withRouter} from "react-router-dom";
+import router from '../contants/router';
 
 const drawerWidth = 180;
 
@@ -86,7 +87,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Nav() {
+function Nav({history}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -146,12 +147,14 @@ export default function Nav() {
         </div>
         <Divider/>
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-              <ListItemText primary={text}/>
+          <ListItem button onClick={() => history.push(router.ADMIN)}>
+              <ListItemIcon><InboxIcon/></ListItemIcon>
+              <ListItemText primary={"主页"}/>
             </ListItem>
-          ))}
+          <ListItem button onClick={() => history.push(router.ADMIN_TAGS)}>
+            <ListItemIcon><MailIcon/></ListItemIcon>
+            <ListItemText primary={"标签管理"}/>
+          </ListItem>
         </List>
       </Drawer>
 
@@ -162,3 +165,5 @@ export default function Nav() {
     </div>
   );
 }
+
+export default withRouter(Nav)

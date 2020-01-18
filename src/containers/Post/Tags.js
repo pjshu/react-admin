@@ -15,7 +15,6 @@ const Tags = ({allTags,tags, setFieldValue}) => {
         renderInput={params => (
           <TextField
             {...params}
-            variant="outlined"
             label="标签"
             fullWidth
           />

@@ -66,7 +66,7 @@ const localization = {
   },
 };
 
-const columns = [
+const postColumns = [
   {title: '标题', field: 'title'},
   {title: '标签', field: 'tags', sorting: false},
   {title: '状态', field: 'state'},
@@ -75,7 +75,12 @@ const columns = [
   {title: '创建日期', field: 'createDate', type: 'datetime'}
 ];
 
+const tagColumns = [
+  {title: '名字', field: 'name'},
+  {title: '描述', field: 'describe', sorting: false},
+  {title: '数量', field: 'count'},
+];
 // 表格每页行数
 const options = {pageSize: 5};
 
-export {localization, tableIcons, columns, options};
+export {localization, tableIcons, postColumns, options, tagColumns};

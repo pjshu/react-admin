@@ -3,5 +3,6 @@
   "LOGIN": "/admin/login",
   "ADMIN": "/admin",
   "ADMIN_POST": "/admin/post",
-  "ADMIN_USER": "/admin/user"
+  "ADMIN_USER": "/admin/user",
+  "ADMIN_TAGS": "/admin/tags"
 }

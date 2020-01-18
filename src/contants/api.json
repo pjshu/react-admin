@@ -4,5 +4,7 @@
   "logout": "/admin/auth/logout/",
   "images": "/admin/images/",
   "posts": "/admin/posts/",
-  "post": "/admin/posts/post/"
+  "post": "/admin/posts/post/",
+  "allTags": "/admin/posts/tags/",
+  "tags": "/admin/tags/"
 }

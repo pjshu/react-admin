@@ -43,16 +43,36 @@ const requirePosts = async (page = 1, pageSize = options.pageSize) => {
 const requirePost = async (postId) => {
   return await axios.get(api.post, {params: {postId}});
 };
+
+// data 包含 postId
 const modifyPost = async (data) => {
   return await axios.put(api.post, {data: data});
 };
 
-const deletePost = async (id) => {
-  return await axios.delete(api.post, {data: id});
+const deletePost = async (postId) => {
+  return await axios.delete(api.post, {data: {postId}});
 };
 
 const newPost = async () => {
   return await axios.post(api.post);
+};
+
+// 获取所有标签[仅包含标签名]
+const requireAllTags = async () => {
+  return await axios.get(api.allTags);
+};
+
+// 获取所有标签[包含标签以及详细信息]
+const requireTags = async () => {
+  return await axios.get(api.tags);
+};
+
+const deleteTag = async (tagId) => {
+  return await axios.delete(api.tags, {data: {tagId}});
+};
+
+const modifyTag = async (data) => {
+  return await axios.put(api.tags, {data: data});
 };
 
 export default axios;
@@ -61,5 +81,9 @@ export {
   modifyPost,
   deletePost,
   newPost,
-  requirePost
+  requirePost,
+  requireAllTags,
+  requireTags,
+  deleteTag,
+  modifyTag
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -14,6 +13,11 @@ import BraftEditor from "../../config/editorConfig";
 import {markdown} from "markdown";
 import Tags from './Tags';
 import CreateDate from "./CreateDate";
+import IconButton from '@material-ui/core/IconButton';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import TextField from "@material-ui/core/TextField";
+import {deletePost} from "../../helpers/http";
+import router from '../../contants/router'
 
 const drawerWidth = 240;
 
@@ -32,11 +36,30 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    ...theme.mixins.toolbar,
+  },
 }));
 
-export function Setting({open}) {
+export function Setting({open, setOpen,history}) {
   const classes = useStyles();
   const {values, setFieldValue} = useFormikContext();
+
+  function handleOnDelete(postId) {
+    deletePost(postId).then(res => {
+      console.log(res);
+      if(res.data.status === 'success'){
+        history.push(router.ADMIN)
+      }
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
   return (
     <Drawer
       className={classes.drawer}
@@ -70,9 +93,23 @@ export function Setting({open}) {
             style={{display: "none"}}
           />
         </Button>
+        <Button variant="contained" type="submit" color="primary">
+          保存
+        </Button>
+        <Button variant="contained" color="primary" onClick={() => handleOnDelete(values.postId)}>
+          删除
+        </Button>
       </Grid>
       <Tags {...{tags: values.tags, setFieldValue, allTags: values.allTags}}/>
       <CreateDate {...{createDate: values.createDate, setFieldValue}}/>
+      <TextField label="修改日期" InputProps={{readOnly: true}} value={values.changeDate}/>
+      {/*关闭导航栏按钮*/}
+      <div className={classes.toolbar}>
+        <IconButton onClick={() => setOpen(!open)}>
+          <ChevronRightIcon/>
+        </IconButton>
+      </div>
+
     </Drawer>
   );
 

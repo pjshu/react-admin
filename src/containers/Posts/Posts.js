@@ -1,17 +1,11 @@
 import React from "react";
-import {Fab, Grid, makeStyles} from "@material-ui/core";
+import {Container, Fab, Grid, makeStyles} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
-// import {useRequests} from "../../hook";
 import {newPost} from '../../helpers/http';
 import router from '../../contants/router';
 import Table from './Table';
 
 const useStyles = makeStyles(theme => ({
-  list: {
-    width: '100%',
-    maxWidth: 800,
-    backgroundColor: theme.palette.background.paper,
-  },
   icon: {
     position: "fixed",
     zIndex: 6,
@@ -21,12 +15,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function Article({history}) {
+export default function Posts({history}) {
   const classes = useStyles();
-  // const API = '/api/admin/posts';
-  // const data = useRequests(API);
   return (
-    <Grid container direction="column" alignItems="center">
+    <Container maxWidth={false}>
       <Grid
         className={classes.icon}
         title="写文章"
@@ -35,10 +27,8 @@ export default function Article({history}) {
           <AddIcon/>
         </Fab>
       </Grid>
-      <Grid className={classes.list}>
-        <Table {...{history}}/>
-      </Grid>
-    </Grid>
+      <Table {...{history}}/>
+    </Container>
   );
 
   function handleOnClick() {

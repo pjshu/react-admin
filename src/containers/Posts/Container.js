@@ -1,4 +1,4 @@
-import Article from './Article';
+import Posts from './Posts';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import {actions} from "../../redux/modules/article";
@@ -11,4 +11,4 @@ const mapDispatchToProps = (dispatch) =>
 export default withRouter(connect(
   null,
   mapDispatchToProps
-)(Article));
+)(Posts));
