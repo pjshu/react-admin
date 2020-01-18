@@ -2,13 +2,12 @@ import React, {useEffect} from 'react';
 import MaterialTable from 'material-table';
 import {Container} from "@material-ui/core";
 import {localization, options, tableIcons, tagColumns} from "../../config/tableConfig";
-import {deleteTag, modifyTag, requireTags} from "../../helpers/http";
+import {addNewTag, deleteTag, modifyTag, requireTags} from "../../helpers/http";
 
 export default function Tags() {
   // TODO: 数据没加载时,加载动画
   useEffect(() => {
     requireTags().then(res => {
-      console.log(res);
       setTags(res.data.data);
     }).catch(error => {
       console.log(error);
@@ -46,6 +45,19 @@ export default function Tags() {
     });
   }
 
+  function handleOnAdd(newTag) {
+    return addNewTag(newTag).then(res => {
+      const data = res.data.data;
+      if (data.tagId) {
+        setTags(prevTag => {
+          return [...[...prevTag, {...newTag, tagId: data.tagId}]];
+        });
+      }
+    }).catch(error => {
+      console.log(error);
+    });
+  }
+
   return (
     <Container maxWidth={false}>
       <MaterialTable
@@ -60,7 +72,8 @@ export default function Tags() {
         }}
         editable={{
           onRowUpdate: handleOnChange,
-          onRowDelete: handleOnDelete
+          onRowDelete: handleOnDelete,
+          onRowAdd: handleOnAdd
         }}
       />
     </Container>

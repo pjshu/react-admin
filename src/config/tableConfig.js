@@ -78,7 +78,7 @@ const postColumns = [
 const tagColumns = [
   {title: '名字', field: 'name'},
   {title: '描述', field: 'describe', sorting: false},
-  {title: '数量', field: 'count'},
+  {title: '数量', field: 'count', editable: 'never', initialEditValue: 0},
 ];
 // 表格每页行数
 const options = {pageSize: 5};

@@ -53,7 +53,7 @@ const deletePost = async (postId) => {
   return await axios.delete(api.post, {data: {postId}});
 };
 
-const newPost = async () => {
+const addNewPost = async () => {
   return await axios.post(api.post);
 };
 
@@ -75,15 +75,21 @@ const modifyTag = async (data) => {
   return await axios.put(api.tags, {data: data});
 };
 
+const addNewTag = async (data) => {
+  return await axios.post(api.tags,{data: data});
+};
+
+
 export default axios;
 export {
   requirePosts,
   modifyPost,
   deletePost,
-  newPost,
+  addNewPost,
   requirePost,
   requireAllTags,
   requireTags,
   deleteTag,
-  modifyTag
+  modifyTag,
+  addNewTag
 };

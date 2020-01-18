@@ -1,7 +1,7 @@
 import React from "react";
 import {Container, Fab, Grid, makeStyles} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
-import {newPost} from '../../helpers/http';
+import {addNewPost} from '../../helpers/http';
 import router from '../../contants/router';
 import Table from './Table';
 
@@ -32,7 +32,7 @@ export default function Posts({history}) {
   );
 
   function handleOnClick() {
-    newPost().then(res => {
+    addNewPost().then(res => {
       const {status, data} = res.data;
       if (status === 'success' && data) {
         history.push(`${router.ADMIN_POST}/${data.postId}?newPost=true`);
