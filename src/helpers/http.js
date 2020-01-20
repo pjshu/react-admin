@@ -1,6 +1,5 @@
 import axios from "axios";
 import api from '../contants/api';
-import {options} from "../config/tableConfig";
 
 let base = '/api';
 let localhost = 'http://127.0.0.1:5000';
@@ -25,19 +24,31 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(data => {
   return data;
 }, error => {
-  if (error.response.status === 504 || error.response.status === 404) {
-    console.log("服务器被吃了⊙﹏⊙∥");
-  } else if (error.response.status === 401) {
-    console.log("登录信息失效⊙﹏⊙∥");
-  } else if (error.response.status === 500) {
-    console.log("服务器开小差了⊙﹏⊙∥");
-  }
+  console.log('error', error);
+  // if (error.response.status === 504 || error.response.status === 404) {
+  //   console.log("服务器被吃了⊙﹏⊙∥");
+  // } else if (error.response.status === 401) {
+  //   console.log("登录信息失效⊙﹏⊙∥");
+  // } else if (error.response.status === 500) {
+  //   console.log("服务器开小差了⊙﹏⊙∥");
+  // }
   return Promise.reject(error);
 });
 
-// 分页获取文章
-const requirePosts = async (page = 1, pageSize = options.pageSize) => {
-  return await axios.get(api.posts, {params: {...{page, pageSize}}});
+/**
+ *
+ * @param {Object} params 路径参数
+ * @param params.orderBy
+ * @param {Array} params.filters
+ * @param {string} params.orderDirection
+ * @param {string} params.search 搜索词
+ * @param {number} params.pageSize 每页大小
+ * @param {number} params.page 页码号
+ * @param {number} params.totalCount 总页数
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+const requirePosts = async (params) => {
+  return await axios.get(api.posts, {params: params});
 };
 //获取一篇文章
 const requirePost = async (postId) => {
@@ -63,8 +74,8 @@ const requireAllTags = async () => {
 };
 
 // 获取所有标签[包含标签以及详细信息]
-const requireTags = async () => {
-  return await axios.get(api.tags);
+const requireTags = async (params) => {
+  return await axios.get(api.tags, {params: params});
 };
 
 const deleteTag = async (tagId) => {
@@ -76,7 +87,15 @@ const modifyTag = async (data) => {
 };
 
 const addNewTag = async (data) => {
-  return await axios.post(api.tags,{data: data});
+  return await axios.post(api.tags, {data: data});
+};
+
+const login = async (auth) => {
+  return await axios.post(api.login, {data: {...auth}});
+};
+
+const logout = async () => {
+  return await axios.get(api.logout);
 };
 
 
@@ -91,5 +110,7 @@ export {
   requireTags,
   deleteTag,
   modifyTag,
-  addNewTag
+  addNewTag,
+  login,
+  logout
 };

@@ -3,20 +3,14 @@ import React from "react";
 import router from '../contants/router';
 import Post from "../containers/Post";
 import Posts from "../containers/Posts";
-import Login from "../containers/auth/Login";
 import Tags from "../containers/Tags/Tags";
 
 export default function Root() {
   return (
     <Switch>
-      <Route path={router.LOGIN}><Login/></Route>
-      <Route>
-        <Switch>
-          <Route path={router.ADMIN_POST}><Post/></Route>
-          <Route path={router.ADMIN_TAGS}><Tags/></Route>
-          <Route path={router.ADMIN} exact><Posts/></Route>
-        </Switch>
-      </Route>
+      <Route path={router.ADMIN_POST}><Post/></Route>
+      <Route path={router.ADMIN_TAGS}><Tags/></Route>
+      <Route path={router.ADMIN} exact><Posts/></Route>
     </Switch>
   );
 }

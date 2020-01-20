@@ -2,11 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c490632-172c-4e36-843c-9cfec310f3b0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/containers/auth/ForgetPassword.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/auth/Register.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Router.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config/tableConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/tableConfig.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Posts/Posts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Posts/Posts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Post/Post.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Post/Post.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Post/Setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Post/Setting.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Posts/Table.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Posts/Table.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/Tags/Tags.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Tags/Tags.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/auth/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/auth/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Post/SpeedSetting.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contants/router.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/contants/router.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/helpers/http.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/http.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,6 +61,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/node_modules/material-table/types/index.d.ts" />
     <property name="last_opened_file_path" value="$USER_HOME$/react/test" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -159,6 +169,9 @@
       <workItem from="1579173880844" duration="340000" />
       <workItem from="1579174230868" duration="14373000" />
       <workItem from="1579346791975" duration="12657000" />
+      <workItem from="1579401796524" duration="18407000" />
+      <workItem from="1579487809281" duration="18295000" />
+      <workItem from="1579510612073" duration="11197000" />
     </task>
     <servers />
   </component>
@@ -191,22 +204,26 @@
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
     <state x="93" y="310" key="FileChooserDialogImpl/0.24.1920.1056@0.24.1920.1056" timestamp="1579178347440" />
-    <state x="0" y="77" width="1868" height="1003" key="SettingsEditor" timestamp="1579176123065">
+    <state x="-527" y="24" width="1868" height="1056" key="SettingsEditor" timestamp="1579414232281">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state x="0" y="77" width="1868" height="1003" key="SettingsEditor/0.24.1920.1056@0.24.1920.1056" timestamp="1579176123065" />
+    <state x="-527" y="24" width="1868" height="1056" key="SettingsEditor/0.24.1920.1056@0.24.1920.1056" timestamp="1579414232281" />
     <state x="238" y="394" width="474" height="315" key="cloudConfig.SelfSettingsDialog" timestamp="1579171443810">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
     <state x="238" y="394" width="474" height="315" key="cloudConfig.SelfSettingsDialog/0.24.1920.1056@0.24.1920.1056" timestamp="1579171443810" />
-    <state x="511" y="217" width="896" height="670" key="find.popup" timestamp="1579357695973">
+    <state x="100" y="124" width="761" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1579502416064">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state x="511" y="217" width="896" height="670" key="find.popup/0.24.1920.1056@0.24.1920.1056" timestamp="1579357695973" />
-    <state x="578" y="257" width="761" height="679" key="search.everywhere.popup" timestamp="1579352855619">
+    <state x="100" y="124" width="761" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.24.1920.1056@0.24.1920.1056" timestamp="1579502416064" />
+    <state x="511" y="217" width="896" height="670" key="find.popup" timestamp="1579423669170">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state x="578" y="257" width="761" height="679" key="search.everywhere.popup/0.24.1920.1056@0.24.1920.1056" timestamp="1579352855619" />
+    <state x="511" y="217" width="896" height="670" key="find.popup/0.24.1920.1056@0.24.1920.1056" timestamp="1579423669170" />
+    <state x="578" y="257" width="761" height="679" key="search.everywhere.popup" timestamp="1579425273503">
+      <screen x="0" y="24" width="1920" height="1056" />
+    </state>
+    <state x="578" y="257" width="761" height="679" key="search.everywhere.popup/0.24.1920.1056@0.24.1920.1056" timestamp="1579425273503" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

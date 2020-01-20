@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import MaterialTable from 'material-table';
 import {Container} from "@material-ui/core";
 import {localization, options, tableIcons, tagColumns} from "../../config/tableConfig";
@@ -6,55 +6,54 @@ import {addNewTag, deleteTag, modifyTag, requireTags} from "../../helpers/http";
 
 export default function Tags() {
   // TODO: 数据没加载时,加载动画
-  useEffect(() => {
-    requireTags().then(res => {
-      setTags(res.data.data);
-    }).catch(error => {
-      console.log(error);
-    });
-  }, []);
-  const [tags, setTags] = React.useState([]);
-
-  function handleOnDelete(oldTag) {
-    return deleteTag(oldTag.tagId).then(res => {
-      if (res.data.status === 'success') {
-        setTags(prevPost => {
-          const data = [...prevPost];
-          data.splice(data.indexOf(oldTag), 1);
-          return [...data];
-        });
-      }
-    }).catch(error => {
-      console.log(error);
+  function handleOnDelete(oldRow) {
+    return new Promise(resolve => {
+      deleteTag(oldRow.postId).then(res => {
+        if (res.data.status === 'success') {
+          resolve();
+        }
+      }).catch(error => {
+        console.log(error);
+      });
     });
   }
 
-  function handleOnChange(newTag, oldTag) {
-    const data = {...newTag};
-    return modifyTag(data).then(res => {
-      console.log(res);
-      if (res.data.status === 'success') {
-        setTags(prevTag => {
-          const data = [...prevTag];
-          data[data.indexOf(oldTag)] = newTag;
-          return [...data];
-        });
-      }
-    }).catch(error => {
-      console.log(error);
+  function handleRowUpdate(newRow) {
+    return new Promise(resolve => {
+      return modifyTag(newRow).then(res => {
+        if (res.data.status === 'success') {
+          resolve();
+        }
+      }).catch(error => {
+        console.log(error);
+      });
     });
   }
 
-  function handleOnAdd(newTag) {
-    return addNewTag(newTag).then(res => {
-      const data = res.data.data;
-      if (data.tagId) {
-        setTags(prevTag => {
-          return [...[...prevTag, {...newTag, tagId: data.tagId}]];
+  function handleOnAdd(newRow) {
+    return new Promise(resolve => {
+      return addNewTag(newRow).then(res => {
+        if (res.data.status === 'success') {
+          resolve();
+        }
+      }).catch(error => {
+        console.log(error);
+      });
+    });
+  }
+
+  function handlePagingQuery(query) {
+    return new Promise((resolve) => {
+      requireTags(query).then(res => {
+        const data = res.data.data;
+        resolve({
+          data: [...data.tags],
+          page: data.page,
+          totalCount: data.total
         });
-      }
-    }).catch(error => {
-      console.log(error);
+      }).catch(error => {
+        console.log(error);
+      });
     });
   }
 
@@ -65,13 +64,13 @@ export default function Tags() {
         icons={tableIcons}
         title="标签列表"
         columns={tagColumns}
-        data={tags}
+        data={handlePagingQuery}
         options={options}
         onChangeRowsPerPage={(size) => {
           console.log(size);
         }}
         editable={{
-          onRowUpdate: handleOnChange,
+          onRowUpdate: handleRowUpdate,
           onRowDelete: handleOnDelete,
           onRowAdd: handleOnAdd
         }}

@@ -7,12 +7,15 @@ import 'braft-extensions/dist/code-highlighter.css';
 import BraftEditor from '../../config/editorConfig';
 import 'braft-extensions/dist/emoticon.css';
 import {object} from 'yup';
-import {Setting, SettingButton} from "./Setting";
+import {Setting} from "./Setting";
 import {modifyPost, requireAllTags, requirePost} from "../../helpers/http";
 import {formatTime} from "../../helpers/datetime";
+import router from '../../contants/router';
+import SpeedSetting from "./SpeedSetting";
 
 const useStyle = makeStyles({
   root: {
+    position: 'relative',
     background: "#fff",
     padding: 30,
     borderRadius: 4
@@ -23,7 +26,7 @@ function Post({history}) {
   const validationSchema = object({});
   const onSubmit = (values) => {
     const data = {...values};
-    data.article = data.article.toHTML();
+    data.article = data.article.toRAW();
     data.postId = postId;
     modifyPost(data).then(res => {
       console.log(res);
@@ -36,7 +39,7 @@ function Post({history}) {
   const postId = path[path.length - 1];
   const isNewPost = searchParam[searchParam.length - 1];
   const [initialValues, setInitialValues] = useState({
-    postId:postId,
+    postId: postId,
     title: '',
     tags: [],
     visibility: '私密',
@@ -53,7 +56,12 @@ function Post({history}) {
       });
     } else {
       requirePost(postId).then(res => {
-        const data = res.data.data;
+        const {data, status} = res.data;
+        if (status === 'failed') {
+          // TODO: 重定向到404 页面, 而不是admin
+          history.push(router.ADMIN);
+          return;
+        }
         data.article = BraftEditor.createEditorState(data.article);
         setInitialValues(data);
       });
@@ -80,9 +88,6 @@ function Post({history}) {
                   fullWidth={true}
                   label="标题"
                   variant="outlined"/>
-                <Grid>
-                  <SettingButton {...{open, setOpen}}/>
-                </Grid>
               </Grid>
               <BraftEditor
                 name="article"
@@ -91,7 +96,8 @@ function Post({history}) {
                   props.setFieldValue('article', value);
                 }}
               />
-              <Setting {...{open, setOpen,history}}/>
+              <Setting {...{open, setOpen}}/>
+              <SpeedSetting {...{open, setOpen, history}}/>
             </Form>
           )
         }

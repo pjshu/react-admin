@@ -70,7 +70,7 @@ const postColumns = [
   {title: '标题', field: 'title'},
   {title: '标签', field: 'tags', sorting: false},
   {title: '状态', field: 'state'},
-  {title: '评论', field: 'comments'},
+  {title: '评论', field: 'comments', type: 'numeric', editable: 'never'},
   {title: '修改日期', field: 'changeDate', type: 'datetime', editable: 'never'},
   {title: '创建日期', field: 'createDate', type: 'datetime'}
 ];
@@ -81,6 +81,6 @@ const tagColumns = [
   {title: '数量', field: 'count', editable: 'never', initialEditValue: 0},
 ];
 // 表格每页行数
-const options = {pageSize: 5};
+const options = {pageSize: 10};
 
 export {localization, tableIcons, postColumns, options, tagColumns};
