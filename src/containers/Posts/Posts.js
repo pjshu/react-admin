@@ -1,6 +1,6 @@
 import React from "react";
 import {Container, Fab, Grid, makeStyles} from "@material-ui/core";
-import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 import {addNewPost} from '../../helpers/http';
 import router from '../../contants/router';
 import Table from './Table';
@@ -24,7 +24,7 @@ export default function Posts({history}) {
         title="写文章"
         onClick={handleOnClick}>
         <Fab color="primary" aria-label="edit">
-          <AddIcon/>
+          <EditIcon/>
         </Fab>
       </Grid>
       <Table {...{history}}/>

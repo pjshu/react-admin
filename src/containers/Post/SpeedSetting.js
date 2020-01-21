@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
@@ -11,8 +11,8 @@ import {markdown} from "markdown";
 import {useFormikContext} from "formik";
 import {deletePost} from "../../helpers/http";
 import router from "../../contants/router";
-import PostAddIcon from '@material-ui/icons/PostAdd';
-
+import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles(theme => ({
   speedDial: {
@@ -25,9 +25,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function SpeedSetting({open, setOpen, history}) {
+export default function SpeedSetting({open, setDrawerOpen, history}) {
   const classes = useStyles();
-  const [settingOpen, setSettingOpen] = React.useState(false);
+  const [settingOpen, setSettingOpen] = useState(false);
   const {values, setFieldValue} = useFormikContext();
 
   function handleOnDelete(postId) {
@@ -53,23 +53,12 @@ export default function SpeedSetting({open, setOpen, history}) {
     };
   }
 
+
   const actions = [
     {icon: <DeleteOutlineIcon/>, name: '删除', onClick: () => handleOnDelete(values.postId)},
     {icon: <SaveIcon/>, name: '保存', type: "submit"},
-    {
-      icon: <PostAddIcon/>, name: '上传markdown', render: (<input
-        accept=".md"
-        onChange={handleFileUpload}
-        type="file"
-        multiple
-        style={{display: 'none'}}
-      />)
-    },
-    {
-      icon: <SettingsIcon/>, name: '设置', onClick: () => {
-        setOpen(!open);
-      }
-    },
+    {icon: <SettingsIcon/>, name: '设置', onClick: setDrawerOpen},
+    {icon: <UploadMarkdown {...{handleFileUpload}}/>, name: '上传markdown'},
   ];
   const handleClose = () => {
     setSettingOpen(false);
@@ -81,26 +70,37 @@ export default function SpeedSetting({open, setOpen, history}) {
 
   return (
     <SpeedDial
-      ariaLabel="SpeedDial example"
+      ariaLabel="setting"
       className={classes.speedDial}
       icon={<SpeedDialIcon/>}
       onClose={handleClose}
       onOpen={handleOpen}
       open={settingOpen}
     >
-      {actions.map(({name, render, ...other}) => (
+      {actions.map(({name, ...other}) => (
         <SpeedDialAction
           key={name}
           tooltipTitle={name}
           title={name}
           {...other}
-        >{render ? render : null}
-        </SpeedDialAction>
+        />
       ))}
     </SpeedDial>
   );
 }
 
-/*
+const UploadMarkdown = (props) => (<>
+  <input
+    style={{display: 'none'}}
+    accept=".md"
+    type="file"
+    id="upload-file"
+    multiple
+    onChange={props.handleFileUpload}/>
+  <label htmlFor="upload-file">
+    <IconButton color="primary" component="span" style={{padding: 0}}>
+      <InsertDriveFileOutlinedIcon color="action"/>
+    </IconButton>
+  </label>
+</>);
 
- */

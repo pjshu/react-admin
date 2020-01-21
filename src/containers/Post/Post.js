@@ -69,6 +69,9 @@ function Post({history}) {
   }, [postId, isNewPost]);
   const classes = useStyle();
   const [open, setOpen] = React.useState(false);
+  const setDrawerOpen = () => {
+    setOpen(!open);
+  };
   return (
     <Container className={classes.root} maxWidth={false}>
       <Formik
@@ -96,8 +99,8 @@ function Post({history}) {
                   props.setFieldValue('article', value);
                 }}
               />
-              <Setting {...{open, setOpen}}/>
-              <SpeedSetting {...{open, setOpen, history}}/>
+              <Setting {...{open, setDrawerOpen}}/>
+              <SpeedSetting {...{open, setDrawerOpen, history}}/>
             </Form>
           )
         }

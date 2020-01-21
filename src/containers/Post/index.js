@@ -1,3 +1,4 @@
-import Post from './Container';
+import Post from './Post';
+import {withRouter} from "react-router-dom";
 
-export default Post;
+export default withRouter(Post);
