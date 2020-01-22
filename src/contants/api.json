@@ -1,10 +1,10 @@
 {
-  "register": "/admin/auth/register/",
-  "login": "/admin/auth/login/",
-  "logout": "/admin/auth/logout/",
-  "images": "/admin/images/",
-  "posts": "/admin/posts/",
-  "post": "/admin/posts/post/",
-  "allTags": "/admin/posts/tags/",
-  "tags": "/admin/tags/"
+  "register": "/auth/register/",
+  "login": "/auth/login/",
+  "logout": "/auth/logout/",
+  "images": "/images/",
+  "posts": "/posts/",
+  "post": "/posts/post/",
+  "allTags": "/posts/tags/",
+  "tags": "/tags/"
 }

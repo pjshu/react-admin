@@ -27,7 +27,7 @@ function Post({history}) {
     const data = {...values};
     data.article = data.article.toRAW();
     data.postId = postId;
-    api.modifyPost({data}).then(res => {
+    api.modifyPost(data).then(res => {
       console.log(res);
     });
   };
@@ -52,15 +52,15 @@ function Post({history}) {
         setInitialValues({...initialValues, allTags: res.data});
       });
     } else {
-      api.getPost({params: {postId}}).then(res => {
-        const {data, status} = res;
-        if (status === 'success') {
+      api.getPost({postId}).then(res => {
+        if (res.status === 'success') {
+          const {data} = res;
           data.article = BraftEditor.createEditorState(data.article);
           setInitialValues(data);
         }
       });
     }
-  }, [postId, isNewPost]);
+  }, [postId]);
   const classes = useStyle();
   const [open, setOpen] = React.useState(false);
   const setDrawerOpen = () => {

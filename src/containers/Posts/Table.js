@@ -12,7 +12,7 @@ export default function Tables() {
     //TODO: 优化,删除一行需要重新获取整个表格数据,应该仅从本地表格删除数据,服务器返回是否删除成功
     return new Promise(resolve => {
       const postId = oldPost.postId;
-      api.deletePost({data: {postId}}).then(res => {
+      api.deletePost({postId}).then(res => {
         if (res.status === 'success') {
           resolve();
         }
@@ -24,7 +24,7 @@ export default function Tables() {
   function handleRowUpdate(newPost) {
     //TODO: 优化,修改一行需要重新获取整个表格数据,应该仅从本地表格修改数据,服务器返回是否删除成功
     return new Promise(resolve => {
-      return api.modifyPost({data: newPost}).then(res => {
+      return api.modifyPost(newPost).then(res => {
         if (res.status === 'success') {
           resolve();
         }
@@ -39,7 +39,7 @@ export default function Tables() {
 
   function handlePagingQuery(query) {
     return new Promise((resolve) => {
-      api.getPosts({params: query}).then(res => {
+      api.getPosts(query).then(res => {
         const data = res.data;
         resolve({
           data: [...data.post],

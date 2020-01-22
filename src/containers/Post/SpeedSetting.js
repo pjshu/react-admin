@@ -30,7 +30,7 @@ export default function SpeedSetting({setDrawerOpen}) {
   const {values, setFieldValue} = useFormikContext();
 
   function handleOnDelete(postId) {
-    api.deletePost({data: {postId}}).then(res => {
+    api.deletePost( {postId}).then(res => {
       if (res.status === 'success') {
         toAdmin();
       }

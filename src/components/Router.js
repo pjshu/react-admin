@@ -10,7 +10,7 @@ export default function Root() {
     <Switch>
       <Route path={router.ADMIN_POST}><Post/></Route>
       <Route path={router.ADMIN_TAGS}><Tags/></Route>
-      <Route path={router.ADMIN} exact><Posts/></Route>
+      <Route path={router.ADMIN}><Posts/></Route>
     </Switch>
   );
 }

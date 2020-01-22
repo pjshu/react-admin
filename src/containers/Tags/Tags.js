@@ -9,8 +9,8 @@ export default function Tags() {
   function handleOnDelete(oldRow) {
     return new Promise(resolve => {
       const postId = oldRow.postId;
-      api.deleteTag({data: {postId}}).then(res => {
-        if (res.data.status === 'success') {
+      api.deleteTag({postId}).then(res => {
+        if (res.status === 'success') {
           resolve();
         }
       });
@@ -19,7 +19,7 @@ export default function Tags() {
 
   function handleRowUpdate(newRow) {
     return new Promise(resolve => {
-      return api.modifyTag({data: newRow}).then(res => {
+      return api.modifyTag(newRow).then(res => {
         if (res.status === 'success') {
           resolve();
         }
@@ -29,7 +29,7 @@ export default function Tags() {
 
   function handleOnAdd(newRow) {
     return new Promise(resolve => {
-      return api.addTag({data: newRow}).then(res => {
+      return api.addTag(newRow).then(res => {
         if (res.data.status === 'success') {
           resolve();
         }
@@ -39,7 +39,7 @@ export default function Tags() {
 
   function handlePagingQuery(query) {
     return new Promise((resolve) => {
-      api.getTags({params: query}).then(res => {
+      api.getTags(query).then(res => {
         const data = res.data;
         resolve({
           data: [...data.tags],

@@ -3,7 +3,7 @@ import api from '../contants/api';
 import history from "../history";
 import router from '../contants/router';
 
-let base = '/api';
+let base = '/api/admin/';
 let localhost = 'http://127.0.0.1:5000';
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 axios.defaults.timeout = 8000;
@@ -20,12 +20,12 @@ axios.interceptors.request.use(config => {
   }
   return config;
 }, error => {
-  //请求超时 TODO: 统一处理
-  return Promise.reject(error);
+  //请求超时
+  return Promise.resolve(error);
 });
 
-axios.interceptors.response.use(data => {
-  return data;
+axios.interceptors.response.use(res => {
+  return res.data;
 }, error => {
   const data = error.response;
   switch (data.status) {
@@ -38,20 +38,12 @@ axios.interceptors.response.use(data => {
     default:
       break;
   }
-  return Promise.reject(error.response);
+  return Promise.resolve(error.response);
 });
 
 const generateApi = (url, method) => {
-  return async ({params = null, data = null} = null) => {
-    try {
-      let res = await axios({method, url, params, data});
-      res = res.data;
-      return new Promise(resolve => {
-        resolve(res);
-      });
-    } catch (e) {
-      console.log(e);
-    }
+  return (data = null) => {
+    return method === 'get' ? axios({method, url, params: data}) : axios({method, url, data});
   };
 };
 

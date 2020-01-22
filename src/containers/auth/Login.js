@@ -47,7 +47,7 @@ function Login() {
   });
 
   function onSubmit(values) {
-    api.login({data: values}).then(res => {
+    api.login(values).then(res => {
       if (res.status === 'success') {
         toAdmin();
       }
