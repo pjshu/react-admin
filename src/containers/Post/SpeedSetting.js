@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
+import {IconButton, makeStyles} from '@material-ui/core';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
@@ -9,10 +9,9 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import BraftEditor from "../../config/editorConfig";
 import {markdown} from "markdown";
 import {useFormikContext} from "formik";
-import {deletePost} from "../../helpers/http";
-import router from "../../contants/router";
+import api from "../../helpers/http";
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
-import IconButton from '@material-ui/core/IconButton';
+import {toAdmin} from "../../history";
 
 const useStyles = makeStyles(theme => ({
   speedDial: {
@@ -25,19 +24,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function SpeedSetting({open, setDrawerOpen, history}) {
+export default function SpeedSetting({setDrawerOpen}) {
   const classes = useStyles();
   const [settingOpen, setSettingOpen] = useState(false);
   const {values, setFieldValue} = useFormikContext();
 
   function handleOnDelete(postId) {
-    deletePost(postId).then(res => {
-      console.log(res);
-      if (res.data.status === 'success') {
-        history.push(router.ADMIN);
+    api.deletePost({data: {postId}}).then(res => {
+      if (res.status === 'success') {
+        toAdmin();
       }
-    }).catch(error => {
-      console.log(error);
     });
   }
 

@@ -7,9 +7,8 @@ import Button from '@material-ui/core/Button';
 import {ErrorMessage, Field, Form, Formik} from 'formik';
 import {object, string} from 'yup';
 import Alert from '@material-ui/lab/Alert';
-import {login} from "../../helpers/http";
-import {withRouter} from 'react-router-dom'
-import router from '../../contants/router'
+import api from "../../helpers/http";
+import {toAdmin} from "../../history";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -36,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Login({history}) {
+function Login() {
   const classes = useStyles();
   const validationSchema = object({
     email: string()
@@ -48,19 +47,17 @@ function Login({history}) {
   });
 
   function onSubmit(values) {
-    login(values).then(res => {
-      if(res.data.status === 'success'){
-        history.push(router.ADMIN)
+    api.login({data: values}).then(res => {
+      if (res.status === 'success') {
+        toAdmin();
       }
-    }).catch(error => {
-        console.log(error);
-      }
-    );
+    });
   }
 
   function handleResetPassword(e) {
 
   }
+
   return (
     <Container maxWidth={false} className={classes.container}>
       <Grid container justify="center" alignItems={"center"} className={classes.container}>
@@ -130,4 +127,4 @@ function Login({history}) {
 
 }
 
-export default withRouter(Login);
+export default Login;

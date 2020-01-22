@@ -1,9 +1,9 @@
 import React from "react";
 import {Container, Fab, Grid, makeStyles} from "@material-ui/core";
 import EditIcon from '@material-ui/icons/Edit';
-import {addNewPost} from '../../helpers/http';
-import router from '../../contants/router';
+import api from '../../helpers/http';
 import Table from './Table';
+import {toPost} from "../../history";
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function Posts({history}) {
+export default function Posts() {
   const classes = useStyles();
   return (
     <Container maxWidth={false}>
@@ -27,15 +27,15 @@ export default function Posts({history}) {
           <EditIcon/>
         </Fab>
       </Grid>
-      <Table {...{history}}/>
+      <Table/>
     </Container>
   );
 
   function handleOnClick() {
-    addNewPost().then(res => {
-      const {status, data} = res.data;
+    api.addPost().then(res => {
+      const {status, data} = res;
       if (status === 'success' && data) {
-        history.push(`${router.ADMIN_POST}/${data.postId}?newPost=true`);
+        toPost(data.postId, 'newPost=true');
       }
     });
   }

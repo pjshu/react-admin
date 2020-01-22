@@ -8,9 +8,8 @@ import BraftEditor from '../../config/editorConfig';
 import 'braft-extensions/dist/emoticon.css';
 import {object} from 'yup';
 import {Setting} from "./Setting";
-import {modifyPost, requireAllTags, requirePost} from "../../helpers/http";
+import api from "../../helpers/http";
 import {formatTime} from "../../helpers/datetime";
-import router from '../../contants/router';
 import SpeedSetting from "./SpeedSetting";
 
 const useStyle = makeStyles({
@@ -28,10 +27,8 @@ function Post({history}) {
     const data = {...values};
     data.article = data.article.toRAW();
     data.postId = postId;
-    modifyPost(data).then(res => {
+    api.modifyPost({data}).then(res => {
       console.log(res);
-    }).catch(error => {
-      console.log(error);
     });
   };
   const path = history.location.pathname.split('/');
@@ -51,19 +48,16 @@ function Post({history}) {
   useEffect(() => {
     // 获取所有标签,用于自动补全
     if (isNewPost) {
-      requireAllTags().then(res => {
-        setInitialValues({...initialValues, allTags: res.data.data});
+      api.getAllTags().then(res => {
+        setInitialValues({...initialValues, allTags: res.data});
       });
     } else {
-      requirePost(postId).then(res => {
-        const {data, status} = res.data;
-        if (status === 'failed') {
-          // TODO: 重定向到404 页面, 而不是admin
-          history.push(router.ADMIN);
-          return;
+      api.getPost({params: {postId}}).then(res => {
+        const {data, status} = res;
+        if (status === 'success') {
+          data.article = BraftEditor.createEditorState(data.article);
+          setInitialValues(data);
         }
-        data.article = BraftEditor.createEditorState(data.article);
-        setInitialValues(data);
       });
     }
   }, [postId, isNewPost]);
@@ -100,7 +94,7 @@ function Post({history}) {
                 }}
               />
               <Setting {...{open, setDrawerOpen}}/>
-              <SpeedSetting {...{open, setDrawerOpen, history}}/>
+              <SpeedSetting {...{open, setDrawerOpen}}/>
             </Form>
           )
         }

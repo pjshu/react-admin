@@ -1,8 +1,12 @@
 一个半成的残次品
 
+备忘:
+- token 统一放headers,
+- post,put,delete 数据统一放data,
+- get 数据放params
+
 # todo:
 懒加载,登录前只加载登录页面,
-history.push/路由统一管理
 统一错误处理
 
 添加功能:
@@ -11,7 +15,6 @@ history.push/路由统一管理
 - 对比修改文章(上传修改部分****)
 - 表单验证
 - 评论系统
-- 快速拨号上传markdown文件
 - 删除文章时提示
 - 文章回收站
 - 绑定邮箱

@@ -17,7 +17,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Router from './Router';
-import {withRouter} from "react-router-dom";
+import {Link} from "react-router-dom";
 import router from '../contants/router';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
@@ -85,7 +85,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Nav({history}) {
+function Nav() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
@@ -123,11 +123,11 @@ function Nav({history}) {
         </div>
         <Divider/>
         <List>
-          <ListItem title="主页" button onClick={() => history.push(router.ADMIN)}>
+          <ListItem title="主页" button component={Link} to={router.ADMIN}>
             <ListItemIcon><AssignmentIcon/></ListItemIcon>
             <ListItemText primary={"主页"}/>
           </ListItem>
-          <ListItem title="标签" button onClick={() => history.push(router.ADMIN_TAGS)}>
+          <ListItem title="标签" button component={Link} to={router.ADMIN_TAGS}>
             <ListItemIcon><LocalOfferIcon/></ListItemIcon>
             <ListItemText primary={"标签"}/>
           </ListItem>
@@ -142,4 +142,4 @@ function Nav({history}) {
   );
 }
 
-export default withRouter(Nav);
+export default Nav;
