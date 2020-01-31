@@ -14,6 +14,9 @@ const toPost = (postId, search) => {
   });
 };
 
+const toLogin = () => {
+  history.push(router.LOGIN);
+};
 
-export {toAdmin, toPost};
+export {toAdmin, toPost, toLogin};
 export default history;

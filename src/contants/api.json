@@ -6,5 +6,6 @@
   "posts": "/posts/",
   "post": "/posts/post/",
   "allTags": "/posts/tags/",
-  "tags": "/tags/"
+  "tags": "/tags/",
+  "auth": "/auth/"
 }

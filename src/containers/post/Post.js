@@ -11,9 +11,12 @@ import {Setting} from "./Setting";
 import api from "../../helpers/http";
 import {formatTime} from "../../helpers/datetime";
 import SpeedSetting from "./SpeedSetting";
+import {useLocation} from "react-router-dom";
+
 
 const useStyle = makeStyles({
   root: {
+    height: '90%',
     position: 'relative',
     background: "#fff",
     padding: 30,
@@ -21,20 +24,23 @@ const useStyle = makeStyles({
   },
 });
 
-function Post({history}) {
+function Post() {
   const validationSchema = object({});
   const onSubmit = (values) => {
     const data = {...values};
     data.article = data.article.toRAW();
     data.postId = postId;
+    data.createDate = formatTime(data.createDate);
     api.modifyPost(data).then(res => {
       console.log(res);
     });
   };
-  const path = history.location.pathname.split('/');
-  const searchParam = history.location.search.split('=');
+  let {search, pathname} = useLocation();
+  const path = pathname.split('/');
   const postId = path[path.length - 1];
-  const isNewPost = searchParam[searchParam.length - 1];
+
+  search = search.split("=");
+  const isNewPost = search[search.length - 1];
   const [initialValues, setInitialValues] = useState({
     postId: postId,
     title: '',
@@ -42,7 +48,7 @@ function Post({history}) {
     visibility: '私密',
     article: BraftEditor.createEditorState(null),
     allTags: [],
-    createDate: new Date(),
+    createDate: formatTime(new Date()),
     changeDate: formatTime(new Date())
   });
   useEffect(() => {
@@ -62,7 +68,7 @@ function Post({history}) {
     }
   }, [postId]);
   const classes = useStyle();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const setDrawerOpen = () => {
     setOpen(!open);
   };

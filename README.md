@@ -1,9 +1,5 @@
 一个半成的残次品
 
-备忘:
-- token 统一放headers,
-- post,put,delete 数据统一放data,
-- get 数据放params
 
 # todo:
 懒加载,登录前只加载登录页面,

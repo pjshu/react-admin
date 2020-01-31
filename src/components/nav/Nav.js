@@ -1,9 +1,7 @@
 import React from 'react';
-import clsx from 'clsx';
 import {
   AppBar,
   CssBaseline,
-  Divider,
   Drawer,
   IconButton,
   List,
@@ -15,17 +13,17 @@ import {
   Typography,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Router from './Router';
 import {Link} from "react-router-dom";
-import router from '../contants/router';
+import router from '../../contants/router';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 
-const drawerWidth = 180;
+const drawerWidth = 150;
 
 const useStyles = makeStyles(theme => ({
   root: {
+    height: '100%',
     display: 'flex',
   },
   appBar: {
@@ -35,19 +33,8 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
   menuButton: {
     marginRight: 36,
-  },
-  hide: {
-    display: 'none',
   },
   drawer: {
     width: drawerWidth,
@@ -67,22 +54,18 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
+    width: theme.spacing(7),
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1,
+      width: theme.spacing(9),
     },
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  placeholder: {
+    height: theme.spacing(10)
+  }
 }));
 
 function Nav() {
@@ -96,14 +79,14 @@ function Nav() {
       <CssBaseline/>
       <AppBar
         position="fixed"
-        className={clsx(classes.appBar, {[classes.appBarShift]: open})}
+        className={classes.appBar}
       >
         <Toolbar>
           <IconButton
             color="inherit"
             onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, {[classes.hide]: open})}
+            className={classes.menuButton}
           >
             <MenuIcon/>
           </IconButton>
@@ -116,12 +99,8 @@ function Nav() {
         classes={{paper: `${open ? classes.drawerOpen : classes.drawerClose}`}}
         open={open}
       >
-        <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerOpen}>
-            <ChevronRightIcon/>
-          </IconButton>
-        </div>
-        <Divider/>
+        {/*占位 防止被导航栏覆盖*/}
+        <div className={classes.placeholder}/>
         <List>
           <ListItem title="主页" button component={Link} to={router.ADMIN}>
             <ListItemIcon><AssignmentIcon/></ListItemIcon>
@@ -135,7 +114,8 @@ function Nav() {
       </Drawer>y
 
       <main className={classes.content}>
-        <div className={classes.toolbar}/>
+        {/*占位,防止被导航栏覆盖*/}
+        <div className={classes.placeholder}/>
         <Router/>
       </main>
     </div>

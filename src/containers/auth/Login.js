@@ -38,9 +38,9 @@ const useStyles = makeStyles(theme => ({
 function Login() {
   const classes = useStyles();
   const validationSchema = object({
-    email: string()
-      .email("邮箱格式错误")
-      .required('请输入邮箱'),
+    username: string()
+      .max('30', '用户名不能超过30位')
+      .required('请输入用户名'),
     password: string()
       .max('30', '密码不能超过30位')
       .required('请输入密码')
@@ -49,6 +49,8 @@ function Login() {
   function onSubmit(values) {
     api.login(values).then(res => {
       if (res.status === 'success') {
+        localStorage.setItem('identify', res.data.id);
+        localStorage.setItem('Authorization', res.data.token);
         toAdmin();
       }
     });
@@ -69,7 +71,7 @@ function Login() {
           alignItems="center"
           justify="center">
           <Formik
-            initialValues={{email: '', password: ''}}
+            initialValues={{username: '', password: ''}}
             onSubmit={(values) => onSubmit(values)}
             validationSchema={validationSchema}
           >
@@ -77,15 +79,15 @@ function Login() {
               <Grid container direction="column">
                 <Grid>
                   <Field
-                    name="email"
+                    name="username"
                     as={TextField}
-                    label="邮箱"
+                    label="用户名"
                     color="primary"
                     fullWidth={true}
                   />
                   <ErrorMessage
                     className={classes.error}
-                    name="email"
+                    name="username"
                     component={Alert}
                     severity="error"/>
                 </Grid>
