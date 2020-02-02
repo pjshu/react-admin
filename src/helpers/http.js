@@ -47,10 +47,13 @@ axios.interceptors.response.use(res => {
 });
 
 const generateApi = (url, method) => {
+  /**
+   * @param data {Object}
+   */
   return (data = null) => {
     return method === 'get' ?
       axios({method, url, params: data}) :
-      axios({method, url, data});
+      axios({method, url, data: data});
   };
 };
 
@@ -67,10 +70,8 @@ const API = {
   addTag: generateApi(api.tags, 'post'),
   login: generateApi(api.login, 'post'),
   logout: generateApi(api.logout, 'get'),
-  auth() {
-    return axios.get(api.auth);
-  }
+  register: generateApi(api.register, 'post'),
+  auth: generateApi(api.auth, 'get')
 };
 
 export default API;
-export {axios};

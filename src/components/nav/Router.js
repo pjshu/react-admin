@@ -6,7 +6,8 @@ import Loading from "../Loading";
 
 const Post = lazy(() => import("../../containers/post"));
 const Posts = lazy(() => import("../../containers/posts"));
-const Tags = lazy(() => import("../../containers/tags/Tags"));
+const Tags = lazy(() => import("../../containers/tags"));
+const User = lazy(() => import("../../containers/user"));
 
 export default function Root() {
   return (
@@ -14,6 +15,7 @@ export default function Root() {
       <Switch>
         <Route path={router.ADMIN_POST}><Post/></Route>
         <Route path={router.ADMIN_TAGS}><Tags/></Route>
+        <Route path={router.ADMIN_USER}><User/></Route>
         <Route path={router.ADMIN}><Posts/></Route>
       </Switch>
     </Suspense>

@@ -1,17 +1,21 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import {Container, Grid} from "@material-ui/core";
+import {
+  Button,
+  Container,
+  Grid,
+  makeStyles,
+  Paper,
+  Step,
+  StepContent,
+  StepLabel,
+  Stepper,
+  TextField,
+  Typography
+} from "@material-ui/core";
 import {ErrorMessage, Field, Form, Formik} from "formik";
-import TextField from "@material-ui/core/TextField";
 import {object, ref, string} from "yup";
 import Alert from "@material-ui/lab/Alert";
+import api from '../../helpers/http';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -34,30 +38,28 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function getSteps() {
-  return ['创建用户'];
-}
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <CreateUser/>;
-    default:
-      return '?????';
+function Content({step, formikRef}) {
+  if (step === 0) {
+    return <CreateUser {...{formikRef}}/>;
   }
 }
+
 
 function Register() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const steps = getSteps();
+  const steps = ['创建用户'];
+  const formikRef = React.useRef();
 
   const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
+    const errors = formikRef.current.errors;
+    if (Object.values(errors).length === 0) {
+      setActiveStep(activeStep + 1);
+    }
   };
 
   const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
+    setActiveStep(activeStep - 1);
   };
 
   const handleReset = () => {
@@ -77,7 +79,7 @@ function Register() {
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
                 <StepContent>
-                  {getStepContent(index)}
+                  <Content {...{step: index, formikRef}}/>
                   <div className={classes.actionsContainer}>
                     <div>
                       <Button
@@ -92,6 +94,8 @@ function Register() {
                         color="primary"
                         onClick={handleNext}
                         className={classes.button}
+                        form={"form"}
+                        type="submit"
                       >
                         {activeStep === steps.length - 1 ? '完成' : '下一步'}
                       </Button>
@@ -116,7 +120,7 @@ function Register() {
 }
 
 
-function CreateUser() {
+function CreateUser({formikRef}) {
 
   const validationSchema = object({
     username: string()
@@ -133,14 +137,24 @@ function CreateUser() {
       .max('30', '密码不能超过30位')
       .required('请确认密码'),
   });
+  const onsubmit = (values) => {
+    api.register(values).then(res => {
+      if (res.status === 'success') {
+        localStorage.setItem('identify', res.data.userId);
+      }
+      console.log(res);
+    });
+    console.log('values', values);
+  };
 
   return (
     <Formik
+      innerRef={formikRef}
       validationSchema={validationSchema}
       initialValues={{username: '', nickname: '', password: '', confirmPassword: ''}}
-      onSubmit={(values) => console.log(values)}
+      onSubmit={onsubmit}
     >
-      <Form>
+      <Form id={'form'}>
         <Grid container>
           <Grid container justify="space-around">
             <Grid style={{width: '45%'}}>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import api from './helpers/http';
 import {toLogin} from './history';
 
@@ -10,7 +10,7 @@ const useAuth = () => {
       return;
     }
     api.auth().then(res => {
-      if (res.data && res.data.auth === true) {
+      if (res.status === 'success') {
         setAuth(true);
       }
     });

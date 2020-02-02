@@ -11,8 +11,10 @@ const CreateDate = ({setFieldValue, createDate}) => {
         label="创建日期"
         format="yyyy/MM/dd HH:mm"
         value={createDate}
-        onChange={(date) =>
-          setFieldValue('createDate', date)
+        onChange={(date) => {
+          setFieldValue('createDate', date);
+          console.log(date);
+        }
         }
       />
     </MuiPickersUtilsProvider>

@@ -7,11 +7,9 @@ const toAdmin = () => {
   history.push(router.ADMIN);
 };
 
-const toPost = (postId, search) => {
-  history.push({
-    pathname: `${router.ADMIN_POST}/${postId}`,
-    search: search ? `?${search}` : ''
-  });
+
+const toPost = (postId) => {
+  history.push(`${router.ADMIN_POST}/${postId}`);
 };
 
 const toLogin = () => {

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Container, Grid, makeStyles, TextField} from "@material-ui/core";
 import {Field, Form, Formik} from 'formik';
 import 'braft-editor/dist/index.css';
@@ -12,7 +12,8 @@ import api from "../../helpers/http";
 import {formatTime} from "../../helpers/datetime";
 import SpeedSetting from "./SpeedSetting";
 import {useLocation} from "react-router-dom";
-
+import AlertDialog from "../../components/AlertDialog";
+import {PostContext} from "../../context";
 
 const useStyle = makeStyles({
   root: {
@@ -26,47 +27,43 @@ const useStyle = makeStyles({
 
 function Post() {
   const validationSchema = object({});
+  const [alertMessage, setAlertMessage] = useState('');
+  const {state, actions} = useContext(PostContext);
+  const {pathname} = useLocation();
+  const path = pathname.split('/');
+  const postId = path[path.length - 1];
+
   const onSubmit = (values) => {
     const data = {...values};
     data.article = data.article.toRAW();
     data.postId = postId;
     data.createDate = formatTime(data.createDate);
     api.modifyPost(data).then(res => {
-      console.log(res);
+      if (res.status === 'success') {
+        setAlertMessage("上传成功");
+      } else {
+        setAlertMessage("上传失败");
+      }
     });
   };
-  let {search, pathname} = useLocation();
-  const path = pathname.split('/');
-  const postId = path[path.length - 1];
 
-  search = search.split("=");
-  const isNewPost = search[search.length - 1];
-  const [initialValues, setInitialValues] = useState({
-    postId: postId,
-    title: '',
-    tags: [],
-    visibility: '私密',
-    article: BraftEditor.createEditorState(null),
-    allTags: [],
-    createDate: formatTime(new Date()),
-    changeDate: formatTime(new Date())
-  });
+
+  useEffect(() => {
+    api.getPost({postId}).then(res => {
+      if (res.status === 'success') {
+        const {data} = res;
+        actions.init({...data, 'article': BraftEditor.createEditorState(data.article)});
+      }
+    });
+  }, [postId]);
+
   useEffect(() => {
     // 获取所有标签,用于自动补全
-    if (isNewPost) {
-      api.getAllTags().then(res => {
-        setInitialValues({...initialValues, allTags: res.data});
-      });
-    } else {
-      api.getPost({postId}).then(res => {
-        if (res.status === 'success') {
-          const {data} = res;
-          data.article = BraftEditor.createEditorState(data.article);
-          setInitialValues(data);
-        }
-      });
-    }
-  }, [postId]);
+    api.getAllTags().then(res => {
+      actions.addAllTags(res.data);
+    });
+  }, []);
+
   const classes = useStyle();
   const [open, setOpen] = React.useState(true);
   const setDrawerOpen = () => {
@@ -74,10 +71,11 @@ function Post() {
   };
   return (
     <Container className={classes.root} maxWidth={false}>
+      <AlertDialog {...{alertMessage}}/>
       <Formik
         enableReinitialize
-        initialValues={initialValues}
-        onSubmit={(values) => onSubmit(values)}
+        initialValues={state}
+        onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
         {

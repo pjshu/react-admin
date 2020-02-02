@@ -18,6 +18,7 @@ import {Link} from "react-router-dom";
 import router from '../../contants/router';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import FaceIcon from '@material-ui/icons/Face';
 
 const drawerWidth = 150;
 
@@ -102,16 +103,20 @@ function Nav() {
         {/*占位 防止被导航栏覆盖*/}
         <div className={classes.placeholder}/>
         <List>
-          <ListItem title="主页" button component={Link} to={router.ADMIN}>
-            <ListItemIcon><AssignmentIcon/></ListItemIcon>
-            <ListItemText primary={"主页"}/>
-          </ListItem>
-          <ListItem title="标签" button component={Link} to={router.ADMIN_TAGS}>
-            <ListItemIcon><LocalOfferIcon/></ListItemIcon>
-            <ListItemText primary={"标签"}/>
-          </ListItem>
+          {
+            [
+              {title: '主页', route: router.ADMIN, icon: <AssignmentIcon/>},
+              {title: '标签', route: router.ADMIN_TAGS, icon: <LocalOfferIcon/>},
+              {title: '用户', route: router.ADMIN_USER, icon: <FaceIcon/>},
+            ].map(item => (
+              <ListItem key={item.title} title={item.title} button component={Link} to={item.route}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.title}/>
+              </ListItem>
+            ))
+          }
         </List>
-      </Drawer>y
+      </Drawer>
 
       <main className={classes.content}>
         {/*占位,防止被导航栏覆盖*/}

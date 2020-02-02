@@ -1,4 +1,7 @@
 const formatTime = (d) => {
+  if (typeof d === "string") {
+    d = new Date(d);
+  }
   const year = d.getFullYear();
   const month = d.getMonth() + 1;
   const date = d.getDate();
