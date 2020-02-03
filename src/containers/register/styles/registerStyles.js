@@ -1,4 +1,4 @@
-const styles = (theme) => ({
+const registerStyles = (theme) => ({
   container: {
     maxWidth: 800,
     height: '100%',
@@ -19,4 +19,4 @@ const styles = (theme) => ({
   },
 });
 
-export default styles;
+export default registerStyles;

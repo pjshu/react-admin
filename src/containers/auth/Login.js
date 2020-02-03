@@ -2,16 +2,15 @@ import React from 'react';
 import {Container, Grid} from "@material-ui/core";
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import {ErrorMessage, Field, Form, Formik} from 'formik';
+import {Form, Formik} from 'formik';
 import {object, string} from 'yup';
-import Alert from '@material-ui/lab/Alert';
-import api from "../../../helpers/http";
-import {toAdmin} from "../../../history";
-import styles from './styles';
+import api from "../../helpers/http";
+import {toAdmin} from "../../history";
+import loginStyles from './styles/loginStyles';
+import TextFieldWithError from "../../components/TextFieldWithError";
 
-const useStyles = makeStyles(theme => styles(theme));
+const useStyles = makeStyles(theme => loginStyles(theme));
 
 function Login() {
   const classes = useStyles();
@@ -54,39 +53,16 @@ function Login() {
             validationSchema={validationSchema}
           >
             <Form className={classes.form}>
-              <Grid container direction="column">
-                <Grid>
-                  <Field
-                    name="username"
-                    as={TextField}
-                    label="用户名"
-                    color="primary"
-                    fullWidth={true}
-                  />
-                  <ErrorMessage
-                    className={classes.error}
-                    name="username"
-                    component={Alert}
-                    severity="error"/>
-                </Grid>
-
-                <Grid className={classes.password}>
-                  <Field
-                    type="password"
-                    name="password"
-                    as={TextField}
-                    label="密码"
-                    color="primary"
-                    fullWidth={true}
-                  />
-                  <ErrorMessage
-                    className={classes.error}
-                    name="password"
-                    component={Alert}
-                    severity="error"/>
-                </Grid>
+              <Grid container direction="column" className={classes.field}>
+                {
+                  [
+                    {name: "username", label: "用户名"},
+                    {name: "password", label: "密码", type: "password"}
+                  ].map(item => <TextFieldWithError key={item.name} {...item}/>)
+                }
+              </Grid>
+              <Grid className={classes.submit}>
                 <Button
-                  className={classes.submit}
                   variant="outlined"
                   color="primary"
                   fullWidth={true}
@@ -96,7 +72,10 @@ function Login() {
                 </Button>
                 <Button
                   onClick={handleResetPassword}
-                  color="primary">忘记密码</Button>
+                  color="primary"
+                  fullWidth={true}
+                >忘记密码
+                </Button>
               </Grid>
             </Form>
           </Formik>

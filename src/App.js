@@ -7,8 +7,8 @@ import history from "./history";
 import Loading from "./components/Loading";
 
 const Root = lazy(() => import("./components/nav/"));
-const Register = lazy(() => import("./containers/auth/register"));
-const Login = lazy(() => import("./containers/auth/login/Login"));
+const Register = lazy(() => import("./containers/register"));
+const Login = lazy(() => import("./containers/auth/Login"));
 
 function App() {
   return (

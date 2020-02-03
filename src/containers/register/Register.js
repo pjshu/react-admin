@@ -12,9 +12,9 @@ import {
   Typography
 } from "@material-ui/core";
 import CreateUser from './Step1';
-import styles from './styles';
+import registerStyles from './styles/registerStyles';
 
-const useStyles = makeStyles(theme => (styles(theme)));
+const useStyles = makeStyles(theme => (registerStyles(theme)));
 
 function Content({step, formikRef}) {
   if (step === 0) {

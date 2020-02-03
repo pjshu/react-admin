@@ -29,8 +29,12 @@ export function Setting({open, setDrawerOpen}) {
             as={Select}
             value={values.visibility}
           >
-            <MenuItem value="私密">私密</MenuItem>
-            <MenuItem value="公开">公开</MenuItem>
+            {
+              ["私密", "公开"].map(item => (
+                <MenuItem key={item} value="私密">{item}</MenuItem>
+
+              ))
+            }
           </Field>
         </FormControl>
         <Tags {...{tags: values.tags, setFieldValue, allTags: values.allTags}}/>
