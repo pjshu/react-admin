@@ -5,31 +5,28 @@ import router from './contants/router';
 import './global.css';
 import history from "./history";
 import Loading from "./components/Loading";
-import PostProvider from './context';
 
 const Root = lazy(() => import("./components/nav/"));
-const Register = lazy(() => import("./containers/auth/Register"));
-const Login = lazy(() => import("./containers/auth/Login"));
+const Register = lazy(() => import("./containers/auth/register"));
+const Login = lazy(() => import("./containers/auth/login/Login"));
 
 function App() {
   return (
-    <PostProvider>
-      <Suspense fallback={<Loading/>}>
-        <Router history={history}>
-          <Switch>
-            <Route path={router.LOGIN}>
-              <Login/>
-            </Route>
-            <Route path={router.REGISTER}>
-              <Register/>
-            </Route>
-            <Route path={router.HOME}>
-              <Root/>
-            </Route>
-          </Switch>
-        </Router>
-      </Suspense>
-    </PostProvider>
+    <Suspense fallback={<Loading/>}>
+      <Router history={history}>
+        <Switch>
+          <Route path={router.LOGIN}>
+            <Login/>
+          </Route>
+          <Route path={router.REGISTER}>
+            <Register/>
+          </Route>
+          <Route path={router.HOME}>
+            <Root/>
+          </Route>
+        </Switch>
+      </Router>
+    </Suspense>
   );
 }
 

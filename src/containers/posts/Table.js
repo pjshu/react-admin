@@ -4,7 +4,7 @@ import {localization, options, postColumns, tableIcons} from "../../config/table
 import api from "../../helpers/http";
 import {toPost} from "../../history";
 
-export default function Tables({setAlertMessage, actions}) {
+export default function Tables({setAlertMessage}) {
   const tableRef = createRef();
 
   const handleOnDelete = (oldPost) => {

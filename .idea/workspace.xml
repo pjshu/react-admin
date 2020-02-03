@@ -2,30 +2,37 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c490632-172c-4e36-843c-9cfec310f3b0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/AlertDialog.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/tags/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/user/User.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/user/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/nav/navStyle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/auth/login/styles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/auth/register/Step1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/auth/register/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/auth/register/styles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/post/styles/postStyles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/post/styles/settingStyles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/post/styles/speedSettingStyles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/posts/styles/postsStyles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/user/styles/userStyles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Context.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/context.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/nav/Nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/nav/Nav.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/nav/Router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/nav/Router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/auth/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/auth/Register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/post/CreateDate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/post/CreateDate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/auth/login/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/auth/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/auth/register/Register.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/post/Post.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/post/Post.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/post/Setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/post/Setting.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/post/SpeedSetting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/post/SpeedSetting.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/post/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/post/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/posts/Posts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/posts/Posts.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/posts/Table.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/posts/Table.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/user/InputWithIcon.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/user/InputWithIcon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/user/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/user/User.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/contants/api.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/contants/api.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/exp.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/context.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/post.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/global.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/global.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/datetime.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/datetime.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/helpers/http.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/http.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/history.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/history.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hook.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hook.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +78,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="$PROJECT_DIR$/node_modules/material-table/types/index.d.ts" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../flask_blog" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.stylelint" value="true" />
@@ -91,11 +98,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers/auth/login" />
+      <recent name="$PROJECT_DIR$/src/containers/auth/register" />
       <recent name="$PROJECT_DIR$/src/containers/post" />
       <recent name="$PROJECT_DIR$/src/containers/post/newPost" />
       <recent name="$PROJECT_DIR$/src/components/nav" />
-      <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/src/containers/Write" />
     </key>
   </component>
   <component name="RunManager" selected="npm.npm start">
@@ -207,7 +214,8 @@
       <workItem from="1580614880973" duration="67000" />
       <workItem from="1580615305305" duration="1843000" />
       <workItem from="1580617292871" duration="84000" />
-      <workItem from="1580619985050" duration="27633000" />
+      <workItem from="1580619985050" duration="27875000" />
+      <workItem from="1580694730471" duration="23958000" />
     </task>
     <servers />
   </component>
@@ -244,26 +252,26 @@
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
     <state x="213" y="297" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.24.1920.1056@0.24.1920.1056" timestamp="1579598469406" />
-    <state x="93" y="310" key="FileChooserDialogImpl" timestamp="1580456413251">
+    <state x="93" y="310" key="FileChooserDialogImpl" timestamp="1580716884085">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state x="93" y="310" key="FileChooserDialogImpl/0.24.1920.1056@0.24.1920.1056" timestamp="1580456413251" />
-    <state width="900" height="220" key="GridCell.Tab.0.bottom" timestamp="1580649277137">
+    <state x="93" y="310" key="FileChooserDialogImpl/0.24.1920.1056@0.24.1920.1056" timestamp="1580716884085" />
+    <state width="900" height="220" key="GridCell.Tab.0.bottom" timestamp="1580704749976">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="220" key="GridCell.Tab.0.bottom/0.24.1920.1056@0.24.1920.1056" timestamp="1580649277137" />
-    <state width="900" height="220" key="GridCell.Tab.0.center" timestamp="1580649277136">
+    <state width="900" height="220" key="GridCell.Tab.0.bottom/0.24.1920.1056@0.24.1920.1056" timestamp="1580704749976" />
+    <state width="900" height="220" key="GridCell.Tab.0.center" timestamp="1580704749975">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="220" key="GridCell.Tab.0.center/0.24.1920.1056@0.24.1920.1056" timestamp="1580649277136" />
-    <state width="900" height="220" key="GridCell.Tab.0.left" timestamp="1580649277135">
+    <state width="900" height="220" key="GridCell.Tab.0.center/0.24.1920.1056@0.24.1920.1056" timestamp="1580704749975" />
+    <state width="900" height="220" key="GridCell.Tab.0.left" timestamp="1580704749974">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="220" key="GridCell.Tab.0.left/0.24.1920.1056@0.24.1920.1056" timestamp="1580649277135" />
-    <state width="900" height="220" key="GridCell.Tab.0.right" timestamp="1580649277137">
+    <state width="900" height="220" key="GridCell.Tab.0.left/0.24.1920.1056@0.24.1920.1056" timestamp="1580704749974" />
+    <state width="900" height="220" key="GridCell.Tab.0.right" timestamp="1580704749975">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="220" key="GridCell.Tab.0.right/0.24.1920.1056@0.24.1920.1056" timestamp="1580649277137" />
+    <state width="900" height="220" key="GridCell.Tab.0.right/0.24.1920.1056@0.24.1920.1056" timestamp="1580704749975" />
     <state width="900" height="316" key="GridCell.Tab.1.bottom" timestamp="1580478604422">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
@@ -328,10 +336,10 @@
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
     <state x="169" y="462" width="611" height="180" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.24.1920.1056@0.24.1920.1056" timestamp="1580627880146" />
-    <state x="511" y="217" width="903" height="670" key="find.popup" timestamp="1580651858944">
+    <state x="511" y="217" width="903" height="670" key="find.popup" timestamp="1580736110695">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state x="511" y="217" width="903" height="670" key="find.popup/0.24.1920.1056@0.24.1920.1056" timestamp="1580651858944" />
+    <state x="511" y="217" width="903" height="670" key="find.popup/0.24.1920.1056@0.24.1920.1056" timestamp="1580736110695" />
     <state x="578" y="257" width="761" height="679" key="search.everywhere.popup" timestamp="1579676727094">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>

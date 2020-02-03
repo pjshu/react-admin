@@ -12,16 +12,9 @@ import {useFormikContext} from "formik";
 import api from "../../helpers/http";
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import {toAdmin} from "../../history";
+import styles from './styles/speedSettingStyles';
 
-const useStyles = makeStyles(theme => ({
-  speedDial: {
-    position: 'absolute',
-    '&.MuiSpeedDial-directionUp, &.MuiSpeedDial-directionLeft': {
-      bottom: theme.spacing(2),
-      right: theme.spacing(2),
-    },
-  },
-}));
+const useStyles = makeStyles(theme => styles(theme));
 
 
 export default function SpeedSetting({setDrawerOpen}) {
@@ -30,7 +23,7 @@ export default function SpeedSetting({setDrawerOpen}) {
   const {values, setFieldValue} = useFormikContext();
 
   function handleOnDelete(postId) {
-    api.deletePost( {postId}).then(res => {
+    api.deletePost({postId}).then(res => {
       if (res.status === 'success') {
         toAdmin();
       }

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {Container, Grid, makeStyles, TextField} from "@material-ui/core";
 import {Field, Form, Formik} from 'formik';
 import 'braft-editor/dist/index.css';
@@ -12,23 +12,12 @@ import api from "../../helpers/http";
 import {formatTime} from "../../helpers/datetime";
 import SpeedSetting from "./SpeedSetting";
 import {useLocation} from "react-router-dom";
-import AlertDialog from "../../components/AlertDialog";
-import {PostContext} from "../../context";
+import styles from "./styles/postStyles";
 
-const useStyle = makeStyles({
-  root: {
-    height: '90%',
-    position: 'relative',
-    background: "#fff",
-    padding: 30,
-    borderRadius: 4
-  },
-});
+const useStyle = makeStyles(styles);
 
-function Post() {
+function Post({postState, init, addAllTags}) {
   const validationSchema = object({});
-  const [alertMessage, setAlertMessage] = useState('');
-  const {state, actions} = useContext(PostContext);
   const {pathname} = useLocation();
   const path = pathname.split('/');
   const postId = path[path.length - 1];
@@ -40,9 +29,7 @@ function Post() {
     data.createDate = formatTime(data.createDate);
     api.modifyPost(data).then(res => {
       if (res.status === 'success') {
-        setAlertMessage("上传成功");
       } else {
-        setAlertMessage("上传失败");
       }
     });
   };
@@ -52,7 +39,7 @@ function Post() {
     api.getPost({postId}).then(res => {
       if (res.status === 'success') {
         const {data} = res;
-        actions.init({...data, 'article': BraftEditor.createEditorState(data.article)});
+        init({...data, 'article': BraftEditor.createEditorState(data.article)});
       }
     });
   }, [postId]);
@@ -60,7 +47,7 @@ function Post() {
   useEffect(() => {
     // 获取所有标签,用于自动补全
     api.getAllTags().then(res => {
-      actions.addAllTags(res.data);
+      addAllTags(res.data);
     });
   }, []);
 
@@ -71,10 +58,9 @@ function Post() {
   };
   return (
     <Container className={classes.root} maxWidth={false}>
-      <AlertDialog {...{alertMessage}}/>
       <Formik
         enableReinitialize
-        initialValues={state}
+        initialValues={postState}
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
@@ -82,7 +68,6 @@ function Post() {
           props => (
             <Form onKeyDown={(e) => handleOnSave(e, props.values)}>
               <Grid container alignItems="center">
-                {/* TODO: 添加未填写标题提示*/}
                 <Field
                   name="title"
                   as={TextField}

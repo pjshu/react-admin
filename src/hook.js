@@ -14,7 +14,7 @@ const useAuth = () => {
         setAuth(true);
       }
     });
-  });
+  }, []);
   return auth;
 };
 

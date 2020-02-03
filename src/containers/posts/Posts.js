@@ -1,25 +1,17 @@
-import React, {useContext, useState} from "react";
+import React, {useState} from "react";
 import {Container, Fab, Grid, makeStyles} from "@material-ui/core";
 import EditIcon from '@material-ui/icons/Edit';
 import api from '../../helpers/http';
 import Table from './Table';
 import {toPost} from "../../history";
 import AlertDialog from "../../components/AlertDialog";
-import {PostContext} from "../../context";
+import styles from './styles/postsStyles';
 
-const useStyles = makeStyles(theme => ({
-  icon: {
-    position: "fixed",
-    zIndex: 6,
-    right: 10,
-    bottom: 10
-  },
-}));
+const useStyles = makeStyles(theme => styles(theme));
 
 
 export default function Posts() {
   const classes = useStyles();
-  const {actions} = useContext(PostContext);
   const [alertMessage, setAlertMessage] = useState('');
   return (
     <Container maxWidth={false}>
@@ -32,7 +24,7 @@ export default function Posts() {
           <EditIcon/>
         </Fab>
       </Grid>
-      <Table {...{setAlertMessage, actions}}/>
+      <Table {...{setAlertMessage}}/>
     </Container>
   );
 

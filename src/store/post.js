@@ -1,6 +1,5 @@
-import React, {createContext, useReducer} from "react";
-import BraftEditor from "./config/editorConfig";
-import {formatTime} from "./helpers/datetime";
+import BraftEditor from "../config/editorConfig";
+import {formatTime} from "../helpers/datetime";
 
 const initialState = {
   postId: -1,
@@ -34,16 +33,4 @@ const dispatchWrapper = (dispatch) => ({
     return dispatch({type: 'addAllTags', allTags});
   }
 });
-
-const PostContext = createContext();
-const PostProvider = (props) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  return (
-    <PostContext.Provider value={{state, actions: dispatchWrapper(dispatch)}}>
-      {props.children}
-    </PostContext.Provider>
-  );
-};
-
-export default PostProvider;
-export {PostContext};
+export {dispatchWrapper, reducer, initialState};

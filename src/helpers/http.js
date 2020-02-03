@@ -33,16 +33,14 @@ axios.interceptors.response.use(res => {
   return res.data;
 }, error => {
   const data = error.response;
-  if (!data) {
-    return Promise.resolve(error.response);
+  if (data) {
+    const status = data.status;
+    if (status === 401) {
+      toLogin();
+    } else if (status === 401) {
+      toAdmin();
+    }
   }
-  const status = data.status;
-  if (status === 401) {
-    toLogin();
-  } else if (status === 401) {
-    toAdmin();
-  }
-
   return Promise.resolve(error.response);
 });
 
@@ -71,7 +69,9 @@ const API = {
   login: generateApi(api.login, 'post'),
   logout: generateApi(api.logout, 'get'),
   register: generateApi(api.register, 'post'),
-  auth: generateApi(api.auth, 'get')
+  auth: generateApi(api.auth, 'get'),
+  modifyUserInfo: generateApi(api.userInfo, 'put'),
+  getUserInfo: generateApi(api.userInfo, 'get')
 };
 
 export default API;

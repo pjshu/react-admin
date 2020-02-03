@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Form, Formik} from 'formik';
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/table.css';
@@ -9,45 +9,64 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import Avatar from '@material-ui/core/Avatar';
 import BraftEditor from "../../config/editorConfig";
-import Button from '@material-ui/core/Button';
 import InputWithIcon from './InputWithIcon';
-import Grid from "@material-ui/core/Grid";
-import axios from 'axios';
+import {Avatar, Button, Grid, makeStyles} from "@material-ui/core";
+import api from '../../helpers/http';
+import styles from './styles/userStyles';
+
+const useStyle = makeStyles(styles);
 
 function User() {
+  const classes = useStyle();
   const validationSchema = object({});
-  const onSubmit = (values) => {
+  const [state, setState] = useState({
+    username: '',
+    nickname: '',
+    email: '',
+    password: '',
+    about: BraftEditor.createEditorState(null),
+    avatar: ''
+  });
+  //blob url to base64
+  const base64Avatar = (data) => new Promise((resolve => {
+    fetch(data).then(res => {
+      res.blob().then(res => {
+        const reader = new FileReader();
+        reader.readAsDataURL(res);
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+      });
+    });
+  }));
+
+  const onSubmit = async (values) => {
     const data = {...values};
     data.about = data.about.toRAW();
     if (data.avatar) {
-      fetch(data.avatar).then(res => {
-        console.log(res);
-      });
-      // const reader = new FileReader(values.avatar);
-      // reader.onloadend = () => {
-      //   const base64Avatar = reader.result;
-      //   console.log(base64Avatar);
-      // };
+      data.avatar = await base64Avatar(data.avatar);
     }
+    api.modifyUserInfo(data).then(res => {
+      console.log(data);
+    });
   };
   const handleUploadAvatar = (e, setFieldValue) => {
     const file = e.target.files;
     const url = window.URL.createObjectURL(file[0]);
     setFieldValue('avatar', url);
   };
+  useEffect(() => {
+    api.getUserInfo().then(res => {
+      const data = res.data;
+      data.about = BraftEditor.createEditorState(data.about);
+      setState({...data, password: ''});
+    });
+  }, []);
   return (
     <Formik
       enableReinitialize
-      initialValues={{
-        username: '',
-        nickname: '',
-        email: '',
-        password: '',
-        about: BraftEditor.createEditorState(null),
-        avatar: null
-      }}
+      initialValues={state}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
@@ -65,7 +84,7 @@ function User() {
               ))
             }
             <p>头像</p>
-            <Grid>
+            <Grid className={classes.avatar}>
               <input
                 onChange={(e) => handleUploadAvatar(e, props.setFieldValue)}
                 accept="image/*"
@@ -76,15 +95,18 @@ function User() {
                 <Avatar alt="Cindy Baker" src={props.values.avatar}/>
               </label>
             </Grid>
-            <p>关于我</p>
-            <Button type={"submit"} variant="contained" color="primary">
+            <Button
+              type={"submit"}
+              variant="contained"
+              color="primary">
               提交
             </Button>
+            <p>关于我</p>
             <BraftEditor
               name="about"
-              value={props.values.article}
+              value={props.values.about}
               onChange={value => {
-                props.setFieldValue('article', value);
+                props.setFieldValue('about', value);
               }}
             />
           </Form>

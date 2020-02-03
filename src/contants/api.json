@@ -7,5 +7,6 @@
   "post": "/posts/post",
   "allTags": "/posts/tags",
   "tags": "/tags",
-  "auth": "/auth"
+  "auth": "/auth",
+  "userInfo": "/auth/user/info"
 }

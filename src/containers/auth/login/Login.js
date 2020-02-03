@@ -7,33 +7,11 @@ import Button from '@material-ui/core/Button';
 import {ErrorMessage, Field, Form, Formik} from 'formik';
 import {object, string} from 'yup';
 import Alert from '@material-ui/lab/Alert';
-import api from "../../helpers/http";
-import {toAdmin} from "../../history";
+import api from "../../../helpers/http";
+import {toAdmin} from "../../../history";
+import styles from './styles';
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    height: '100%'
-  },
-  paper: {
-    width: 500,
-    height: 350,
-    padding: 20
-  },
-  form: {
-    width: 420,
-  },
-  password: {
-    marginTop: '35px'
-  },
-  submit: {
-    marginTop: '55px'
-  },
-  error: {
-    background: '#fff',
-    width: '387px',
-    position: 'fixed'
-  }
-}));
+const useStyles = makeStyles(theme => styles(theme));
 
 function Login() {
   const classes = useStyles();

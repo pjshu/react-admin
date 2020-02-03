@@ -5,36 +5,13 @@ import {Field, useFormikContext} from 'formik';
 import Tags from './Tags';
 import CreateDate from "./CreateDate";
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import styles from "./styles/settingStyles";
 
-const drawerWidth = 240;
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: 10,
-    '& > *': {
-      width: '100%',
-      marginTop: 40
-    }
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  placeholder: {
-    height: 5
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-  },
-}));
+const useStyles = makeStyles((theme) => styles(theme));
 
 export function Setting({open, setDrawerOpen}) {
   const classes = useStyles();
   const {values, setFieldValue} = useFormikContext();
-
   return (
     <Drawer
       variant="persistent"
