@@ -1,11 +1,8 @@
 import React from 'react';
-import {Grid, makeStyles, TextField} from '@material-ui/core';
+import {Grid, TextField} from '@material-ui/core';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import {Field} from 'formik';
 
-const useStyle = makeStyles({
-  root: {}
-});
 export default function InputWithIcon({icon, label, info, name, ...other}) {
 
   return (

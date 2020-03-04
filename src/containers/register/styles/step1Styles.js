@@ -2,11 +2,6 @@ const styles = {
   name: {
     '& > *': {
       width: '45%',
-      '& > :nth-child(2)': {
-        height: 30,
-        position: 'fixed',
-        background: '#fff'
-      }
     },
   },
   password: {
@@ -14,11 +9,6 @@ const styles = {
     marginBottom: 40,
     '& > *': {
       width: '45%',
-      '& > :nth-child(2)': {
-        height: 30,
-        position: 'fixed',
-        background: '#fff'
-      }
     }
   }
 };

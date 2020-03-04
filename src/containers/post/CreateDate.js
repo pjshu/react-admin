@@ -3,16 +3,16 @@ import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {KeyboardDateTimePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
 
-const CreateDate = ({setFieldValue, createDate}) => {
+const CreateDate = ({setFieldValue, create_date}) => {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDateTimePicker
         margin="normal"
         label="创建日期"
         format="yyyy/MM/dd HH:mm"
-        value={createDate}
+        value={create_date}
         onChange={(date) => {
-          setFieldValue('createDate', date);
+          setFieldValue('create_date', date);
           console.log(date);
         }
         }

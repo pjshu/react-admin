@@ -71,8 +71,8 @@ const postColumns = [
   {title: '标签', field: 'tags', sorting: false},
   {title: '状态', field: 'visibility'},
   {title: '评论', field: 'comments', type: 'numeric', editable: 'never'},
-  {title: '修改日期', field: 'changeDate', type: 'datetime', editable: 'never'},
-  {title: '创建日期', field: 'createDate', type: 'datetime'}
+  {title: '修改日期', field: 'change_date', type: 'datetime', editable: 'never'},
+  {title: '创建日期', field: 'create_date', type: 'datetime'}
 ];
 
 const tagColumns = [

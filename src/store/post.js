@@ -2,15 +2,15 @@ import BraftEditor from "../config/editorConfig";
 import {formatTime} from "../helpers/datetime";
 
 const initialState = {
-  postId: -1,
+  id: -1,
   title: '',
   tags: [],
   visibility: '私密',
   article: BraftEditor.createEditorState(null),
   allTags: [],
   comments: 0,
-  createDate: formatTime(new Date()),
-  changeDate: formatTime(new Date())
+  create_date: formatTime(new Date()),
+  change_date: formatTime(new Date())
 };
 
 

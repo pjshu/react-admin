@@ -3,18 +3,22 @@ import MaterialTable from 'material-table';
 import {localization, options, postColumns, tableIcons} from "../../config/tableConfig";
 import api from "../../helpers/http";
 import {toPost} from "../../history";
+import AlertMessage from "../../components/AlertMessage";
 
-export default function Tables({setAlertMessage}) {
+
+export default function Tables() {
   const tableRef = createRef();
 
   const handleOnDelete = (oldPost) => {
     //TODO: 优化,删除一行需要重新获取整个表格数据,应该仅从本地表格删除数据,服务器返回是否删除成功
     return new Promise(resolve => {
-      const postId = oldPost.postId;
-      api.deletePost({postId}).then(res => {
+      const id = oldPost.id;
+      api.deletePost({id}).then(res => {
         if (res.status === 'success') {
-          setAlertMessage("删除成功");
+          AlertMessage.success('删除成功');
           resolve();
+        } else {
+          AlertMessage.error('删除失败');
         }
       });
     });
@@ -23,7 +27,6 @@ export default function Tables({setAlertMessage}) {
 
   function handleRowUpdate(newPost) {
     //TODO: 优化,修改一行需要重新获取整个表格数据,应该仅从本地表格修改数据,服务器返回是否删除成功
-    //TODO: 修改功能未完成
     return new Promise(resolve => {
       return api.modifyPost(newPost).then(res => {
         if (res.status === 'success') {
@@ -35,16 +38,16 @@ export default function Tables({setAlertMessage}) {
 
   function handleRowClick(_, post) {
     // TODO: 不同的块跳转到相应页面
-    toPost(post.postId);
+    toPost(post.id);
   }
 
   function handlePagingQuery(query) {
     return new Promise((resolve) => {
-      api.getPosts(query).then(res => {
+      api.queryPosts(query).then(res => {
         const data = res.data;
         resolve({
-          data: [...data.post],
-          page: data.page,
+          data: [...data.posts],
+          page: data.page - 1,
           totalCount: data.total
         });
       });
@@ -61,9 +64,8 @@ export default function Tables({setAlertMessage}) {
       columns={postColumns}
       options={options}
       onSelectionChange={(data, rowData) => console.log(data, rowData)}
-      onChangeRowsPerPage={(size) => {
+      onChangeRowsPerPage={() => {
         tableRef.current.onQueryChange();
-        console.log(size);
       }}
       onRowClick={handleRowClick}
       editable={{

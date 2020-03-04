@@ -1,10 +1,10 @@
 import React, {lazy, Suspense} from 'react';
-import {hot} from 'react-hot-loader/root';
 import {Route, Router, Switch} from "react-router-dom";
 import router from './contants/router';
 import './global.css';
 import history from "./history";
 import Loading from "./components/Loading";
+import {hot} from 'react-hot-loader';
 
 const Root = lazy(() => import("./components/nav/"));
 const Register = lazy(() => import("./containers/register"));
@@ -30,4 +30,4 @@ function App() {
   );
 }
 
-export default process.env.NODE_ENV === "development" ? hot(App) : App;
+export  default hot(module)(App)

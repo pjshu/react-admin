@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Form, Formik} from 'formik';
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/table.css';
@@ -14,20 +14,13 @@ import InputWithIcon from './InputWithIcon';
 import {Avatar, Button, Grid, makeStyles} from "@material-ui/core";
 import api from '../../helpers/http';
 import styles from './styles/userStyles';
+import AlertMessage from "../../components/AlertMessage";
 
 const useStyle = makeStyles(styles);
 
-function User() {
+function User({state}) {
   const classes = useStyle();
   const validationSchema = object({});
-  const [state, setState] = useState({
-    username: '',
-    nickname: '',
-    email: '',
-    password: '',
-    about: BraftEditor.createEditorState(null),
-    avatar: ''
-  });
   //blob url to base64
   const base64Avatar = (data) => new Promise((resolve => {
     fetch(data).then(res => {
@@ -48,6 +41,9 @@ function User() {
       data.avatar = await base64Avatar(data.avatar);
     }
     api.modifyUserInfo(data).then(res => {
+      if (res.status === 'success') {
+        AlertMessage.success('修改成功');
+      }
       console.log(data);
     });
   };
@@ -56,13 +52,8 @@ function User() {
     const url = window.URL.createObjectURL(file[0]);
     setFieldValue('avatar', url);
   };
-  useEffect(() => {
-    api.getUserInfo().then(res => {
-      const data = res.data;
-      data.about = BraftEditor.createEditorState(data.about);
-      setState({...data, password: ''});
-    });
-  }, []);
+
+
   return (
     <Formik
       enableReinitialize

@@ -8,8 +8,8 @@ export default function Tags() {
   // TODO: 数据没加载时,加载动画
   function handleOnDelete(oldRow) {
     return new Promise(resolve => {
-      const tagId = oldRow.tagId;
-      api.deleteTag({tagId}).then(res => {
+      const id = oldRow.id;
+      api.deleteTag({id}).then(res => {
         if (res.status === 'success') {
           resolve();
         }
@@ -30,7 +30,6 @@ export default function Tags() {
   function handleOnAdd(newRow) {
     return new Promise(resolve => {
       return api.addTag(newRow).then(res => {
-        console.log(res);
         if (res.status === 'success') {
           resolve();
         }
@@ -40,11 +39,11 @@ export default function Tags() {
 
   function handlePagingQuery(query) {
     return new Promise((resolve) => {
-      api.getTags(query).then(res => {
+      api.queryTags(query).then(res => {
         const data = res.data;
         resolve({
           data: [...data.tags],
-          page: data.page,
+          page: data.page - 1,
           totalCount: data.total
         });
       });

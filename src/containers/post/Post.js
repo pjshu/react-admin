@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Container, Grid, makeStyles, TextField} from "@material-ui/core";
 import {Field, Form, Formik} from 'formik';
 import 'braft-editor/dist/index.css';
@@ -11,47 +11,32 @@ import {Setting} from "./Setting";
 import api from "../../helpers/http";
 import {formatTime} from "../../helpers/datetime";
 import SpeedSetting from "./SpeedSetting";
-import {useLocation} from "react-router-dom";
 import styles from "./styles/postStyles";
+import AlertMessage from "../../components/AlertMessage";
 
 const useStyle = makeStyles(styles);
 
-function Post({postState, init, addAllTags}) {
+function Post({postState, postId}) {
   const validationSchema = object({});
-  const {pathname} = useLocation();
-  const path = pathname.split('/');
-  const postId = path[path.length - 1];
-
+  const classes = useStyle();
   const onSubmit = (values) => {
     const data = {...values};
     data.article = data.article.toRAW();
-    data.postId = postId;
-    data.createDate = formatTime(data.createDate);
+    data.id = postId;
+    data.create_date = formatTime(data.create_date);
     api.modifyPost(data).then(res => {
-      if (res.status === 'success') {
-      } else {
-      }
+      res.status === 'success'
+        ? AlertMessage.success("上传成功")
+        : AlertMessage.error("上传成功");
     });
   };
 
+  function handleOnSave(e, value) {
+    if (e.keyCode === 83 && e.ctrlKey) {
+      onSubmit(value);
+    }
+  }
 
-  useEffect(() => {
-    api.getPost({postId}).then(res => {
-      if (res.status === 'success') {
-        const {data} = res;
-        init({...data, 'article': BraftEditor.createEditorState(data.article)});
-      }
-    });
-  }, [postId]);
-
-  useEffect(() => {
-    // 获取所有标签,用于自动补全
-    api.getAllTags().then(res => {
-      addAllTags(res.data);
-    });
-  }, []);
-
-  const classes = useStyle();
   const [open, setOpen] = React.useState(true);
   const setDrawerOpen = () => {
     setOpen(!open);
@@ -91,11 +76,6 @@ function Post({postState, init, addAllTags}) {
     </Container>
   );
 
-  function handleOnSave(e, value) {
-    if (e.keyCode === 83 && e.ctrlKey) {
-      onSubmit(value);
-    }
-  }
 }
 
 export default Post;

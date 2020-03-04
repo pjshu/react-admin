@@ -1,5 +1,4 @@
 import axios from "axios";
-import api from '../contants/api';
 import {toAdmin, toLogin} from "../history";
 
 
@@ -21,7 +20,7 @@ axios.interceptors.request.use(config => {
   const Authorization = localStorage.getItem('Authorization');
   if (identify && Authorization) {
     config.headers.identify = identify;
-    config.headers.Authorization = Authorization;
+    config.headers.Authorization = `Bearer ${Authorization}`;
   }
   return config;
 }, error => {
@@ -38,40 +37,72 @@ axios.interceptors.response.use(res => {
     if (status === 401) {
       toLogin();
     } else if (status === 401) {
-      toAdmin();
+      // toAdmin();
     }
   }
   return Promise.resolve(error.response);
 });
 
-const generateApi = (url, method) => {
-  /**
-   * @param data {Object}
-   */
-  return (data = null) => {
+const api = {
+  posts: '/posts%',
+  allTags: '/posts/tags',
+  tags: '/tags%',
+  sessions: '/sessions',
+  user: '/user',
+  resetPassword: '/user/password/reset',
+  resetEmail: '/user/email/reset',
+  recoveryPassword: '/user/password/recovery',
+  validateEMail: '/user/email'
+};
+const generateApi = (resource, method) => {
+  return (data = null, id = null) => {
+    const url = api[resource].replace('%', id ? `/${id}` : '');
     return method === 'get' ?
+      /**
+       * @param data {Object}
+       */
       axios({method, url, params: data}) :
       axios({method, url, data: data});
   };
 };
-
+// 'param' and 'data' are Object
 const API = {
-  getPosts: generateApi(api.posts, 'get'),
-  getPost: generateApi(api.post, 'get'),
-  modifyPost: generateApi(api.post, 'put'),
-  deletePost: generateApi(api.post, 'delete'),
-  addPost: generateApi(api.post, 'post'),
-  getAllTags: generateApi(api.allTags, 'get'),
-  getTags: generateApi(api.tags, 'get'),
-  deleteTag: generateApi(api.tags, 'delete'),
-  modifyTag: generateApi(api.tags, 'put'),
-  addTag: generateApi(api.tags, 'post'),
-  login: generateApi(api.login, 'post'),
-  logout: generateApi(api.logout, 'get'),
-  register: generateApi(api.register, 'post'),
-  auth: generateApi(api.auth, 'get'),
-  modifyUserInfo: generateApi(api.userInfo, 'put'),
-  getUserInfo: generateApi(api.userInfo, 'get')
+  queryPosts: generateApi('posts', 'get'),
+  getPost: generateApi('posts', 'get'),
+  modifyPost: generateApi('posts', 'put'),
+  deletePost: generateApi('posts', 'delete'),
+  addPost: generateApi('posts', 'post'),
+  getAllTags: generateApi('allTags', 'get'),
+  queryTags: generateApi('tags', 'get'),
+  deleteTag: generateApi('tags', 'delete'),
+  modifyTag: generateApi('tags', 'put'),
+  addTag: generateApi('/tags', 'post'),
+  //长传图片api,Content-Type 应该设置为Form而不是json
+  addTagImg(id, data) {
+    return axios.post(`/tags/${id}/images`, {
+      data,
+      // TODO: 这里请求头不确定是不是会替换默认设置,包括替换token等
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+  },
+  login: generateApi('sessions', 'post'),
+  logout: generateApi('sessions', 'delete'),
+  auth: generateApi('sessions', 'get'),
+  register: generateApi('user', 'post'),
+  modifyUserInfo: generateApi('user', 'patch'),
+  getUserInfo: generateApi('user', 'get'),
+  resetPassword: generateApi('resetPassword', 'patch'),
+
+  sendRestEmailCode: generateApi('resetEmail', 'get'),
+  // 更新邮箱时, 重旧邮箱获取验证码,并发送,参数:验证码
+  validateOldEmail: generateApi('resetEmail', 'post'),
+  // 发送忘记密码的验证码, 添加参数email='....'
+  sendRecPassCode: generateApi('recoveryPassword', 'get'),
+  RecPassword: generateApi('recoveryPassword', 'PUT'),
+  validateEmail: generateApi('validateEMail', 'put')
+
 };
 
 export default API;

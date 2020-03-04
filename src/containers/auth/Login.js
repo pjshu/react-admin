@@ -9,6 +9,7 @@ import api from "../../helpers/http";
 import {toAdmin} from "../../history";
 import loginStyles from './styles/loginStyles';
 import TextFieldWithError from "../../components/TextFieldWithError";
+import AlertMessage from "../../components/AlertMessage";
 
 const useStyles = makeStyles(theme => loginStyles(theme));
 
@@ -26,9 +27,12 @@ function Login() {
   function onSubmit(values) {
     api.login(values).then(res => {
       if (res.status === 'success') {
+        AlertMessage.success('登录成功');
         localStorage.setItem('identify', res.data.id);
         localStorage.setItem('Authorization', res.data.token);
         toAdmin();
+      } else {
+        AlertMessage.failed('登录失败');
       }
     });
   }

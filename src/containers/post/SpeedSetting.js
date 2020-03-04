@@ -7,12 +7,13 @@ import SaveIcon from '@material-ui/icons/Save';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import SettingsIcon from '@material-ui/icons/Settings';
 import BraftEditor from "../../config/editorConfig";
-import {markdown} from "markdown";
 import {useFormikContext} from "formik";
 import api from "../../helpers/http";
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import {toAdmin} from "../../history";
 import styles from './styles/speedSettingStyles';
+import marked from '../../config/marked';
+
 
 const useStyles = makeStyles(theme => styles(theme));
 
@@ -22,8 +23,8 @@ export default function SpeedSetting({setDrawerOpen}) {
   const [settingOpen, setSettingOpen] = useState(false);
   const {values, setFieldValue} = useFormikContext();
 
-  function handleOnDelete(postId) {
-    api.deletePost({postId}).then(res => {
+  function handleOnDelete(id) {
+    api.deletePost({id}).then(res => {
       if (res.status === 'success') {
         toAdmin();
       }
@@ -38,13 +39,14 @@ export default function SpeedSetting({setDrawerOpen}) {
     const reader = new FileReader();
     reader.readAsText(file[0]);
     reader.onload = function (res) {
-      setFieldValue('article', BraftEditor.createEditorState(markdown.toHTML(res.target.result)));
+      let htmlString = marked(res.target.result);
+      setFieldValue('article', BraftEditor.createEditorState(htmlString));
     };
   }
 
 
   const actions = [
-    {icon: <DeleteOutlineIcon/>, name: '删除', onClick: () => handleOnDelete(values.postId)},
+    {icon: <DeleteOutlineIcon/>, name: '删除', onClick: () => handleOnDelete(values.id)},
     {icon: <SaveIcon/>, name: '保存', type: "submit"},
     {icon: <SettingsIcon/>, name: '设置', onClick: setDrawerOpen},
     {icon: <UploadMarkdown {...{handleFileUpload}}/>, name: '上传markdown'},
@@ -87,9 +89,8 @@ const UploadMarkdown = (props) => (<>
     multiple
     onChange={props.handleFileUpload}/>
   <label htmlFor="upload-file">
-    <IconButton color="primary" component="span" style={{padding: 0}}>
+    <IconButton color="primary" component="span" style={{padding: 0, width: '100%', height: '100%'}}>
       <InsertDriveFileOutlinedIcon color="action"/>
     </IconButton>
   </label>
 </>);
-

@@ -5,41 +5,42 @@ import React from "react";
 import api from '../../helpers/http';
 import styles from './styles/step1Styles';
 import TextFieldWithError from "../../components/TextFieldWithError";
+import AlertMessage from "../../components/AlertMessage";
 
 const useStyles = makeStyles(styles);
 
-function CreateUser({formikRef}) {
+function RegisterUser({formikRef}) {
   const classes = useStyles();
   const validationSchema = object({
     username: string()
       .max('20', '用户名不能超过20位')
-      .required('请输入邮箱'),
+      .required('请输入用户名'),
     nickname: string()
       .max('20', '昵称不能超过20位')
       .required('请输入昵称'),
     password: string()
       .max('30', '密码不能超过30位')
       .required('请输入密码'),
-    confirmPassword: string()
+    confirm_password: string()
       .oneOf([ref('password'), null], "密码不匹配")
       .max('30', '密码不能超过30位')
       .required('请确认密码'),
   });
   const onsubmit = (values) => {
-    api.register(values).then(res => {
-      if (res.status === 'success') {
-        localStorage.setItem('identify', res.data.userId);
-      }
-      console.log(res);
-    });
-    console.log('values', values);
+    // api.register(values).then(res => {
+    //   if (res.status === 'success') {
+    //     AlertMessage.success('注册成功');
+    //   } else {
+    //     //TODO:
+    //   }
+    // });
   };
 
   return (
     <Formik
       innerRef={formikRef}
       validationSchema={validationSchema}
-      initialValues={{username: '', nickname: '', password: '', confirmPassword: ''}}
+      initialValues={{username: '', nickname: '', password: '', confirm_password: ''}}
       onSubmit={onsubmit}
     >
       <Form id={'form'}>
@@ -57,7 +58,7 @@ function CreateUser({formikRef}) {
             {
               [
                 {name: 'password', label: '密码', type: "password", variant: "outlined"},
-                {name: 'confirmPassword', label: '确认密码', type: "password", variant: "outlined"},
+                {name: 'confirm_password', label: '确认密码', type: "password", variant: "outlined"},
               ].map(item => (
                 <TextFieldWithError key={item.name} {...item}/>
               ))
@@ -69,4 +70,4 @@ function CreateUser({formikRef}) {
   );
 }
 
-export default CreateUser;
+export default RegisterUser;

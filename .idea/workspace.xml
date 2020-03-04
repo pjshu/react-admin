@@ -2,17 +2,38 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c490632-172c-4e36-843c-9cfec310f3b0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/TextFieldWithError.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/register/styles/step1Styles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/AlertMessage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/config/marked.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/register/RegisterEmail.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config-overrides.js" beforeDir="false" afterPath="$PROJECT_DIR$/config-overrides.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/auth/login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/auth/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/auth/login/styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/auth/styles/loginStyles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/auth/register/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/register/Register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/auth/register/Step1.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/register/Step1.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/auth/register/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/register/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/auth/register/styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/register/styles/registerStyles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Alert.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AlertDialog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/TextFieldWithError.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TextFieldWithError.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/tableConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/tableConfig.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/auth/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/post/CreateDate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/post/CreateDate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/post/Post.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/post/Post.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/containers/post/Setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/post/Setting.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/post/SpeedSetting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/post/SpeedSetting.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/post/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/post/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/posts/Posts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/posts/Posts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/posts/Table.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/posts/Table.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/register/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/register/Register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/register/Step1.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/register/RegisterUser.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/register/styles/step1Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/register/styles/step1Styles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/tags/Tags.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/tags/Tags.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/user/InputWithIcon.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/user/InputWithIcon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/user/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/user/User.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/user/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/user/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contants/api.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/http.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/http.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/post.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/post.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,14 +60,17 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
         <option value="Python Script" />
+        <option value="CSS File" />
         <option value="JavaScript File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
   <component name="ProjectId" id="1Ub3lSkuwIk4dr4Ivy63lHTrSWx" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -55,10 +79,11 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="$PROJECT_DIR$/node_modules/material-table/types/index.d.ts" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../flask_blog" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.stylelint" value="true" />
@@ -195,7 +220,29 @@
       <workItem from="1580615305305" duration="1843000" />
       <workItem from="1580617292871" duration="84000" />
       <workItem from="1580619985050" duration="27875000" />
-      <workItem from="1580694730471" duration="28571000" />
+      <workItem from="1580694730471" duration="28827000" />
+      <workItem from="1580820002887" duration="4646000" />
+      <workItem from="1580873905123" duration="11222000" />
+      <workItem from="1580986771940" duration="1771000" />
+      <workItem from="1580992107002" duration="43000" />
+      <workItem from="1580992165536" duration="4460000" />
+      <workItem from="1580997638120" duration="82000" />
+      <workItem from="1581040693724" duration="599000" />
+      <workItem from="1581047477572" duration="1961000" />
+      <workItem from="1581078938214" duration="1382000" />
+      <workItem from="1581082653948" duration="371000" />
+      <workItem from="1581139027441" duration="66000" />
+      <workItem from="1581585284649" duration="177000" />
+      <workItem from="1581599676020" duration="1358000" />
+      <workItem from="1581665301000" duration="3787000" />
+      <workItem from="1581670400423" duration="4157000" />
+      <workItem from="1582451376407" duration="1448000" />
+      <workItem from="1582594346383" duration="438000" />
+      <workItem from="1582777253026" duration="11000" />
+      <workItem from="1582851313726" duration="208000" />
+      <workItem from="1583219406141" duration="10186000" />
+      <workItem from="1583241081591" duration="4483000" />
+      <workItem from="1583281965292" duration="7153000" />
     </task>
     <servers />
   </component>
@@ -216,10 +263,14 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="555" y="213" width="800" height="677" key="#Notifications" timestamp="1579174031845">
+    <state x="555" y="213" width="800" height="677" key="#JSHint" timestamp="1581585357033">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state x="555" y="213" width="800" height="677" key="#Notifications/0.24.1920.1056@0.24.1920.1056" timestamp="1579174031845" />
+    <state x="555" y="213" width="800" height="677" key="#JSHint/0.24.1920.1056@0.24.1920.1056" timestamp="1581585357033" />
+    <state x="555" y="213" width="800" height="677" key="#Notifications" timestamp="1580820880501">
+      <screen x="0" y="24" width="1920" height="1056" />
+    </state>
+    <state x="555" y="213" width="800" height="677" key="#Notifications/0.24.1920.1056@0.24.1920.1056" timestamp="1580820880501" />
     <state x="493" y="281" width="1076" height="523" key="#com.intellij.codeInsight.template.impl.EditVariableDialog" timestamp="1580445055256">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
@@ -228,78 +279,82 @@
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
     <state x="0" y="210" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.24.1920.1056@0.24.1920.1056" timestamp="1580199901515" />
-    <state x="213" y="297" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1579598469406">
+    <state x="170" y="269" width="624" height="565" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1580820886765">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state x="213" y="297" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.24.1920.1056@0.24.1920.1056" timestamp="1579598469406" />
-    <state x="93" y="310" key="FileChooserDialogImpl" timestamp="1580716884085">
+    <state x="170" y="269" width="624" height="565" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.24.1920.1056@0.24.1920.1056" timestamp="1580820886765" />
+    <state x="213" y="297" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1580890195380">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state x="93" y="310" key="FileChooserDialogImpl/0.24.1920.1056@0.24.1920.1056" timestamp="1580716884085" />
-    <state width="900" height="220" key="GridCell.Tab.0.bottom" timestamp="1580704749976">
+    <state x="213" y="297" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.24.1920.1056@0.24.1920.1056" timestamp="1580890195380" />
+    <state x="93" y="310" key="FileChooserDialogImpl" timestamp="1583244687111">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="220" key="GridCell.Tab.0.bottom/0.24.1920.1056@0.24.1920.1056" timestamp="1580704749976" />
-    <state width="900" height="220" key="GridCell.Tab.0.center" timestamp="1580704749975">
+    <state x="93" y="310" key="FileChooserDialogImpl/0.24.1920.1056@0.24.1920.1056" timestamp="1583244687111" />
+    <state width="900" height="220" key="GridCell.Tab.0.bottom" timestamp="1583245565387">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="220" key="GridCell.Tab.0.center/0.24.1920.1056@0.24.1920.1056" timestamp="1580704749975" />
-    <state width="900" height="220" key="GridCell.Tab.0.left" timestamp="1580704749974">
+    <state width="900" height="220" key="GridCell.Tab.0.bottom/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565387" />
+    <state width="900" height="220" key="GridCell.Tab.0.center" timestamp="1583245565386">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="220" key="GridCell.Tab.0.left/0.24.1920.1056@0.24.1920.1056" timestamp="1580704749974" />
-    <state width="900" height="220" key="GridCell.Tab.0.right" timestamp="1580704749975">
+    <state width="900" height="220" key="GridCell.Tab.0.center/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565386" />
+    <state width="900" height="220" key="GridCell.Tab.0.left" timestamp="1583245565386">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="220" key="GridCell.Tab.0.right/0.24.1920.1056@0.24.1920.1056" timestamp="1580704749975" />
-    <state width="900" height="316" key="GridCell.Tab.1.bottom" timestamp="1580478604422">
+    <state width="900" height="220" key="GridCell.Tab.0.left/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565386" />
+    <state width="900" height="220" key="GridCell.Tab.0.right" timestamp="1583245565387">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="316" key="GridCell.Tab.1.bottom/0.24.1920.1056@0.24.1920.1056" timestamp="1580478604422" />
-    <state width="900" height="316" key="GridCell.Tab.1.center" timestamp="1580478604421">
+    <state width="900" height="220" key="GridCell.Tab.0.right/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565387" />
+    <state width="900" height="368" key="GridCell.Tab.1.bottom" timestamp="1583245565374">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="316" key="GridCell.Tab.1.center/0.24.1920.1056@0.24.1920.1056" timestamp="1580478604421" />
-    <state width="900" height="316" key="GridCell.Tab.1.left" timestamp="1580478604420">
+    <state width="900" height="368" key="GridCell.Tab.1.bottom/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565374" />
+    <state width="900" height="368" key="GridCell.Tab.1.center" timestamp="1583245565373">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="316" key="GridCell.Tab.1.left/0.24.1920.1056@0.24.1920.1056" timestamp="1580478604420" />
-    <state width="900" height="316" key="GridCell.Tab.1.right" timestamp="1580478604421">
+    <state width="900" height="368" key="GridCell.Tab.1.center/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565373" />
+    <state width="900" height="368" key="GridCell.Tab.1.left" timestamp="1583245565372">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="316" key="GridCell.Tab.1.right/0.24.1920.1056@0.24.1920.1056" timestamp="1580478604421" />
-    <state width="900" height="316" key="GridCell.Tab.2.bottom" timestamp="1580478604423">
+    <state width="900" height="368" key="GridCell.Tab.1.left/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565372" />
+    <state width="900" height="368" key="GridCell.Tab.1.right" timestamp="1583245565374">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="316" key="GridCell.Tab.2.bottom/0.24.1920.1056@0.24.1920.1056" timestamp="1580478604423" />
-    <state width="900" height="316" key="GridCell.Tab.2.center" timestamp="1580478604423">
+    <state width="900" height="368" key="GridCell.Tab.1.right/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565374" />
+    <state width="900" height="368" key="GridCell.Tab.2.bottom" timestamp="1583245565376">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="316" key="GridCell.Tab.2.center/0.24.1920.1056@0.24.1920.1056" timestamp="1580478604423" />
-    <state width="900" height="316" key="GridCell.Tab.2.left" timestamp="1580478604422">
+    <state width="900" height="368" key="GridCell.Tab.2.bottom/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565376" />
+    <state width="900" height="368" key="GridCell.Tab.2.center" timestamp="1583245565375">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="316" key="GridCell.Tab.2.left/0.24.1920.1056@0.24.1920.1056" timestamp="1580478604422" />
-    <state width="900" height="316" key="GridCell.Tab.2.right" timestamp="1580478604423">
+    <state width="900" height="368" key="GridCell.Tab.2.center/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565375" />
+    <state width="900" height="368" key="GridCell.Tab.2.left" timestamp="1583245565375">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="316" key="GridCell.Tab.2.right/0.24.1920.1056@0.24.1920.1056" timestamp="1580478604423" />
-    <state width="900" height="317" key="GridCell.Tab.3.bottom" timestamp="1580385497733">
+    <state width="900" height="368" key="GridCell.Tab.2.left/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565375" />
+    <state width="900" height="368" key="GridCell.Tab.2.right" timestamp="1583245565376">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="317" key="GridCell.Tab.3.bottom/0.24.1920.1056@0.24.1920.1056" timestamp="1580385497733" />
-    <state width="900" height="317" key="GridCell.Tab.3.center" timestamp="1580385497729">
+    <state width="900" height="368" key="GridCell.Tab.2.right/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565376" />
+    <state width="900" height="368" key="GridCell.Tab.3.bottom" timestamp="1583245565378">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="317" key="GridCell.Tab.3.center/0.24.1920.1056@0.24.1920.1056" timestamp="1580385497729" />
-    <state width="900" height="317" key="GridCell.Tab.3.left" timestamp="1580385497728">
+    <state width="900" height="368" key="GridCell.Tab.3.bottom/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565378" />
+    <state width="900" height="368" key="GridCell.Tab.3.center" timestamp="1583245565377">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="317" key="GridCell.Tab.3.left/0.24.1920.1056@0.24.1920.1056" timestamp="1580385497728" />
-    <state width="900" height="317" key="GridCell.Tab.3.right" timestamp="1580385497729">
+    <state width="900" height="368" key="GridCell.Tab.3.center/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565377" />
+    <state width="900" height="368" key="GridCell.Tab.3.left" timestamp="1583245565377">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state width="900" height="317" key="GridCell.Tab.3.right/0.24.1920.1056@0.24.1920.1056" timestamp="1580385497729" />
+    <state width="900" height="368" key="GridCell.Tab.3.left/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565377" />
+    <state width="900" height="368" key="GridCell.Tab.3.right" timestamp="1583245565378">
+      <screen x="0" y="24" width="1920" height="1056" />
+    </state>
+    <state width="900" height="368" key="GridCell.Tab.3.right/0.24.1920.1056@0.24.1920.1056" timestamp="1583245565378" />
     <state x="-103" y="24" width="1185" height="1056" key="SettingsEditor" timestamp="1580738288987">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
@@ -320,17 +375,24 @@
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
     <state x="189" y="24" width="924" height="987" maximized="true" key="dock-window-1/0.24.1920.1056@0.24.1920.1056" timestamp="1580742007292" />
-    <state x="511" y="217" width="903" height="670" key="find.popup" timestamp="1580736110695">
+    <state x="511" y="217" width="903" height="718" key="find.popup" timestamp="1583226520686">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state x="511" y="217" width="903" height="670" key="find.popup/0.24.1920.1056@0.24.1920.1056" timestamp="1580736110695" />
-    <state x="578" y="257" width="761" height="679" key="search.everywhere.popup" timestamp="1579676727094">
+    <state x="511" y="217" width="903" height="718" key="find.popup/0.24.1920.1056@0.24.1920.1056" timestamp="1583226520686" />
+    <state x="578" y="257" width="761" height="679" key="search.everywhere.popup" timestamp="1583291060534">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state x="578" y="257" width="761" height="679" key="search.everywhere.popup/0.24.1920.1056@0.24.1920.1056" timestamp="1579676727094" />
+    <state x="578" y="257" width="761" height="679" key="search.everywhere.popup/0.24.1920.1056@0.24.1920.1056" timestamp="1583291060534" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/helpers/http.js</url>
+          <line>81</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -342,6 +404,9 @@
     <watches-manager>
       <configuration name="JavascriptDebugType">
         <watch expression="useLocation();" language="JavaScript" />
+        <watch expression="item" />
+        <watch expression="event" />
+        <watch expression="rowToolHandlers" language="JavaScript" />
       </configuration>
     </watches-manager>
   </component>

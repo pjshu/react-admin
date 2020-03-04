@@ -38,8 +38,8 @@ export function Setting({open, setDrawerOpen}) {
           </Field>
         </FormControl>
         <Tags {...{tags: values.tags, setFieldValue, allTags: values.allTags}}/>
-        <CreateDate {...{createDate: values.createDate, setFieldValue}}/>
-        <TextField label="修改日期" InputProps={{readOnly: true}} value={values.changeDate}/>
+        <CreateDate {...{create_date: values.create_date, setFieldValue}}/>
+        <TextField label="修改日期" InputProps={{readOnly: true}} value={values.change_date}/>
         {/*关闭导航栏按钮*/}
         <div className={classes.toolbar}>
           <IconButton onClick={setDrawerOpen}>
