@@ -1,6 +1,7 @@
 const registerStyles = (theme) => ({
   container: {
     maxWidth: 800,
+    minWidth: 760,
     height: '100%',
     width: '100%',
   },

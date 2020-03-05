@@ -52,7 +52,8 @@ const api = {
   resetPassword: '/user/password/reset',
   resetEmail: '/user/email/reset',
   recoveryPassword: '/user/password/recovery',
-  validateEMail: '/user/email'
+  validateEMail: '/user/email',
+  checkRegister: '/user/check'
 };
 const generateApi = (resource, method) => {
   return (data = null, id = null) => {
@@ -87,6 +88,7 @@ const API = {
       }
     });
   },
+  checkRegister: generateApi('checkRegister', 'get'),
   login: generateApi('sessions', 'post'),
   logout: generateApi('sessions', 'delete'),
   auth: generateApi('sessions', 'get'),

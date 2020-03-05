@@ -8,7 +8,8 @@ import {hot} from 'react-hot-loader';
 
 const Root = lazy(() => import("./components/nav/"));
 const Register = lazy(() => import("./containers/register"));
-const Login = lazy(() => import("./containers/auth/Login"));
+const Login = lazy(() => import("./containers/login"));
+const RecoveryPass = lazy(() => import("./containers/recoveryPass/RecoveryPassword"));
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
           <Route path={router.REGISTER}>
             <Register/>
           </Route>
+          <Route path={router.RECOVER_PASSWORD}>
+            <RecoveryPass/>
+          </Route>
           <Route path={router.HOME}>
             <Root/>
           </Route>
@@ -30,4 +34,4 @@ function App() {
   );
 }
 
-export  default hot(module)(App)
+export default hot(module)(App);

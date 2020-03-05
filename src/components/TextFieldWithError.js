@@ -5,17 +5,20 @@ import Alert from "@material-ui/lab/Alert";
 import {Grid, makeStyles} from "@material-ui/core";
 
 const useStyles = makeStyles({
+  root: {
+    marginBottom: '40px'
+  },
   error: {
-    height: 30,
+    height: '30px',
     position: 'fixed',
     background: '#fff'
   }
 });
 
-const TextFieldWithError = ({name, label, ...other}) => {
+const TextFieldWithError = ({name, label, style, ...other}) => {
   const classes = useStyles();
   return (
-    <Grid>
+    <Grid style={style} className={classes.root}>
       <Field
         name={name}
         as={TextField}

@@ -20,6 +20,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import FaceIcon from '@material-ui/icons/Face';
 import styles from './navStyle';
+import SecurityIcon from '@material-ui/icons/Security';
 
 const useStyles = makeStyles(theme => styles(theme));
 
@@ -62,6 +63,7 @@ function Nav() {
               {title: '主页', route: router.ADMIN, icon: <AssignmentIcon/>},
               {title: '标签', route: router.ADMIN_TAGS, icon: <LocalOfferIcon/>},
               {title: '用户', route: router.ADMIN_USER, icon: <FaceIcon/>},
+              {title: '安全', route: router.ADMIN_SECURITY, icon: <SecurityIcon/>},
             ].map(item => (
               <ListItem key={item.title} title={item.title} button component={Link} to={item.route}>
                 <ListItemIcon>{item.icon}</ListItemIcon>

@@ -5,8 +5,8 @@ const styles = {
     },
   },
   password: {
-    marginTop: 70,
-    marginBottom: 40,
+    marginTop: 20,
+    marginBottom: 10,
     '& > *': {
       width: '45%',
     }

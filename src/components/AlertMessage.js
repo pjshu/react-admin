@@ -3,7 +3,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import {render} from "react-dom";
 
-
+// TODO: 列消息, 多条消息有显示问题
 const Message = ({message, severity, time}) => {
   const [open, setOpen] = useState(true);
   const handleClose = () => {

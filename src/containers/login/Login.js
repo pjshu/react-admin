@@ -7,9 +7,11 @@ import {Form, Formik} from 'formik';
 import {object, string} from 'yup';
 import api from "../../helpers/http";
 import {toAdmin} from "../../history";
-import loginStyles from './styles/loginStyles';
+import loginStyles from './loginStyles';
 import TextFieldWithError from "../../components/TextFieldWithError";
 import AlertMessage from "../../components/AlertMessage";
+import {Link} from 'react-router-dom';
+import router from '../../contants/router';
 
 const useStyles = makeStyles(theme => loginStyles(theme));
 
@@ -27,9 +29,10 @@ function Login() {
   function onSubmit(values) {
     api.login(values).then(res => {
       if (res.status === 'success') {
-        AlertMessage.success('登录成功');
-        localStorage.setItem('identify', res.data.id);
-        localStorage.setItem('Authorization', res.data.token);
+        const data = res.data;
+        localStorage.setItem('identify', data.id);
+        localStorage.setItem('Authorization', data.token);
+        AlertMessage.success(data.msg ? data.msg : '登录成功');
         toAdmin();
       } else {
         AlertMessage.failed('登录失败');
@@ -37,27 +40,23 @@ function Login() {
     });
   }
 
-  function handleResetPassword(e) {
-
-  }
-
   return (
     <Container maxWidth={false} className={classes.container}>
       <Grid container justify="center" alignItems={"center"} className={classes.container}>
-        <Paper
-          className={classes.paper}
-          component={Grid}
-          direction="column"
-          container
-          alignItems="center"
-          justify="center">
-          <Formik
-            initialValues={{username: '', password: ''}}
-            onSubmit={(values) => onSubmit(values)}
-            validationSchema={validationSchema}
-          >
-            <Form className={classes.form}>
-              <Grid container direction="column" className={classes.field}>
+        <Formik
+          initialValues={{username: '', password: ''}}
+          onSubmit={(values) => onSubmit(values)}
+          validationSchema={validationSchema}
+        >
+          <Form>
+            <Paper
+              className={classes.paper}
+              component={Grid}
+              direction="column"
+              container
+              alignItems="center"
+              justify="center">
+              <Grid container direction="column">
                 {
                   [
                     {name: "username", label: "用户名"},
@@ -75,15 +74,17 @@ function Login() {
                   登录
                 </Button>
                 <Button
-                  onClick={handleResetPassword}
                   color="primary"
                   fullWidth={true}
-                >忘记密码
+                  component={Link}
+                  to={router.RECOVER_PASSWORD}
+                >
+                  忘记密码
                 </Button>
               </Grid>
-            </Form>
-          </Formik>
-        </Paper>
+            </Paper>
+          </Form>
+        </Formik>
       </Grid>
     </Container>
   );

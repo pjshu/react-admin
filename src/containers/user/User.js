@@ -62,7 +62,7 @@ function User({state}) {
       validationSchema={validationSchema}
     >
       {
-        props => (
+        ({values, setFieldValue}) => (
           <Form>
             {
               [
@@ -77,13 +77,13 @@ function User({state}) {
             <p>头像</p>
             <Grid className={classes.avatar}>
               <input
-                onChange={(e) => handleUploadAvatar(e, props.setFieldValue)}
+                onChange={(e) => handleUploadAvatar(e, setFieldValue)}
                 accept="image/*"
                 type="file"
                 id={"avatar"}
                 style={{display: "none"}}/>
               <label htmlFor={"avatar"}>
-                <Avatar alt="Cindy Baker" src={props.values.avatar}/>
+                <Avatar alt="Cindy Baker" src={values.avatar}/>
               </label>
             </Grid>
             <Button
@@ -95,9 +95,9 @@ function User({state}) {
             <p>关于我</p>
             <BraftEditor
               name="about"
-              value={props.values.about}
+              value={values.about}
               onChange={value => {
-                props.setFieldValue('about', value);
+                setFieldValue('about', value);
               }}
             />
           </Form>
