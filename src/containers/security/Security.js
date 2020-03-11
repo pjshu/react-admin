@@ -1,13 +1,20 @@
 import React from 'react';
-import {Container} from "@material-ui/core";
+import {Container, Grid} from "@material-ui/core";
 import ResetPassword from "./ResetPassword";
-import ValidateEmail from './ValidateEmail';
+import ValidateEmail from './ResetEmail';
 
-function Security() {
+function Security({state}) {
+  const {password, confirm_password, email} = state;
   return (
     <Container>
-      <ResetPassword/>
-      <ValidateEmail {...{email_is_validate: false}}/>
+      <Grid container direction={"column"} spacing={5}>
+        <Grid item>
+          <ResetPassword {...{password, confirm_password}}/>
+        </Grid>
+        <Grid item>
+          <ValidateEmail {...{email}}/>
+        </Grid>
+      </Grid>
     </Container>
   );
 }

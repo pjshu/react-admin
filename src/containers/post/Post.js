@@ -22,9 +22,8 @@ function Post({postState, postId}) {
   const onSubmit = (values) => {
     const data = {...values};
     data.article = data.article.toRAW();
-    data.id = postId;
     data.create_date = formatTime(data.create_date);
-    api.modifyPost(data).then(res => {
+    api.modifyPost(data, postId).then(res => {
       res.status === 'success'
         ? AlertMessage.success("上传成功")
         : AlertMessage.error("上传成功");

@@ -1,28 +1,25 @@
-import User from './User';
+import Security from './Security';
 import React, {useEffect, useState} from "react";
 import api from "../../helpers/http";
-import BraftEditor from "../../config/editorConfig";
 import Loading from "../../components/Loading";
 
 export default () => {
   const [loading, setLoading] = useState(true);
   const [state, setState] = useState({
-    username: '',
-    nickname: '',
-    about: BraftEditor.createEditorState(null),
-    avatar: ''
+    email: '',
+    password: '',
+    conform_password: ''
   });
 
   useEffect(() => {
     api.getUserInfo().then(res => {
       const data = res.data;
-      data.about = BraftEditor.createEditorState(data.about);
-      setState({...data, password: ''});
+      setState({...state, email: data.email});
       setLoading(false);
     });
   }, []);
 
   return loading
     ? <Loading/>
-    : <User {...{state, setState}}/>;
+    : <Security {...{state, setState}}/>;
 };

@@ -17,6 +17,7 @@ function PostWrapper() {
     title: '',
     tags: [],
     visibility: '私密',
+    excerpt: '',
     article: BraftEditor.createEditorState(null),
     allTags: [],
     comments: 0,
@@ -36,7 +37,8 @@ function PostWrapper() {
   };
 
   useEffect(() => {
-    api.getPost({id: postId}).then(res => {
+    api.getPost(null,postId).then(res => {
+      console.log(res)
       if (res.status === 'success') {
         const {data} = res;
         init({...data, 'article': BraftEditor.createEditorState(data.article)});

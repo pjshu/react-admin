@@ -50,9 +50,8 @@ const api = {
   sessions: '/sessions',
   user: '/user',
   resetPassword: '/user/password/reset',
-  resetEmail: '/user/email/reset',
   recoveryPassword: '/user/password/recovery',
-  validateEMail: '/user/email',
+  email: '/user/email',
   checkRegister: '/user/check'
 };
 const generateApi = (resource, method) => {
@@ -97,13 +96,15 @@ const API = {
   getUserInfo: generateApi('user', 'get'),
   resetPassword: generateApi('resetPassword', 'patch'),
 
-  sendRestEmailCode: generateApi('resetEmail', 'get'),
-  // 更新邮箱时, 重旧邮箱获取验证码,并发送,参数:验证码
-  validateOldEmail: generateApi('resetEmail', 'post'),
-  // 发送忘记密码的验证码, 添加参数email='....'
   sendRecPassCode: generateApi('recoveryPassword', 'get'),
   RecPassword: generateApi('recoveryPassword', 'PUT'),
-  validateEmail: generateApi('validateEMail', 'put')
+
+  // 修改邮箱时调用,发送验证码
+  sendRestEmailCode: generateApi('email', 'get'),
+  // 修改邮箱时调用(带上验证码与新邮箱地址)
+  resetEmail: generateApi('email', 'put'),
+  // 添加新邮箱时调用
+  addEmail: generateApi('email', 'post')
 
 };
 

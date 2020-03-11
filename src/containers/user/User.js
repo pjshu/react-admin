@@ -68,8 +68,6 @@ function User({state}) {
               [
                 {name: 'username', icon: <AccountCircle/>, label: "用户名", info: '用于登录'},
                 {name: 'nickname', icon: <AccountCircleOutlinedIcon/>, label: "昵称", info: "用于展示"},
-                {name: 'email', icon: <AlternateEmailIcon/>, label: "邮箱"},
-                {name: "password", icon: <VpnKeyIcon/>, label: "密码", type: 'password'}
               ].map(item => (
                 <InputWithIcon key={item.name} {...item}/>
               ))

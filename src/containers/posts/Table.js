@@ -10,7 +10,6 @@ export default function Tables() {
   const tableRef = createRef();
 
   const handleOnDelete = (oldPost) => {
-    //TODO: 优化,删除一行需要重新获取整个表格数据,应该仅从本地表格删除数据,服务器返回是否删除成功
     return new Promise(resolve => {
       const id = oldPost.id;
       api.deletePost({id}).then(res => {
@@ -26,7 +25,6 @@ export default function Tables() {
 
 
   function handleRowUpdate(newPost) {
-    //TODO: 优化,修改一行需要重新获取整个表格数据,应该仅从本地表格修改数据,服务器返回是否删除成功
     return new Promise(resolve => {
       return api.modifyPost(newPost).then(res => {
         if (res.status === 'success') {
@@ -66,6 +64,9 @@ export default function Tables() {
       onSelectionChange={(data, rowData) => console.log(data, rowData)}
       onChangeRowsPerPage={() => {
         tableRef.current.onQueryChange();
+      }}
+      onSearchChange={(filters) => {
+        console.log('filters',filters);
       }}
       onRowClick={handleRowClick}
       editable={{

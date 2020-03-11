@@ -1,6 +1,17 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {Drawer, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField} from '@material-ui/core';
+import {
+  TextareaAutosize,
+  Drawer,
+  FormControl,
+  Grid,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography
+} from '@material-ui/core';
 import {Field, useFormikContext} from 'formik';
 import Tags from './Tags';
 import CreateDate from "./CreateDate";
@@ -40,6 +51,18 @@ export function Setting({open, setDrawerOpen}) {
         <Tags {...{tags: values.tags, setFieldValue, allTags: values.allTags}}/>
         <CreateDate {...{create_date: values.create_date, setFieldValue}}/>
         <TextField label="修改日期" InputProps={{readOnly: true}} value={values.change_date}/>
+        <Typography variant="div" component="h2">
+          摘录:
+        </Typography>
+        <Field
+          as={TextareaAutosize}
+          rowsMin={5}
+          rowsMax={15}
+          style={{
+            width: '100%'
+          }}
+          name={'excerpt'}
+        />
         {/*关闭导航栏按钮*/}
         <div className={classes.toolbar}>
           <IconButton onClick={setDrawerOpen}>
