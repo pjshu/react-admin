@@ -49,8 +49,8 @@ function Post({postState, postId}) {
         validationSchema={validationSchema}
       >
         {
-          props => (
-            <Form onKeyDown={(e) => handleOnSave(e, props.values)}>
+          ({values, setFieldValue}) => (
+            <Form onKeyDown={(e) => handleOnSave(e, values)}>
               <Grid container alignItems="center">
                 <Field
                   name="title"
@@ -61,9 +61,9 @@ function Post({postState, postId}) {
               </Grid>
               <BraftEditor
                 name="article"
-                value={props.values.article}
+                value={values.article}
                 onChange={value => {
-                  props.setFieldValue('article', value);
+                  setFieldValue('article', value);
                 }}
               />
               <Setting {...{open, setDrawerOpen}}/>

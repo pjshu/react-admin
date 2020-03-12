@@ -1,16 +1,21 @@
 import React from 'react';
 
-import Checkbox from '@material-ui/core/Checkbox';
-import MaUTable from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableFooter from '@material-ui/core/TableFooter';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
+import {
+  Paper,
+  Checkbox,
+  TableSortLabel,
+  TableRow,
+  TablePagination,
+  TableHead,
+  TableFooter,
+  Table as MuiTable,
+  TableBody,
+  TableCell,
+  TableContainer
+} from '@material-ui/core';
+
 import TablePaginationActions from './TablePaginationActions';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
+
 import TableToolbar from './TableToolbar';
 import EditIcon from '@material-ui/icons/Edit';
 import axios from 'axios';
@@ -20,7 +25,27 @@ import {
   useRowSelect,
   useSortBy,
   useTable,
+  useResizeColumns,
+  useFlexLayout
 } from 'react-table';
+import {makeStyles} from "@material-ui/core";
+import EditorDialog from "./EditorDialog";
+import Toolbar from "@material-ui/core/Toolbar";
+import getCurrentTime from '../../helpers/datetime';
+
+const useStyles = makeStyles(theme => ({
+  cell: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  tablePagination: {
+    overflow: 'visible',
+  },
+  tablePaginationToolBar: {
+    width: 200
+  }
+}));
+
 
 const IndeterminateCheckbox = React.forwardRef(
   ({indeterminate, ...rest}, ref) => {
@@ -39,73 +64,103 @@ const IndeterminateCheckbox = React.forwardRef(
   }
 );
 
-const inputStyle = {
-  padding: 0,
-  margin: 0,
-  border: 0,
-  background: 'transparent',
-};
+const CheckBoxColumn = (column) => ({
+  id: 'selection',
+  disableSortBy: true,
+  width: 70,
+  disableResizing: true,
+  Header: ({getToggleAllRowsSelectedProps}) => (
+    <div>
+      <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+    </div>
+  ),
+  Cell: ({row}) => (
+    <div>
+      <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+    </div>
+  ),
+});
 
-// Create an editable cell renderer
-const EditableCell = ({
-                        cell: {value: initialValue},
-                        row: {index},
-                        column: {id},
-                        updateMyData, // This is a custom function that we supplied to our table instance
-                      }) => {
-  // We need to keep and update the state of the cell normally
-  const [value, setValue] = React.useState(initialValue);
-  const onChange = e => {
-    setValue(e.target.value);
-  };
+const EditorColumn = () => ({
+  id: 'editor',
+  Header: '编辑',
+  disableSortBy: true,
+  width: 70,
+  disableResizing: true,
+  Cell: ({openDialog, row}) => (
+    <div>
+      <EditIcon onClick={() => {
+        openDialog('update');
+        console.log(row);
+      }}/>
+    </div>
+  ),
+});
 
-  // We'll only update the external data when the input is blurred
-  const onBlur = () => {
-    updateMyData(index, id, value);
-  };
-
-  // If the initialValue is changed externall, sync it up with our state
-  React.useEffect(() => {
-    setValue(initialValue);
-  }, [initialValue]);
-
-  return (
-    <input
-      style={inputStyle}
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-    />
-  );
-};
-
-// Set our editable cell renderer as the default Cell renderer
-const defaultColumn = {
-  Cell: EditableCell,
+const initial = {
+  title: '',
+  create_time: '2019/10/20',
+  update_time: '2019/10/20',
+  tags: [],
+  comments: 0,
 };
 
 const EnhancedTable = ({columns, data, setData, updateMyData}) => {
   const [pageCount, setPageCount] = React.useState(0);
+  const [dialogInit, setDialogInit] = React.useState({
+    title: '',
+    create_time: '2019/10/20',
+    update_time: '2019/10/20',
+    tags: [],
+    comments: 0,
+  });
+  const [dialogState, setDialogState] = React.useState({
+    open: false,
+    action: 'add' //add 或者 update
+  });
+  const openDialog = React.useCallback((state = 'add') => {
+    return setDialogState({
+      action: state,
+      open: true
+    });
+  }, []);
+
+  const closeDialog = React.useCallback((state = 'add') => {
+    return setDialogState({
+      action: state,
+      open: false
+    });
+  }, []);
+
+  const classes = useStyles();
+  const defaultColumn = React.useMemo(
+    () => ({
+      minWidth: 30,
+      width: 150,
+      maxWidth: 400,
+    }),
+    []
+  );
   const {
-      getTableProps,
-      headerGroups,
-      prepareRow,
-      page,
-      gotoPage,
-      setPageSize,
-      preGlobalFilteredRows,
-      setGlobalFilter,
-      state: {sortBy, pageIndex, pageSize, selectedRowIds, globalFilter},
-    } = useTable(
+    getTableProps,
+    headerGroups,
+    prepareRow,
+    rows,
+    gotoPage,
+    setPageSize,
+    preGlobalFilteredRows,
+    setGlobalFilter,
+    state: {sortBy, pageIndex, pageSize, selectedRowIds, globalFilter},
+  } = useTable(
     {
       initialState: {
         hiddenColumns: ['id'],
       },
       columns,
       data,
-      // defaultColumn,
+      defaultColumn,
       updateMyData,
-      // pageCount: pageCount,
+      openDialog,
       manualSorting: true,
       manualGlobalFilter: true,
       manualPagination: true,
@@ -120,48 +175,22 @@ const EnhancedTable = ({columns, data, setData, updateMyData}) => {
     useSortBy,
     usePagination,
     useRowSelect,
+    useResizeColumns,
+    // useBlockLayout,
+    useFlexLayout,
     hooks => {
       hooks.allColumns.push(columns => [
-        {
-          id: 'editor',
-          Header: () => (
-            <div>
-              <span>编辑</span>
-            </div>
-          ),
-          Cell: ({row}) => (
-            <div>
-              <EditIcon onClick={() => {
-                console.log(row);
-              }}/>
-            </div>
-          ),
-        },
+        EditorColumn(),
         ...columns
       ]);
     },
     hooks => {
       hooks.allColumns.push(columns => [
-        {
-          id: 'selection',
-          Header: ({getToggleAllRowsSelectedProps}) => (
-            <div>
-              <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-            </div>
-          ),
-          // The cell can use the individual row's getToggleRowSelectedProps method
-          // to the render a checkbox
-          Cell: ({row}) => (
-            <div>
-              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-            </div>
-          ),
-        },
+        CheckBoxColumn(columns),
         ...columns,
       ]);
     },
-    )
-  ;
+  );
   /**
    *
    'orderBy':'{"title":"标题","field":"title"}'
@@ -180,9 +209,10 @@ const EnhancedTable = ({columns, data, setData, updateMyData}) => {
       }),
       search: globalFilter
     };
-    axios.get('http://127.0.0.1:5000/posts', {params: query}).then(res => {
-      setData(res.data.data);
-      setPageCount(res.data.pageCount);
+    axios.get('http://127.0.0.1:5000/api/admin/posts', {params: query}).then(res => {
+      const {data: {page, posts, total}} = res;
+      setData(posts);
+      setPageCount(total);
     });
   }, [globalFilter, sortBy, pageIndex, pageSize]);
 
@@ -205,14 +235,15 @@ const EnhancedTable = ({columns, data, setData, updateMyData}) => {
     });
   };
 
-  const deleteUserHandler = event => {
+
+  const deleteHandler = () => {
     const ids = [];
     const newData = removeByIndexs(
       data,
       Object.keys(selectedRowIds).map(x => parseInt(x, 10)),
       ids
     );
-    axios.delete('http://127.0.0.1:5000/posts', {
+    axios.delete('http://127.0.0.1:5000/api/admin/posts', {
       data: ids
     }).then(res => {
       const {data: {status}} = res;
@@ -222,51 +253,58 @@ const EnhancedTable = ({columns, data, setData, updateMyData}) => {
     });
   };
 
-  const addUserHandler = user => {
+  const addHandler = user => {
     const newData = data.concat([user]);
     setData(newData);
   };
 
-
   return (
-    <TableContainer>
+    <TableContainer component={Paper}>
+      <EditorDialog {...{initial, addHandler, dialogState, openDialog, closeDialog}}/>
       <TableToolbar
         numSelected={Object.keys(selectedRowIds).length}
-        deleteUserHandler={deleteUserHandler}
-        addUserHandler={addUserHandler}
-        {...{globalFilter, preGlobalFilteredRows, setGlobalFilter}}
+        {...{
+          openDialog,
+          deleteHandler,
+          globalFilter,
+          preGlobalFilteredRows,
+          setGlobalFilter
+        }}
       />
-      <MaUTable {...getTableProps()}>
+      <MuiTable {...getTableProps()}>
         <TableHead>
           {headerGroups.map(headerGroup => (
             <TableRow {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
                 <TableCell
-                  {...(column.id === 'selection'
+                  className={classes.cell}
+                  // padding={'none'}
+                  {...(column.disableSortBy
                     ? column.getHeaderProps()
-                    : column.getHeaderProps(column.getSortByToggleProps()))}
+                    : column.getHeaderProps(column.getSortByToggleProps()))
+                  }
                 >
                   {column.render('Header')}
-                  {column.id !== 'selection' ? (
+                  {column.disableSortBy ? null : (
                     <TableSortLabel
                       active={column.isSorted}
                       // react-table has a unsorted state which is not treated here
                       direction={column.isSortedDesc ? 'desc' : 'asc'}
                     />
-                  ) : null}
+                  )}
                 </TableCell>
               ))}
             </TableRow>
           ))}
         </TableHead>
         <TableBody>
-          {page.map((row, i) => {
+          {rows.map((row, i) => {
             prepareRow(row);
             return (
               <TableRow {...row.getRowProps()}>
                 {row.cells.map(cell => {
                   return (
-                    <TableCell {...cell.getCellProps()}>
+                    <TableCell className={classes.cell} {...cell.getCellProps()}>
                       {cell.render('Cell')}
                     </TableCell>
                   );
@@ -279,7 +317,17 @@ const EnhancedTable = ({columns, data, setData, updateMyData}) => {
         <TableFooter>
           <TableRow>
             <TablePagination
+              classes={{
+                root: classes.tablePagination,
+                toolbar: classes.tablePaginationToolBar
+              }}
               // 写入配置
+              labelRowsPerPage={'每页:'}
+              labelDisplayedRows={
+                ({from, to, count}) => {
+                  return `${from}-${to}/${count}`;
+                }
+              }
               rowsPerPageOptions={[5, 10, 25]}
               colSpan={3}
               count={pageCount}
@@ -295,7 +343,7 @@ const EnhancedTable = ({columns, data, setData, updateMyData}) => {
             />
           </TableRow>
         </TableFooter>
-      </MaUTable>
+      </MuiTable>
     </TableContainer>
   );
 };

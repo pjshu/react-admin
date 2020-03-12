@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AddUserDialog from './AddUserDialog';
+import EditorDialog from './EditorDialog';
 import clsx from 'clsx';
 import DeleteIcon from '@material-ui/icons/Delete';
 import GlobalFilter from './GlobalFilter';
@@ -9,6 +9,7 @@ import {lighten, makeStyles} from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
+import AddIcon from "@material-ui/icons/Add";
 
 const useToolbarStyles = makeStyles(theme => ({
   root: {
@@ -31,14 +32,22 @@ const useToolbarStyles = makeStyles(theme => ({
 }));
 
 const TableToolbar = props => {
+  const initial = {
+    title: '',
+    create_time: '2019/10/20',
+    update_time: '2019/10/20',
+    tags: [],
+    comments: 0,
+  };
+
   const classes = useToolbarStyles();
   const {
     numSelected,
-    addUserHandler,
-    deleteUserHandler,
+    deleteHandler,
     globalFilter,
     preGlobalFilteredRows,
-    setGlobalFilter
+    setGlobalFilter,
+    openDialog,
   } = props;
   return (
     <Toolbar
@@ -46,7 +55,13 @@ const TableToolbar = props => {
         [classes.highlight]: numSelected > 0,
       })}
     >
-      <AddUserDialog addUserHandler={addUserHandler}/>
+      <div>
+        <Tooltip title="Add">
+          <IconButton aria-label="add" onClick={() => openDialog('add')}>
+            <AddIcon/>
+          </IconButton>
+        </Tooltip>
+      </div>
       {numSelected > 0 ? (
         <Typography
           className={classes.title}
@@ -63,7 +78,7 @@ const TableToolbar = props => {
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton onClick={deleteUserHandler}>
+          <IconButton onClick={deleteHandler}>
             <DeleteIcon/>
           </IconButton>
         </Tooltip>

@@ -14,9 +14,9 @@ import {
 } from '@material-ui/core';
 import {Field, useFormikContext} from 'formik';
 import Tags from './Tags';
-import CreateDate from "./CreateDate";
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import styles from "./styles/settingStyles";
+import CreateDate from "../../components/TimePickField";
 
 const useStyles = makeStyles((theme) => styles(theme));
 
@@ -49,7 +49,11 @@ export function Setting({open, setDrawerOpen}) {
           </Field>
         </FormControl>
         <Tags {...{tags: values.tags, setFieldValue, allTags: values.allTags}}/>
-        <CreateDate {...{create_date: values.create_date, setFieldValue}}/>
+        <CreateDate {...{
+          data: values.create_date, label: '创建日期', handleOnChange: (data) => {
+            setFieldValue('create_date', data);
+          }
+        }}/>
         <TextField label="修改日期" InputProps={{readOnly: true}} value={values.change_date}/>
         <Typography variant="div" component="h2">
           摘录:

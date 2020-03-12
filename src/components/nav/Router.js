@@ -9,8 +9,7 @@ const Posts = lazy(() => import("../../containers/posts"));
 const Tags = lazy(() => import("../../containers/tags"));
 const User = lazy(() => import("../../containers/user"));
 const Security = lazy(() => import('../../containers/security'));
-const Foo = lazy(() => import('../../containers/Foo'));
-
+const Table = lazy(() => import('../table'));
 
 export default function Root() {
   return (
@@ -20,7 +19,7 @@ export default function Root() {
         <Route path={router.ADMIN_TAGS}><Tags/></Route>
         <Route path={router.ADMIN_USER}><User/></Route>
         <Route path={router.ADMIN_SECURITY}><Security/></Route>
-        <Route path={'/admin/foo'}><Foo/></Route>
+        <Route path={'/admin/foo'}><Table/></Route>
         <Route path={router.ADMIN}><Posts/></Route>
       </Switch>
     </Suspense>

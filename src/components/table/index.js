@@ -4,45 +4,16 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import EnhancedTable from './Table';
 import Chip from '@material-ui/core/Chip';
 
-const Table = ({values}) => (
+const Tags = ({values}) => (
   <>
     {values.map(tag => (
       <Chip key={tag} label={tag}/>
     ))}
   </>
 );
-const App = () => {
-  const columns = React.useMemo(
-    () => [
-      {
-        id: 'id',
-        Header: 'id',
-        accessor: 'id',
-      },
-      {
-        Header: '标题',
-        accessor: 'title',
-      },
-      {
-        Header: '修改日期',
-        accessor: 'update_time',
-      },
-      {
-        Header: '创建日期',
-        accessor: 'create_time',
-      },
-      {
-        Header: '标签',
-        accessor: 'tags',
-        Cell: ({cell: {value}}) => <Tags values={value}/>
-      },
-      {
-        Header: '评论',
-        accessor: 'comments',
-      },
-    ],
-    []
-  );
+
+const Table = ({columns}) => {
+
 
   const [data, setData] = React.useState([]);
   const updateMyData = (rowIndex, columnId, value) => {

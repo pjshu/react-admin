@@ -7,7 +7,7 @@ const formatTime = (d) => {
   const date = d.getDate();
   const hour = d.getHours();
   const minutes = d.getMinutes();
-  return `${year}/${month}/${date} ${hour}:${minutes}`;
+  return `${year}/${month}/${date} ${hour}:${minutes < 10 ? 0 : ''}${minutes}`;
 };
 
 const getCurrentTime = () => {

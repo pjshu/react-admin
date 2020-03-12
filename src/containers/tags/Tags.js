@@ -4,6 +4,7 @@ import {Container} from "@material-ui/core";
 import {localization, options, tableIcons, tagColumns} from "../../config/tableConfig";
 import api from "../../helpers/http";
 
+
 export default function Tags() {
   // TODO: 数据没加载时,加载动画
   function handleOnDelete(oldRow) {
