@@ -1,6 +1,5 @@
 import React from 'react';
 
-import EditorDialog from './EditorDialog';
 import clsx from 'clsx';
 import DeleteIcon from '@material-ui/icons/Delete';
 import GlobalFilter from './GlobalFilter';
@@ -32,14 +31,6 @@ const useToolbarStyles = makeStyles(theme => ({
 }));
 
 const TableToolbar = props => {
-  const initial = {
-    title: '',
-    create_time: '2019/10/20',
-    update_time: '2019/10/20',
-    tags: [],
-    comments: 0,
-  };
-
   const classes = useToolbarStyles();
   const {
     numSelected,
@@ -47,7 +38,7 @@ const TableToolbar = props => {
     globalFilter,
     preGlobalFilteredRows,
     setGlobalFilter,
-    openDialog,
+    handleAddRow,
   } = props;
   return (
     <Toolbar
@@ -57,7 +48,8 @@ const TableToolbar = props => {
     >
       <div>
         <Tooltip title="Add">
-          <IconButton aria-label="add" onClick={() => openDialog('add')}>
+          {/*onClick={() => openDialog('add')}*/}
+          <IconButton aria-label="add" onClick={handleAddRow}>
             <AddIcon/>
           </IconButton>
         </Tooltip>

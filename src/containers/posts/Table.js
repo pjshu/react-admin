@@ -4,9 +4,56 @@ import {localization, options, postColumns, tableIcons} from "../../config/table
 import api from "../../helpers/http";
 import {toPost} from "../../history";
 import AlertMessage from "../../components/AlertMessage";
+import Table from '../../components/table';
+import EditIcon from "@material-ui/icons/Edit";
+import Chip from "@material-ui/core/Chip";
 
+
+const Tags = ({values}) => (
+  <>
+    {values.map(tag => (
+      <Chip key={tag} label={tag}/>
+    ))}
+  </>
+);
 
 export default function Tables() {
+  const columns = React.useMemo(
+    () => [
+      {
+        id: 'id',
+        Header: 'id',
+        accessor: 'id',
+      },
+      {
+        Header: '标题',
+        accessor: 'title',
+      },
+
+      {
+        Header: '标签',
+        accessor: 'tags',
+        Cell: ({cell: {value}}) => <Tags values={value}/>
+      },
+      {
+        Header: '评论',
+        accessor: 'comments',
+      },
+      {
+        Header: '状态',
+        accessor: 'visibility'
+      },
+      {
+        Header: '修改日期',
+        accessor: 'change_date',
+      },
+      {
+        Header: '创建日期',
+        accessor: 'create_date',
+      },
+    ],
+    []
+  );
   const tableRef = createRef();
 
   const handleOnDelete = (oldPost) => {
@@ -52,26 +99,21 @@ export default function Tables() {
     });
   }
 
+  const handleAddRow = () => {
+
+  };
+  const handleEditor = () => {
+
+  };
   return (
-    <MaterialTable
-      tableRef={tableRef}
-      data={handlePagingQuery}
-      localization={localization}
-      icons={tableIcons}
-      title="文章列表"
-      columns={postColumns}
-      options={options}
-      onSelectionChange={(data, rowData) => console.log(data, rowData)}
-      onChangeRowsPerPage={() => {
-        tableRef.current.onQueryChange();
-      }}
-      onSearchChange={(filters) => {
-        console.log('filters',filters);
-      }}
-      onRowClick={handleRowClick}
-      editable={{
-        onRowUpdate: handleRowUpdate,
-        onRowDelete: handleOnDelete
+    <Table
+      handleAddRow={handleAddRow}
+      handleEditor={handleEditor}
+      columns={columns}
+      api={{
+        query: api.queryPosts,
+        // modifyPost: api.modifyPost,
+        modify: api.deletePost,
       }}
     />
   );

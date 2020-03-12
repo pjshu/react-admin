@@ -2,23 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9c490632-172c-4e36-843c-9cfec310f3b0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/TimePickField.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/pjs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/pjs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/table/Column.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/nav/Router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/nav/Router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/table/AddUserDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/table/EditorDialog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/table/GlobalFilter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/table/GlobalFilter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/table/EditorDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/tags/EditorDialog.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/table/Table.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/table/Table.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/table/TablePaginationActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/table/TablePaginationActions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/table/TableToolbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/table/TableToolbar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/table/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/table/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/post/CreateDate.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/post/Setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/post/Setting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/datetime.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/datetime.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/post/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/post/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/posts/Table.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/posts/Table.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/tags/Tags.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/tags/Tags.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/tags/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/tags/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +64,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="$PROJECT_DIR$/node_modules/material-table/types/index.d.ts" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/react/test" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.stylelint" value="true" />
@@ -89,15 +83,16 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/components/table" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components/table" />
       <recent name="$PROJECT_DIR$/src/containers/Login" />
       <recent name="$PROJECT_DIR$/src/containers/register" />
       <recent name="$PROJECT_DIR$/src/containers/register/styles" />
       <recent name="$PROJECT_DIR$/src/containers/auth/styles" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/containers/tags" />
+      <recent name="$PROJECT_DIR$/src/components/table" />
     </key>
   </component>
   <component name="RunManager" selected="npm.npm start">
@@ -243,7 +238,8 @@
       <workItem from="1583921726060" duration="247000" />
       <workItem from="1583922231645" duration="6977000" />
       <workItem from="1583975988850" duration="18921000" />
-      <workItem from="1584001278184" duration="3535000" />
+      <workItem from="1584001278184" duration="6329000" />
+      <workItem from="1584010286028" duration="11898000" />
     </task>
     <servers />
   </component>
@@ -280,18 +276,18 @@
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
     <state x="0" y="210" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.24.1920.1056@0.24.1920.1056" timestamp="1580199901515" />
-    <state x="170" y="269" width="624" height="565" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1580820886765">
+    <state x="170" y="269" width="624" height="565" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1584010265334">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state x="170" y="269" width="624" height="565" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.24.1920.1056@0.24.1920.1056" timestamp="1580820886765" />
-    <state x="213" y="297" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1583922382694">
+    <state x="170" y="269" width="624" height="565" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.24.1920.1056@0.24.1920.1056" timestamp="1584010265334" />
+    <state x="213" y="297" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1584017704246">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state x="213" y="297" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.24.1920.1056@0.24.1920.1056" timestamp="1583922382694" />
-    <state x="93" y="310" key="FileChooserDialogImpl" timestamp="1583502151624">
+    <state x="213" y="297" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.24.1920.1056@0.24.1920.1056" timestamp="1584017704246" />
+    <state x="93" y="310" key="FileChooserDialogImpl" timestamp="1584015682904">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state x="93" y="310" key="FileChooserDialogImpl/0.24.1920.1056@0.24.1920.1056" timestamp="1583502151624" />
+    <state x="93" y="310" key="FileChooserDialogImpl/0.24.1920.1056@0.24.1920.1056" timestamp="1584015682904" />
     <state width="900" height="220" key="GridCell.Tab.0.bottom" timestamp="1583922456293">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
@@ -376,10 +372,10 @@
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
     <state x="189" y="24" width="924" height="987" maximized="true" key="dock-window-1/0.24.1920.1056@0.24.1920.1056" timestamp="1580742007292" />
-    <state x="511" y="217" width="903" height="718" key="find.popup" timestamp="1584005099873">
+    <state x="511" y="217" width="903" height="718" key="find.popup" timestamp="1584022383678">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state x="511" y="217" width="903" height="718" key="find.popup/0.24.1920.1056@0.24.1920.1056" timestamp="1584005099873" />
+    <state x="511" y="217" width="903" height="718" key="find.popup/0.24.1920.1056@0.24.1920.1056" timestamp="1584022383678" />
     <state x="578" y="257" width="761" height="679" key="search.everywhere.popup" timestamp="1583388183438">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>

@@ -6,44 +6,10 @@ import api from "../../helpers/http";
 import {useLocation} from "react-router-dom";
 import Loading from "../../components/Loading";
 import AlertMessage from "../../components/AlertMessage";
+import Chip from "@material-ui/core/Chip";
+
 
 function PostWrapper() {
-  const columns = React.useMemo(
-    () => [
-      {
-        id: 'id',
-        Header: 'id',
-        accessor: 'id',
-      },
-      {
-        Header: '标题',
-        accessor: 'title',
-      },
-
-      {
-        Header: '标签',
-        accessor: 'tags',
-        Cell: ({cell: {value}}) => <Tags values={value}/>
-      },
-      {
-        Header: '评论',
-        accessor: 'comments',
-      },
-      {
-        Header: '状态',
-        accessor: 'visibility'
-      },
-      {
-        Header: '修改日期',
-        accessor: 'change_date',
-      },
-      {
-        Header: '创建日期',
-        accessor: 'create_date',
-      },
-    ],
-    []
-  );
   const {pathname} = useLocation();
   const path = pathname.split('/');
   const postId = path[path.length - 1];

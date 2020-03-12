@@ -14,9 +14,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 import axios from 'axios';
 import {object} from 'yup';
 import {Field, Form, Formik} from 'formik';
+import api from '../../helpers/http';
 
 
-const EditorDialog = ({addHandler, initial, dialogState, openDialog, closeDialog}) => {
+const EditorDialog = ({addHandler, dialogInit, initDialog, dialogState, openDialog, closeDialog}) => {
   const [switchState, setSwitchState] = React.useState({
     addMultiple: false,
   });
@@ -36,15 +37,13 @@ const EditorDialog = ({addHandler, initial, dialogState, openDialog, closeDialog
   };
 
   const onSubmit = (value) => {
-    // axios.post('http://127.0.0.1:5000/api/admin/posts', user).then(res => {
-    //   const {data: {status, id}} = res;
-    //   if (status === 'success') {
-    //     const post = {...user, id: id};
-    //     setUser(post);
-    //     addHandler(post);
-    //     setUser(initial);
-    //   }
-    // });
+    api.addTag(value).then(res => {
+      const {data: {status, id}} = res;
+      if (status === 'success') {
+        addHandler(value);
+        initDialog(dialogInit);
+      }
+    });
     switchState.addMultiple ? openDialog() : closeDialog();
   };
   return (
@@ -58,7 +57,7 @@ const EditorDialog = ({addHandler, initial, dialogState, openDialog, closeDialog
           {/*<DialogContentText>Demo add item to react table.</DialogContentText>*/}
           <Formik
             enableReinitialize
-            initialValues={initial}
+            initialValues={dialogInit}
             onSubmit={onSubmit}
             validationSchema={validationSchema}
           >
@@ -67,45 +66,45 @@ const EditorDialog = ({addHandler, initial, dialogState, openDialog, closeDialog
                 as={TextField}
                 autoFocus
                 margin="dense"
-                label="标题"
-                type="title"
+                label="标签名"
                 fullWidth
-                name={'title'}
+                type="text"
+                name={'name'}
               />
               <Field
                 as={TextField}
                 margin="dense"
-                label="创建日期"
+                label="描述"
                 type="text"
                 fullWidth
-                name={'create_time'}
-              />
-              <Field
-                as={TextField}
-                margin="dense"
-                label="修改日期"
-                disabled={true}
-                type="text"
-                fullWidth
-                name={'update_time'}
-              />
-              <Field
-                as={TextField}
-                margin="dense"
-                label="标签"
-                type="text"
-                fullWidth
-                name={'tags'}
+                name={'describe'}
               />
               <Field
                 as={TextField}
                 disabled={true}
                 margin="dense"
-                label="评论"
+                label="文章数量"
                 type="text"
                 fullWidth
-                value={'comments'}
+                value={'count'}
               />
+              {/*<Field*/}
+              {/*  as={TextField}*/}
+              {/*  margin="dense"*/}
+              {/*  label="创建日期"*/}
+              {/*  type="text"*/}
+              {/*  fullWidth*/}
+              {/*  name={'create_time'}*/}
+              {/*/>*/}
+              {/*<Field*/}
+              {/*  as={TextField}*/}
+              {/*  margin="dense"*/}
+              {/*  label="修改日期"*/}
+              {/*  disabled={true}*/}
+              {/*  type="text"*/}
+              {/*  fullWidth*/}
+              {/*  name={'update_time'}*/}
+              {/*/>*/}
             </Form>
           </Formik>
         </DialogContent>

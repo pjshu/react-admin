@@ -1,74 +1,60 @@
 import React from 'react';
-import MaterialTable from 'material-table';
 import {Container} from "@material-ui/core";
-import {localization, options, tableIcons, tagColumns} from "../../config/tableConfig";
 import api from "../../helpers/http";
+import Table from '../../components/table';
+import EditorDialog from './EditorDialog';
 
 
-export default function Tags() {
-  // TODO: 数据没加载时,加载动画
-  function handleOnDelete(oldRow) {
-    return new Promise(resolve => {
-      const id = oldRow.id;
-      api.deleteTag({id}).then(res => {
-        if (res.status === 'success') {
-          resolve();
-        }
-      });
+export default function Tags({columns}) {
+  const [dialogInit, setDialogInit] = React.useState({
+    name: '',
+    describe: '',
+    count: 0,
+  });
+  const initDialog = () => {
+    setDialogInit(dialogInit);
+  };
+
+  const [dialogState, setDialogState] = React.useState({
+    open: false,
+    action: 'add' //add 或者 update
+  });
+
+  const handleAddRow = () => {
+    setDialogState({
+      action: 'add',
+      open: true
     });
-  }
+  };
 
-  function handleRowUpdate(newRow) {
-    return new Promise(resolve => {
-      return api.modifyTag(newRow).then(res => {
-        if (res.status === 'success') {
-          resolve();
-        }
-      });
+  const handleEditor = () => {
+    setDialogState({
+      action: 'update',
+      open: true
     });
-  }
+  };
 
-  function handleOnAdd(newRow) {
-    return new Promise(resolve => {
-      return api.addTag(newRow).then(res => {
-        if (res.status === 'success') {
-          resolve();
-        }
-      });
+  const closeDialog = (state = 'add') => {
+    setDialogState({
+      action: state,
+      open: false
     });
-  }
-
-  function handlePagingQuery(query) {
-    return new Promise((resolve) => {
-      api.queryTags(query).then(res => {
-        const data = res.data;
-        resolve({
-          data: [...data.tags],
-          page: data.page - 1,
-          totalCount: data.total
-        });
-      });
-    });
-  }
+  };
 
   return (
     <Container maxWidth={false}>
-      <MaterialTable
-        localization={localization}
-        icons={tableIcons}
-        title="标签列表"
-        columns={tagColumns}
-        data={handlePagingQuery}
-        options={options}
-        onChangeRowsPerPage={(size) => {
-          console.log(size);
-        }}
-        editable={{
-          onRowUpdate: handleRowUpdate,
-          onRowDelete: handleOnDelete,
-          onRowAdd: handleOnAdd
-        }}
-      />
+      <Table
+        renderDialog={(props) => <EditorDialog {...{props, dialogInit, initDialog, dialogState, closeDialog}}/>}
+        dialogInit={dialogInit}
+        setDialogInit={setDialogInit}
+        handleAddRow={handleAddRow}
+        handleEditor={handleEditor}
+        columns={columns}
+        api={{
+          query: api.queryTags,
+          delete: api.deleteTag,
+          modify: api.modifyTag,
+        }}/>
     </Container>
   );
 }

@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core';
 
 import TablePaginationActions from './TablePaginationActions';
+import {EditorColumn, CheckBoxColumn} from './Column';
 
 import TableToolbar from './TableToolbar';
 import EditIcon from '@material-ui/icons/Edit';
@@ -29,9 +30,6 @@ import {
   useFlexLayout
 } from 'react-table';
 import {makeStyles} from "@material-ui/core";
-import EditorDialog from "./EditorDialog";
-import Toolbar from "@material-ui/core/Toolbar";
-import getCurrentTime from '../../helpers/datetime';
 
 const useStyles = makeStyles(theme => ({
   cell: {
@@ -47,90 +45,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const IndeterminateCheckbox = React.forwardRef(
-  ({indeterminate, ...rest}, ref) => {
-    const defaultRef = React.useRef();
-    const resolvedRef = ref || defaultRef;
-
-    React.useEffect(() => {
-      resolvedRef.current.indeterminate = indeterminate;
-    }, [resolvedRef, indeterminate]);
-
-    return (
-      <>
-        <Checkbox ref={resolvedRef} {...rest} />
-      </>
-    );
-  }
-);
-
-const CheckBoxColumn = (column) => ({
-  id: 'selection',
-  disableSortBy: true,
-  width: 70,
-  disableResizing: true,
-  Header: ({getToggleAllRowsSelectedProps}) => (
-    <div>
-      <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-    </div>
-  ),
-  Cell: ({row}) => (
-    <div>
-      <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-    </div>
-  ),
-});
-
-const EditorColumn = () => ({
-  id: 'editor',
-  Header: '编辑',
-  disableSortBy: true,
-  width: 70,
-  disableResizing: true,
-  Cell: ({openDialog, row}) => (
-    <div>
-      <EditIcon onClick={() => {
-        openDialog('update');
-        console.log(row);
-      }}/>
-    </div>
-  ),
-});
-
-const initial = {
-  title: '',
-  create_time: '2019/10/20',
-  update_time: '2019/10/20',
-  tags: [],
-  comments: 0,
-};
-
-const EnhancedTable = ({columns, data, setData, updateMyData}) => {
+const EnhancedTable = (props) => {
+  const {
+    renderDialog,
+    columns,
+    Columns,
+    data,
+    setData,
+    updateMyData,
+    api,
+    handleAddRow,
+    handleEditor
+  } = props;
   const [pageCount, setPageCount] = React.useState(0);
-  const [dialogInit, setDialogInit] = React.useState({
-    title: '',
-    create_time: '2019/10/20',
-    update_time: '2019/10/20',
-    tags: [],
-    comments: 0,
-  });
-  const [dialogState, setDialogState] = React.useState({
-    open: false,
-    action: 'add' //add 或者 update
-  });
-  const openDialog = React.useCallback((state = 'add') => {
-    return setDialogState({
-      action: state,
-      open: true
-    });
-  }, []);
-
-  const closeDialog = React.useCallback((state = 'add') => {
-    return setDialogState({
-      action: state,
-      open: false
-    });
-  }, []);
 
   const classes = useStyles();
   const defaultColumn = React.useMemo(
@@ -141,6 +68,7 @@ const EnhancedTable = ({columns, data, setData, updateMyData}) => {
     }),
     []
   );
+
   const {
     getTableProps,
     headerGroups,
@@ -160,7 +88,7 @@ const EnhancedTable = ({columns, data, setData, updateMyData}) => {
       data,
       defaultColumn,
       updateMyData,
-      openDialog,
+      handleEditor,
       manualSorting: true,
       manualGlobalFilter: true,
       manualPagination: true,
@@ -176,18 +104,15 @@ const EnhancedTable = ({columns, data, setData, updateMyData}) => {
     usePagination,
     useRowSelect,
     useResizeColumns,
-    // useBlockLayout,
     useFlexLayout,
     hooks => {
       hooks.allColumns.push(columns => [
-        EditorColumn(),
-        ...columns
-      ]);
-    },
-    hooks => {
-      hooks.allColumns.push(columns => [
         CheckBoxColumn(columns),
-        ...columns,
+        EditorColumn(),
+        ...Columns.map((item) => (
+          item(columns)
+        )),
+        ...columns
       ]);
     },
   );
@@ -200,18 +125,21 @@ const EnhancedTable = ({columns, data, setData, updateMyData}) => {
    'search':'str',
    'totalCount':'1'
    */
+  const query = React.useMemo(() => ({
+    page: pageIndex,
+    pageSize: pageSize,
+    orderBy: sortBy.map(item => {
+      return {field: item.id, desc: item.desc};
+    }),
+    search: globalFilter
+  }), [globalFilter, sortBy, pageIndex, pageSize]);
+
+
   React.useEffect(() => {
-    const query = {
-      page: pageIndex,
-      pageSize: pageSize,
-      orderBy: sortBy.map(item => {
-        return {field: item.id, desc: item.desc};
-      }),
-      search: globalFilter
-    };
-    axios.get('http://127.0.0.1:5000/api/admin/posts', {params: query}).then(res => {
-      const {data: {page, posts, total}} = res;
-      setData(posts);
+    api.query(query).then(res => {
+      console.log(res)
+      const {data: {page, values, total}} = res;
+      setData(values);
       setPageCount(total);
     });
   }, [globalFilter, sortBy, pageIndex, pageSize]);
@@ -243,9 +171,7 @@ const EnhancedTable = ({columns, data, setData, updateMyData}) => {
       Object.keys(selectedRowIds).map(x => parseInt(x, 10)),
       ids
     );
-    axios.delete('http://127.0.0.1:5000/api/admin/posts', {
-      data: ids
-    }).then(res => {
+    api.delete(ids).then(res => {
       const {data: {status}} = res;
       if (status === 'success') {
         setData(newData);
@@ -260,11 +186,11 @@ const EnhancedTable = ({columns, data, setData, updateMyData}) => {
 
   return (
     <TableContainer component={Paper}>
-      <EditorDialog {...{initial, addHandler, dialogState, openDialog, closeDialog}}/>
+      {renderDialog ? renderDialog(addHandler) : null}
       <TableToolbar
         numSelected={Object.keys(selectedRowIds).length}
         {...{
-          openDialog,
+          handleAddRow,
           deleteHandler,
           globalFilter,
           preGlobalFilteredRows,
