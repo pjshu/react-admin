@@ -1024,7 +1024,7 @@
 
 "@emotion/hash@^0.7.4":
   version "0.7.4"
-  resolved "http://r.cnpmjs.org/@emotion/hash/download/@emotion/hash-0.7.4.tgz#f14932887422c9056b15a8d222a9074a7dfa2831"
+  resolved "https://r.cnpmjs.org/@emotion/hash/download/@emotion/hash-0.7.4.tgz#f14932887422c9056b15a8d222a9074a7dfa2831"
   integrity sha1-8UkyiHQiyQVrFajSIqkHSn36KDE=
 
 "@emotion/is-prop-valid@^0.8.3":
@@ -1302,7 +1302,7 @@
 
 "@material-ui/styles@^4.8.2":
   version "4.8.2"
-  resolved "http://r.cnpmjs.org/@material-ui/styles/download/@material-ui/styles-4.8.2.tgz#841acbc4314accbe82a45cb1feb758d47448c802"
+  resolved "https://r.cnpmjs.org/@material-ui/styles/download/@material-ui/styles-4.8.2.tgz#841acbc4314accbe82a45cb1feb758d47448c802"
   integrity sha1-hBrLxDFKzL6CpFyx/rdY1HRIyAI=
   dependencies:
     "@babel/runtime" "^7.4.4"
@@ -1908,9 +1908,9 @@ acorn-walk@^6.0.1:
   integrity sha1-Ejy487hMIXHx9/slJhWxx4prGow=
 
 acorn@^5.5.3:
-  version "5.7.3"
-  resolved "https://registry.npm.taobao.org/acorn/download/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
-  integrity sha1-Z6ojG/iBKXS4UjWpZ3Hra9B+onk=
+  version "5.7.4"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.4.tgz#3e8d8a9947d0599a1796d10225d7432f4a4acf5e"
+  integrity sha512-1D++VG7BhrtvQpNbBzovKNc1FLGGEE/oGe7b9xJm/RFHMBeUaUGpluV9RLjZa47YFdPcDAenEYuq9pQPcMdLJg==
 
 acorn@^6.0.1, acorn@^6.0.4, acorn@^6.2.1:
   version "6.4.0"
@@ -2535,7 +2535,7 @@ braces@^2.3.1, braces@^2.3.2:
 
 braft-convert@^2.1.10, braft-convert@^2.3.0:
   version "2.3.0"
-  resolved "http://r.cnpmjs.org/braft-convert/download/braft-convert-2.3.0.tgz#27d5905136c334903d083b7a2352a72045627888"
+  resolved "https://r.cnpmjs.org/braft-convert/download/braft-convert-2.3.0.tgz#27d5905136c334903d083b7a2352a72045627888"
   integrity sha1-J9WQUTbDNJA9CDt6I1KnIEVieIg=
   dependencies:
     draft-convert "^2.0.0"
@@ -2558,7 +2558,7 @@ braft-editor@^2.3.8:
 
 braft-extensions@^0.0.20:
   version "0.0.20"
-  resolved "http://r.cnpmjs.org/braft-extensions/download/braft-extensions-0.0.20.tgz#04408cabb79b3d7b9574d6e5d9269661bb781cf1"
+  resolved "https://r.cnpmjs.org/braft-extensions/download/braft-extensions-0.0.20.tgz#04408cabb79b3d7b9574d6e5d9269661bb781cf1"
   integrity sha1-BECMq7ebPXuVdNbl2SaWYbt4HPE=
   dependencies:
     "@babel/runtime" "^7.0.0"
@@ -2567,12 +2567,12 @@ braft-extensions@^0.0.20:
 
 braft-finder@^0.0.19:
   version "0.0.19"
-  resolved "http://r.cnpmjs.org/braft-finder/download/braft-finder-0.0.19.tgz#c324d82526ed3476a93de86cc9b407f4e188bc8d"
+  resolved "https://r.cnpmjs.org/braft-finder/download/braft-finder-0.0.19.tgz#c324d82526ed3476a93de86cc9b407f4e188bc8d"
   integrity sha1-wyTYJSbtNHapPehsybQH9OGIvI0=
 
 braft-utils@^3.0.8:
   version "3.0.12"
-  resolved "http://r.cnpmjs.org/braft-utils/download/braft-utils-3.0.12.tgz#2b755ce1d8397d96b627b6767f74d07f25729d85"
+  resolved "https://r.cnpmjs.org/braft-utils/download/braft-utils-3.0.12.tgz#2b755ce1d8397d96b627b6767f74d07f25729d85"
   integrity sha1-K3Vc4dg5fZa2J7Z2f3TQfyVynYU=
 
 brorand@^1.0.1:
@@ -3291,7 +3291,7 @@ core-js-pure@^3.0.0:
 
 core-js@^1.0.0:
   version "1.2.7"
-  resolved "http://r.cnpmjs.org/core-js/download/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
+  resolved "https://r.cnpmjs.org/core-js/download/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
   integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
 
 core-js@^2.4.0:
@@ -3759,7 +3759,7 @@ deep-is@~0.1.3:
 
 deepmerge@^2.1.1:
   version "2.2.1"
-  resolved "http://r.cnpmjs.org/deepmerge/download/deepmerge-2.2.1.tgz#5d3ff22a01c00f645405a2fbc17d0778a1801170"
+  resolved "https://r.cnpmjs.org/deepmerge/download/deepmerge-2.2.1.tgz#5d3ff22a01c00f645405a2fbc17d0778a1801170"
   integrity sha1-XT/yKgHAD2RUBaL7wX0HeKGAEXA=
 
 default-gateway@^4.2.0:
@@ -4040,7 +4040,7 @@ dotenv@8.2.0:
 
 draft-convert@^2.0.0:
   version "2.1.8"
-  resolved "http://r.cnpmjs.org/draft-convert/download/draft-convert-2.1.8.tgz#0508efafeea79e11e5793ba771948128ba151291"
+  resolved "https://r.cnpmjs.org/draft-convert/download/draft-convert-2.1.8.tgz#0508efafeea79e11e5793ba771948128ba151291"
   integrity sha1-BQjvr+6nnhHleTuncZSBKLoVEpE=
   dependencies:
     "@babel/runtime" "^7.5.5"
@@ -4049,14 +4049,14 @@ draft-convert@^2.0.0:
 
 draft-js-multidecorators@^1.0.0:
   version "1.0.0"
-  resolved "http://r.cnpmjs.org/draft-js-multidecorators/download/draft-js-multidecorators-1.0.0.tgz#6c4be8d7b78dd2b966ee51ee6cc179b9b535e612"
+  resolved "https://r.cnpmjs.org/draft-js-multidecorators/download/draft-js-multidecorators-1.0.0.tgz#6c4be8d7b78dd2b966ee51ee6cc179b9b535e612"
   integrity sha1-bEvo17eN0rlm7lHubMF5ubU15hI=
   dependencies:
     immutable "*"
 
 draft-js-prism@^1.0.6:
   version "1.0.6"
-  resolved "http://r.cnpmjs.org/draft-js-prism/download/draft-js-prism-1.0.6.tgz#880c5e5ae1a161646cdacc7296a01bf48b0030b4"
+  resolved "https://r.cnpmjs.org/draft-js-prism/download/draft-js-prism-1.0.6.tgz#880c5e5ae1a161646cdacc7296a01bf48b0030b4"
   integrity sha1-iAxeWuGhYWRs2sxylqAb9IsAMLQ=
   dependencies:
     extend "^3.0.0"
@@ -4064,7 +4064,7 @@ draft-js-prism@^1.0.6:
 
 draft-js@^0.10.3:
   version "0.10.5"
-  resolved "http://r.cnpmjs.org/draft-js/download/draft-js-0.10.5.tgz#bfa9beb018fe0533dbb08d6675c371a6b08fa742"
+  resolved "https://r.cnpmjs.org/draft-js/download/draft-js-0.10.5.tgz#bfa9beb018fe0533dbb08d6675c371a6b08fa742"
   integrity sha1-v6m+sBj+BTPbsI1mdcNxprCPp0I=
   dependencies:
     fbjs "^0.8.15"
@@ -4073,7 +4073,7 @@ draft-js@^0.10.3:
 
 draftjs-utils@^0.9.4:
   version "0.9.4"
-  resolved "http://r.cnpmjs.org/draftjs-utils/download/draftjs-utils-0.9.4.tgz#976c61aa133dbbbfedd65ae1dd6627d7b98c6f08"
+  resolved "https://r.cnpmjs.org/draftjs-utils/download/draftjs-utils-0.9.4.tgz#976c61aa133dbbbfedd65ae1dd6627d7b98c6f08"
   integrity sha1-l2xhqhM9u7/t1lrh3WYn17mMbwg=
 
 duplexer@^0.1.1:
@@ -4144,7 +4144,7 @@ encodeurl@~1.0.2:
 
 encoding@^0.1.11:
   version "0.1.12"
-  resolved "http://r.cnpmjs.org/encoding/download/encoding-0.1.12.tgz#538b66f3ee62cd1ab51ec323829d1f9480c74beb"
+  resolved "https://r.cnpmjs.org/encoding/download/encoding-0.1.12.tgz#538b66f3ee62cd1ab51ec323829d1f9480c74beb"
   integrity sha1-U4tm8+5izRq1HsMjgp0flIDHS+s=
   dependencies:
     iconv-lite "~0.4.13"
@@ -4700,7 +4700,7 @@ fb-watchman@^2.0.0:
 
 fbjs@^0.8.15:
   version "0.8.17"
-  resolved "http://r.cnpmjs.org/fbjs/download/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
+  resolved "https://r.cnpmjs.org/fbjs/download/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
   dependencies:
     core-js "^1.0.0"
@@ -4864,7 +4864,7 @@ flush-write-stream@^1.0.0:
 
 fn-name@~2.0.1:
   version "2.0.1"
-  resolved "http://r.cnpmjs.org/fn-name/download/fn-name-2.0.1.tgz#5214d7537a4d06a4a301c0cc262feb84188002e7"
+  resolved "https://r.cnpmjs.org/fn-name/download/fn-name-2.0.1.tgz#5214d7537a4d06a4a301c0cc262feb84188002e7"
   integrity sha1-UhTXU3pNBqSjAcDMJi/rhBiAAuc=
 
 follow-redirects@1.5.10:
@@ -5628,12 +5628,12 @@ immer@1.10.0:
 
 immutable@*:
   version "3.8.2"
-  resolved "http://r.cnpmjs.org/immutable/download/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
+  resolved "https://r.cnpmjs.org/immutable/download/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
   integrity sha1-wkOZUUVbs5kT2vKBN28VMOEErfM=
 
 immutable@~3.7.4:
   version "3.7.6"
-  resolved "http://r.cnpmjs.org/immutable/download/immutable-3.7.6.tgz#13b4d3cb12befa15482a26fe1b2ebae640071e4b"
+  resolved "https://r.cnpmjs.org/immutable/download/immutable-3.7.6.tgz#13b4d3cb12befa15482a26fe1b2ebae640071e4b"
   integrity sha1-E7TTyxK++hVIKib+Gy665kAHHks=
 
 import-cwd@^2.0.0:
@@ -6151,7 +6151,7 @@ isobject@^3.0.0, isobject@^3.0.1:
 
 isomorphic-fetch@^2.1.1:
   version "2.2.1"
-  resolved "http://r.cnpmjs.org/isomorphic-fetch/download/isomorphic-fetch-2.2.1.tgz#611ae1acf14f5e81f729507472819fe9733558a9"
+  resolved "https://r.cnpmjs.org/isomorphic-fetch/download/isomorphic-fetch-2.2.1.tgz#611ae1acf14f5e81f729507472819fe9733558a9"
   integrity sha1-YRrhrPFPXoH3KVB0coGf6XM1WKk=
   dependencies:
     node-fetch "^1.0.1"
@@ -6991,7 +6991,7 @@ locate-path@^5.0.0:
 
 lodash-es@^4.17.14:
   version "4.17.15"
-  resolved "http://r.cnpmjs.org/lodash-es/download/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
+  resolved "https://r.cnpmjs.org/lodash-es/download/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
   integrity sha1-Ib2Wg5NUQS8j16EDQOXqxu5FXXg=
 
 lodash._reinterpolate@^3.0.0:
@@ -7562,7 +7562,7 @@ no-case@^2.2.0:
 
 node-fetch@^1.0.1:
   version "1.7.3"
-  resolved "http://r.cnpmjs.org/node-fetch/download/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
+  resolved "https://r.cnpmjs.org/node-fetch/download/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
   integrity sha1-mA9vcthSEaU0fGsrwYxbhMPrR+8=
   dependencies:
     encoding "^0.1.11"
@@ -9057,7 +9057,7 @@ pretty-format@^24.0.0, pretty-format@^24.3.0, pretty-format@^24.9.0:
 
 prismjs@^1.18.0:
   version "1.18.0"
-  resolved "http://r.cnpmjs.org/prismjs/download/prismjs-1.18.0.tgz#8f04dd47fa232cbd27d1ca969107580ff43f06e4"
+  resolved "https://r.cnpmjs.org/prismjs/download/prismjs-1.18.0.tgz#8f04dd47fa232cbd27d1ca969107580ff43f06e4"
   integrity sha1-jwTdR/ojLL0n0cqWkQdYD/Q/BuQ=
   optionalDependencies:
     clipboard "^2.0.0"
@@ -9096,7 +9096,7 @@ promise-inflight@^1.0.1:
 
 promise@^7.1.1:
   version "7.3.1"
-  resolved "http://r.cnpmjs.org/promise/download/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
+  resolved "https://r.cnpmjs.org/promise/download/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
   integrity sha1-BktyYCsY+Q8pGSuLG8QY/9Hr078=
   dependencies:
     asap "~2.0.3"
@@ -9127,7 +9127,7 @@ prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
 
 property-expr@^1.5.0:
   version "1.5.1"
-  resolved "http://r.cnpmjs.org/property-expr/download/property-expr-1.5.1.tgz#22e8706894a0c8e28d58735804f6ba3a3673314f"
+  resolved "https://r.cnpmjs.org/property-expr/download/property-expr-1.5.1.tgz#22e8706894a0c8e28d58735804f6ba3a3673314f"
   integrity sha1-IuhwaJSgyOKNWHNYBPa6OjZzMU8=
 
 property-information@^5.0.0:
@@ -9392,7 +9392,7 @@ react-error-overlay@^6.0.4:
 
 react-fast-compare@^2.0.1:
   version "2.0.4"
-  resolved "http://r.cnpmjs.org/react-fast-compare/download/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
+  resolved "https://r.cnpmjs.org/react-fast-compare/download/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha1-6EtNRVsP7BE+BALDKTUnFRlvgfk=
 
 react-hot-loader@^4.12.19:
@@ -10874,7 +10874,7 @@ symbol-tree@^3.2.2:
 
 synchronous-promise@^2.0.6:
   version "2.0.10"
-  resolved "http://r.cnpmjs.org/synchronous-promise/download/synchronous-promise-2.0.10.tgz#e64c6fd3afd25f423963353043f4a68ebd397fd8"
+  resolved "https://r.cnpmjs.org/synchronous-promise/download/synchronous-promise-2.0.10.tgz#e64c6fd3afd25f423963353043f4a68ebd397fd8"
   integrity sha1-5kxv06/SX0I5YzUwQ/Smjr05f9g=
 
 table@^5.2.3:
@@ -11062,7 +11062,7 @@ toidentifier@1.0.0:
 
 toposort@^2.0.2:
   version "2.0.2"
-  resolved "http://r.cnpmjs.org/toposort/download/toposort-2.0.2.tgz#ae21768175d1559d48bef35420b2f4962f09c330"
+  resolved "https://r.cnpmjs.org/toposort/download/toposort-2.0.2.tgz#ae21768175d1559d48bef35420b2f4962f09c330"
   integrity sha1-riF2gXXRVZ1IvvNUILL0li8JwzA=
 
 tough-cookie@^2.3.3, tough-cookie@^2.3.4, tough-cookie@^2.5.0:
@@ -11174,7 +11174,7 @@ typedarray@^0.0.6:
 
 ua-parser-js@^0.7.18:
   version "0.7.21"
-  resolved "http://r.cnpmjs.org/ua-parser-js/download/ua-parser-js-0.7.21.tgz#853cf9ce93f642f67174273cc34565ae6f308777"
+  resolved "https://r.cnpmjs.org/ua-parser-js/download/ua-parser-js-0.7.21.tgz#853cf9ce93f642f67174273cc34565ae6f308777"
   integrity sha1-hTz5zpP2QvZxdCc8w0Vlrm8wh3c=
 
 uglify-js@3.4.x:
@@ -12019,7 +12019,7 @@ yargs@^13.3.0:
 
 yup@^0.28.0:
   version "0.28.0"
-  resolved "http://r.cnpmjs.org/yup/download/yup-0.28.0.tgz#fdc04d1a495465c83d3757a80c47616884baeddc"
+  resolved "https://r.cnpmjs.org/yup/download/yup-0.28.0.tgz#fdc04d1a495465c83d3757a80c47616884baeddc"
   integrity sha1-/cBNGklUZcg9N1eoDEdhaIS67dw=
   dependencies:
     "@babel/runtime" "^7.0.0"
