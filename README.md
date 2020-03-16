@@ -1,3 +1,16 @@
+一个半成的残次品
+
+
+添加功能:
+- 找回密码
+- 文章加密功能
+- 上传修改部分(而不是全部上传)
+- 文章回收站
+- 评论系统
+- 绑定手机
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts

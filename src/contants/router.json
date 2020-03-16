@@ -1,0 +1,11 @@
+{
+  "HOME": "/admin",
+  "LOGIN": "/admin/login",
+  "REGISTER": "/admin/register",
+  "RECOVER_PASSWORD": "/admin/recovery",
+  "ADMIN": "/admin",
+  "ADMIN_POST": "/admin/post",
+  "ADMIN_USER": "/admin/user",
+  "ADMIN_TAGS": "/admin/tags",
+  "ADMIN_SECURITY": "/admin/security"
+}
