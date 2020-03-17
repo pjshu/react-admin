@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Container, Grid} from "@material-ui/core";
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -9,12 +9,13 @@ import loginStyles from './loginStyles';
 import TextFieldWithError from "../../components/TextFieldWithError";
 import {Link} from 'react-router-dom';
 import router from '../../contants/router';
-import {login, selectLogin} from '../../redux/userSlice';
+import {login, selectLogin, authLogin} from '../../redux/userSlice';
 import {useDispatch, useSelector} from "react-redux";
+
 
 const useStyles = makeStyles(theme => loginStyles(theme));
 
-function Login() {
+function Login({setIsLoading}) {
   const classes = useStyles();
   const login_value = useSelector(selectLogin);
   const validationSchema = object({
@@ -30,12 +31,16 @@ function Login() {
   function onSubmit(values) {
     dispatch(login(values));
   }
-  console.log(login_value)
+
+  useEffect(() => {
+    dispatch(authLogin(setIsLoading));
+  }, []);
+
   return (
     <Container maxWidth={false} className={classes.container}>
       <Grid container justify="center" alignItems={"center"} className={classes.container}>
         <Formik
-          initialValues={login_value}
+          initialValues={login_value.initial}
           onSubmit={onSubmit}
           validationSchema={validationSchema}
         >

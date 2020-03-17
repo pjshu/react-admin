@@ -1,53 +1,38 @@
-import React, {useEffect, useState, createRef, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Field, Form, Formik} from "formik";
 import {object, string} from 'yup';
 import TextFieldWithError from "../../components/TextFieldWithError";
 import {Button, Grid} from "@material-ui/core";
-import api from '../../helpers/http';
-import AlertMessage from "../../components/AlertMessage";
-
+import {
+  asyncDecSendCodeTime, selectSecurity, resetSendCodeTime, setIsSendCode,
+  sendRestEmailCode, resetEmail
+} from '../../redux/userSlice';
+import {useDispatch, useSelector} from "react-redux";
 
 function ResetEmail({email}) {
-  const [resendTime, setResendTime] = useState(0);
-  const [isCodeSend, setIsCodeSend] = useState(false);
+  const dispatch = useDispatch();
+  const {initial: {resetEmailInit}, resendTime, isCodeSend} = useSelector(selectSecurity);
   const formikRef = useRef();
   useEffect(() => {
     if (resendTime > 0) {
-      setTimeout(() => {
-        setResendTime(preTime => preTime - 1);
-      }, 1000);
+      dispatch(asyncDecSendCodeTime());
     }
   }, [resendTime]);
 
   const onSubmit = (values) => {
-    api.resetEmail(values).then(res => {
-      console.log(res);
-      if (res.status === 'success') {
-        AlertMessage.success('修改成功');
-      } else {
-        AlertMessage.failed(res.data.msg);
-      }
-    });
-    console.log(values);
+    dispatch(resetEmail(values));
   };
 
   const handleSendCode = () => {
-    setResendTime(60);
-    setIsCodeSend(true);
+    dispatch(resetSendCodeTime());
+    dispatch(setIsSendCode());
     const {setFieldValue, values} = formikRef.current;
     if (values.email === email) {
       setFieldValue('email', '');
     }
-    AlertMessage.success('已发送验证码至邮箱');
-    api.sendRestEmailCode().then(res => {
-      console.log(res);
-      if (res.status === 'success') {
-        AlertMessage.success('验证码发送成,请查收邮箱');
-      } else {
-        AlertMessage.failed(res.data.msg);
-      }
-    });
+    dispatch(sendRestEmailCode());
   };
+
   const validationSchema = object({
     email: string()
       .email('请输入正确的邮箱格式')
@@ -60,16 +45,14 @@ function ResetEmail({email}) {
     <Grid item>
       <Formik
         innerRef={formikRef}
-        initialValues={{
-          email: email,
-          code: ''
-        }}
+        initialValues={resetEmailInit}
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
         <Form>
           <Grid container direction={"column"}>
-            <TextFieldWithError
+            <Field
+              as={TextFieldWithError}
               style={{
                 width: '50%'
               }}
@@ -103,7 +86,8 @@ function ResetEmail({email}) {
                 display: isCodeSend ? '' : 'none'
               }}
             >
-              <TextFieldWithError
+              <Field
+                as={TextFieldWithError}
                 style={{
                   width: '50%'
                 }}

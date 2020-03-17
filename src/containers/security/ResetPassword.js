@@ -5,20 +5,14 @@ import TextFieldWithError from "../../components/TextFieldWithError";
 import {Button, Grid} from "@material-ui/core";
 import api from '../../helpers/http';
 import AlertMessage from "../../components/AlertMessage";
+import {useDispatch, useSelector} from "react-redux";
+import {selectSecurity, resetPassword} from "../../redux/userSlice";
 
 function ResetPassword() {
+  const dispatch = useDispatch();
+  const {initial: {resetPasswordInit}} = useSelector(selectSecurity);
   const onSubmit = (values) => {
-    api.resetPassword(values).then(res => {
-      if (res.status === 'success') {
-        AlertMessage.success('修改成功');
-      } else {
-        /**
-         * data.msg.old_password.[0: "error"]
-         */
-        // AlertMessage.failed(res.data.msg);
-      }
-    });
-    console.log(values);
+    dispatch(resetPassword(values));
   };
   const validationSchema = object({
     old_password: string()
@@ -34,10 +28,7 @@ function ResetPassword() {
   });
   return (
     <Formik
-      initialValues={{
-        password: '',
-        confirm_password: ''
-      }}
+      initialValues={resetPasswordInit}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
@@ -69,8 +60,7 @@ function ResetPassword() {
             variant="outlined"
             name={'confirm_password'}
             label={'确认密码'}/>
-          <Grid style={{
-          }}>
+          <Grid style={{}}>
             <Button
               type={'submit'}
               style={{

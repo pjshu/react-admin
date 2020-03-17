@@ -4,6 +4,8 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import {useSpring, animated} from 'react-spring/web.cjs';
 import {Button, Grid} from "@material-ui/core";
+import {useDispatch, useSelector} from "react-redux";
+import {selectRegister, openModal, closeModal} from "../../redux/userSlice";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,15 +52,17 @@ const Fade = React.forwardRef(function Fade(props, ref) {
 });
 
 
-export default function MyModal({open, setOpen}) {
+export default function MyModal() {
+  const dispatch = useDispatch();
+  const {modalOpen} = useSelector(selectRegister);
   const classes = useStyles();
 
   const handleOpen = () => {
-    setOpen(true);
+    dispatch(openModal());
   };
 
   const handleClose = () => {
-    setOpen(false);
+    dispatch(closeModal());
   };
 
   return (
@@ -73,7 +77,7 @@ export default function MyModal({open, setOpen}) {
       </Button>
       <Modal
         className={classes.modal}
-        open={open}
+        open={modalOpen}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -81,7 +85,7 @@ export default function MyModal({open, setOpen}) {
           timeout: 500,
         }}
       >
-        <Fade in={open}>
+        <Fade in={modalOpen}>
           <div className={classes.paper}>
             <h2>确认提交?</h2>
             <Button
@@ -94,7 +98,7 @@ export default function MyModal({open, setOpen}) {
             </Button>
             <Button
               style={{
-                marginLeft:'50px'
+                marginLeft: '50px'
               }}
               type="button"
               onClick={handleClose}

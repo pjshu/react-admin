@@ -17,6 +17,8 @@ import AlertMessage from "../../components/AlertMessage";
 import api from '../../helpers/http';
 import Modal from "./Modal";
 import {toLogin} from "../../history";
+import {selectRegister, increaseActiveStep, decrementActiveStep, register, closeModal} from "../../redux/userSlice";
+import {useDispatch, useSelector} from "react-redux";
 
 const useStyles = makeStyles(theme => (registerStyles(theme)));
 
@@ -31,34 +33,28 @@ function Content({step, ...other}) {
 
 function Register({validationSchema}) {
   const classes = useStyles();
-  const [modalOpen, setModalOpen] = React.useState(false);
-  const [activeStep, setActiveStep] = React.useState(0);
+  const {initial, activeStep} = useSelector(selectRegister());
+  const dispatch = useDispatch();
   const steps = ['创建用户(必选)', '添加邮箱(可选)'];
   const formikRef = React.useRef();
   const handleNext = () => {
     const errors = formikRef.current.errors;
     if (activeStep === 0 && !errors.user) {
-      setActiveStep(activeStep + 1);
+      dispatch(increaseActiveStep());
     } else {
-      setActiveStep(activeStep + 1);
+      // TODO:
+      dispatch(decrementActiveStep());
     }
   };
 
   const handleBack = () => {
-    setActiveStep(activeStep - 1);
+    dispatch(decrementActiveStep());
   };
 
   const onsubmit = (values) => {
     const data = {...values.user, ...values.email};
-    setModalOpen(false);
-    api.register(data).then(res => {
-      if (res.status === 'success') {
-        AlertMessage.success('注册成功');
-        toLogin();
-      } else {
-        AlertMessage.failed(res.data.msg);
-      }
-    });
+    dispatch(closeModal());
+    dispatch(register(data));
   };
 
   return (
@@ -72,10 +68,7 @@ function Register({validationSchema}) {
           innerRef={formikRef}
           validationSchema={validationSchema}
           onSubmit={onsubmit}
-          initialValues={{
-            user: {username: '', nickname: '', password: '', confirm_password: ''},
-            email: {email: ''}
-          }}
+          initialValues={initial}
         >
           <Form id={'form'} className={classes.root}>
             <Stepper activeStep={activeStep} orientation="vertical">

@@ -1,25 +1,29 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Form, Formik} from 'formik';
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/table.css';
 import 'braft-extensions/dist/code-highlighter.css';
 import 'braft-extensions/dist/emoticon.css';
-import {object} from 'yup';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import BraftEditor from "../../components/Editor";
 import InputWithIcon from './InputWithIcon';
 import {Avatar, Button, Grid, makeStyles} from "@material-ui/core";
-import api from '../../helpers/http';
 import styles from './styles/userStyles';
-import AlertMessage from "../../components/AlertMessage";
+import {useDispatch, useSelector} from "react-redux";
+import {selectUserInfo, modifyUserInfo, getUserInfo} from "../../redux/userSlice";
 
 const useStyle = makeStyles(styles);
 
-function User({state, validationSchema}) {
+function User({validationSchema, setLoading}) {
+  const dispatch = useDispatch();
+  const {initial} = useSelector(selectUserInfo);
   const classes = useStyle();
+
+  useEffect(() => {
+    dispatch(getUserInfo(setLoading));
+  }, []);
+
   //blob url to base64
   const base64Avatar = (data) => new Promise((resolve => {
     fetch(data).then(res => {
@@ -39,12 +43,7 @@ function User({state, validationSchema}) {
     if (data.avatar) {
       data.avatar = await base64Avatar(data.avatar);
     }
-    api.modifyUserInfo(data).then(res => {
-      if (res.status === 'success') {
-        AlertMessage.success('修改成功');
-      }
-      console.log(data);
-    });
+    dispatch(modifyUserInfo(data));
   };
   const handleUploadAvatar = (e, setFieldValue) => {
     const file = e.target.files;
@@ -56,7 +55,7 @@ function User({state, validationSchema}) {
   return (
     <Formik
       enableReinitialize
-      initialValues={state}
+      initialValues={initial}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
     >

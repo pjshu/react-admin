@@ -1,15 +1,13 @@
-import React, {useEffect, useState, createRef} from 'react';
+import React, {useEffect, createRef} from 'react';
 import {Button, Container, Grid} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core/styles";
 import TextFieldWithError from "../../components/TextFieldWithError";
 import {Form, Formik} from 'formik';
 import {object, string} from "yup";
-import api from '../../helpers/http';
-import AlertMessage from "../../components/AlertMessage";
 import {
   resetSendCodeTime, setIsSendCode, selectRecoveryPassword, recoveryPassword,
-  decSendCodeTime, sendRecPassCode, asyncDecSendCodeTime
+  sendRecPassCode, asyncDecSendCodeTime
 } from '../../redux/userSlice';
 import {useSelector, useDispatch} from "react-redux";
 
@@ -38,8 +36,7 @@ function RecoveryPassword() {
     code: string()
       .required('请输入验证码')
   });
-  // const [resendTime, setResendTime] = useState(0);
-  // const [isSendCode, setIsSendCode] = useState(false);
+
   useEffect(() => {
     if (resendTime > 0) {
       dispatch(asyncDecSendCodeTime());
