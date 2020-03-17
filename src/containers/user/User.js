@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Form, Formik} from 'formik';
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/table.css';
@@ -6,24 +6,20 @@ import 'braft-extensions/dist/code-highlighter.css';
 import 'braft-extensions/dist/emoticon.css';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import BraftEditor from "../../components/Editor";
+import MyEditor from "../../components/Editor";
 import InputWithIcon from './InputWithIcon';
 import {Avatar, Button, Grid, makeStyles} from "@material-ui/core";
 import styles from './styles/userStyles';
 import {useDispatch, useSelector} from "react-redux";
-import {selectUserInfo, modifyUserInfo, getUserInfo} from "../../redux/userSlice";
+import {selectUserInfo, modifyUserInfo} from "../../redux/userSlice";
+import BraftEditor from "braft-editor";
 
 const useStyle = makeStyles(styles);
 
-function User({validationSchema, setLoading}) {
+function User({validationSchema}) {
   const dispatch = useDispatch();
   const {initial} = useSelector(selectUserInfo);
   const classes = useStyle();
-
-  useEffect(() => {
-    dispatch(getUserInfo(setLoading));
-  }, []);
-
   //blob url to base64
   const base64Avatar = (data) => new Promise((resolve => {
     fetch(data).then(res => {
@@ -50,7 +46,6 @@ function User({validationSchema, setLoading}) {
     const url = window.URL.createObjectURL(file[0]);
     setFieldValue('avatar', url);
   };
-
 
   return (
     <Formik
@@ -90,9 +85,9 @@ function User({validationSchema, setLoading}) {
               提交
             </Button>
             <p>关于我</p>
-            <BraftEditor
+            <MyEditor
               name="about"
-              value={values.about}
+              value={BraftEditor.createEditorState(values.about)}
               onChange={value => {
                 setFieldValue('about', value);
               }}

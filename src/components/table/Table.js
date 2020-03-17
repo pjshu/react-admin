@@ -17,8 +17,6 @@ import TablePaginationActions from './TablePaginationActions';
 import {EditorColumn, CheckBoxColumn} from './Column';
 
 import TableToolbar from './TableToolbar';
-import EditIcon from '@material-ui/icons/Edit';
-import axios from 'axios';
 import {
   useGlobalFilter,
   usePagination,

@@ -1,17 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Container, Grid} from "@material-ui/core";
 import ResetPassword from "./ResetPassword";
 import ValidateEmail from './ResetEmail';
-import {getUserEmail} from '../../redux/userSlice';
-import {useDispatch} from "react-redux";
 
 
-function Security({setLoading}) {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getUserEmail(setLoading));
-  }, []);
-
+function Security() {
   return (
     <Container>
       <Grid container direction={"column"} spacing={5}>

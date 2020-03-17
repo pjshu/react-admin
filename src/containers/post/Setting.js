@@ -17,17 +17,21 @@ import Tags from './Tags';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import styles from "./styles/settingStyles";
 import CreateDate from "../../components/TimePickField";
+import {useSelector} from "react-redux";
+import {closeDraw, selectPost} from '../../redux/postSlice';
 
 const useStyles = makeStyles((theme) => styles(theme));
 
-export function Setting({open, setDrawerOpen}) {
+export function Setting() {
   const classes = useStyles();
-  const {values, setFieldValue} = useFormikContext();
+  const {drawOpen} = useSelector(selectPost);
+  const {values: {change_date, visibility}} = useFormikContext();
+
   return (
     <Drawer
       variant="persistent"
       anchor="right"
-      open={open}
+      open={drawOpen}
       classes={{paper: classes.drawerPaper}}
     >
       <Grid className={classes.container}>
@@ -38,23 +42,18 @@ export function Setting({open, setDrawerOpen}) {
           <Field
             name='visibility'
             as={Select}
-            value={values.visibility}
+            value={visibility}
           >
             {
               ["私密", "公开"].map(item => (
                 <MenuItem key={item} value="私密">{item}</MenuItem>
-
               ))
             }
           </Field>
         </FormControl>
-        <Tags {...{tags: values.tags, setFieldValue, allTags: values.allTags}}/>
-        <CreateDate {...{
-          data: values.create_date, label: '创建日期', handleOnChange: (data) => {
-            setFieldValue('create_date', data);
-          }
-        }}/>
-        <TextField label="修改日期" InputProps={{readOnly: true}} value={values.change_date}/>
+        <Tags/>
+        <CreateDate/>
+        <TextField label="修改日期" InputProps={{readOnly: true}} value={change_date}/>
         <Typography component="h2">
           摘录:
         </Typography>
@@ -67,9 +66,8 @@ export function Setting({open, setDrawerOpen}) {
           }}
           name={'excerpt'}
         />
-        {/*关闭导航栏按钮*/}
         <div className={classes.toolbar}>
-          <IconButton onClick={setDrawerOpen}>
+          <IconButton onClick={closeDraw}>
             <ChevronRightIcon/>
           </IconButton>
         </div>

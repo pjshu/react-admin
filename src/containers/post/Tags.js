@@ -1,17 +1,21 @@
 import React from 'react';
 import {TextField} from '@material-ui/core';
-import Autocomplete from "@material-ui/lab/Autocomplete/Autocomplete";
+import Autocomplete from "@material-ui/lab/Autocomplete/";
+import {useFormikContext} from "formik";
 
-const Tags = ({allTags,tags, setFieldValue}) => {
+const Tags = () => {
+  const {values: {allTags, tags}, setFieldValue} = useFormikContext();
+  const handleOnChange = (_, value) => {
+    setFieldValue('tags', value);
+  };
   return (
     <div>
       <Autocomplete
         multiple
         freeSolo
         value={tags}
-        defaultValue={tags}
         options={allTags}
-        onChange={(_, value) => setFieldValue('tags', value)}
+        onChange={handleOnChange}
         renderInput={params => (
           <TextField
             {...params}

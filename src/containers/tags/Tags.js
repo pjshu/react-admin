@@ -3,58 +3,33 @@ import {Container} from "@material-ui/core";
 import api from "../../helpers/http";
 import Table from '../../components/table';
 import EditorDialog from './EditorDialog';
-import AlertMessage from "../../components/AlertMessage";
+import {
+  initDialog as _initDialog, addTag, setTagValue,
+  setDialogAsUpdate, closeDialog as _closeDialog, selectTag
+} from '../../redux/tagSlice';
+import {useDispatch, useSelector} from "react-redux";
 
 export default function Tags({columns}) {
-  const initial = React.useRef({
-    id: -1,
-    name: '',
-    describe: '',
-    count: 0,
-    image: {
-      name: '',
-      url: ''
-    }
-  });
-  const [dialogInit, setDialogInit] = React.useState(initial.current);
+  const dispatch = useDispatch();
+  const {initial, dialogState} = useSelector(selectTag);
 
   const initDialog = () => {
-    setDialogInit(dialogInit);
+    dispatch(_initDialog());
   };
-
-  const [dialogState, setDialogState] = React.useState({
-    open: false,
-    action: 'add' //add 或者 update
-  });
 
   // 添加按钮事件
   const handleAddRow = () => {
-    api.addTag().then(res => {
-      const {data, status} = res;
-      if (status === 'success') {
-        setDialogInit({...initial.current, id: data.id});
-        setDialogState({
-          action: 'add',
-          open: true
-        });
-      } else {
-        AlertMessage.failed('');
-      }
-    });
+    initDialog();
+    dispatch(addTag());
   };
 
   const handleEditor = ({original}) => {
-    setDialogInit(original);
-    setDialogState({
-      action: 'update',
-      open: true
-    });
+    dispatch(setTagValue(original));
+    dispatch(setDialogAsUpdate());
   };
+
   const closeDialog = (state = 'add') => {
-    setDialogState({
-      action: state,
-      open: false
-    });
+    dispatch(_closeDialog(state));
   };
 
   return (
@@ -64,7 +39,7 @@ export default function Tags({columns}) {
         renderDialog={(updateHandler) => (
           <EditorDialog {...{
             updateHandler,
-            dialogInit,
+            dialogInit: initial,
             dialogState,
             initDialog,
             closeDialog,

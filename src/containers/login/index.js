@@ -1,9 +1,16 @@
 import Login from './Login';
-import React from 'react';
-import {AsyncLoading} from "../../components/Loading";
+import React, {useEffect, useState} from 'react';
+import Loading from "../../components/Loading";
+import {authLogin} from "../../redux/userSlice";
+import {useDispatch} from "react-redux";
 
 function Index() {
-  return <AsyncLoading render={(setIsLoading) => <Login setIsLoading={setIsLoading}/>}/>;
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(authLogin(setLoading));
+  }, []);
+  return loading ? <Loading/> : <Login/>;
 }
 
 export default Index;

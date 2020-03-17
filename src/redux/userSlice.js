@@ -2,13 +2,11 @@ import {createSlice} from '@reduxjs/toolkit';
 import api from "../helpers/http";
 import AlertMessage from "../components/AlertMessage";
 import {toAdmin, toLogin} from "../history";
-import {createEditorState} from "../components/Editor";
 
 export const slice = createSlice({
   name: 'user',
   initialState: {
     login: {
-      loading: true,
       initial: {username: '', password: ''}
     },
     recoveryPassword: {
@@ -32,7 +30,7 @@ export const slice = createSlice({
       initial: {
         username: '',
         nickname: '',
-        about: createEditorState(null),
+        about: null,
         avatar: ''
       }
     },
@@ -45,31 +43,31 @@ export const slice = createSlice({
     },
     clearRendCodeState(state) {
       state.resendTime = 0;
-      state.isSendCode(false);
+      state.isSendCode = false;
     },
     setIsSendCode(state) {
       state.isSendCode = true;
     },
     decSendCodeTime(state) {
-      state.recoveryPassword -= 1;
+      state.resendTime -= 1;
     },
     increaseActiveStep(state) {
-      state.activeStep += 1;
+      state.register.activeStep += 1;
     },
     decrementActiveStep(state) {
-      state.activeStep -= 1;
+      state.register.activeStep -= 1;
     },
     setUserEmail(state, action) {
-      state.security.resetEmailInit = action.payload;
+      state.security.initial.resetEmailInit.email = action.payload;
     },
     setUserInfo(state, action) {
       state.userInfo.initial = action.payload;
     },
     closeModal(state) {
-      state.modalOpen = false;
+      state.register.modalOpen = false;
     },
     openModal(state) {
-      state.modalOpen = true;
+      state.register.modalOpen = true;
     }
   },
 });
@@ -79,7 +77,7 @@ export const {increaseActiveStep, decrementActiveStep, openModal, closeModal} = 
 const {setUserEmail, setUserInfo} = slice.actions;
 
 export const login = values => dispatch => {
-  const _login = () => api.login(values).then(res => {
+  api.login(values).then(res => {
     if (res.status === 'success') {
       const data = res.data;
       localStorage.setItem('identify', data.id);
@@ -90,54 +88,46 @@ export const login = values => dispatch => {
       AlertMessage.failed('登录失败');
     }
   });
-  dispatch(_login(values));
 };
 
-export const authLogin = setIsLoading => dispatch => {
-  const _authLogin = (setIsLoading) => api.auth().then(res => {
+export const authLogin = setLoading => dispatch => {
+  api.auth().then(res => {
     if (res.status === 'success') {
       toAdmin();
       AlertMessage.success('您已经登录');
     } else {
-      setIsLoading(false);
+      setLoading(false);
     }
   });
-  dispatch(_authLogin(setIsLoading));
 };
 
 export const recoveryPassword = values => dispatch => {
-  const _recPassword = () => {
-    api.RecPassword(values).then(res => {
-      // TODO res... ===success
-      if (res) {
-        dispatch(clearRendCodeState());
-      }
-      console.log(res);
-    });
-  };
-  dispatch(_recPassword(values));
+  api.RecPassword(values).then(res => {
+    // TODO res... === success
+    if (res) {
+      dispatch(clearRendCodeState());
+    }
+  });
 };
 
 export const sendRecPassCode = values => dispatch => {
-  const _sendRecPassCode = (values) => api.sendRecPassCode({email: values.email}).then(res => {
+  api.sendRecPassCode({email: values.email}).then(res => {
     if (res.status === 'success') {
       AlertMessage.success('发送成功,请检查邮箱');
     } else {
       AlertMessage.failed(res.data.msg);
     }
   });
-  dispatch(_sendRecPassCode(values));
 };
 
 export const asyncDecSendCodeTime = () => dispatch => {
-  const _asyncDecSendCodeTime = () => setTimeout(() => {
+  setTimeout(() => {
     dispatch(decSendCodeTime());
   }, 1000);
-  dispatch(_asyncDecSendCodeTime());
 };
 
 export const register = (values) => dispatch => {
-  const _register = (data) => api.register(data).then(res => {
+  api.register(values).then(res => {
     if (res.status === 'success') {
       AlertMessage.success('注册成功');
       toLogin();
@@ -145,34 +135,39 @@ export const register = (values) => dispatch => {
       AlertMessage.failed(res.data.msg);
     }
   });
-  dispatch(_register(values));
 };
 
+export const checkRegister = (setLoading) => dispatch => {
+  api.checkRegister().then(res => {
+    if (res.status && res.status === 'success') {
+      setLoading(false);
+    } else {
+      AlertMessage.failed('您已注册');
+    }
+  });
+};
 export const sendRestEmailCode = () => dispatch => {
-  const _sendRestEmailCode = () => api.sendRestEmailCode().then(res => {
+  api.sendRestEmailCode().then(res => {
     if (res.status === 'success') {
       AlertMessage.success('验证码发送成,请查收邮箱');
     } else {
       AlertMessage.failed(res.data.msg);
     }
   });
-  dispatch(_sendRestEmailCode());
 };
 
 export const resetEmail = (values) => dispatch => {
-  const _resetEmail = (values) => api.resetEmail(values).then(res => {
-    console.log(res);
+  api.resetEmail(values).then(res => {
     if (res.status === 'success') {
       AlertMessage.success('修改成功');
     } else {
       AlertMessage.failed(res.data.msg);
     }
   });
-  dispatch(_resetEmail(values));
 };
 
 export const resetPassword = (values) => dispatch => {
-  const _resetPassword = (values) => api.resetPassword(values).then(res => {
+  api.resetPassword(values).then(res => {
     if (res.status === 'success') {
       AlertMessage.success('修改成功');
     } else {
@@ -182,37 +177,33 @@ export const resetPassword = (values) => dispatch => {
       // AlertMessage.failed(res.data.msg);
     }
   });
-  dispatch(_resetPassword(_resetPassword(values)));
 };
 
 export const getUserEmail = (setLoading) => dispatch => {
-  const _getUserEmail = () => api.getUserInfo().then(res => {
+  api.getUserInfo().then(res => {
     const data = res.data;
     dispatch(setUserEmail(data.email));
+    setLoading(false);
   });
-  dispatch(_getUserEmail(setLoading));
 };
 
 export const getUserInfo = (setLoading) => dispatch => {
-  const _getUserInfo = (setLoading) => api.getUserInfo().then(res => {
-    const data = res.data;
-    data.about = createEditorState(data.about);
-    dispatch(setUserInfo);
+  api.getUserInfo().then(res => {
+    dispatch(setUserInfo(res.data));
     setLoading(false);
   });
-  dispatch(_getUserInfo(setLoading));
 };
 
 export const modifyUserInfo = (values) => dispatch => {
-  const _modifyUserInfo = (data) => api.modifyUserInfo(data).then(res => {
+  api.modifyUserInfo(values).then(res => {
     if (res.status === 'success') {
       AlertMessage.success('修改成功');
     }
   });
-  dispatch(_modifyUserInfo(values));
 };
 
 export const selectLogin = state => state.user.login;
+
 export const selectRecoveryPassword = state => ({
   ...state.user.recoveryPassword,
   resendTime: state.user.resendTime,

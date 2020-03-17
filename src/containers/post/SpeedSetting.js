@@ -6,13 +6,13 @@ import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import SettingsIcon from '@material-ui/icons/Settings';
-import {createEditorState} from "../../components/Editor";
 import {useFormikContext} from "formik";
-import api from "../../helpers/http";
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
-import {toAdmin} from "../../history";
 import styles from './styles/speedSettingStyles';
 import marked from '../../config/marked';
+import BraftEditor from "braft-editor";
+import {useDispatch} from "react-redux";
+import {deletePost, openDraw} from '../../redux/postSlice';
 
 
 const useStyles = makeStyles(theme => styles(theme));
@@ -22,13 +22,10 @@ export default function SpeedSetting({setDrawerOpen}) {
   const classes = useStyles();
   const [settingOpen, setSettingOpen] = useState(false);
   const {values, setFieldValue} = useFormikContext();
+  const disPatch = useDispatch();
 
   function handleOnDelete(id) {
-    api.deletePost({id}).then(res => {
-      if (res.status === 'success') {
-        toAdmin();
-      }
-    });
+    disPatch(deletePost(id));
   }
 
   function handleFileUpload(e) {
@@ -36,21 +33,22 @@ export default function SpeedSetting({setDrawerOpen}) {
     if (file.length > 1) {
       alert("仅支持单个上传");
     }
+
     const reader = new FileReader();
     reader.readAsText(file[0]);
     reader.onload = function (res) {
       let htmlString = marked(res.target.result);
-      setFieldValue('article', createEditorState(htmlString));
+      setFieldValue('article', BraftEditor.createEditorState(htmlString));
     };
   }
-
 
   const actions = [
     {icon: <DeleteOutlineIcon/>, name: '删除', onClick: () => handleOnDelete(values.id)},
     {icon: <SaveIcon/>, name: '保存', type: "submit"},
-    {icon: <SettingsIcon/>, name: '设置', onClick: setDrawerOpen},
+    {icon: <SettingsIcon/>, name: '设置', onClick: () => disPatch(openDraw())},
     {icon: <UploadMarkdown {...{handleFileUpload}}/>, name: '上传markdown'},
   ];
+
   const handleClose = () => {
     setSettingOpen(false);
   };

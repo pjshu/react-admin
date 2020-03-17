@@ -53,17 +53,16 @@ const api = {
   email: '/user/email',
   checkRegister: '/user/check'
 };
-const generateApi = (resource, method) => {
-  return (data = null, id = null) => {
-    const url = api[resource].replace('%', id ? `/${id}` : '');
-    return method === 'get' ?
-      /**
-       * @param data {Object}
-       */
-      axios({method, url, params: data}) :
-      axios({method, url, data: data});
-  };
+const generateApi = (resource, method) => (data = null, id = null) => {
+  const url = api[resource].replace('%', id ? `/${id}` : '');
+  return method === 'get' ?
+    /**
+     * @param data {Object}
+     */
+    axios({method, url, params: data}) :
+    axios({method, url, data: data});
 };
+
 // 'param' and 'data' are Object
 const API = {
   queryPosts: generateApi('posts', 'get'),

@@ -92,6 +92,7 @@ const EditorDialog = ({updateHandler, dialogInit, initDialog, dialogState, openD
     ;
   };
   const onSubmit = (value) => {
+    console.log(value)
     api.modifyTag(value, value.id).then(res => {
       if (res.status === 'success') {
         updateHandler({...value, image: image});

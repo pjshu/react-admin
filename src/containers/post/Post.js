@@ -4,24 +4,26 @@ import {Field, Form, Formik} from 'formik';
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/table.css';
 import 'braft-extensions/dist/code-highlighter.css';
-import BraftEditor from '../../components/Editor';
+import MyEditor from '../../components/Editor';
 import 'braft-extensions/dist/emoticon.css';
-import {object} from 'yup';
 import {Setting} from "./Setting";
 import SpeedSetting from "./SpeedSetting";
 import styles from "./styles/postStyles";
+import {useSelector} from "react-redux";
+import {selectPost} from '../../redux/postSlice';
+import BraftEditor from "braft-editor";
 
 const useStyle = makeStyles(styles);
 
-function Post(props) {
-  const {validationSchema, postState, onSubmit, setDrawerOpen, handleOnSave, open} = props;
+function Post({validationSchema, onSubmit, handleOnSave}) {
+  const {initial} = useSelector(selectPost);
   const classes = useStyle();
 
   return (
     <Container className={classes.root} maxWidth={false}>
       <Formik
         enableReinitialize
-        initialValues={postState}
+        initialValues={initial}
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
@@ -36,15 +38,15 @@ function Post(props) {
                   label="标题"
                   variant="outlined"/>
               </Grid>
-              <BraftEditor
+              <MyEditor
                 name="article"
-                value={values.article}
+                value={BraftEditor.createEditorState(values.article)}
                 onChange={value => {
                   setFieldValue('article', value);
                 }}
               />
-              <Setting {...{open, setDrawerOpen}}/>
-              <SpeedSetting {...{open, setDrawerOpen}}/>
+              <Setting/>
+              <SpeedSetting/>
             </Form>
           )
         }

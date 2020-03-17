@@ -1,7 +1,14 @@
 import Security from './Security';
-import React from "react";
-import {AsyncLoading} from "../../components/Loading";
+import React, {useEffect, useState} from "react";
+import Loading from "../../components/Loading";
+import {useDispatch} from "react-redux";
+import {getUserEmail} from "../../redux/userSlice";
 
 export default () => {
-  return <AsyncLoading render={(setLoading) => <Security setLoading={setLoading}/>}/>;
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserEmail(setLoading));
+  }, []);
+  return loading ? <Loading/> : <Security/>;
 };

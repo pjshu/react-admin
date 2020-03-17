@@ -1,13 +1,14 @@
 import Register from "./Register";
 import React, {useEffect, useState} from 'react';
-import {number, object, ref, string} from "yup";
-import api from "../../helpers/http";
+import {object, ref, string} from "yup";
 import Loading from "../../components/Loading";
-import AlertMessage from "../../components/AlertMessage";
+import {checkRegister} from '../../redux/userSlice';
+import {useDispatch} from "react-redux";
 
 
 function Index() {
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
   const validationSchema = object({
     user: object({
       username: string()
@@ -32,15 +33,9 @@ function Index() {
     })
   });
   useEffect(() => {
-    api.checkRegister().then(res => {
-      console.log(res);
-      if (res.status && res.status === 'success') {
-        setLoading(false);
-      } else {
-        AlertMessage.failed('您已注册');
-      }
-    });
+    dispatch(checkRegister(setLoading));
   }, []);
+
   return loading ?
     <Loading/> :
     <Register {...{validationSchema}}/>;

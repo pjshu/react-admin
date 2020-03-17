@@ -13,10 +13,7 @@ import RegisterUser from './RegisterUser';
 import registerStyles from './styles/registerStyles';
 import RegisterEmail from "./RegisterEmail";
 import {Form, Formik} from "formik";
-import AlertMessage from "../../components/AlertMessage";
-import api from '../../helpers/http';
 import Modal from "./Modal";
-import {toLogin} from "../../history";
 import {selectRegister, increaseActiveStep, decrementActiveStep, register, closeModal} from "../../redux/userSlice";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -88,8 +85,7 @@ function Register({validationSchema}) {
                             回退
                           </Button>
                           {
-                            activeStep !== steps.length - 1 ?
-                              (
+                            activeStep !== steps.length - 1 ? (
                                 <Button
                                   variant="contained"
                                   color="primary"
@@ -99,7 +95,7 @@ function Register({validationSchema}) {
                                   下一步
                                 </Button>
                               ) :
-                              <Modal {...{open: modalOpen, setOpen: setModalOpen}}/>
+                              <Modal/>
                           }
                         </div>
                       </div>

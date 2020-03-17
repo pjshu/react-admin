@@ -49,7 +49,6 @@ const TableToolbar = props => {
     >
       <div>
         <Tooltip title="Add">
-          {/*onClick={() => openDialog('add')}*/}
           <IconButton aria-label="add" onClick={handleAddRow}>
             <AddIcon/>
           </IconButton>
@@ -61,7 +60,7 @@ const TableToolbar = props => {
           color="inherit"
           variant="subtitle1"
         >
-          {numSelected} selected
+          {numSelected}
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle">

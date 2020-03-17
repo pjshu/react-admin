@@ -9,15 +9,16 @@ import loginStyles from './loginStyles';
 import TextFieldWithError from "../../components/TextFieldWithError";
 import {Link} from 'react-router-dom';
 import router from '../../contants/router';
-import {login, selectLogin, authLogin} from '../../redux/userSlice';
+import {login, selectLogin} from '../../redux/userSlice';
 import {useDispatch, useSelector} from "react-redux";
 
 
 const useStyles = makeStyles(theme => loginStyles(theme));
 
-function Login({setIsLoading}) {
+function Login() {
   const classes = useStyles();
-  const login_value = useSelector(selectLogin);
+  const dispatch = useDispatch();
+  const {initial} = useSelector(selectLogin);
   const validationSchema = object({
     username: string()
       .max('30', '用户名不能超过30位')
@@ -26,21 +27,16 @@ function Login({setIsLoading}) {
       .max('30', '密码不能超过30位')
       .required('请输入密码')
   });
-  const dispatch = useDispatch();
 
   function onSubmit(values) {
     dispatch(login(values));
   }
 
-  useEffect(() => {
-    dispatch(authLogin(setIsLoading));
-  }, []);
-
   return (
     <Container maxWidth={false} className={classes.container}>
       <Grid container justify="center" alignItems={"center"} className={classes.container}>
         <Formik
-          initialValues={login_value.initial}
+          initialValues={initial}
           onSubmit={onSubmit}
           validationSchema={validationSchema}
         >

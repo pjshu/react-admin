@@ -1,16 +1,17 @@
 import React from "react";
 import {Container, Fab, Grid, makeStyles} from "@material-ui/core";
 import EditIcon from '@material-ui/icons/Edit';
-import api from '../../helpers/http';
 import Table from './Table';
-import {toPost} from "../../history";
 import styles from './styles/postsStyles';
+import {useDispatch} from "react-redux";
+import {addPost} from '../../redux/postSlice';
 
 const useStyles = makeStyles(theme => styles(theme));
 
 
 export default function Posts() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   return (
     <Container maxWidth={false}>
       <Grid
@@ -26,12 +27,7 @@ export default function Posts() {
   );
 
   function handleOnClick() {
-    api.addPost().then(res => {
-      const {status, data} = res;
-      if (status === 'success' && data.id) {
-        toPost(data.id);
-      }
-    });
+    dispatch(addPost());
   }
 }
 

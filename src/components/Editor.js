@@ -5,7 +5,6 @@ import CodeHighlighter from "braft-extensions/dist/code-highlighter";
 import 'prismjs/components/prism-python';
 import HeaderId from 'braft-extensions/dist/header-id';
 import React from "react";
-import Preview from "./Preview";
 
 const CodeHighlighterOptions = {
   syntaxs: [
@@ -27,6 +26,7 @@ const CodeHighlighterOptions = {
 
 
 BraftEditor.use([Table(), Markdown(), CodeHighlighter(CodeHighlighterOptions), HeaderId()]);
+
 const extendControls = [{
   key: 'preview',
   type: 'button',
@@ -36,17 +36,11 @@ const extendControls = [{
   }
 }];
 
-const createEditorState = (state) => {
-  return BraftEditor.createEditorState(state);
-};
-const MyBraftEditor = (props) => {
+
+const MyEditor = (props) => {
   return (
-    <>
-      <Preview/>
-      <BraftEditor {...{props, extendControls}}/>;
-    </>
+    <BraftEditor {...{extendControls, ...props}}/>
   );
 };
 
-export default MyBraftEditor;
-export {createEditorState};
+export default MyEditor;

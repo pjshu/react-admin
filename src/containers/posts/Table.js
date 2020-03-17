@@ -1,11 +1,10 @@
 import React from 'react';
-import {localization, options, postColumns, tableIcons} from "../../config/tableConfig";
 import api from "../../helpers/http";
 import {toPost} from "../../history";
-import AlertMessage from "../../components/AlertMessage";
 import Table from '../../components/table';
 import Chip from "@material-ui/core/Chip";
-
+import {useDispatch} from "react-redux";
+import {addPost} from "../../redux/postSlice";
 
 const Tags = ({values}) => (
   <>
@@ -16,6 +15,7 @@ const Tags = ({values}) => (
 );
 
 export default function Tables() {
+  const dispatch = useDispatch();
   const columns = React.useMemo(
     () => [
       {
@@ -52,17 +52,15 @@ export default function Tables() {
     ],
     []
   );
+
   const handleAddRow = () => {
-    api.addPost().then(res => {
-      const {data, status} = res;
-      if (status === 'success') {
-        toPost(data.id);
-      }
-    });
+    dispatch(addPost());
   };
+
   const handleEditor = ({original}) => {
     toPost(original.id);
   };
+
   return (
     <Table
       tableName={'文章'}

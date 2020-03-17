@@ -3,8 +3,6 @@ import {Form, Formik} from "formik";
 import {object, ref, string} from 'yup';
 import TextFieldWithError from "../../components/TextFieldWithError";
 import {Button, Grid} from "@material-ui/core";
-import api from '../../helpers/http';
-import AlertMessage from "../../components/AlertMessage";
 import {useDispatch, useSelector} from "react-redux";
 import {selectSecurity, resetPassword} from "../../redux/userSlice";
 
