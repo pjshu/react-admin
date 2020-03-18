@@ -4,14 +4,14 @@ import {formatTime} from "../../helpers/datetime";
 import {useLocation} from "react-router-dom";
 import Loading from "../../components/Loading";
 import {number, object, array, string} from "yup";
-import {useDispatch} from "react-redux";
-import {getPost, getAllTags, modifyPost} from '../../redux/postSlice';
+import {useDispatch, useSelector} from "react-redux";
+import {getPost, getAllTags, modifyPost, selectPost} from '../../redux/postSlice';
 
 function PostWrapper() {
   const {pathname} = useLocation();
   const path = pathname.split('/');
   const postId = path[path.length - 1];
-  const [loading, setLoading] = useState(true);
+  const {loading} = useSelector(selectPost);
   const dispatch = useDispatch();
   const validationSchema = object({
     id: number()
@@ -30,7 +30,7 @@ function PostWrapper() {
   });
 
   useEffect(() => {
-    dispatch(getPost(postId, setLoading));
+    dispatch(getPost(postId));
   }, [postId]);
 
   useEffect(() => {

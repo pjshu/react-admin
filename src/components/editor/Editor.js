@@ -5,6 +5,9 @@ import CodeHighlighter from "braft-extensions/dist/code-highlighter";
 import 'prismjs/components/prism-python';
 import HeaderId from 'braft-extensions/dist/header-id';
 import React from "react";
+import {makeStyles} from '@material-ui/core';
+import Preview from "./Preview";
+
 
 const CodeHighlighterOptions = {
   syntaxs: [
@@ -27,19 +30,28 @@ const CodeHighlighterOptions = {
 
 BraftEditor.use([Table(), Markdown(), CodeHighlighter(CodeHighlighterOptions), HeaderId()]);
 
-const extendControls = [{
-  key: 'preview',
-  type: 'button',
-  text: '预览',
-  onClick: () => {
-    console.log('click');
-  }
-}];
-
+const useStyles = makeStyles(theme => ({}));
 
 const MyEditor = (props) => {
+  const classes = useStyles();
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const handleOnOpen = () => {
+    setModalOpen(true);
+  };
+  const handleOnClose = () => {
+    setModalOpen(false);
+  };
+  const extendControls = [{
+    key: 'preview',
+    type: 'button',
+    text: '预览',
+    onClick: handleOnOpen
+  }];
   return (
-    <BraftEditor {...{extendControls, ...props}}/>
+    <>
+      <Preview {...{modalOpen, handleOnClose, value: props.value.toHTML()}}/>
+      <BraftEditor {...{extendControls, ...props}}/>
+    </>
   );
 };
 

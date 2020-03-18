@@ -6,7 +6,7 @@ import 'braft-extensions/dist/code-highlighter.css';
 import 'braft-extensions/dist/emoticon.css';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import MyEditor from "../../components/Editor";
+import MyEditor from "../../components/editor/Editor";
 import InputWithIcon from './InputWithIcon';
 import {Avatar, Button, Grid, makeStyles} from "@material-ui/core";
 import styles from './styles/userStyles';

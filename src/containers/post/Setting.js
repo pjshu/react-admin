@@ -17,7 +17,7 @@ import Tags from './Tags';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import styles from "./styles/settingStyles";
 import CreateDate from "../../components/TimePickField";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {closeDraw, selectPost} from '../../redux/postSlice';
 
 const useStyles = makeStyles((theme) => styles(theme));
@@ -26,7 +26,7 @@ export function Setting() {
   const classes = useStyles();
   const {drawOpen} = useSelector(selectPost);
   const {values: {change_date, visibility}} = useFormikContext();
-
+  const dispatch = useDispatch();
   return (
     <Drawer
       variant="persistent"
@@ -67,7 +67,9 @@ export function Setting() {
           name={'excerpt'}
         />
         <div className={classes.toolbar}>
-          <IconButton onClick={closeDraw}>
+          <IconButton onClick={() => {
+            dispatch(closeDraw());
+          }}>
             <ChevronRightIcon/>
           </IconButton>
         </div>

@@ -7,5 +7,6 @@
   "ADMIN_POST": "/admin/post",
   "ADMIN_USER": "/admin/user",
   "ADMIN_TAGS": "/admin/tags",
-  "ADMIN_SECURITY": "/admin/security"
+  "ADMIN_SECURITY": "/admin/security",
+  "PREVIEW": "/admin/preview"
 }

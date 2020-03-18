@@ -4,7 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core/styles";
 import TextFieldWithError from "../../components/TextFieldWithError";
 import {Form, Formik} from 'formik';
-import {object, string} from "yup";
+import {object, ref, string} from "yup";
 import {
   resetSendCodeTime, setIsSendCode, selectRecoveryPassword, recoveryPassword,
   sendRecPassCode, asyncDecSendCodeTime
@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   },
   paper: {
     width: 500,
-    height: 350,
+    minHeight: 200,
     padding: 40
   },
 });
@@ -33,7 +33,14 @@ function RecoveryPassword() {
       .required('请输入邮箱'),
     // TODO 验证码位数
     code: string()
-      .required('请输入验证码')
+      .required('请输入验证码'),
+    password: string()
+      .max('30', '密码不能超过30位')
+      .required('请输入密码'),
+    confirm_password: string()
+      .oneOf([ref('password'), null], "密码不匹配")
+      .max('30', '密码不能超过30位')
+      .required('请确认密码'),
   });
 
   useEffect(() => {
@@ -77,11 +84,9 @@ function RecoveryPassword() {
                   <Grid
                     container
                     alignItems={"center"}
-                    justify={"space-around"}>
+                    justify={"flex-start"}>
                     <TextFieldWithError
-                      style={{
-                        width: '250px'
-                      }}
+                      style={{width: '265px'}}
                       {...{
                         name: 'email', label: '邮箱', variant: "outlined"
                       }}/>
@@ -89,6 +94,7 @@ function RecoveryPassword() {
                     <Grid style={{marginBottom: '40px'}}>
                       <Button
                         style={{
+                          marginLeft: '30px',
                           width: '125px',
                           height: '45px'
                         }}
@@ -106,35 +112,65 @@ function RecoveryPassword() {
                   </Grid>
 
                   <Grid
-                    container
-                    alignItems={"center"}
-                    justify={"space-around"}
                     style={{
                       display: isSendCode ? '' : "none"
                     }}>
-                    <TextFieldWithError
-                      style={{
-                        width: '250px'
-                      }}
-                      {...{
-                        name: 'code', label: '邮箱验证码', variant: "outlined"
-                      }}/>
                     <Grid
-                      style={{
-                        marginBottom: '40px'
-                      }}>
-                      <Button
-                        type={'submit'}
+                      container
+                      alignItems={"center"}
+                      justify={"flex-start"}
+                    >
+                      <TextFieldWithError
+                        style={{width: '265px'}}
+                        {...{
+                          name: 'code', label: '邮箱验证码', variant: "outlined"
+                        }}/>
+                      <Grid
                         style={{
-                          width: '125px',
-                          height: '45px'
+                          marginBottom: '40px'
+                        }}>
+                        <Button
+                          type={'submit'}
+                          style={{
+                            marginLeft: '30px',
+                            width: '125px',
+                            height: '45px'
+                          }}
+                          variant="contained"
+                          color="primary"
+                          className={classes.button}
+                        >
+                          提交
+                        </Button>
+                      </Grid>
+                    </Grid>
+
+                    <Grid
+                      container
+                      alignItems={"center"}
+                      justify={"flex-start"}
+                      style={{
+                        width: '100%'
+                        // display: isSendCode ? '' : "none"
+                      }}>
+                      <TextFieldWithError
+                        style={{width: '100%'}}
+                        {...{name: 'password', label: '新密码', variant: "outlined"}}
+                      />
+                    </Grid>
+                    <Grid
+                      container
+                      alignItems={"center"}
+                      justify={"flex-start"}
+                      style={{
+                        // display: isSendCode ? '' : "none"
+                      }}>
+                      <TextFieldWithError
+                        style={{width: '100%'}}
+                        {...{
+                          name: 'confirm_password', label: '确认密码', variant: "outlined"
                         }}
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                      >
-                        提交
-                      </Button>
+                      />
                     </Grid>
                   </Grid>
                 </Paper>

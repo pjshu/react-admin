@@ -4,7 +4,7 @@ import {Field, Form, Formik} from 'formik';
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/table.css';
 import 'braft-extensions/dist/code-highlighter.css';
-import MyEditor from '../../components/Editor';
+import MyEditor from '../../components/editor/Editor';
 import 'braft-extensions/dist/emoticon.css';
 import {Setting} from "./Setting";
 import SpeedSetting from "./SpeedSetting";

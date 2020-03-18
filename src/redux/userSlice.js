@@ -10,7 +10,7 @@ export const slice = createSlice({
       initial: {username: '', password: ''}
     },
     recoveryPassword: {
-      initial: {email: '', code: ''},
+      initial: {email: '', code: '', password: '', confirm_password: ''},
     },
     register: {
       initial: {
@@ -104,7 +104,9 @@ export const authLogin = setLoading => dispatch => {
 export const recoveryPassword = values => dispatch => {
   api.RecPassword(values).then(res => {
     // TODO res... === success
-    if (res) {
+    if (res.status === 'success') {
+      AlertMessage.success('修改成功');
+      toLogin();
       dispatch(clearRendCodeState());
     }
   });

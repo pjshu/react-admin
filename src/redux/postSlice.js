@@ -48,7 +48,7 @@ export const getPost = (postId) => dispatch => {
     if (res.status === 'success') {
       const {data} = res;
       dispatch(initState(data));
-      setLoading(false);
+      dispatch(setLoading(false));
     } else {
       AlertMessage.error("请求错误");
     }

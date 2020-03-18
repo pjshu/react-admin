@@ -16,5 +16,8 @@ const toLogin = () => {
   history.push(router.LOGIN);
 };
 
-export {toAdmin, toPost, toLogin};
+const toPreView = () => {
+  history.push();
+};
+export {toAdmin, toPost, toLogin, toPreView};
 export default history;
