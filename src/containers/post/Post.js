@@ -17,11 +17,13 @@ const useStyle = makeStyles(styles);
 
 function Post({validationSchema, onSubmit, handleOnSave}) {
   const {initial} = useSelector(selectPost);
+  const formikRef = React.createRef();
   const classes = useStyle();
 
   return (
     <Container className={classes.root} maxWidth={false}>
       <Formik
+        innerRef={formikRef}
         enableReinitialize
         initialValues={initial}
         onSubmit={onSubmit}
@@ -45,7 +47,7 @@ function Post({validationSchema, onSubmit, handleOnSave}) {
                   setFieldValue('article', value);
                 }}
               />
-              <Setting/>
+              <Setting formikRef={formikRef} onSubmit={onSubmit}/>
               <SpeedSetting/>
             </Form>
           )
