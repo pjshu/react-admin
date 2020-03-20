@@ -8,7 +8,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  makeStyles,
   Toolbar,
   Typography,
 } from '@material-ui/core';
@@ -19,17 +18,57 @@ import router from '../../contants/router';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import FaceIcon from '@material-ui/icons/Face';
-import styles from './navStyle';
+import useStyles from './navStyle';
 import SecurityIcon from '@material-ui/icons/Security';
+import Badge from '@material-ui/core/Badge';
+import MailIcon from '@material-ui/icons/Mail';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Alert from '@material-ui/lab/Alert';
+import {useDispatch, useSelector} from "react-redux";
+import {selectMessage, removeMessage, clearAllMessage} from "../../redux/globalSlice";
 
-const useStyles = makeStyles(theme => styles(theme));
 
 function Nav() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const {message} = useSelector(selectMessage);
   const [open, setOpen] = React.useState(false);
+  const [messageMenu, setMessageMenu] = React.useState({
+    anchorEl: null,
+    open: false,
+  });
   const handleDrawerOpen = () => {
     setOpen(!open);
   };
+  const handleMenuClick = (e) => {
+    if (message.length !== 0) {
+      setMessageMenu({
+        open: true,
+        anchorEl: e.currentTarget
+      });
+    }
+  };
+  const handleMenuClose = () => {
+    setMessageMenu({
+      ...messageMenu,
+      open: false
+    });
+  };
+  const handleDeleteMessage = (id) => {
+    //这里不能把dispatch提出到外面
+    if (message.length === 1) {
+      dispatch(removeMessage(id));
+      handleMenuClose();
+    } else {
+      dispatch(removeMessage(id));
+    }
+  };
+  const handleClearAll = () => {
+    dispatch(clearAllMessage());
+    handleMenuClose();
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline/>
@@ -47,6 +86,46 @@ function Nav() {
             <MenuIcon/>
           </IconButton>
           <Typography variant="h6" noWrap>导航</Typography>
+          <Badge
+            title={message.length === 0 ? '没有消息' : ''}
+            onClick={handleMenuClick}
+            style={{
+              position: "absolute",
+              right: '40px'
+            }}
+            badgeContent={message.length}
+            color="secondary"
+          >
+            <MailIcon/>
+          </Badge>
+          <Menu
+            id="long-menu"
+            anchorEl={messageMenu.anchorEl}
+            keepMounted
+            open={messageMenu.open}
+            onClose={handleMenuClose}
+            PaperProps={{
+              style: {
+                minHeight: 100,
+                maxHeight: 400,
+                minWidth: 300,
+                maxWidth: 500
+              },
+            }}
+          >
+            <MenuItem onClick={handleClearAll}>
+              清空全部
+            </MenuItem>
+            {message.map((msg) => (
+              <MenuItem key={msg.id} onClose={handleMenuClose}>
+                <Alert onClose={() => handleDeleteMessage(msg.id)} style={{
+                  width: '100%'
+                }} variant="filled" severity={msg.state}>
+                  {msg.message}/{msg.time}
+                </Alert>
+              </MenuItem>
+            ))}
+          </Menu>
         </Toolbar>
       </AppBar>
       <Drawer

@@ -6,16 +6,20 @@
 - 文章回收站
 - 评论系统
 - 绑定手机
+- 摘录功能完善
 
 TODO:
-- 编辑器完善
 - 图片管理
+- 消息队列
+- 摘录功能
+- 表格列排序功能(可排序字段)
+- 表格完善搜索功能
+- 完善表格分页功能
+- 搜索框清空
+- 消息列表
 - bug:
    - 标签表格点击添加新列按钮,表格不更新
-   - 标签表格删除后数量不更新
-   
-   https://material-ui.com/components/text-fields/
-   错误提示,搜索框清空
+
    
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 

@@ -1,11 +1,13 @@
-const styles = {
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
   root: {
-    height: '90%',
+    minHeight: '100%',
     position: 'relative',
-    background: "#fff",
     padding: 30,
     borderRadius: 4
   },
-};
+});
 
-export default styles;
+
+export default useStyles;

@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import api from "../helpers/http";
 import AlertMessage from "../components/AlertMessage";
 import {toAdmin, toLogin} from "../history";
+import {addMessage} from "./globalSlice";
 
 export const slice = createSlice({
   name: 'user',
@@ -23,7 +24,7 @@ export const slice = createSlice({
     security: {
       initial: {
         resetEmailInit: {email: '', code: ''},
-        resetPasswordInit: {password: '', confirm_password: ''}
+        resetPasswordInit: {old_password: '', password: '', confirm_password: ''}
       }
     },
     userInfo: {
@@ -83,9 +84,11 @@ export const login = values => dispatch => {
       localStorage.setItem('identify', data.id);
       localStorage.setItem('Authorization', data.token);
       AlertMessage.success(data.msg ? data.msg : '登录成功');
+      dispatch(addMessage({state: 'success', message: '登录成功'}));
       toAdmin();
     } else {
       AlertMessage.failed('登录失败');
+      dispatch(addMessage({state: 'success', message: '登录失败'}));
     }
   });
 };
@@ -95,8 +98,11 @@ export const authLogin = setLoading => dispatch => {
     if (res.status === 'success') {
       toAdmin();
       AlertMessage.success('您已经登录');
+      dispatch(addMessage({state: 'success', message: '您不能重复登录'}));
     } else {
+      //TODO:
       setLoading(false);
+      dispatch(addMessage({state: 'success', message: '登录失败'}));
     }
   });
 };

@@ -8,17 +8,14 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import SettingsIcon from '@material-ui/icons/Settings';
 import {useFormikContext} from "formik";
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
-import styles from './styles/speedSettingStyles';
+import useStyles from './styles/speedSettingStyles';
 import marked from '../../config/marked';
 import BraftEditor from "braft-editor";
 import {useDispatch} from "react-redux";
 import {deletePost, openDraw} from '../../redux/postSlice';
 
 
-const useStyles = makeStyles(theme => styles(theme));
-
-
-export default function SpeedSetting({setDrawerOpen}) {
+export default function SpeedSetting() {
   const classes = useStyles();
   const [settingOpen, setSettingOpen] = useState(false);
   const {values, setFieldValue} = useFormikContext();

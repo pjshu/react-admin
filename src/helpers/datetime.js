@@ -1,4 +1,4 @@
-const formatTime = (d) => {
+const formatTime = (d, accuracy = 'minutes') => {
   if (typeof d === "string") {
     d = new Date(d);
   }
@@ -7,12 +7,13 @@ const formatTime = (d) => {
   const date = d.getDate();
   const hour = d.getHours();
   const minutes = d.getMinutes();
-  return `${year}/${month}/${date} ${hour}:${minutes < 10 ? 0 : ''}${minutes}`;
+  const second = d.getSeconds();
+  return `${year}/${month}/${date} ${hour}:${minutes < 10 ? 0 : ''}${minutes}${accuracy === 'second' ? ` ${second}s` : ''}`;
 };
 
-const getCurrentTime = () => {
+const getCurrentTime = (accuracy = 'minutes') => {
   const current = new Date();
-  return formatTime(current);
+  return formatTime(current, accuracy);
 };
 
 export default getCurrentTime;

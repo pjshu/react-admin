@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import api from "../helpers/http";
 import AlertMessage from "../components/AlertMessage";
+import {addMessage} from "./globalSlice";
 
 export const slice = createSlice({
   name: 'tag',
@@ -11,7 +12,6 @@ export const slice = createSlice({
       describe: '',
       count: 0,
       image: {
-        name: '',
         url: ''
       }
     },
@@ -26,7 +26,7 @@ export const slice = createSlice({
         state.initial[key] = '';
       });
       state.initial.count = 0;
-      state.initial.image = {name: '', url: ''};
+      state.initial.image = {url: ''};
     },
     setTagId(state, action) {
       state.initial.id = action.payload;
@@ -60,7 +60,29 @@ export const addTag = () => dispatch => {
       dispatch(setTagId(data.id));
       dispatch(setDialogAsAdd());
     } else {
+      dispatch(addMessage({state: 'success', message: '标签添加失败'}));
       AlertMessage.failed('');
+    }
+  });
+};
+8;
+export const addTagImg = (value, res, updateHandler) => dispatch => {
+  api.addTagImg(value.id, res).then(res => {
+    const {data, status} = res;
+    if (status === 'success') {
+      updateHandler({...value, image: data.image});
+    } else {
+      dispatch(addMessage({state: 'success', message: '标签添加图片失败'}));
+      console.log('error');
+    }
+  });
+};
+
+export const modifyTag = (value, image, updateHandler) => dispatch => {
+  api.modifyTag(value, value.id).then(res => {
+    if (res.status === 'success') {
+      updateHandler({...value, image});
+      dispatch(initDialog());
     }
   });
 };

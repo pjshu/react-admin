@@ -1,27 +1,22 @@
 import React from "react";
-import {Container, Grid, makeStyles, TextField} from "@material-ui/core";
+import {Container, Grid, TextField} from "@material-ui/core";
 import {Field, Form, Formik} from 'formik';
-import 'braft-editor/dist/index.css';
-import 'braft-extensions/dist/table.css';
-import 'braft-extensions/dist/code-highlighter.css';
 import MyEditor from '../../components/editor/Editor';
-import 'braft-extensions/dist/emoticon.css';
 import {Setting} from "./Setting";
 import SpeedSetting from "./SpeedSetting";
-import styles from "./styles/postStyles";
+import useStyles from "./styles/postStyles";
 import {useSelector} from "react-redux";
 import {selectPost} from '../../redux/postSlice';
 import BraftEditor from "braft-editor";
+import {Paper} from "@material-ui/core";
 
-const useStyle = makeStyles(styles);
 
 function Post({validationSchema, onSubmit, handleOnSave}) {
   const {initial} = useSelector(selectPost);
   const formikRef = React.createRef();
-  const classes = useStyle();
-
+  const classes = useStyles();
   return (
-    <Container className={classes.root} maxWidth={false}>
+    <Container component={Paper} className={classes.root} maxWidth={false}>
       <Formik
         innerRef={formikRef}
         enableReinitialize
@@ -41,8 +36,10 @@ function Post({validationSchema, onSubmit, handleOnSave}) {
                   variant="outlined"/>
               </Grid>
               <MyEditor
-                name="article"
                 value={BraftEditor.createEditorState(values.article)}
+                changeValue={value => {
+                  setFieldValue('article', value);
+                }}
                 onChange={value => {
                   setFieldValue('article', value);
                 }}

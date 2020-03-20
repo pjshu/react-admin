@@ -4,8 +4,8 @@ import api from "../../helpers/http";
 import Table from '../../components/table';
 import EditorDialog from './EditorDialog';
 import {
-  initDialog as _initDialog, addTag, setTagValue,
-  setDialogAsUpdate, closeDialog as _closeDialog, selectTag
+  addTag, setTagValue, initDialog, selectTag,
+  setDialogAsUpdate, closeDialog as _closeDialog,
 } from '../../redux/tagSlice';
 import {useDispatch, useSelector} from "react-redux";
 
@@ -13,13 +13,9 @@ export default function Tags({columns}) {
   const dispatch = useDispatch();
   const {initial, dialogState} = useSelector(selectTag);
 
-  const initDialog = () => {
-    dispatch(_initDialog());
-  };
-
   // 添加按钮事件
   const handleAddRow = () => {
-    initDialog();
+    dispatch(initDialog());
     dispatch(addTag());
   };
 
@@ -41,7 +37,6 @@ export default function Tags({columns}) {
             updateHandler,
             dialogInit: initial,
             dialogState,
-            initDialog,
             closeDialog,
           }}/>)
         }

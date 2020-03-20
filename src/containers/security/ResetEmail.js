@@ -1,18 +1,30 @@
 import React, {useEffect, useRef} from 'react';
 import {Field, Form, Formik} from "formik";
 import {object, string} from 'yup';
-import TextFieldWithError from "../../components/TextFieldWithError";
 import {Button, Grid} from "@material-ui/core";
 import {
   asyncDecSendCodeTime, selectSecurity, resetSendCodeTime, setIsSendCode,
   sendRestEmailCode, resetEmail
 } from '../../redux/userSlice';
 import {useDispatch, useSelector} from "react-redux";
+import TextFieldWithError from '../../components/TextFieldWithError';
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  textfield: {
+    width: '350px',
+    [theme.breakpoints.up('md')]: {
+      width: '550px',
+    },
+  }
+}));
 
 function ResetEmail({email}) {
   const dispatch = useDispatch();
-  const {initial: {resetEmailInit}, resendTime, isCodeSend} = useSelector(selectSecurity);
+  const classes = useStyles();
+  const {initial: {resetEmailInit}, resendTime, isSendCode} = useSelector(selectSecurity);
   const formikRef = useRef();
+  //TODO 性能优化:每次计时器改变,都会重新渲染
   useEffect(() => {
     if (resendTime > 0) {
       dispatch(asyncDecSendCodeTime());
@@ -22,7 +34,6 @@ function ResetEmail({email}) {
   const onSubmit = (values) => {
     dispatch(resetEmail(values));
   };
-
   const handleSendCode = () => {
     dispatch(resetSendCodeTime());
     dispatch(setIsSendCode());
@@ -41,79 +52,80 @@ function ResetEmail({email}) {
     code: string()
       .required('请输入验证码')
   });
-  return (
-    <Grid item>
-      <Formik
-        innerRef={formikRef}
-        initialValues={resetEmailInit}
-        onSubmit={onSubmit}
-        validationSchema={validationSchema}
-      >
-        <Form>
-          <Grid container direction={"column"}>
-            <Field
-              as={TextFieldWithError}
-              style={{
-                width: '50%'
-              }}
-              variant="outlined"
-              disabled={!isCodeSend}
-              name={'email'}
-              label={'邮箱'}
-            />
-            <Grid style={{}}>
-              <Button
-                style={{
-                  width: '125px',
-                  height: '45px'
-                }}
-                disabled={resendTime > 0}
-                variant="contained"
-                color="primary"
-                onClick={handleSendCode}
-              >
-                {
-                  `
-                    ${resendTime > 0 ? `重新发送(${resendTime})` : `${isCodeSend ? '重新发送' : '修改邮箱'}`}
-                   `
-                }
-              </Button>
-            </Grid>
 
-            <Grid
-              style={{
-                marginTop: '50px',
-                display: isCodeSend ? '' : 'none'
-              }}
-            >
-              <Field
-                as={TextFieldWithError}
-                style={{
-                  width: '50%'
-                }}
-                variant="outlined"
-                name={'code'}
-                label={'验证码'}
-              />
-              <Grid style={{}}>
+  return (
+    <Formik
+      innerRef={formikRef}
+      initialValues={resetEmailInit}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+    >
+      {
+        ({errors, touched}) => (
+          <Form>
+            <Grid container direction={"column"} spacing={5}>
+              <Grid item>
+                <TextFieldWithError
+                  errors={errors}
+                  touched={touched}
+                  disabled={!isSendCode}
+                  name={'email'}
+                  label={'邮箱'}
+                  variant="outlined"
+                  className={classes.textfield}
+                />
+              </Grid>
+              <Grid item>
                 <Button
                   style={{
                     width: '125px',
                     height: '45px'
                   }}
+                  disabled={resendTime > 0}
                   variant="contained"
                   color="primary"
-                  type={'submit'}
+                  onClick={handleSendCode}
                 >
-                  提交
+                  {
+                    ` ${resendTime > 0 ? `重新发送(${resendTime})` : `${isSendCode ? '重新发送' : '修改邮箱'}`}`
+                  }
                 </Button>
               </Grid>
-            </Grid>
 
-          </Grid>
-        </Form>
-      </Formik>
-    </Grid>
+              <Grid
+                style={{
+                  marginTop: '50px',
+                  display: isSendCode ? '' : 'none'
+                }}
+              >
+                <TextFieldWithError
+                  errors={errors}
+                  touched={touched}
+                  disabled={!isSendCode}
+                  name={'code'}
+                  label={'验证码'}
+                  variant="outlined"
+                  className={classes.textfield}
+                />
+                <Grid>
+                  <Button
+                    style={{
+                      width: '125px',
+                      height: '45px'
+                    }}
+                    variant="contained"
+                    color="primary"
+                    type={'submit'}
+                  >
+                    提交
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Form>
+        )
+      }
+    </Formik>
   );
 }
 

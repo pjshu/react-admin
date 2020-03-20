@@ -3,6 +3,9 @@ import {formatTime} from "../helpers/datetime";
 import api from "../helpers/http";
 import AlertMessage from "../components/AlertMessage";
 import {toAdmin, toPost} from "../history";
+import {addMessage} from './globalSlice';
+import getCurrentTime from "../helpers/datetime";
+import UUID from 'uuid'
 
 export const slice = createSlice({
   name: 'post',
@@ -50,6 +53,7 @@ export const getPost = (postId) => dispatch => {
       dispatch(initState(data));
       dispatch(setLoading(false));
     } else {
+      dispatch(addMessage({state: 'success', message: '请求错误', time: getCurrentTime()}));
       AlertMessage.error("请求错误");
     }
   });
@@ -61,11 +65,14 @@ export const getAllTags = () => dispatch => {
   });
 };
 
+// 所有api统一通过dispatch调用,即使没有修改redux数据
 export const modifyPost = (data, postId) => dispatch => {
   api.modifyPost(data, postId).then(res => {
     if (res.status === 'success') {
+      dispatch(addMessage({state: 'success', message: '上传成功', time: getCurrentTime()}));
       AlertMessage.success("上传成功");
     } else {
+      dispatch(addMessage({state: 'error', message: '上传失败', time: getCurrentTime()}));
       AlertMessage.failed("上传失败");
     }
   });

@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Container, Grid} from "@material-ui/core";
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import {Form, Formik} from 'formik';
 import {object, string} from 'yup';
-import loginStyles from './loginStyles';
+import loginStyles from './login.styles';
 import TextFieldWithError from "../../components/TextFieldWithError";
 import {Link} from 'react-router-dom';
 import router from '../../contants/router';
@@ -40,42 +40,62 @@ function Login() {
           onSubmit={onSubmit}
           validationSchema={validationSchema}
         >
-          <Form>
-            <Paper
-              className={classes.paper}
-              component={Grid}
-              direction="column"
-              container
-              alignItems="center"
-              justify="center">
-              <Grid container direction="column">
-                {
-                  [
-                    {name: "username", label: "用户名"},
-                    {name: "password", label: "密码", type: "password"}
-                  ].map(item => <TextFieldWithError key={item.name} {...item}/>)
-                }
-              </Grid>
-              <Grid className={classes.submit}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth={true}
-                  type="submit"
+          {
+            ({errors, touched}) => (
+              <Form>
+                <Grid
+                  className={classes.paper}
+                  component={Paper}
+                  direction="column"
+                  container
+                  alignItems="center"
+                  justify="center"
+                  spacing={4}
                 >
-                  登录
-                </Button>
-                <Button
-                  color="primary"
-                  fullWidth={true}
-                  component={Link}
-                  to={router.RECOVER_PASSWORD}
-                >
-                  忘记密码
-                </Button>
-              </Grid>
-            </Paper>
-          </Form>
+                  <Grid item style={{
+                    width: '100%'
+                  }}>
+                    <Grid container direction="column" spacing={2}>
+                      {
+                        [
+                          {name: "username", label: "用户名", variant: "outlined"},
+                          {name: "password", label: "密码", type: "password", variant: "outlined"}
+                        ].map(item => (
+                          <Grid item key={item.name}>
+                            <TextFieldWithError {...{...item, errors, touched}}/>
+                          </Grid>
+                        ))
+                      }
+                    </Grid>
+                  </Grid>
+                  <Grid item className={classes.submit}>
+                    <Grid container direction={'column'}>
+                      <Grid item>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          fullWidth={true}
+                          type="submit"
+                        >
+                          登录
+                        </Button>
+                      </Grid>
+                      <Grid item>
+                        <Button
+                          color="primary"
+                          fullWidth={true}
+                          component={Link}
+                          to={router.RECOVER_PASSWORD}
+                        >
+                          忘记密码
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Form>
+            )
+          }
         </Formik>
       </Grid>
     </Container>

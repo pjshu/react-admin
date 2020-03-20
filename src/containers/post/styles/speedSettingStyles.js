@@ -1,10 +1,10 @@
-const styles = (theme) => ({
+import {makeStyles} from "@material-ui/core/styles";
+
+export default makeStyles({
   speedDial: {
-    position: 'absolute',
-    '&.MuiSpeedDial-directionUp, &.MuiSpeedDial-directionLeft': {
-      bottom: theme.spacing(2),
-      right: theme.spacing(2),
-    },
+    position: 'fixed',
+    bottom: 20,
+    right: 30,
   },
 });
-export default styles;
+

@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -11,30 +10,26 @@ import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import {Field, Form, Formik} from 'formik';
-import api from '../../helpers/http';
 import ButtonBase from "@material-ui/core/ButtonBase";
-import {number, object, array, string} from "yup";
+import {number, object, string} from "yup";
+import {useDispatch} from "react-redux";
+import {addTagImg, modifyTag} from '../../redux/tagSlice';
 
+// TODO: 去除硬编码
 const base = 'http://127.0.0.1:5000/api/admin/tags/images/';
-const EditorDialog = ({updateHandler, dialogInit, initDialog, dialogState, openDialog, closeDialog}) => {
-  const [image, setImage] = React.useState({
-    name: '',
-    url: ''
-  });
-
+const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, closeDialog}) => {
+  const [image, setImage] = React.useState({url: ''});
+  const dispatch = useDispatch();
   React.useEffect(() => {
     let url = dialogInit.image.url;
     url = url ? base + url : url;
-    setImage({
-      name: dialogInit.image.url,
-      url: url
-    });
+    setImage({url});
   }, [dialogInit]);
-
 
   const [switchState, setSwitchState] = React.useState({
     addMultiple: false,
   });
+
   const handleSwitchChange = name => event => {
     setSwitchState({...switchState, [name]: event.target.checked});
   };
@@ -62,43 +57,27 @@ const EditorDialog = ({updateHandler, dialogInit, initDialog, dialogState, openD
 
   const handleChangeImage = (e) => {
     const file = e.target.files;
+    if (!file) {
+      return;
+    }
     const url = window.URL.createObjectURL(file[0]);
-    setImage({
-      name: file.name,
-      url: url
-    });
+    setImage({url: url});
   };
 
   const uploadImage = (value) => {
-
     async function getImage() {
       const form = new FormData();
       const blob = await fetch(image.url).then(r => r.blob());
-      form.append('image', blob, image.name);
+      form.append('image', blob);
       return form;
     }
 
     getImage().then(res => {
-        api.addTagImg(value.id, res).then(res => {
-          const {data, status} = res;
-          if (status === 'success') {
-            updateHandler({...value, image: data.image});
-          } else {
-            console.log('error');
-          }
-        });
-      }
-    )
-    ;
+      dispatch(addTagImg(value, res, updateHandler));
+    });
   };
   const onSubmit = (value) => {
-    console.log(value)
-    api.modifyTag(value, value.id).then(res => {
-      if (res.status === 'success') {
-        updateHandler({...value, image: image});
-        initDialog();
-      }
-    });
+    dispatch(modifyTag(value, image, updateHandler));
     uploadImage(value);
     switchState.addMultiple ? openDialog() : closeDialog();
   };
@@ -166,29 +145,11 @@ const EditorDialog = ({updateHandler, dialogInit, initDialog, dialogState, openD
                         minHeight: 200
                       }}
                       src={image.url}
-                      // src={tagImg}
                       alt="标签插图"
                     />
                   </ButtonBase>
                 </label>
               </div>
-              {/*<Field*/}
-              {/*  as={TextField}*/}
-              {/*  margin="dense"*/}
-              {/*  label="创建日期"*/}
-              {/*  type="text"*/}
-              {/*  fullWidth*/}
-              {/*  name={'create_time'}*/}
-              {/*/>*/}
-              {/*<Field*/}
-              {/*  as={TextField}*/}
-              {/*  margin="dense"*/}
-              {/*  label="修改日期"*/}
-              {/*  disabled={true}*/}
-              {/*  type="text"*/}
-              {/*  fullWidth*/}
-              {/*  name={'update_time'}*/}
-              {/*/>*/}
             </Form>
           </Formik>
         </DialogContent>

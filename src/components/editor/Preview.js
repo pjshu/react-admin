@@ -1,49 +1,10 @@
 import React, {useState} from 'react';
 import {Button, makeStyles} from "@material-ui/core";
 import 'braft-editor/dist/output.css';
-import './prism.css';
 import Prism from './prism';
+import 'braft-extensions/dist/emoticon.css';
+import useStyles from './preview.style';
 
-
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: (modalOpen) => modalOpen ? '' : 'none',
-    position: 'absolute',
-    zIndex: '100',
-    left: '50%',
-    transform: 'translate(-50%, 0)'
-  },
-  paper: {
-    width: 700,
-    minHeight: 700,
-    backgroundColor: theme.palette.background.paper,
-    // border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-  table: {
-    '&  table': {
-      tableLayout: 'fixed',
-      width: '100%',
-      borderCollapse: 'collapse',
-      boxShadow: '0 0 0 1px #dfdfdf',
-    },
-    '&  td': {
-      padding: '20px',
-      letterSpacing: '1px',
-      textAlign: 'center',
-      [theme.breakpoints.down('sm')]: {
-        padding: '10px',
-      },
-    },
-    '&  tr:nth-child(even) > td:nth-child(even)': {
-      background: '#F6F8FC'
-    },
-    '&  tr:nth-child(odd) > td:nth-child(odd)': {
-      background: '#F6F8FC'
-    }
-  }
-}));
 
 function Preview({modalOpen, handleOnClose, value}) {
   const classes = useStyles(modalOpen);
@@ -63,20 +24,17 @@ function Preview({modalOpen, handleOnClose, value}) {
       style={{}}
     >
       <div className={classes.paper}>
-        <div className={classes.table} style={{
-          whiteSpace: 'pre-wrap'
-        }} dangerouslySetInnerHTML={{__html: value.toHTML()}}/>
+        <div
+          className={`${classes.table} ${classes.post} ${classes.emoji}`}
+          dangerouslySetInnerHTML={{__html: value.toHTML()}}
+        />
         <div>
           {/*TODO这里用原生button需要添加type='button' 否则触发提交按钮,原因未知*/}
           <Button
+            className={classes.closeButton}
             variant="contained"
             color="primary"
-            style={{
-              width: '100px',
-              position: 'absolute',
-              right: '20px',
-              bottom: '20px'
-            }} onClick={handleOnClose}>
+            onClick={handleOnClose}>
             关闭
           </Button>
         </div>

@@ -1,6 +1,8 @@
+import {makeStyles} from "@material-ui/core/styles";
+
 const drawerWidth = 150;
 
-const styles = (theme) => ({
+export default makeStyles((theme) => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -45,6 +47,4 @@ const styles = (theme) => ({
   placeholder: {
     height: theme.spacing(10)
   }
-});
-
-export default styles;
+}));

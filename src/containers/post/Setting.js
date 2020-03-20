@@ -78,9 +78,10 @@ export function Setting({formikRef, onSubmit}) {
         <CreateDate/>
         <TextField label="修改日期" InputProps={{readOnly: true}} value={change_date}/>
         <Typography component="h2">
-          摘录:
+          摘录(双击放大):
         </Typography>
         <Field
+          title={'双击放大'}
           as={TextareaAutosize}
           rowsMin={5}
           rowsMax={15}
@@ -88,6 +89,9 @@ export function Setting({formikRef, onSubmit}) {
             width: '100%'
           }}
           name={'excerpt'}
+          onDoubleClick={e => {
+            console.log(e);
+          }}
         />
         <div>
           自动保存:

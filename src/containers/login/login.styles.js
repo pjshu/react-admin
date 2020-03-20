@@ -4,12 +4,11 @@ const loginStyles = () => ({
   },
   paper: {
     width: 500,
-    height: 350,
+    height: 400,
     padding: 40
   },
   submit: {
     width: '100%',
-    marginTop: 10
   },
 });
 

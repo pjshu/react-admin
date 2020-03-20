@@ -34,3 +34,4 @@ export default {
     createMessage(message, time = 6000, 'error');
   }
 };
+

@@ -5,6 +5,7 @@ import './global.css';
 import history from "./history";
 import Loading from "./components/Loading";
 import {hot} from 'react-hot-loader';
+import MessageQueue from './containers/MessageQueue'
 
 const Root = lazy(() => import("./components/nav/"));
 const Register = lazy(() => import("./containers/register"));
@@ -15,6 +16,7 @@ function App() {
   return (
     <Suspense fallback={<Loading/>}>
       <Router history={history}>
+        <MessageQueue/>
         <Switch>
           <Route path={router.LOGIN}><Login/></Route>
           <Route path={router.REGISTER}><Register/></Route>

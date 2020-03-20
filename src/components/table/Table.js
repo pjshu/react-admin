@@ -55,7 +55,7 @@ const EnhancedTable = (props) => {
     handleAddRow,
     handleEditor
   } = props;
-  const [pageCount, setPageCount] = React.useState(0);
+  const [rowCount, setRowCount] = React.useState(0);
 
   const classes = useStyles();
   const defaultColumn = React.useMemo(
@@ -96,6 +96,7 @@ const EnhancedTable = (props) => {
       autoResetPage: false,
       autoResetSortBy: false,
       autoResetFilters: false,
+      // pageCount
     },
     useGlobalFilter,
     useSortBy,
@@ -137,7 +138,7 @@ const EnhancedTable = (props) => {
     api.query(query).then(res => {
       const {data: {page, values, total}} = res;
       setData(values);
-      setPageCount(total);
+      setRowCount(total);
     });
   }, [globalFilter, sortBy, pageIndex, pageSize]);
 
@@ -171,8 +172,10 @@ const EnhancedTable = (props) => {
     api.delete({id_list}).then(res => {
       if (res.status === 'success') {
         setData(newData);
+        setRowCount(rowCount - 1);
       }
     });
+
   };
   const updateHandler = value => {
     let isNew = true;
@@ -262,7 +265,7 @@ const EnhancedTable = (props) => {
               }
               rowsPerPageOptions={[5, 10, 25]}
               colSpan={3}
-              count={pageCount}
+              count={rowCount}
               rowsPerPage={pageSize}
               page={pageIndex}
               SelectProps={{
