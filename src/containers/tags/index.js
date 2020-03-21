@@ -9,6 +9,7 @@ function Index() {
         id: 'id',
         Header: 'id',
         accessor: 'id',
+        disableSortBy: true
       },
       {
         Header: '名字',
@@ -17,6 +18,7 @@ function Index() {
       {
         Header: '描述',
         accessor: 'describe',
+        disableSortBy: true
       }, {
         Header: '文章数量',
         accessor: 'count',

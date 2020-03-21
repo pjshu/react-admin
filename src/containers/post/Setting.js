@@ -15,14 +15,13 @@ import {
 import {Field, useFormikContext} from 'formik';
 import Tags from './Tags';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import styles from "./styles/settingStyles";
+import useStyles from "./setting.styles";
 import CreateDate from "../../components/TimePickField";
 import {useDispatch, useSelector} from "react-redux";
 import {closeDrawer, selectPost, setAutoSaveTime, setAutoSaveChecked} from '../../redux/postSlice';
 import Switch from '@material-ui/core/Switch';
 
 
-const useStyles = makeStyles((theme) => styles(theme));
 
 export function Setting({formikRef, onSubmit}) {
   const classes = useStyles();

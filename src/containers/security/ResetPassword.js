@@ -1,7 +1,5 @@
 import React from 'react';
 import {Form, Formik, Field} from "formik";
-import {object, ref, string} from 'yup';
-import TextFieldWithError from "../../components/TextFieldWithError";
 import {Button, Grid} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {selectSecurity, resetPassword} from "../../redux/userSlice";
@@ -14,6 +12,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import FormControl from '@material-ui/core/FormControl';
 import {makeStyles} from "@material-ui/core/styles";
 import {FormHelperText} from "@material-ui/core";
+import {validateResetPassword} from '../../helpers/validate'
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
@@ -67,24 +66,13 @@ function ResetPassword() {
   const onSubmit = (values) => {
     dispatch(resetPassword(values));
   };
-  const validationSchema = object({
-    old_password: string()
-      .max('30', '密码不能超过30位')
-      .required('请输入旧密码'),
-    password: string()
-      .max('30', '密码不能超过30位')
-      .required('请输入密码'),
-    confirm_password: string()
-      .oneOf([ref('password'), null], "密码不匹配")
-      .max('30', '密码不能超过30位')
-      .required('请确认密码'),
-  });
+
 
   return (
     <Formik
       initialValues={resetPasswordInit}
       onSubmit={onSubmit}
-      validationSchema={validationSchema}
+      validationSchema={validateResetPassword}
     >
       {
         ({errors, touched}) => (

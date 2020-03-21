@@ -22,6 +22,7 @@ export default function Tables() {
         id: 'id',
         Header: 'id',
         accessor: 'id',
+        disableSortBy: true
       },
       {
         Header: '标题',
@@ -31,11 +32,13 @@ export default function Tables() {
       {
         Header: '标签',
         accessor: 'tags',
+        disableSortBy: true,
         Cell: ({cell: {value}}) => <Tags values={value}/>
       },
       {
         Header: '评论',
         accessor: 'comments',
+        disableSortBy:true
       },
       {
         Header: '状态',

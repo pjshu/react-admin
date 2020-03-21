@@ -4,16 +4,40 @@ import {Field, Form, Formik} from 'formik';
 import MyEditor from '../../components/editor/Editor';
 import {Setting} from "./Setting";
 import SpeedSetting from "./SpeedSetting";
-import useStyles from "./styles/postStyles";
+import useStyles from "./post.styles";
 import {useSelector} from "react-redux";
 import {selectPost} from '../../redux/postSlice';
 import BraftEditor from "braft-editor";
 import {Paper} from "@material-ui/core";
+import {useDispatch} from "react-redux";
+import {addPostImg} from '../../redux/postSlice';
+import {ContentUtils} from 'braft-utils';
+import {getImageForm} from '../../helpers/misc';
+import {validatePost} from "../../helpers/validate";
 
-
-function Post({validationSchema, onSubmit, handleOnSave}) {
+function Post({postId, onSubmit, handleOnSave}) {
   const {initial} = useSelector(selectPost);
+  const dispatch = useDispatch();
   const formikRef = React.useRef();
+  const uploadImage = (e) => {
+    const files = e.target.files;
+    if (!files) {
+      return;
+    }
+    const blobUrl = URL.createObjectURL(files[0]);
+    const handleInsertImage = (url) => {
+      const base = 'http://127.0.0.1:5000/api/admin/posts/images/';
+      const {setFieldValue, values: {article}} = formikRef.current;
+      setFieldValue('article', ContentUtils.insertMedias(article, [{
+        type: 'IMAGE',
+        url: base + url
+      }]));
+    };
+    getImageForm(blobUrl).then(res => {
+      dispatch(addPostImg(res, postId, handleInsertImage));
+    });
+  };
+
   const classes = useStyles();
   return (
     <Container component={Paper} className={classes.root} maxWidth={false}>
@@ -22,7 +46,7 @@ function Post({validationSchema, onSubmit, handleOnSave}) {
         enableReinitialize
         initialValues={initial}
         onSubmit={onSubmit}
-        validationSchema={validationSchema}
+        validationSchema={validatePost}
       >
         {
           ({values, setFieldValue}) => (
@@ -36,6 +60,7 @@ function Post({validationSchema, onSubmit, handleOnSave}) {
                   variant="outlined"/>
               </Grid>
               <MyEditor
+                uploadImage={uploadImage}
                 value={BraftEditor.createEditorState(values.article)}
                 changeValue={value => {
                   setFieldValue('article', value);

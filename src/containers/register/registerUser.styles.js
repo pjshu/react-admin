@@ -1,4 +1,6 @@
-const styles = {
+import {makeStyles} from "@material-ui/core/styles";
+
+export default makeStyles({
   name: {
     '& > *': {
       width: '45%',
@@ -11,5 +13,4 @@ const styles = {
       width: '45%',
     }
   }
-};
-export default styles;
+});

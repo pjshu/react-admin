@@ -1,6 +1,8 @@
+import {makeStyles} from "@material-ui/core/styles";
+
 const drawerWidth = 240;
 
-const styles = (theme) => ({
+export default makeStyles((theme) => ({
   container: {
     padding: 10,
     '& > *': {
@@ -21,5 +23,4 @@ const styles = (theme) => ({
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
   },
-});
-export default styles;
+}));

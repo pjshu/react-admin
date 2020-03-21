@@ -67,7 +67,6 @@ const TableToolbar = props => {
           {tableName}
         </Typography>
       )}
-
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton onClick={deleteHandler}>

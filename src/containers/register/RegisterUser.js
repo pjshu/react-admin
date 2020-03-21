@@ -1,9 +1,7 @@
-import {Grid, makeStyles} from "@material-ui/core";
+import {Grid} from "@material-ui/core";
 import React from "react";
-import styles from './styles/step1Styles';
+import useStyles from './registerUser.styles';
 import TextFieldWithError from "../../components/TextFieldWithError";
-
-const useStyles = makeStyles(styles);
 
 function RegisterUser() {
   const classes = useStyles();

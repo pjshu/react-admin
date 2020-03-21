@@ -3,21 +3,19 @@ import {
   Button,
   Container,
   Grid,
-  makeStyles,
   Step,
   StepContent,
   StepLabel,
   Stepper,
 } from "@material-ui/core";
 import RegisterUser from './RegisterUser';
-import registerStyles from './styles/registerStyles';
+import useStyles from './register.styles';
 import RegisterEmail from "./RegisterEmail";
 import {Form, Formik} from "formik";
 import Modal from "./Modal";
 import {selectRegister, increaseActiveStep, decrementActiveStep, register, closeModal} from "../../redux/userSlice";
 import {useDispatch, useSelector} from "react-redux";
-
-const useStyles = makeStyles(theme => (registerStyles(theme)));
+import {validateRegister} from '../../helpers/validate'
 
 function Content({step, ...other}) {
   if (step === 0) {
@@ -28,7 +26,7 @@ function Content({step, ...other}) {
 }
 
 
-function Register({validationSchema}) {
+function Register() {
   const classes = useStyles();
   const {initial, activeStep} = useSelector(selectRegister());
   const dispatch = useDispatch();
@@ -63,7 +61,7 @@ function Register({validationSchema}) {
         className={classes.container}>
         <Formik
           innerRef={formikRef}
-          validationSchema={validationSchema}
+          validationSchema={validateRegister}
           onSubmit={onsubmit}
           initialValues={initial}
         >

@@ -3,6 +3,8 @@ import React from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import {fade, makeStyles} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+
 
 const useStyles = makeStyles(theme => ({
   search: {
@@ -29,6 +31,15 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  deleteIcon: {
+    zIndex: '100',
+    position: 'absolute',
+    right: 0,
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   inputRoot: {
     color: 'inherit',
     borderBottom: '1px solid',
@@ -43,28 +54,36 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const GlobalFilter = ({
-                        globalFilter,
-                        preGlobalFilteredRows,
-                        setGlobalFilter
-                      }) => {
+const GlobalFilter = ({globalFilter, setGlobalFilter}) => {
   const classes = useStyles();
   const [cacheFilter, setCacheFilter] = React.useState(globalFilter);
+  const handleClearFilter = () => {
+    setCacheFilter('');
+    setGlobalFilter('');
+  };
+  const handleInputChange = (e) => {
+    setCacheFilter(e.target.value);
+  };
+  const handleSearch = (e) => {
+    if (e.keyCode === 13) {
+      setGlobalFilter(e.target.value);
+    }
+  };
   return (
-    <div className={classes.search}>
+    <div title={'回车搜索'} className={classes.search}>
       <div className={classes.searchIcon}>
         <SearchIcon/>
       </div>
+      {
+        cacheFilter ? (
+          <div onClick={handleClearFilter} className={classes.deleteIcon}>
+            <DeleteForeverIcon/>
+          </div>) : null
+      }
       <InputBase
         value={cacheFilter || ''}
-        onKeyDown={e => {
-          if (e.keyCode === 13) {
-            setGlobalFilter(e.target.value);
-          }
-        }}
-        onChange={e => {
-          setCacheFilter(e.target.value);
-        }}
+        onKeyDown={handleSearch}
+        onChange={handleInputChange}
         // placeholder={`${count} 条...`}
         classes={{
           root: classes.inputRoot,

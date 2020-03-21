@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import api from "../helpers/http";
-import {addSuccessMessage, addErrorMessage} from "./globalSlice";
+import {addSuccessMessage, addErrorMessage, setMessageState, addLoadingMessage} from "./globalSlice";
+import {v4 as uuidV4} from 'uuid';
 
 export const slice = createSlice({
   name: 'tag',
@@ -65,14 +66,16 @@ export const addTag = () => dispatch => {
   });
 };
 8;
-export const addTagImg = (value, res, updateHandler) => dispatch => {
-  api.addTagImg(value.id, res).then(res => {
+export const addTagImg = (value, data, updateHandler) => dispatch => {
+  const messageId = uuidV4();
+  dispatch(addLoadingMessage({id: messageId, message: '图片正在上传'}));
+  api.addTagImg(data, value.id).then(res => {
     const {data, status} = res;
     if (status === 'success') {
-      updateHandler({...value, image: data.image});
-      dispatch(addSuccessMessage('图片上传成功'));
+      updateHandler({...value, image: data.image.url});
+      dispatch(setMessageState({id: messageId, state: 'success', message: '图片上传成功'}));
     } else {
-      dispatch(addErrorMessage('标签添加图片失败'));
+      dispatch(setMessageState({id: messageId, state: 'error', message: '图片上传失败'}));
     }
   });
 };

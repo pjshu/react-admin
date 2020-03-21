@@ -5,14 +5,14 @@ import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined'
 import MyEditor from "../../components/editor/Editor";
 import InputWithIcon from './InputWithIcon';
 import {Avatar, Button, Grid} from "@material-ui/core";
-import useStyles from './styles/userStyles';
+import useStyles from './user.styles';
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserInfo, modifyUserInfo} from "../../redux/userSlice";
 import BraftEditor from "braft-editor";
-import {Paper, Typography, ButtonBase} from "@material-ui/core";
+import {Paper} from "@material-ui/core";
+import {validateUserInfo} from '../../helpers/validate'
 
-
-function User({validationSchema}) {
+function User() {
   const dispatch = useDispatch();
   const {initial} = useSelector(selectUserInfo);
   const classes = useStyles();
@@ -37,6 +37,7 @@ function User({validationSchema}) {
     }
     dispatch(modifyUserInfo(data));
   };
+  //TODO: ???
   const handleUploadAvatar = (e, setFieldValue) => {
     const file = e.target.files;
     const url = window.URL.createObjectURL(file[0]);
@@ -54,7 +55,7 @@ function User({validationSchema}) {
         enableReinitialize
         initialValues={initial}
         onSubmit={onSubmit}
-        validationSchema={validationSchema}
+        validationSchema={validateUserInfo}
       >
         {
           ({values, setFieldValue, errors, touched}) => (

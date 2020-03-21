@@ -56,7 +56,8 @@ const MessageQueue = ({length = 3}) => {
       left: '10%',
       // transform: 'translateX(-50%)',
       height: 200,
-      width: 200,
+      minWidth: 200,
+      maxWidth: 300,
     }}>
       {
         newlyMessage.map(msg => (

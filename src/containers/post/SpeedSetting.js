@@ -8,7 +8,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import SettingsIcon from '@material-ui/icons/Settings';
 import {useFormikContext} from "formik";
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
-import useStyles from './styles/speedSettingStyles';
+import useStyles from './speedSetting.styles';
 import marked from '../../config/marked';
 import BraftEditor from "braft-editor";
 import {useDispatch} from "react-redux";

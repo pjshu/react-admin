@@ -4,7 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core/styles";
 import TextFieldWithError from "../../components/TextFieldWithError";
 import {Form, Formik} from 'formik';
-import {object, ref, string} from "yup";
+import {validateRecoveryPassword} from '../../helpers/validate';
 import {
   resetSendCodeTime, setIsSendCode, selectRecoveryPassword, recoveryPassword,
   sendRecPassCode, asyncDecSendCodeTime
@@ -27,21 +27,7 @@ function RecoveryPassword() {
   const formikRef = useRef();
   const {resendTime, isSendCode, initial} = useSelector(selectRecoveryPassword);
   const dispatch = useDispatch();
-  const validationSchema = object({
-    email: string()
-      .email('请输入正确的邮箱格式')
-      .required('请输入邮箱'),
-    // TODO 验证码位数
-    code: string()
-      .required('请输入验证码'),
-    password: string()
-      .max('30', '密码不能超过30位')
-      .required('请输入密码'),
-    confirm_password: string()
-      .oneOf([ref('password'), null], "密码不匹配")
-      .max('30', '密码不能超过30位')
-      .required('请确认密码'),
-  });
+
 
   useEffect(() => {
     if (resendTime > 0) {
@@ -69,7 +55,7 @@ function RecoveryPassword() {
           innerRef={formikRef}
           initialValues={initial}
           onSubmit={onSubmit}
-          validationSchema={validationSchema}
+          validationSchema={validateRecoveryPassword}
         >
           {
             ({errors, values}) => (

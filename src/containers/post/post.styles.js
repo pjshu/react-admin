@@ -1,6 +1,6 @@
 import {makeStyles} from "@material-ui/core/styles";
 
-const useStyles = makeStyles({
+export default makeStyles({
   root: {
     minHeight: '100%',
     position: 'relative',
@@ -9,5 +9,3 @@ const useStyles = makeStyles({
   },
 });
 
-
-export default useStyles;

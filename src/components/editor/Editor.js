@@ -15,8 +15,6 @@ import 'braft-extensions/dist/table.css';
 import 'braft-extensions/dist/emoticon.css';
 import 'prismjs/components/prism-python';
 import './prism.css';
-import useStyles from './editor.style';
-import {ContentUtils} from 'braft-utils';
 
 
 const codeHighlighterOptions = {
@@ -49,8 +47,7 @@ const emojiOption = {
 BraftEditor.use([Table(), Markdown(), CodeHighlighter(codeHighlighterOptions), HeaderId(), Emoticon(emojiOption)]);
 
 
-const MyEditor = ({changeValue, value, ...props}) => {
-  const classes = useStyles();
+const MyEditor = ({uploadImage, value, ...props}) => {
   const [modalOpen, setModalOpen] = React.useState(false);
   const handleOnOpen = () => {
     setModalOpen(true);
@@ -59,15 +56,7 @@ const MyEditor = ({changeValue, value, ...props}) => {
     setModalOpen(false);
   };
   const handleChangeImage = (e) => {
-    const files = e.target.files;
-    if (!files) {
-      return;
-    }
-    const url = URL.createObjectURL(files[0]);
-    changeValue(ContentUtils.insertMedias(value, [{
-      type: 'IMAGE',
-      url
-    }]));
+    uploadImage(e);
   };
 
   const extendControls = [{
@@ -93,8 +82,7 @@ const MyEditor = ({changeValue, value, ...props}) => {
         }} component={"label"} htmlFor={"post_image"}>图片</Button>
       </div>
     )
-  }
-  ];
+  }];
   return (
     <>
       <Preview {...{modalOpen, handleOnClose, value}}/>

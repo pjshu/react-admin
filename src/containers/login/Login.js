@@ -4,14 +4,13 @@ import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import {Form, Formik} from 'formik';
-import {object, string} from 'yup';
 import loginStyles from './login.styles';
 import TextFieldWithError from "../../components/TextFieldWithError";
 import {Link} from 'react-router-dom';
 import router from '../../contants/router';
 import {login, selectLogin} from '../../redux/userSlice';
 import {useDispatch, useSelector} from "react-redux";
-
+import {validateLogin} from '../../helpers/validate'
 
 const useStyles = makeStyles(theme => loginStyles(theme));
 
@@ -19,14 +18,6 @@ function Login() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const {initial} = useSelector(selectLogin);
-  const validationSchema = object({
-    username: string()
-      .max('30', '用户名不能超过30位')
-      .required('请输入用户名'),
-    password: string()
-      .max('30', '密码不能超过30位')
-      .required('请输入密码')
-  });
 
   function onSubmit(values) {
     dispatch(login(values));
@@ -38,7 +29,7 @@ function Login() {
         <Formik
           initialValues={initial}
           onSubmit={onSubmit}
-          validationSchema={validationSchema}
+          validationSchema={validateLogin}
         >
           {
             ({errors, touched}) => (

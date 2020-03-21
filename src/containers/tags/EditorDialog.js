@@ -11,20 +11,24 @@ import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import {Field, Form, Formik} from 'formik';
 import ButtonBase from "@material-ui/core/ButtonBase";
-import {number, object, string} from "yup";
 import {useDispatch} from "react-redux";
 import {addTagImg, modifyTag} from '../../redux/tagSlice';
+import {getImageForm} from "../../helpers/misc";
+import {validateTag} from "../../helpers/validate";
 
 // TODO: 去除硬编码
 const base = 'http://127.0.0.1:5000/api/admin/tags/images/';
 const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, closeDialog}) => {
-  const [image, setImage] = React.useState({url: ''});
+  const [image, setImage] = React.useState({
+    url: ''
+  });
   const dispatch = useDispatch();
   React.useEffect(() => {
     let url = dialogInit.image.url;
     url = url ? base + url : url;
-    setImage({url});
+    setImage({...image, url});
   }, [dialogInit]);
+
 
   const [switchState, setSwitchState] = React.useState({
     addMultiple: false,
@@ -38,18 +42,6 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
     setSwitchState({addMultiple: false});
   };
 
-  const validationSchema = object({
-    id: number()
-      .min(0, 'id不能小于0')
-      .required('id不能为空'),
-    name: string()
-      .max(64, '标签名最多64个字符')
-      .required('标签名不能为空'),
-    describe: string()
-      .max(128, '描述最多128个字符'),
-    count: number()
-      .required('count不能为空'),
-  });
   const handleClose = () => {
     closeDialog();
     resetSwitch();
@@ -61,18 +53,11 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
       return;
     }
     const url = window.URL.createObjectURL(file[0]);
-    setImage({url: url});
+    setImage({...image, url});
   };
 
   const uploadImage = (value) => {
-    async function getImage() {
-      const form = new FormData();
-      const blob = await fetch(image.url).then(r => r.blob());
-      form.append('image', blob);
-      return form;
-    }
-
-    getImage().then(res => {
+    getImageForm(image.url).then(res => {
       dispatch(addTagImg(value, res, updateHandler));
     });
   };
@@ -94,7 +79,7 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
             enableReinitialize
             initialValues={dialogInit}
             onSubmit={onSubmit}
-            validationSchema={validationSchema}
+            validationSchema={validateTag}
           >
             <Form id={'form'}>
               <Field

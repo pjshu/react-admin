@@ -46,24 +46,25 @@ const api = {
   posts: '/posts%',
   allTags: '/posts/tags',
   tags: '/tags%',
+  tagsImage: '/tags%/images',
+  postsImage: '/posts%/images',
   sessions: '/sessions',
   user: '/user',
   resetPassword: '/user/password/reset',
   recoveryPassword: '/user/password/recovery',
   email: '/user/email',
-  checkRegister: '/user/check'
+  checkRegister: '/user/check',
 };
-const generateApi = (resource, method) => (data = null, id = null) => {
+const generateApi = (resource, method = 'get', ...config) => (data = null, id = null) => {
   const url = api[resource].replace('%', id ? `/${id}` : '');
   return method === 'get' ?
     /**
      * @param data {Object}
      */
-    axios({method, url, params: data}) :
-    axios({method, url, data: data});
+    axios({method, url, params: data, ...config}) :
+    axios({method, url, data: data, ...config});
 };
 
-// 'param' and 'data' are Object
 const API = {
   queryPosts: generateApi('posts', 'get'),
   getPost: generateApi('posts', 'get'),
@@ -75,15 +76,12 @@ const API = {
   deleteTag: generateApi('tags', 'delete'),
   modifyTag: generateApi('tags', 'put'),
   addTag: generateApi('tags', 'post'),
-  //长传图片api,Content-Type 应该设置为Form而不是json
-  addTagImg(id, data) {
-    return axios.post(`/tags/${id}/images`, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }
-    );
-  },
+  addTagImg: generateApi('tagsImage', 'post', {
+    headers: {'Content-Type': 'multipart/form-data'}
+  }),
+  addPostImg: generateApi('postsImage', 'post', {
+    headers: {'Content-Type': 'multipart/form-data'}
+  }),
   checkRegister: generateApi('checkRegister', 'get'),
   login: generateApi('sessions', 'post'),
   logout: generateApi('sessions', 'delete'),

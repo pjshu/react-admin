@@ -1,6 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {Field, Form, Formik} from "formik";
-import {object, string} from 'yup';
+import {Form, Formik} from "formik";
 import {Button, Grid} from "@material-ui/core";
 import {
   asyncDecSendCodeTime, selectSecurity, resetSendCodeTime, setIsSendCode,
@@ -9,7 +8,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import TextFieldWithError from '../../components/TextFieldWithError';
 import {makeStyles} from "@material-ui/core/styles";
-
+import {validateResetEmail} from '../../helpers/validate'
 const useStyles = makeStyles((theme) => ({
   textfield: {
     width: '350px',
@@ -44,21 +43,13 @@ function ResetEmail({email}) {
     dispatch(sendRestEmailCode());
   };
 
-  const validationSchema = object({
-    email: string()
-      .email('请输入正确的邮箱格式')
-      .required('请输入邮箱'),
-    // TODO 验证码位数
-    code: string()
-      .required('请输入验证码')
-  });
 
   return (
     <Formik
       innerRef={formikRef}
       initialValues={resetEmailInit}
       onSubmit={onSubmit}
-      validationSchema={validationSchema}
+      validationSchema={validateResetEmail}
     >
       {
         ({errors, touched}) => (

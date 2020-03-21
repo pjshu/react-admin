@@ -43,6 +43,16 @@ export const slice = createSlice({
       const payload = action.payload;
       payload.time = getCurrentTime('second');
       payload.state = 'info';
+      state.message.push(payload);
+    },
+    setMessageState(state, action) {
+      const {id, state: state_, message} = action.payload;
+      for (let item of state.message) {
+        if (item.id === id) {
+          item.state = state_;
+          item.message = message;
+        }
+      }
     },
     removeMessage(state, action) {
       state.message = state.message.filter(item => item.id !== action.payload);
@@ -53,7 +63,7 @@ export const slice = createSlice({
     }
   }
 });
-export const {removeMessage, clearSuccessMessage, addSuccessMessage, clearAllMessage, addErrorMessage, addLoadingMessage} = slice.actions;
+export const {removeMessage, setMessageState, addSuccessMessage, clearAllMessage, addErrorMessage, addLoadingMessage} = slice.actions;
 export const {closeMessage} = slice.actions;
 export const selectMessage = state => state.global;
 

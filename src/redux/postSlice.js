@@ -2,7 +2,8 @@ import {createSlice} from '@reduxjs/toolkit';
 import {formatTime} from "../helpers/datetime";
 import api from "../helpers/http";
 import {toAdmin, toPost} from "../history";
-import {addErrorMessage, addSuccessMessage} from './globalSlice';
+import {addErrorMessage, addSuccessMessage, addLoadingMessage, setMessageState} from './globalSlice';
+import {v4 as uuidV4} from 'uuid';
 
 export const slice = createSlice({
   name: 'post',
@@ -102,6 +103,20 @@ export const addPost = () => dispatch => {
       dispatch(addSuccessMessage('删除成功'));
     } else {
       dispatch(addErrorMessage('删除成功'));
+    }
+  });
+};
+
+export const addPostImg = (data, id, handleInsertImage) => dispatch => {
+  const messageId = uuidV4();
+  dispatch(addLoadingMessage({id: messageId, message: '正在上传图片'}));
+  api.addPostImg(data, id).then(res => {
+    const {data, status} = res;
+    if (status === 'success') {
+      handleInsertImage(data.image.url);
+      dispatch(setMessageState({id: messageId, state: 'success', message: '图片上传成功'}));
+    } else {
+      dispatch(setMessageState({id: messageId, state: 'error', message: '图片上传失败'}));
     }
   });
 };
