@@ -109,7 +109,8 @@ function Nav() {
                 minHeight: 100,
                 maxHeight: 400,
                 minWidth: 300,
-                maxWidth: 500
+                maxWidth: 350,
+                overflow:'scroll'
               },
             }}
           >
@@ -117,7 +118,9 @@ function Nav() {
               清空全部
             </MenuItem>
             {message.map((msg) => (
-              <MenuItem key={msg.id} onClose={handleMenuClose}>
+              <MenuItem style={{
+                width:'100%'
+              }} key={msg.id} onClose={handleMenuClose}>
                 <Alert onClose={() => handleDeleteMessage(msg.id)} style={{
                   width: '100%'
                 }} variant="filled" severity={msg.state}>

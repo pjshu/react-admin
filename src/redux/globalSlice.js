@@ -22,6 +22,28 @@ export const slice = createSlice({
       }
       state.message.push(payload);
     },
+    //传入message
+    addSuccessMessage(state, action) {
+      const payload = {message: action.payload};
+      payload.time = getCurrentTime('second');
+      payload.id = uuidV4();
+      payload.state = 'success';
+      state.message.push(payload);
+    },
+    // 传入message
+    addErrorMessage(state, action) {
+      const payload = {message: action.payload};
+      payload.time = getCurrentTime('second');
+      payload.id = uuidV4();
+      payload.state = 'error';
+      state.message.push(payload);
+    },
+    //传入{id:'',message:''}
+    addLoadingMessage(state, action) {
+      const payload = action.payload;
+      payload.time = getCurrentTime('second');
+      payload.state = 'info';
+    },
     removeMessage(state, action) {
       state.message = state.message.filter(item => item.id !== action.payload);
     },
@@ -31,7 +53,7 @@ export const slice = createSlice({
     }
   }
 });
-export const {addMessage, removeMessage, clearSuccessMessage, clearAllMessage} = slice.actions;
+export const {removeMessage, clearSuccessMessage, addSuccessMessage, clearAllMessage, addErrorMessage, addLoadingMessage} = slice.actions;
 export const {closeMessage} = slice.actions;
 export const selectMessage = state => state.global;
 

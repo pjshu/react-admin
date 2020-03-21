@@ -1,11 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {formatTime} from "../helpers/datetime";
 import api from "../helpers/http";
-import AlertMessage from "../components/AlertMessage";
 import {toAdmin, toPost} from "../history";
-import {addMessage} from './globalSlice';
-import getCurrentTime from "../helpers/datetime";
-import UUID from 'uuid'
+import {addErrorMessage, addSuccessMessage} from './globalSlice';
 
 export const slice = createSlice({
   name: 'post',
@@ -23,7 +20,11 @@ export const slice = createSlice({
       change_date: formatTime(new Date())
     },
     drawOpen: false,
-    loading: true
+    loading: true,
+    autoSave: {
+      open: false,
+      time: 0
+    }
   },
   reducers: {
     initState(state, action) {
@@ -32,7 +33,7 @@ export const slice = createSlice({
     addAllTags(state, action) {
       state.initial.allTags = action.payload;
     },
-    closeDraw(state) {
+    closeDrawer(state) {
       state.drawOpen = false;
     },
     openDraw(state) {
@@ -40,11 +41,18 @@ export const slice = createSlice({
     },
     setLoading(state) {
       state.loading = false;
+    },
+    setAutoSaveTime(state, action) {
+      state.autoSave.time = action.payload;
+    },
+    setAutoSaveChecked(state, action) {
+      state.autoSave.open = action.payload;
     }
   }
 });
 const {initState, addAllTags} = slice.actions;
-export const {closeDraw, openDraw, setLoading} = slice.actions;
+export const {closeDrawer, openDraw, setLoading} = slice.actions;
+export const {setAutoSaveTime, setAutoSaveChecked} = slice.actions;
 
 export const getPost = (postId) => dispatch => {
   api.getPost(null, postId).then(res => {
@@ -53,8 +61,7 @@ export const getPost = (postId) => dispatch => {
       dispatch(initState(data));
       dispatch(setLoading(false));
     } else {
-      dispatch(addMessage({state: 'success', message: '请求错误', time: getCurrentTime()}));
-      AlertMessage.error("请求错误");
+      dispatch(addErrorMessage('请求错误'));
     }
   });
 };
@@ -69,11 +76,9 @@ export const getAllTags = () => dispatch => {
 export const modifyPost = (data, postId) => dispatch => {
   api.modifyPost(data, postId).then(res => {
     if (res.status === 'success') {
-      dispatch(addMessage({state: 'success', message: '上传成功', time: getCurrentTime()}));
-      AlertMessage.success("上传成功");
+      dispatch(addSuccessMessage('上传成功'));
     } else {
-      dispatch(addMessage({state: 'error', message: '上传失败', time: getCurrentTime()}));
-      AlertMessage.failed("上传失败");
+      dispatch(addErrorMessage('上传失败'));
     }
   });
 };
@@ -82,6 +87,9 @@ export const deletePost = (id) => dispatch => {
   api.deletePost({id}).then(res => {
     if (res.status === 'success') {
       toAdmin();
+      dispatch(addSuccessMessage('删除成功'));
+    } else {
+      dispatch(addErrorMessage('删除失败'));
     }
   });
 };
@@ -91,9 +99,13 @@ export const addPost = () => dispatch => {
     const {status, data} = res;
     if (status === 'success' && data.id) {
       toPost(data.id);
+      dispatch(addSuccessMessage('删除成功'));
+    } else {
+      dispatch(addErrorMessage('删除成功'));
     }
   });
 };
+
 export const selectPost = state => state.post;
 
 export default slice.reducer;

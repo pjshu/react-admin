@@ -1,7 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import api from "../helpers/http";
-import AlertMessage from "../components/AlertMessage";
-import {addMessage} from "./globalSlice";
+import {addSuccessMessage, addErrorMessage} from "./globalSlice";
 
 export const slice = createSlice({
   name: 'tag',
@@ -59,9 +58,9 @@ export const addTag = () => dispatch => {
     if (status === 'success') {
       dispatch(setTagId(data.id));
       dispatch(setDialogAsAdd());
+      dispatch(addSuccessMessage('标签添加成功'));
     } else {
-      dispatch(addMessage({state: 'success', message: '标签添加失败'}));
-      AlertMessage.failed('');
+      dispatch(addErrorMessage('标签添加失败'));
     }
   });
 };
@@ -71,9 +70,9 @@ export const addTagImg = (value, res, updateHandler) => dispatch => {
     const {data, status} = res;
     if (status === 'success') {
       updateHandler({...value, image: data.image});
+      dispatch(addSuccessMessage('图片上传成功'));
     } else {
-      dispatch(addMessage({state: 'success', message: '标签添加图片失败'}));
-      console.log('error');
+      dispatch(addErrorMessage('标签添加图片失败'));
     }
   });
 };
@@ -83,6 +82,9 @@ export const modifyTag = (value, image, updateHandler) => dispatch => {
     if (res.status === 'success') {
       updateHandler({...value, image});
       dispatch(initDialog());
+      dispatch(addSuccessMessage('标签修改成功'));
+    } else {
+      dispatch(addErrorMessage('标签修改失败'));
     }
   });
 };

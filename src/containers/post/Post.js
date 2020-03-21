@@ -13,7 +13,7 @@ import {Paper} from "@material-ui/core";
 
 function Post({validationSchema, onSubmit, handleOnSave}) {
   const {initial} = useSelector(selectPost);
-  const formikRef = React.createRef();
+  const formikRef = React.useRef();
   const classes = useStyles();
   return (
     <Container component={Paper} className={classes.root} maxWidth={false}>

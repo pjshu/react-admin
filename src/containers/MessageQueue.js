@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectMessage, closeMessage} from "../redux/globalSlice";
 import List from '@material-ui/core/List';
 import {ListItem, Box, Fade, Snackbar, SnackbarContent, makeStyles} from '@material-ui/core';
+import {getTimeStamp} from '../helpers/datetime';
 
 const useStyles = makeStyles({
   snackbarRoot: {
@@ -17,10 +18,11 @@ const Message = ({msg}) => {
   const handleOnclose = () => {
     setOpen(false);
   };
+
   return (
     <Snackbar classes={{
       root: classes.snackbarRoot
-    }} onClose={handleOnclose} open={open} autoHideDuration={6000}>
+    }} onClose={handleOnclose} autoHideDuration={6000} open={open}>
       <Fade in={open}>
         <Box
           component={Alert}
@@ -39,11 +41,15 @@ const Message = ({msg}) => {
 
 const MessageQueue = ({length = 3}) => {
   const {message} = useSelector(selectMessage);
-  //TODO: 使用最近时间的至多三个(时间隔太久不加入该列表)
-  const newlyMessage = message.slice(-length);
+  // TODO
+  let newlyMessage = message.slice().reverse().filter(item => {
+    // 只显示6000毫秒内的消息
+    return getTimeStamp() - getTimeStamp(item.time) < 6000;
+  }).slice(-length).reverse();
   return (
     <List style={{
-      display: 'block',
+      flexDirection: 'column-reverse',
+      display: 'flex',
       zIndex: '1000',
       position: "absolute",
       bottom: 0,
@@ -54,8 +60,10 @@ const MessageQueue = ({length = 3}) => {
     }}>
       {
         newlyMessage.map(msg => (
-          <ListItem>
-            <Message key={msg.id} msg={msg}/>
+          <ListItem key={msg.id} style={{
+            display: 'block'
+          }}>
+            <Message msg={msg}/>
           </ListItem>
         ))
       }

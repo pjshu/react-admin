@@ -1,24 +1,19 @@
-一个半成的残次品
 
-添加功能:
+TODO:
 - 文章加密功能
 - 上传修改部分(而不是全部上传)
 - 文章回收站
 - 评论系统
 - 绑定手机
 - 摘录功能完善
-
-TODO:
 - 图片管理
-- 消息队列
 - 摘录功能
 - 表格列排序功能(可排序字段)
 - 表格完善搜索功能
 - 完善表格分页功能
 - 搜索框清空
-- 消息列表
 - bug:
-   - 标签表格点击添加新列按钮,表格不更新
+   - 标签表格点击添加新列按钮,表格行的总数不更新
 
    
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.

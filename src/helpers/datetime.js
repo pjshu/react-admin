@@ -8,7 +8,7 @@ const formatTime = (d, accuracy = 'minutes') => {
   const hour = d.getHours();
   const minutes = d.getMinutes();
   const second = d.getSeconds();
-  return `${year}/${month}/${date} ${hour}:${minutes < 10 ? 0 : ''}${minutes}${accuracy === 'second' ? ` ${second}s` : ''}`;
+  return `${year}/${month}/${date} ${hour}:${minutes < 10 ? 0 : ''}${minutes}${accuracy === 'second' ? `:${second}` : ''}`;
 };
 
 const getCurrentTime = (accuracy = 'minutes') => {
@@ -16,5 +16,9 @@ const getCurrentTime = (accuracy = 'minutes') => {
   return formatTime(current, accuracy);
 };
 
+const getTimeStamp = (formatTime = null) => {
+  return formatTime ? new Date(formatTime).getTime() : new Date().getTime();
+};
+
 export default getCurrentTime;
-export {formatTime};
+export {formatTime, getTimeStamp};

@@ -1,4 +1,4 @@
-import React, {useEffect, createRef} from 'react';
+import React, {useEffect} from 'react';
 import {Button, Container, Grid} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core/styles";
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 
 
 function RecoveryPassword() {
-  const formikRef = createRef();
+  const formikRef = useRef();
   const {resendTime, isSendCode, initial} = useSelector(selectRecoveryPassword);
   const dispatch = useDispatch();
   const validationSchema = object({

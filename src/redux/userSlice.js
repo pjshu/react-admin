@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import api from "../helpers/http";
 import AlertMessage from "../components/AlertMessage";
 import {toAdmin, toLogin} from "../history";
-import {addMessage} from "./globalSlice";
+import {addSuccessMessage, addErrorMessage} from "./globalSlice";
 
 export const slice = createSlice({
   name: 'user',
@@ -83,12 +83,10 @@ export const login = values => dispatch => {
       const data = res.data;
       localStorage.setItem('identify', data.id);
       localStorage.setItem('Authorization', data.token);
-      AlertMessage.success(data.msg ? data.msg : '登录成功');
-      dispatch(addMessage({state: 'success', message: '登录成功'}));
       toAdmin();
+      dispatch(addSuccessMessage('登录成功'));
     } else {
-      AlertMessage.failed('登录失败');
-      dispatch(addMessage({state: 'success', message: '登录失败'}));
+      dispatch(addErrorMessage('登录失败'));
     }
   });
 };
@@ -97,12 +95,11 @@ export const authLogin = setLoading => dispatch => {
   api.auth().then(res => {
     if (res.status === 'success') {
       toAdmin();
-      AlertMessage.success('您已经登录');
-      dispatch(addMessage({state: 'success', message: '您不能重复登录'}));
+      dispatch(addSuccessMessage('您已登录'));
     } else {
       //TODO:
       setLoading(false);
-      dispatch(addMessage({state: 'success', message: '登录失败'}));
+      dispatch(addErrorMessage('登录失败'));
     }
   });
 };
@@ -111,9 +108,11 @@ export const recoveryPassword = values => dispatch => {
   api.RecPassword(values).then(res => {
     // TODO res... === success
     if (res.status === 'success') {
-      AlertMessage.success('修改成功');
+      dispatch(addSuccessMessage('密码修改成功'));
       toLogin();
       dispatch(clearRendCodeState());
+    } else {
+      dispatch(addErrorMessage('密码修改失败'));
     }
   });
 };
@@ -121,9 +120,9 @@ export const recoveryPassword = values => dispatch => {
 export const sendRecPassCode = values => dispatch => {
   api.sendRecPassCode({email: values.email}).then(res => {
     if (res.status === 'success') {
-      AlertMessage.success('发送成功,请检查邮箱');
+      dispatch(addSuccessMessage('邮件发送成功,请检查邮箱'));
     } else {
-      AlertMessage.failed(res.data.msg);
+      dispatch(addErrorMessage(res.data.msg));
     }
   });
 };
@@ -137,10 +136,10 @@ export const asyncDecSendCodeTime = () => dispatch => {
 export const register = (values) => dispatch => {
   api.register(values).then(res => {
     if (res.status === 'success') {
-      AlertMessage.success('注册成功');
+      dispatch(addSuccessMessage('注册成功'));
       toLogin();
     } else {
-      AlertMessage.failed(res.data.msg);
+      dispatch(addErrorMessage(res.data.msg));
     }
   });
 };
@@ -150,16 +149,16 @@ export const checkRegister = (setLoading) => dispatch => {
     if (res.status && res.status === 'success') {
       setLoading(false);
     } else {
-      AlertMessage.failed('您已注册');
+      dispatch(addSuccessMessage('您已注册'));
     }
   });
 };
 export const sendRestEmailCode = () => dispatch => {
   api.sendRestEmailCode().then(res => {
     if (res.status === 'success') {
-      AlertMessage.success('验证码发送成,请查收邮箱');
+      dispatch(addSuccessMessage('验证码发送成,请查收邮箱'));
     } else {
-      AlertMessage.failed(res.data.msg);
+      dispatch(addErrorMessage(res.data.msg));
     }
   });
 };
@@ -167,9 +166,9 @@ export const sendRestEmailCode = () => dispatch => {
 export const resetEmail = (values) => dispatch => {
   api.resetEmail(values).then(res => {
     if (res.status === 'success') {
-      AlertMessage.success('修改成功');
+      dispatch(addSuccessMessage('邮件修改成功'));
     } else {
-      AlertMessage.failed(res.data.msg);
+      dispatch(addErrorMessage(res.data.msg));
     }
   });
 };
@@ -177,8 +176,9 @@ export const resetEmail = (values) => dispatch => {
 export const resetPassword = (values) => dispatch => {
   api.resetPassword(values).then(res => {
     if (res.status === 'success') {
-      AlertMessage.success('修改成功');
+      dispatch(addSuccessMessage('密码修改成功'));
     } else {
+      dispatch(addErrorMessage('密码修改失败'));
       /**
        * data.msg.old_password.[0: "error"]
        */
@@ -189,23 +189,33 @@ export const resetPassword = (values) => dispatch => {
 
 export const getUserEmail = (setLoading) => dispatch => {
   api.getUserInfo().then(res => {
-    const data = res.data;
-    dispatch(setUserEmail(data.email));
-    setLoading(false);
+    const {data, status} = res;
+    if (status === 'success') {
+      dispatch(setUserEmail(data.email));
+      setLoading(false);
+    } else {
+      dispatch(addErrorMessage('获取邮件信息失败'));
+    }
   });
 };
 
 export const getUserInfo = (setLoading) => dispatch => {
   api.getUserInfo().then(res => {
-    dispatch(setUserInfo(res.data));
-    setLoading(false);
+    if (res.status === 'success') {
+      dispatch(setUserInfo(res.data));
+      setLoading(false);
+    } else {
+      dispatch(addErrorMessage('获取用户信息失败'));
+    }
   });
 };
 
 export const modifyUserInfo = (values) => dispatch => {
   api.modifyUserInfo(values).then(res => {
     if (res.status === 'success') {
-      AlertMessage.success('修改成功');
+      dispatch(addSuccessMessage('用户信息修改成功'))
+    }else {
+      dispatch(addErrorMessage('用户信息修改失败'))
     }
   });
 };
