@@ -10,7 +10,6 @@ import {
   MenuItem,
   Select,
   TextField,
-  Typography
 } from '@material-ui/core';
 import {Field, useFormikContext} from 'formik';
 import Tags from './Tags';
@@ -20,10 +19,10 @@ import CreateDate from "../../components/TimePickField";
 import {useDispatch, useSelector} from "react-redux";
 import {closeDrawer, selectPost, setAutoSaveTime, setAutoSaveChecked} from '../../redux/postSlice';
 import Switch from '@material-ui/core/Switch';
+import Excerpt from "./Excerpt";
 
-
-
-export function Setting({formikRef, onSubmit}) {
+export function Setting({formRef, onSubmit, uploadImage}) {
+  const [excerptOpen, setExcerptOpen] = React.useState(false);
   const classes = useStyles();
   const timerId = React.useRef();
   const {drawOpen, autoSave} = useSelector(selectPost);
@@ -33,8 +32,8 @@ export function Setting({formikRef, onSubmit}) {
   React.useEffect(() => {
     if (autoSave.open && autoSave.time > 0) {
       timerId.current = setInterval(() => {
-        if (formikRef.current) {
-          onSubmit(formikRef.current.values);
+        if (formRef.current) {
+          onSubmit(formRef.current.values);
         }
       }, autoSave.time * 1000 * 60);
     }
@@ -80,22 +79,7 @@ export function Setting({formikRef, onSubmit}) {
         <Tags/>
         <CreateDate/>
         <TextField label="修改日期" InputProps={{readOnly: true}} value={change_date}/>
-        <Typography component="h2">
-          摘录(双击放大):
-        </Typography>
-        <Field
-          title={'双击放大'}
-          as={TextareaAutosize}
-          rowsMin={5}
-          rowsMax={15}
-          style={{
-            width: '100%'
-          }}
-          name={'excerpt'}
-          onDoubleClick={e => {
-            console.log(e);
-          }}
-        />
+        {/*<Excerpt {...{excerptOpen, setExcerptOpen, uploadImage}}/>*/}
         <div>
           自动保存:
           <Switch

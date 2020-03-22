@@ -21,7 +21,6 @@ function Preview({modalOpen, handleOnClose, value}) {
   return (
     <div
       className={classes.modal}
-      style={{}}
     >
       <div className={classes.paper}>
         <div

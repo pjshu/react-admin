@@ -18,31 +18,37 @@ import {validatePost} from "../../helpers/validate";
 function Post({postId, onSubmit, handleOnSave}) {
   const {initial} = useSelector(selectPost);
   const dispatch = useDispatch();
-  const formikRef = React.useRef();
-  const uploadImage = (e) => {
-    const files = e.target.files;
-    if (!files) {
-      return;
-    }
-    const blobUrl = URL.createObjectURL(files[0]);
-    const handleInsertImage = (url) => {
-      const base = 'http://127.0.0.1:5000/api/admin/posts/images/';
-      const {setFieldValue, values: {article}} = formikRef.current;
-      setFieldValue('article', ContentUtils.insertMedias(article, [{
-        type: 'IMAGE',
-        url: base + url
-      }]));
-    };
-    getImageForm(blobUrl).then(res => {
-      dispatch(addPostImg(res, postId, handleInsertImage));
-    });
+  const formRef = React.useRef();
+  // const uploadImage = (e) => {
+  //   const files = e.target.files;
+  //   if (!files) {
+  //     return;
+  //   }
+  //   const blobUrl = URL.createObjectURL(files[0]);
+  //   const handleInsertImage = (url) => {
+  //     //TODO
+  //     const base = 'http://127.0.0.1:5000/api/admin/images/';
+  //     const {setFieldValue, values: {article}} = formRef.current;
+  //     setFieldValue('article', ContentUtils.insertMedias(article, [{
+  //       type: 'IMAGE',
+  //       url: base + url
+  //     }]));
+  //   };
+  //   getImageForm(blobUrl).then(res => {
+  //     dispatch(addPostImg(res, postId, handleInsertImage));
+  //   });
+  // };
+  const myUploadFn = (param) => {
+    //TODO
+    const serverUrl = 'http://127.0.0.1:5000/api/admin/images/';
+    dispatch(addPostImg(param,postId));
   };
 
   const classes = useStyles();
   return (
     <Container component={Paper} className={classes.root} maxWidth={false}>
       <Formik
-        innerRef={formikRef}
+        innerRef={formRef}
         enableReinitialize
         initialValues={initial}
         onSubmit={onSubmit}
@@ -60,16 +66,13 @@ function Post({postId, onSubmit, handleOnSave}) {
                   variant="outlined"/>
               </Grid>
               <MyEditor
-                uploadImage={uploadImage}
+                // uploadImage={uploadImage}
                 value={BraftEditor.createEditorState(values.article)}
-                changeValue={value => {
-                  setFieldValue('article', value);
-                }}
                 onChange={value => {
                   setFieldValue('article', value);
                 }}
               />
-              <Setting formikRef={formikRef} onSubmit={onSubmit}/>
+              <Setting formRef={formRef} onSubmit={onSubmit} uploadImage={uploadImage}/>
               <SpeedSetting/>
             </Form>
           )

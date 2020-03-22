@@ -17,7 +17,7 @@ import {getImageForm} from "../../helpers/misc";
 import {validateTag} from "../../helpers/validate";
 
 // TODO: 去除硬编码
-const base = 'http://127.0.0.1:5000/api/admin/tags/images/';
+const base = 'http://127.0.0.1:5000/api/admin/images/';
 const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, closeDialog}) => {
   const [image, setImage] = React.useState({
     url: ''
@@ -61,6 +61,7 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
       dispatch(addTagImg(value, res, updateHandler));
     });
   };
+
   const onSubmit = (value) => {
     dispatch(modifyTag(value, image, updateHandler));
     uploadImage(value);

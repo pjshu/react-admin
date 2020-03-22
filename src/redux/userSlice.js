@@ -99,7 +99,7 @@ export const authLogin = setLoading => dispatch => {
     } else {
       //TODO:
       setLoading(false);
-      dispatch(addErrorMessage('登录失败'));
+      // dispatch(addErrorMessage('登录失败'));
     }
   });
 };

@@ -31,9 +31,9 @@ function Register() {
   const {initial, activeStep} = useSelector(selectRegister());
   const dispatch = useDispatch();
   const steps = ['创建用户(必选)', '添加邮箱(可选)'];
-  const formikRef = React.useRef();
+  const formRef = React.useRef();
   const handleNext = () => {
-    const errors = formikRef.current.errors;
+    const errors = formRef.current.errors;
     if (activeStep === 0 && !errors.user) {
       dispatch(increaseActiveStep());
     } else {
@@ -60,7 +60,7 @@ function Register() {
         alignItems="center"
         className={classes.container}>
         <Formik
-          innerRef={formikRef}
+          innerRef={formRef}
           validationSchema={validateRegister}
           onSubmit={onsubmit}
           initialValues={initial}

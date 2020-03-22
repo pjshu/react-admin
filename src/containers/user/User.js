@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectUserInfo, modifyUserInfo} from "../../redux/userSlice";
 import BraftEditor from "braft-editor";
 import {Paper} from "@material-ui/core";
-import {validateUserInfo} from '../../helpers/validate'
+import {validateUserInfo} from '../../helpers/validate';
 
 function User() {
   const dispatch = useDispatch();
@@ -67,7 +67,7 @@ function User() {
                       marginLeft: '120px'
                     }}>
                       <input
-                        onChange={(e) => console.log(e)}
+                        onChange={(e) => handleUploadAvatar(e, setFieldValue)}
                         accept="image/*"
                         type="file"
                         id={"avatar"}
@@ -114,7 +114,6 @@ function User() {
                     </Grid>
                     <Grid item>
                       <MyEditor
-                        name="about"
                         value={BraftEditor.createEditorState(values.about)}
                         onChange={value => {
                           setFieldValue('about', value);

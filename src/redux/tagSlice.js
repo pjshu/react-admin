@@ -70,9 +70,8 @@ export const addTagImg = (value, data, updateHandler) => dispatch => {
   const messageId = uuidV4();
   dispatch(addLoadingMessage({id: messageId, message: '图片正在上传'}));
   api.addTagImg(data, value.id).then(res => {
-    const {data, status} = res;
-    if (status === 'success') {
-      updateHandler({...value, image: data.image.url});
+    if (res.status === 'success') {
+      updateHandler({...value, image: {url: res.data.image.url}});
       dispatch(setMessageState({id: messageId, state: 'success', message: '图片上传成功'}));
     } else {
       dispatch(setMessageState({id: messageId, state: 'error', message: '图片上传失败'}));

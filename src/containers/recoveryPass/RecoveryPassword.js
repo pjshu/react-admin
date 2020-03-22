@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 
 
 function RecoveryPassword() {
-  const formikRef = useRef();
+  const formRef = React.useRef();
   const {resendTime, isSendCode, initial} = useSelector(selectRecoveryPassword);
   const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ function RecoveryPassword() {
     dispatch(recoveryPassword(values));
   };
   const handelSendCode = () => {
-    const current = formikRef.current;
+    const current = formRef.current;
     if (current.values.email && !current.errors.email) {
       dispatch(resetSendCodeTime());
       dispatch(setIsSendCode());
@@ -52,7 +52,7 @@ function RecoveryPassword() {
     <Container maxWidth={false} className={classes.container}>
       <Grid container justify="center" alignItems={"center"} className={classes.container}>
         <Formik
-          innerRef={formikRef}
+          innerRef={formRef}
           initialValues={initial}
           onSubmit={onSubmit}
           validationSchema={validateRecoveryPassword}

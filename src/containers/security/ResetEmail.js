@@ -22,7 +22,7 @@ function ResetEmail({email}) {
   const dispatch = useDispatch();
   const classes = useStyles();
   const {initial: {resetEmailInit}, resendTime, isSendCode} = useSelector(selectSecurity);
-  const formikRef = useRef();
+  const formRef = useRef();
   //TODO 性能优化:每次计时器改变,都会重新渲染
   useEffect(() => {
     if (resendTime > 0) {
@@ -36,7 +36,7 @@ function ResetEmail({email}) {
   const handleSendCode = () => {
     dispatch(resetSendCodeTime());
     dispatch(setIsSendCode());
-    const {setFieldValue, values} = formikRef.current;
+    const {setFieldValue, values} = formRef.current;
     if (values.email === email) {
       setFieldValue('email', '');
     }
@@ -46,7 +46,7 @@ function ResetEmail({email}) {
 
   return (
     <Formik
-      innerRef={formikRef}
+      innerRef={formRef}
       initialValues={resetEmailInit}
       onSubmit={onSubmit}
       validationSchema={validateResetEmail}

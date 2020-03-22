@@ -76,6 +76,7 @@ export const getAllTags = () => dispatch => {
 // 所有api统一通过dispatch调用,即使没有修改redux数据
 export const modifyPost = (data, postId) => dispatch => {
   api.modifyPost(data, postId).then(res => {
+    console.log(res);
     if (res.status === 'success') {
       dispatch(addSuccessMessage('上传成功'));
     } else {

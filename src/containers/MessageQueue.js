@@ -3,7 +3,7 @@ import Alert from '@material-ui/lab/Alert';
 import {useDispatch, useSelector} from "react-redux";
 import {selectMessage, closeMessage} from "../redux/globalSlice";
 import List from '@material-ui/core/List';
-import {ListItem, Box, Fade, Snackbar, SnackbarContent, makeStyles} from '@material-ui/core';
+import {ListItem, Box, Fade, Snackbar, makeStyles} from '@material-ui/core';
 import {getTimeStamp} from '../helpers/datetime';
 
 const useStyles = makeStyles({

@@ -8,7 +8,7 @@ import Emoticon, {defaultEmoticons} from 'braft-extensions/dist/emoticon';
 // 为标题区块(h1-h6)增加随机的id，便于在展示页支持锚点跳转功能
 import HeaderId from 'braft-extensions/dist/header-id';
 import React from "react";
-import {Button} from '@material-ui/core';
+import {Button, makeStyles} from '@material-ui/core';
 import Preview from "./Preview";
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/table.css';
@@ -45,7 +45,38 @@ const emojiOption = {
 };
 
 BraftEditor.use([Table(), Markdown(), CodeHighlighter(codeHighlighterOptions), HeaderId(), Emoticon(emojiOption)]);
+const useStyles = makeStyles({
+  button: {color: '#6a6f7b'},
+  buttonLabel: {
+    height: 36
+  }
+});
 
+const myUploadFn = (param) => {
+  const serverUrl = 'https://127.0.0.1/api/admin/';
+};
+
+const UploadImageBtn = ({handleChangeImage}) => {
+  const classes = useStyles();
+  return (
+    <div>
+      <input
+        onChange={handleChangeImage}
+        accept="image/*"
+        type="file"
+        id={"post_image"}
+        style={{display: "none"}}
+      />
+      <Button
+        classes={{label: classes.buttonLabel}}
+        className={classes.button}
+        component={"label"}
+        htmlFor={"post_image"}>
+        图片
+      </Button>
+    </div>
+  );
+};
 
 const MyEditor = ({uploadImage, value, ...props}) => {
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -64,25 +95,16 @@ const MyEditor = ({uploadImage, value, ...props}) => {
     type: 'button',
     text: '预览',
     onClick: handleOnOpen
-  }, {
-    key: 'imageUpload',
-    type: 'component',
-    text: '图片',
-    component: (
-      <div>
-        <input
-          onChange={handleChangeImage}
-          accept="image/*"
-          type="file"
-          id={"post_image"}
-          style={{display: "none"}}
-        />
-        <Button style={{
-          color: '#6a6f7b'
-        }} component={"label"} htmlFor={"post_image"}>图片</Button>
-      </div>
-    )
   }];
+  if (uploadImage) {
+    extendControls.push({
+      key: 'imageUpload',
+      type: 'component',
+      text: '图片',
+      component: <UploadImageBtn {...{handleChangeImage}}/>
+    });
+  }
+
   return (
     <>
       <Preview {...{modalOpen, handleOnClose, value}}/>
