@@ -15,7 +15,7 @@ import {Form, Formik} from "formik";
 import Modal from "./Modal";
 import {selectRegister, increaseActiveStep, decrementActiveStep, register, closeModal} from "../../redux/userSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {validateRegister} from '../../helpers/validate'
+import {validateRegister} from '../../helpers/validate';
 
 function Content({step, ...other}) {
   if (step === 0) {
@@ -28,7 +28,7 @@ function Content({step, ...other}) {
 
 function Register() {
   const classes = useStyles();
-  const {initial, activeStep} = useSelector(selectRegister());
+  const {initial, activeStep} = useSelector(selectRegister);
   const dispatch = useDispatch();
   const steps = ['创建用户(必选)', '添加邮箱(可选)'];
   const formRef = React.useRef();

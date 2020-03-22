@@ -1,8 +1,8 @@
 import React from 'react';
-import {ErrorMessage, Field} from "formik";
+import {Field, useFormikContext} from "formik";
 import TextField from "@material-ui/core/TextField";
-import Alert from "@material-ui/lab/Alert";
-import {Grid, makeStyles} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core";
+
 
 const useStyles = makeStyles({
   root: {
@@ -15,7 +15,9 @@ const useStyles = makeStyles({
   }
 });
 
-const TextFieldWithError = ({touched, errors, name, label, ...rest}) => {
+const TextFieldWithError = ({name, label, ...rest}) => {
+  const {errors, touched} = useFormikContext();
+
   const error = !!errors[name] && !!touched[name];
   return (
     <Field
@@ -31,25 +33,3 @@ const TextFieldWithError = ({touched, errors, name, label, ...rest}) => {
   );
 };
 export default TextFieldWithError;
-
-// const TextFieldWithError = ({name, label, style, ...other}) => {
-//   const classes = useStyles();
-//   return (
-//     <Grid style={style} className={classes.root}>
-//       <Field
-//         name={name}
-//         as={TextField}
-//         label={label}
-//         color="primary"
-//         fullWidth={true}
-//         {...other}
-//       />
-//       <ErrorMessage
-//         className={classes.error}
-//         name={name}
-//         component={Alert}
-//         severity="error"/>
-//     </Grid>
-//   );
-// };
-

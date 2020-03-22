@@ -42,11 +42,11 @@ axios.interceptors.response.use(res => {
   return Promise.resolve(error.response);
 });
 
-const api = {
-  posts: '/posts%',
-  allTags: '/posts/tags',
+export const api = {
   tags: '/tags%',
   tagsImage: '/images/tags%',
+  allTags: '/posts/tags',
+  posts: '/posts%',
   postsImage: '/images/posts%',
   sessions: '/sessions',
   user: '/user',
@@ -54,6 +54,9 @@ const api = {
   recoveryPassword: '/user/password/recovery',
   email: '/user/email',
   checkRegister: '/user/check',
+  images: '/images',
+  // TODO: 去除硬编码
+  baseImage: 'http://127.0.0.1:5000/api/admin/images/image/'
 };
 const generateApi = (resource, method = 'get', ...config) => (data = null, id = null) => {
   const url = api[resource].replace('%', id ? `/${id}` : '');
@@ -65,7 +68,7 @@ const generateApi = (resource, method = 'get', ...config) => (data = null, id = 
     axios({method, url, data: data, ...config});
 };
 
-const API = {
+export default {
   queryPosts: generateApi('posts', 'get'),
   getPost: generateApi('posts', 'get'),
   modifyPost: generateApi('posts', 'put'),
@@ -99,8 +102,9 @@ const API = {
   // 修改邮箱时调用(带上验证码与新邮箱地址)
   resetEmail: generateApi('email', 'put'),
   // 添加新邮箱时调用
-  addEmail: generateApi('email', 'post')
+  addEmail: generateApi('email', 'post'),
 
+  queryImages: generateApi('images', 'get'),
+  modifyImageInfo: generateApi('images', 'put'),
+  deleteImage: generateApi('images', 'delete')
 };
-
-export default API;

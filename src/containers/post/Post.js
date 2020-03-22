@@ -11,37 +11,14 @@ import BraftEditor from "braft-editor";
 import {Paper} from "@material-ui/core";
 import {useDispatch} from "react-redux";
 import {addPostImg} from '../../redux/postSlice';
-import {ContentUtils} from 'braft-utils';
-import {getImageForm} from '../../helpers/misc';
 import {validatePost} from "../../helpers/validate";
 
 function Post({postId, onSubmit, handleOnSave}) {
   const {initial} = useSelector(selectPost);
   const dispatch = useDispatch();
   const formRef = React.useRef();
-  // const uploadImage = (e) => {
-  //   const files = e.target.files;
-  //   if (!files) {
-  //     return;
-  //   }
-  //   const blobUrl = URL.createObjectURL(files[0]);
-  //   const handleInsertImage = (url) => {
-  //     //TODO
-  //     const base = 'http://127.0.0.1:5000/api/admin/images/';
-  //     const {setFieldValue, values: {article}} = formRef.current;
-  //     setFieldValue('article', ContentUtils.insertMedias(article, [{
-  //       type: 'IMAGE',
-  //       url: base + url
-  //     }]));
-  //   };
-  //   getImageForm(blobUrl).then(res => {
-  //     dispatch(addPostImg(res, postId, handleInsertImage));
-  //   });
-  // };
-  const myUploadFn = (param) => {
-    //TODO
-    const serverUrl = 'http://127.0.0.1:5000/api/admin/images/';
-    dispatch(addPostImg(param,postId));
+  const uploadFn = (form, successFn, errorFn) => {
+    dispatch(addPostImg(form, postId, successFn, errorFn));
   };
 
   const classes = useStyles();
@@ -66,13 +43,20 @@ function Post({postId, onSubmit, handleOnSave}) {
                   variant="outlined"/>
               </Grid>
               <MyEditor
-                // uploadImage={uploadImage}
+                uploadFn={uploadFn}
                 value={BraftEditor.createEditorState(values.article)}
                 onChange={value => {
                   setFieldValue('article', value);
                 }}
+                contentStyle={{
+                  minHeight: '100vh'
+                }}
               />
-              <Setting formRef={formRef} onSubmit={onSubmit} uploadImage={uploadImage}/>
+              <Setting
+                formRef={formRef}
+                onSubmit={onSubmit}
+                uploadFn={uploadFn}
+              />
               <SpeedSetting/>
             </Form>
           )

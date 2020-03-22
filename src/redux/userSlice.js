@@ -1,6 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
 import api from "../helpers/http";
-import AlertMessage from "../components/AlertMessage";
 import {toAdmin, toLogin} from "../history";
 import {addSuccessMessage, addErrorMessage} from "./globalSlice";
 
@@ -106,7 +105,6 @@ export const authLogin = setLoading => dispatch => {
 
 export const recoveryPassword = values => dispatch => {
   api.RecPassword(values).then(res => {
-    // TODO res... === success
     if (res.status === 'success') {
       dispatch(addSuccessMessage('密码修改成功'));
       toLogin();

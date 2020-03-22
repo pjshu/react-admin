@@ -27,8 +27,9 @@ function PostWrapper() {
     if (data.article) {
       data.article = data.article.toRAW();
     }
-    if (data.excerpt) {
-      data.excerpt = data.excerpt.toRAW()
+    try {
+      data.excerpt = data.excerpt.toRAW();
+    } catch (e) {
     }
     data.create_date = formatTime(data.create_date);
     dispatch(modifyPost(data, postId));

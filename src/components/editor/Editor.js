@@ -15,7 +15,7 @@ import 'braft-extensions/dist/table.css';
 import 'braft-extensions/dist/emoticon.css';
 import 'prismjs/components/prism-python';
 import './prism.css';
-
+import {api as API} from '../../helpers/http'
 
 const codeHighlighterOptions = {
   syntaxs: [
@@ -52,33 +52,8 @@ const useStyles = makeStyles({
   }
 });
 
-const myUploadFn = (param) => {
-  const serverUrl = 'https://127.0.0.1/api/admin/';
-};
 
-const UploadImageBtn = ({handleChangeImage}) => {
-  const classes = useStyles();
-  return (
-    <div>
-      <input
-        onChange={handleChangeImage}
-        accept="image/*"
-        type="file"
-        id={"post_image"}
-        style={{display: "none"}}
-      />
-      <Button
-        classes={{label: classes.buttonLabel}}
-        className={classes.button}
-        component={"label"}
-        htmlFor={"post_image"}>
-        图片
-      </Button>
-    </div>
-  );
-};
-
-const MyEditor = ({uploadImage, value, ...props}) => {
+const MyEditor = ({uploadFn, value, ...props}) => {
   const [modalOpen, setModalOpen] = React.useState(false);
   const handleOnOpen = () => {
     setModalOpen(true);
@@ -86,29 +61,40 @@ const MyEditor = ({uploadImage, value, ...props}) => {
   const handleOnClose = () => {
     setModalOpen(false);
   };
-  const handleChangeImage = (e) => {
-    uploadImage(e);
-  };
 
+  const myUploadFn = !uploadFn ? null : (param) => {
+    const form = new FormData();
+    form.append('image', param.file);
+    const successFn = (data) => {
+      const filename = data.image.url;
+      param.success({
+        url: API.baseImage + filename,
+        meta: {
+          id: filename,
+          title: filename,
+          alt: filename,
+        }
+      });
+    };
+
+    const errorFn = (response) => {
+      param.error({
+        msg: 'unable to upload.'
+      });
+    };
+    uploadFn(form, successFn, errorFn);
+  };
   const extendControls = [{
     key: 'preview',
     type: 'button',
     text: '预览',
     onClick: handleOnOpen
   }];
-  if (uploadImage) {
-    extendControls.push({
-      key: 'imageUpload',
-      type: 'component',
-      text: '图片',
-      component: <UploadImageBtn {...{handleChangeImage}}/>
-    });
-  }
 
   return (
     <>
       <Preview {...{modalOpen, handleOnClose, value}}/>
-      <BraftEditor value={value} {...{extendControls, ...props}}/>
+      <BraftEditor media={{uploadFn: myUploadFn}} value={value} {...{extendControls, ...props}}/>
     </>
   );
 };

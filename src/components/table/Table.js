@@ -13,7 +13,7 @@ import {
   TableContainer
 } from '@material-ui/core';
 
-import TablePaginationActions from './TablePaginationActions';
+import TablePaginationActions from '../Pagination';
 import {EditorColumn, CheckBoxColumn} from './Column';
 
 import TableToolbar from './TableToolbar';
@@ -116,13 +116,13 @@ const EnhancedTable = (props) => {
     },
   );
   /**
-   *
-   'orderBy':'{"title":"标题","field":"title"}'
-   'orderDirection': 'asc',
-   'page':'0',
-   'pageSize':'10',
-   'search':'str',
-   'totalCount':'1'
+   *query={
+   * 'orderBy':[{field:'title',desc:true}]
+   *'page':0,
+   *'pageSize':10,
+   *'search':'str',
+   *'totalCount':1
+   * }
    */
   const query = React.useMemo(() => ({
     page: pageIndex,
@@ -133,10 +133,10 @@ const EnhancedTable = (props) => {
     search: globalFilter
   }), [globalFilter, sortBy, pageIndex, pageSize]);
 
-
   React.useEffect(() => {
     api.query(query).then(res => {
       const {data: {page, values, total}} = res;
+      console.log(res);
       setData(values);
       setRowCount(total);
     });

@@ -10,7 +10,7 @@ import {Link} from 'react-router-dom';
 import router from '../../contants/router';
 import {login, selectLogin} from '../../redux/userSlice';
 import {useDispatch, useSelector} from "react-redux";
-import {validateLogin} from '../../helpers/validate'
+import {validateLogin} from '../../helpers/validate';
 
 const useStyles = makeStyles(theme => loginStyles(theme));
 
@@ -31,62 +31,58 @@ function Login() {
           onSubmit={onSubmit}
           validationSchema={validateLogin}
         >
-          {
-            ({errors, touched}) => (
-              <Form>
-                <Grid
-                  className={classes.paper}
-                  component={Paper}
-                  direction="column"
-                  container
-                  alignItems="center"
-                  justify="center"
-                  spacing={4}
-                >
-                  <Grid item style={{
-                    width: '100%'
-                  }}>
-                    <Grid container direction="column" spacing={2}>
-                      {
-                        [
-                          {name: "username", label: "用户名", variant: "outlined"},
-                          {name: "password", label: "密码", type: "password", variant: "outlined"}
-                        ].map(item => (
-                          <Grid item key={item.name}>
-                            <TextFieldWithError {...{...item, errors, touched}}/>
-                          </Grid>
-                        ))
-                      }
-                    </Grid>
+          <Form>
+            <Grid
+              className={classes.paper}
+              component={Paper}
+              direction="column"
+              container
+              alignItems="center"
+              justify="center"
+              spacing={4}
+            >
+              <Grid item style={{
+                width: '100%'
+              }}>
+                <Grid container direction="column" spacing={2}>
+                  {
+                    [
+                      {name: "username", label: "用户名", variant: "outlined"},
+                      {name: "password", label: "密码", type: "password", variant: "outlined"}
+                    ].map(item => (
+                      <Grid item key={item.name}>
+                        <TextFieldWithError {...{...item}}/>
+                      </Grid>
+                    ))
+                  }
+                </Grid>
+              </Grid>
+              <Grid item className={classes.submit}>
+                <Grid container direction={'column'}>
+                  <Grid item>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      fullWidth={true}
+                      type="submit"
+                    >
+                      登录
+                    </Button>
                   </Grid>
-                  <Grid item className={classes.submit}>
-                    <Grid container direction={'column'}>
-                      <Grid item>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          fullWidth={true}
-                          type="submit"
-                        >
-                          登录
-                        </Button>
-                      </Grid>
-                      <Grid item>
-                        <Button
-                          color="primary"
-                          fullWidth={true}
-                          component={Link}
-                          to={router.RECOVER_PASSWORD}
-                        >
-                          忘记密码
-                        </Button>
-                      </Grid>
-                    </Grid>
+                  <Grid item>
+                    <Button
+                      color="primary"
+                      fullWidth={true}
+                      component={Link}
+                      to={router.RECOVER_PASSWORD}
+                    >
+                      忘记密码
+                    </Button>
                   </Grid>
                 </Grid>
-              </Form>
-            )
-          }
+              </Grid>
+            </Grid>
+          </Form>
         </Formik>
       </Grid>
     </Container>

@@ -19,11 +19,29 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Excerpt({excerptOpen, setExcerptOpen, uploadImage}) {
+function Excerpt({uploadFn}) {
+  const [excerptOpen, setExcerptOpen] = React.useState(false);
   const {values: {excerpt}, setFieldValue} = useFormikContext();
   const classes = useStyles();
   return (
-    <>
+    <div>
+      <Typography component="h2">
+        摘录(双击修改):
+      </Typography>
+      <div
+        style={{
+          padding: '5px',
+          width: '100%',
+          minHeight: '120px',
+          maxHeight: '150px',
+          border: '1px solid #6a6f7b',
+          borderRadius: '2px'
+        }}
+        title={'双击修改'}
+        dangerouslySetInnerHTML={{__html: (excerpt ? BraftEditor.createEditorState(excerpt).toHTML() : '双击修改')}}
+        onDoubleClick={() => {
+          setExcerptOpen(true);
+        }}/>
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
@@ -34,30 +52,14 @@ function Excerpt({excerptOpen, setExcerptOpen, uploadImage}) {
       >
         <div className={classes.paper}>
           <MyEditor
-            uploadImage={uploadImage}
+            uploadFn={uploadFn}
             value={BraftEditor.createEditorState(excerpt)}
             onChange={value => {
               setFieldValue('excerpt', value);
             }}/>
         </div>
-        <Typography component="h2">
-          摘录(双击修改):
-        </Typography>
-        <div
-          style={{
-            padding: '5px',
-            width: '100%',
-            minHeight: '120px',
-            maxHeight: '150',
-            border: '1px solid'
-          }}
-          title={'双击放大'}
-          dangerouslySetInnerHTML={{__html: (excerpt ? excerpt.toHTML() : null)}}
-          onDoubleClick={() => {
-            setExcerptOpen(true);
-          }}/>
       </Modal>
-    </>
+    </div>
   );
 }
 

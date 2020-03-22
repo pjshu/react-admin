@@ -21,6 +21,7 @@ import FaceIcon from '@material-ui/icons/Face';
 import useStyles from './navStyle';
 import SecurityIcon from '@material-ui/icons/Security';
 import Badge from '@material-ui/core/Badge';
+import PermMediaIcon from '@material-ui/icons/PermMedia';
 import MailIcon from '@material-ui/icons/Mail';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -110,7 +111,7 @@ function Nav() {
                 maxHeight: 400,
                 minWidth: 300,
                 maxWidth: 350,
-                overflow:'scroll'
+                overflow: 'scroll'
               },
             }}
           >
@@ -119,7 +120,7 @@ function Nav() {
             </MenuItem>
             {message.map((msg) => (
               <MenuItem style={{
-                width:'100%'
+                width: '100%'
               }} key={msg.id} onClose={handleMenuClose}>
                 <Alert onClose={() => handleDeleteMessage(msg.id)} style={{
                   width: '100%'
@@ -144,6 +145,7 @@ function Nav() {
             [
               {title: '主页', route: router.ADMIN, icon: <AssignmentIcon/>},
               {title: '标签', route: router.ADMIN_TAGS, icon: <LocalOfferIcon/>},
+              {title: '图片', route: router.ADMIN_PIC, icon: <PermMediaIcon/>},
               {title: '用户', route: router.ADMIN_USER, icon: <FaceIcon/>},
               {title: '安全', route: router.ADMIN_SECURITY, icon: <SecurityIcon/>},
             ].map(item => (

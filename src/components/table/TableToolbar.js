@@ -48,11 +48,15 @@ const TableToolbar = props => {
       })}
     >
       <div>
-        <Tooltip title="Add">
-          <IconButton aria-label="add" onClick={handleAddRow}>
-            <AddIcon/>
-          </IconButton>
-        </Tooltip>
+        {
+          handleAddRow ? (
+            <Tooltip title="Add">
+              <IconButton aria-label="add" onClick={handleAddRow}>
+                <AddIcon/>
+              </IconButton>
+            </Tooltip>
+          ) : null
+        }
       </div>
       {numSelected > 0 ? (
         <Typography

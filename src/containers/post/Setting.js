@@ -21,8 +21,7 @@ import {closeDrawer, selectPost, setAutoSaveTime, setAutoSaveChecked} from '../.
 import Switch from '@material-ui/core/Switch';
 import Excerpt from "./Excerpt";
 
-export function Setting({formRef, onSubmit, uploadImage}) {
-  const [excerptOpen, setExcerptOpen] = React.useState(false);
+export function Setting({formRef, onSubmit, uploadFn}) {
   const classes = useStyles();
   const timerId = React.useRef();
   const {drawOpen, autoSave} = useSelector(selectPost);
@@ -79,7 +78,7 @@ export function Setting({formRef, onSubmit, uploadImage}) {
         <Tags/>
         <CreateDate/>
         <TextField label="修改日期" InputProps={{readOnly: true}} value={change_date}/>
-        {/*<Excerpt {...{excerptOpen, setExcerptOpen, uploadImage}}/>*/}
+        <Excerpt {...{uploadFn}}/>
         <div>
           自动保存:
           <Switch

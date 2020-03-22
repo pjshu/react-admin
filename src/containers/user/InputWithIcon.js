@@ -1,7 +1,6 @@
 import React from 'react';
-import {Grid, TextField} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
-import {Field} from 'formik';
 import TextFieldWithError from '../../components/TextFieldWithError';
 
 export default function InputWithIcon({icon, label, info, name, ...other}) {

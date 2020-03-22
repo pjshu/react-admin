@@ -15,9 +15,8 @@ import {useDispatch} from "react-redux";
 import {addTagImg, modifyTag} from '../../redux/tagSlice';
 import {getImageForm} from "../../helpers/misc";
 import {validateTag} from "../../helpers/validate";
+import {api} from "../../helpers/http";
 
-// TODO: 去除硬编码
-const base = 'http://127.0.0.1:5000/api/admin/images/';
 const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, closeDialog}) => {
   const [image, setImage] = React.useState({
     url: ''
@@ -25,7 +24,7 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
   const dispatch = useDispatch();
   React.useEffect(() => {
     let url = dialogInit.image.url;
-    url = url ? base + url : url;
+    url = url ? api.baseImage + url : url;
     setImage({...image, url});
   }, [dialogInit]);
 

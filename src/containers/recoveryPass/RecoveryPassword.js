@@ -73,9 +73,8 @@ function RecoveryPassword() {
                     justify={"flex-start"}>
                     <TextFieldWithError
                       style={{width: '265px'}}
-                      {...{
-                        name: 'email', label: '邮箱', variant: "outlined"
-                      }}/>
+                      {...{name: 'email', label: '邮箱', variant: "outlined"}}
+                    />
 
                     <Grid style={{marginBottom: '40px'}}>
                       <Button

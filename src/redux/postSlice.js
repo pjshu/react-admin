@@ -108,15 +108,16 @@ export const addPost = () => dispatch => {
   });
 };
 
-export const addPostImg = (data, id, handleInsertImage) => dispatch => {
+export const addPostImg = (form, postId, successFn, errorFn) => dispatch => {
   const messageId = uuidV4();
   dispatch(addLoadingMessage({id: messageId, message: '正在上传图片'}));
-  api.addPostImg(data, id).then(res => {
+  api.addPostImg(form, postId).then(res => {
     const {data, status} = res;
     if (status === 'success') {
-      handleInsertImage(data.image.url);
+      successFn(data);
       dispatch(setMessageState({id: messageId, state: 'success', message: '图片上传成功'}));
     } else {
+      errorFn();
       dispatch(setMessageState({id: messageId, state: 'error', message: '图片上传失败'}));
     }
   });
