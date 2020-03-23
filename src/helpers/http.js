@@ -55,10 +55,13 @@ export const api = {
   email: '/user/email',
   checkRegister: '/user/check',
   images: '/images%',
-  // TODO: 去除硬编码
-  baseImage: 'http://127.0.0.1:5000/api/admin/images/image/'
 };
-const generateApi = (resource, method = 'get', ...config) => (data = null, id = null) => {
+const generateApi = (resource, method = 'get', type, ...config) => (data = null, id = null) => {
+  if (type === 'form') {
+    config.push({
+      headers: {'Content-Type': 'multipart/form-data'}
+    });
+  }
   const url = api[resource].replace('%', id ? `/${id}` : '');
   return method === 'get' ?
     /**
@@ -79,12 +82,8 @@ export default {
   deleteTag: generateApi('tags', 'delete'),
   modifyTag: generateApi('tags', 'put'),
   addTag: generateApi('tags', 'post'),
-  addTagImg: generateApi('tagsImage', 'post', {
-    headers: {'Content-Type': 'multipart/form-data'}
-  }),
-  addPostImg: generateApi('postsImage', 'post', {
-    headers: {'Content-Type': 'multipart/form-data'}
-  }),
+  addTagImg: generateApi('tagsImage', 'post', 'form'),
+  addPostImg: generateApi('postsImage', 'post', 'form'),
   checkRegister: generateApi('checkRegister', 'get'),
   login: generateApi('sessions', 'post'),
   logout: generateApi('sessions', 'delete'),
@@ -104,6 +103,7 @@ export default {
   // 添加新邮箱时调用
   addEmail: generateApi('email', 'post'),
 
+  addImages: generateApi('images', 'post', 'form'),
   queryImages: generateApi('images', 'get'),
   modifyImageInfo: generateApi('images', 'put'),
   deleteImage: generateApi('images', 'delete')

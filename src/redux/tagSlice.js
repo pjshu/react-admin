@@ -71,7 +71,7 @@ export const addTagImg = (value, data, updateHandler) => dispatch => {
   dispatch(addLoadingMessage({id: messageId, message: '图片正在上传'}));
   api.addTagImg(data, value.id).then(res => {
     if (res.status === 'success') {
-      updateHandler({...value, image: {url: res.data.image.url}});
+      updateHandler({...value, image: {url: res.data.url}});
       dispatch(setMessageState({id: messageId, state: 'success', message: '图片上传成功'}));
     } else {
       dispatch(setMessageState({id: messageId, state: 'error', message: '图片上传失败'}));
@@ -91,5 +91,8 @@ export const modifyTag = (value, image, updateHandler) => dispatch => {
   });
 };
 
+export const addAddImages = () => dispatch => {
+  // api.addTagImg
+};
 export const selectTag = state => state.tag;
 export default slice.reducer;

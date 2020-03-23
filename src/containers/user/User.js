@@ -9,7 +9,7 @@ import useStyles from './user.styles';
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserInfo, modifyUserInfo} from "../../redux/userSlice";
 import BraftEditor from "braft-editor";
-import {Paper} from "@material-ui/core";
+import {Paper, Typography} from "@material-ui/core";
 import {validateUserInfo} from '../../helpers/validate';
 
 function User() {
@@ -61,45 +61,55 @@ function User() {
           ({values, setFieldValue, errors, touched}) => (
             <Form>
               <Grid container direction={"column"} spacing={5}>
-                <Grid item>
-                  <Grid container alignItems={'center'} direction={"row"} spacing={5}>
-                    <Grid item style={{
-                      marginLeft: '120px'
-                    }}>
-                      <input
-                        onChange={(e) => handleUploadAvatar(e, setFieldValue)}
-                        accept="image/*"
-                        type="file"
-                        id={"avatar"}
-                        style={{display: "none"}}
-                      />
-                      <label htmlFor={"avatar"} className={classes.avatar}>
-                        <Avatar alt="Cindy Baker" src={values.avatar}/>
-                      </label>
-                    </Grid>
+                <Grid item container alignItems={'center'} direction={"row"} spacing={5}>
+                  <Grid item style={{
+                    width: 200
+                  }}>
+                    <Typography>用户头像</Typography>
+                  </Grid>
+                  <Grid item style={{
+                    marginLeft: '120px'
+                  }}>
+                    <input
+                      onChange={(e) => handleUploadAvatar(e, setFieldValue)}
+                      accept="image/*"
+                      type="file"
+                      id={"avatar"}
+                      style={{display: "none"}}
+                    />
+                    <label htmlFor={"avatar"} className={classes.avatar}>
+                      <Avatar alt="Cindy Baker" src={values.avatar}/>
+                    </label>
                   </Grid>
                 </Grid>
-                <Grid item>
-                  <Grid container direction={"column"} spacing={5}>
-                    {
-                      [
-                        {name: 'username', icon: <AccountCircle/>, label: "用户名", info: '用于登录'},
-                        {name: 'nickname', icon: <AccountCircleOutlinedIcon/>, label: "昵称", info: "用于展示"},
-                      ].map(item => (
-                        <Grid key={item.name} item>
+                <Grid item container direction={"column"} spacing={5}>
+                  {
+                    [
+                      {name: 'username', icon: <AccountCircle/>, label: "用户名", info: '用于登录'},
+                      {name: 'nickname', icon: <AccountCircleOutlinedIcon/>, label: "昵称", info: "用于展示"},
+                    ].map(item => (
+                      <Grid item container key={item.name}>
+                        <Grid style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          width: 200
+                        }}>
+                          <Typography>{item.label}(必填)</Typography>
+                        </Grid>
+                        <Grid item>
                           <InputWithIcon
                             style={{width: '350px'}}
                             {...{...item, errors, touched}}
                           />
                         </Grid>
-                      ))
-                    }
-                  </Grid>
+                      </Grid>
+                    ))
+                  }
                 </Grid>
                 <Grid item>
                   <Button
                     style={{
-                      width: '100%'
+                      // width: '100%'
                     }}
                     type={"submit"}
                     variant="contained"
@@ -107,19 +117,17 @@ function User() {
                     提交
                   </Button>
                 </Grid>
-                <Grid item>
-                  <Grid container direction={"column"} spacing={5}>
-                    <Grid item>
-                      <p>关于我</p>
-                    </Grid>
-                    <Grid item>
-                      <MyEditor
-                        value={BraftEditor.createEditorState(values.about)}
-                        onChange={value => {
-                          setFieldValue('about', value);
-                        }}
-                      />
-                    </Grid>
+                <Grid item container direction={"column"} spacing={5}>
+                  <Grid item>
+                    <Typography>用户介绍:</Typography>
+                  </Grid>
+                  <Grid item>
+                    <MyEditor
+                      value={BraftEditor.createEditorState(values.about)}
+                      onChange={value => {
+                        setFieldValue('about', value);
+                      }}
+                    />
                   </Grid>
                 </Grid>
               </Grid>

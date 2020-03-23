@@ -15,7 +15,7 @@ import 'braft-extensions/dist/table.css';
 import 'braft-extensions/dist/emoticon.css';
 import 'prismjs/components/prism-python';
 import './prism.css';
-import {api as API} from '../../helpers/http'
+
 
 const codeHighlighterOptions = {
   syntaxs: [
@@ -66,13 +66,12 @@ const MyEditor = ({uploadFn, value, ...props}) => {
     const form = new FormData();
     form.append('image', param.file);
     const successFn = (data) => {
-      const filename = data.image.url;
       param.success({
-        url: API.baseImage + filename,
+        url: data.url,
         meta: {
-          id: filename,
-          title: filename,
-          alt: filename,
+          id: data.name,
+          title: data.name,
+          alt: data.name,
         }
       });
     };

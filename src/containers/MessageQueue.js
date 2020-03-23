@@ -51,7 +51,7 @@ const MessageQueue = ({length = 3}) => {
       flexDirection: 'column-reverse',
       display: 'flex',
       zIndex: '1000',
-      position: "absolute",
+      position: "fixed",
       bottom: 0,
       left: '10%',
       // transform: 'translateX(-50%)',

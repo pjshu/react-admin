@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
@@ -15,7 +14,7 @@ import {useDispatch} from "react-redux";
 import {addTagImg, modifyTag} from '../../redux/tagSlice';
 import {getImageForm} from "../../helpers/misc";
 import {validateTag} from "../../helpers/validate";
-import {api} from "../../helpers/http";
+
 
 const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, closeDialog}) => {
   const [image, setImage] = React.useState({
@@ -24,7 +23,6 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
   const dispatch = useDispatch();
   React.useEffect(() => {
     let url = dialogInit.image.url;
-    url = url ? api.baseImage + url : url;
     setImage({...image, url});
   }, [dialogInit]);
 

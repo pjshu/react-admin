@@ -1,44 +1,71 @@
 import React from 'react';
-import {Grid, useMediaQuery, useTheme} from "@material-ui/core";
+import {Grid, useMediaQuery, useTheme, Paper} from "@material-ui/core";
 import Card from "./Card";
-import p1 from './1.png';
 import Pagination from "../../components/Pagination";
-import api from '../../helpers/http';
+import {v4 as uuidV4} from 'uuid';
+import {selectImages, queryImages, setPage, addImages} from "../../redux/imageSlice";
+import {useDispatch, useSelector} from "react-redux";
+
 
 function Image() {
-  const [pagination, setPagination] = React.useState({
-    count: 0,
-    page: 0,
-    rowsPerPage: 8
-  });
-  const [images, setImages] = React.useState([]);
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up('md'));
+  const dispatch = useDispatch();
+  const {pagination, images} = useSelector(selectImages);
   const query = React.useMemo(() => ({
     page: pagination.page,
     pageSize: pagination.rowsPerPage,
-    rowsPerPage: matches ? 16 : 8
-  }), [pagination.page, pagination.rowsPerPage, matches]);
-
-  React.useEffect(() => {
-    api.queryImages(query).then(res => {
-      const data = res.data;
-      setPagination({
-        ...pagination,
-        count: data.total,
-      });
-      setImages(data.values);
+    rowsPerPage: 8
+  }), [pagination.page, pagination.rowsPerPage]);
+  const preventDefault = (e) => {
+    e.preventDefault(e);
+    e.stopPropagation();
+  };
+  const handleDrop = e => {
+    preventDefault(e);
+    // 最大同时上传三个文件
+    const files = [];
+    Object.values(e.dataTransfer.files).slice(-3).forEach(file => {
+      if (file instanceof File) {
+        files.push({
+          id: uuidV4(),
+          image: {
+            name: file.name,
+            url: URL.createObjectURL(file),
+          },
+          describe: '',
+          relationship: [],
+          count: 0,
+          upload: true, // 需要上传的图片设置该字段为true
+        });
+      }
     });
-  }, []);
+    dispatch(addImages(files));
+  };
+  React.useEffect(() => {
+    dispatch(queryImages(query));
+  }, [query]);
 
   const onChangePage = (page) => {
-    setPagination({...pagination, page});
+    dispatch(setPage(page));
   };
   return (
-    <Grid style={{
-      position: 'relative',
-      minHeight: '100%'
-    }} container justify={'center'} alignItems={"center"} spacing={6}>
+    <Grid
+      onDrop={handleDrop}
+      onDragOver={preventDefault}
+      onDragEnter={preventDefault}
+      onDragLeave={preventDefault}
+      component={Paper}
+      style={{
+        // position: 'relative',
+        // minHeight: '100%',
+        margin: 10,
+        padding: 10,
+        boxSizing: "border-box",
+        // border: '1px dashed'
+      }}
+      container justify={'center'}
+      alignItems={"center"}
+      spacing={6}
+    >
       <Grid item>
         <Grid
           spacing={8}
@@ -65,6 +92,6 @@ function Image() {
       </Grid>
     </Grid>
   );
-}
+};
 
 export default Image;
