@@ -54,7 +54,7 @@ export const api = {
   recoveryPassword: '/user/password/recovery',
   email: '/user/email',
   checkRegister: '/user/check',
-  images: '/images',
+  images: '/images%',
   // TODO: 去除硬编码
   baseImage: 'http://127.0.0.1:5000/api/admin/images/image/'
 };

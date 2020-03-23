@@ -1,112 +1,69 @@
 import React from 'react';
-import {Paper, Grid} from "@material-ui/core";
+import {Grid, useMediaQuery, useTheme} from "@material-ui/core";
 import Card from "./Card";
 import p1 from './1.png';
-import Table from '../../components/table';
-import api, {api as API} from "../../helpers/http";
-import Chip from '@material-ui/core/Chip';
-
+import Pagination from "../../components/Pagination";
+import api from '../../helpers/http';
 
 function Image() {
+  const [pagination, setPagination] = React.useState({
+    count: 0,
+    page: 0,
+    rowsPerPage: 8
+  });
+  const [images, setImages] = React.useState([]);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('md'));
+  const query = React.useMemo(() => ({
+    page: pagination.page,
+    pageSize: pagination.rowsPerPage,
+    rowsPerPage: matches ? 16 : 8
+  }), [pagination.page, pagination.rowsPerPage, matches]);
 
-  const ImgCell = ({values}) => {
-    return (
-      <div title={'双击放大'} style={{
-        width: '150px'
-      }}>
-        <img style={{
-          height: '150px',
-          width: '150px'
-        }} src={API.baseImage + values} alt=""/>
-      </div>
-    );
-  };
+  React.useEffect(() => {
+    api.queryImages(query).then(res => {
+      const data = res.data;
+      setPagination({
+        ...pagination,
+        count: data.total,
+      });
+      setImages(data.values);
+    });
+  }, []);
 
-  const RelCell = ({values}) => {
-    return (
-      <div>
-        {
-          values.map(item => (
-            <div key={item.id}>
-              <Chip label={`${item.type}:${item.name}`}/>
-            </div>
-          ))
-        }
-      </div>
-    );
-  };
-  const columns = React.useMemo(
-    () => [
-      {
-        id: 'id',
-        Header: 'id',
-        accessor: 'id',
-        disableSortBy: true
-      },
-      {
-        width: 150,
-        Header: '略缩图',
-        accessor: 'url',
-        disableSortBy: true,
-        Cell: ({cell: {value}}) => <ImgCell values={value}/>
-      },
-      {
-        Header: '描述',
-        accessor: 'describe',
-        disableSortBy: true
-      },
-      {
-        Header: '使用次数',
-        accessor: 'count',
-      },
-      {
-        Header: '关系',
-        accessor: 'relationship',
-        Cell: ({cell: {value}}) => <RelCell values={value}/>
-      }
-    ],
-    []
-  );
-  const handleEditor = () => {
-
+  const onChangePage = (page) => {
+    setPagination({...pagination, page});
   };
   return (
-    <div>
-            <Grid
-        spacing={8}
-        justify={"center"}
-        container
-      >
-        <Grid item>
-          <Card image={p1}/>
-        </Grid>
-        <Grid item>
-          <Card image={p1}/>
-        </Grid>
-        <Grid item>
-          <Card image={p1}/>
-        </Grid>
-        <Grid item>
-          <Card image={p1}/>
-        </Grid>
-        <Grid item>
-          <Card image={p1}/>
-        </Grid>
-        <Grid item>
-          <Card image={p1}/>
+    <Grid style={{
+      position: 'relative',
+      minHeight: '100%'
+    }} container justify={'center'} alignItems={"center"} spacing={6}>
+      <Grid item>
+        <Grid
+          spacing={8}
+          justify={"center"}
+          container>
+          {
+            images.map(item => {
+              return (
+                <Grid item key={item.id}>
+                  <Card {...item}/>
+                </Grid>
+              );
+            })
+          }
         </Grid>
       </Grid>
-      {/*<Table*/}
-      {/*  columns={columns}*/}
-      {/*  tableName={'图片'}*/}
-      {/*  handleEditor={handleEditor}*/}
-      {/*  api={{*/}
-      {/*    query: api.queryImages,*/}
-      {/*    delete: api.deleteImage,*/}
-      {/*    modify: api.modifyImageInfo,*/}
-      {/*  }}*/}
-      {/*/>*/}
-    </div>
+      <Grid item container justify={'center'}>
+        <Pagination {...{
+          count: pagination.count,
+          page: pagination.page,
+          rowsPerPage: pagination.rowsPerPage,
+          onChangePage
+        }}/>
+      </Grid>
+    </Grid>
   );
 }
 

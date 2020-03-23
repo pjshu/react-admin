@@ -1,5 +1,4 @@
 import React from 'react';
-import Modal from '@material-ui/core/Modal';
 import {
   Button,
   makeStyles,
@@ -12,12 +11,14 @@ import {
   CardActionArea,
   TextField
 } from '@material-ui/core';
-
+import {api as API} from '../../helpers/http';
+import api from '../../helpers/http';
 
 const useStyles = makeStyles({
   root: {
+    padding: 10,
     width: 345,
-    height: 160
+    height: 180
     // minWidth:300,
     // maxWidth: 345,
   },
@@ -25,22 +26,24 @@ const useStyles = makeStyles({
     height: 160,
   },
 });
-const MyCard = ({image, ...rest}) => {
+const MyCard = ({url, ...rest}) => {
   const classes = useStyles();
   return (
     <Card className={classes.root} {...rest}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image={image}
-          title="Contemplative Reptile"
+          image={url}
+          title="点击查看详情"
         />
       </CardActionArea>
     </Card>
   );
 };
 
-const CardModal = ({modalOpen, setModalOpen, image}) => {
+const CardModal = (props) => {
+  const {count, id, modalOpen, setModalOpen, url, relationship, describe} = props;
+  const [cacheDescribe, setCacheDescribe] = React.useState(describe);
   const handleOnClose = () => {
     setModalOpen(false);
   };
@@ -50,7 +53,7 @@ const CardModal = ({modalOpen, setModalOpen, image}) => {
       position: 'absolute',
       zIndex: '100',
       left: '50%',
-      top: '55%',
+      top: '50%',
       transform: 'translate(-50%, -50%)'
     }}>
       <Box style={{
@@ -61,17 +64,21 @@ const CardModal = ({modalOpen, setModalOpen, image}) => {
         <img style={{
           maxWidth: 680,
           maxHeight: 370
-        }} src={image} alt=""/>
+        }} src={url} alt=""/>
         <Grid container direction={'column'} alignItems={'center'} spacing={4}>
           <Grid item>
             <Typography variant="body2" color="textSecondary" component="p">
-              链接: 12312312312312312
+              链接: {url}
             </Typography>
           </Grid>
           <Grid item>
             <Typography variant="body2" color="textSecondary" component="p">
-              使用列表(8)
-              文章:文章名
+              使用列表({count})
+              {
+                relationship.map(item => (
+                  <span>{item.type}:{item.name};</span>
+                ))
+              }
             </Typography>
           </Grid>
           <Grid item>
@@ -83,8 +90,11 @@ const CardModal = ({modalOpen, setModalOpen, image}) => {
               label="描述"
               multiline
               rows="8"
-              defaultValue="Default Value"
               variant="outlined"
+              value={cacheDescribe}
+              onChange={(e) => {
+                setCacheDescribe(e.target.value);
+              }}
             />
           </Grid>
         </Grid>
@@ -96,19 +106,31 @@ const CardModal = ({modalOpen, setModalOpen, image}) => {
         >
           关闭
         </Button>
+        <Button style={{
+          position: 'absolute',
+          right: 80,
+          bottom: 20
+        }} color="primary" onClick={e => {
+          api.deleteImage({id_list: [id]}).then(res => {
+
+          });
+        }}
+        >
+          删除
+        </Button>
       </Box>
     </div>
   );
 };
 
-export default function MediaCard(props) {
+export default function MediaCard({url, ...props}) {
   const [modalOpen, setModalOpen] = React.useState(false);
+  url = API.baseImage + url;
   return (
     <>
-      <CardModal {...{...props, modalOpen, setModalOpen}}/>
-      <MyCard {...props} onClick={(e) => {
+      <CardModal {...{...props, url, modalOpen, setModalOpen}}/>
+      <MyCard {...{...props, url}} onClick={(e) => {
         e.preventDefault();
-        console.log(e);
         setModalOpen(true);
       }}/>
     </>
