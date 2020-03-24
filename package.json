@@ -32,6 +32,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-table": "^7.0.0",
+    "source-map-explorer": "^2.4.1",
     "uuid": "^7.0.2",
     "yup": "^0.28.3"
   },
@@ -39,7 +40,8 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "eslintConfig": {
     "extends": "react-app"
