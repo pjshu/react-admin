@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {formatTime} from "../helpers/datetime";
 import api from "../helpers/http";
 import {toAdmin, toPost} from "../history";
-import {addErrorMessage, addSuccessMessage, addLoadingMessage, setMessageState} from './globalSlice';
+import {addErrorMessage, addLoadingMessage, addSuccessMessage, setMessageState} from './globalSlice';
 import {v4 as uuidV4} from 'uuid';
 
 export const slice = createSlice({
@@ -84,8 +84,9 @@ export const modifyPost = (data, postId) => dispatch => {
   });
 };
 
+// id为列表
 export const deletePost = (id) => dispatch => {
-  api.deletePost({id}).then(res => {
+  api.deletePost({id_list: id}).then(res => {
     if (res.status === 'success') {
       toAdmin();
       dispatch(addSuccessMessage('删除成功'));

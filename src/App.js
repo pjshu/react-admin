@@ -5,13 +5,12 @@ import './global.css';
 import history from "./history";
 import Loading from "./components/Loading";
 import {hot} from 'react-hot-loader';
-import MessageQueue from './containers/MessageQueue';
 
 const Root = lazy(() => import("./components/nav/"));
 const Register = lazy(() => import("./containers/register"));
 const Login = lazy(() => import("./containers/login"));
 const RecoveryPass = lazy(() => import("./containers/recoveryPass/RecoveryPassword"));
-
+const MessageQueue = lazy(() => import("./containers/MessageQueue"));
 
 function App() {
   return (

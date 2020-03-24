@@ -25,7 +25,7 @@ function Excerpt({uploadFn}) {
         摘录(双击修改):
       </Typography>
       <div
-        className={excerpt}
+        className={classes.excerpt}
         title={'双击修改'}
         dangerouslySetInnerHTML={{__html: (excerpt ? BraftEditor.createEditorState(excerpt).toHTML() : '双击修改')}}
         onDoubleClick={handleOnOpen}/>

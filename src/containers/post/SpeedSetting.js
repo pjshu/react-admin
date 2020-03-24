@@ -22,9 +22,13 @@ export default function SpeedSetting() {
   const {values, setFieldValue} = useFormikContext();
   const disPatch = useDispatch();
 
-  function handleOnDelete(id) {
-    disPatch(deletePost(id));
+  function handleOnDelete() {
+    disPatch(deletePost([values.id]));
   }
+
+  const openSetting = () => {
+    disPatch(openDraw());
+  };
 
   function handleFileUpload(e) {
     const file = e.target.files;
@@ -41,9 +45,9 @@ export default function SpeedSetting() {
   }
 
   const actions = [
-    {icon: <DeleteOutlineIcon/>, name: '删除', onClick: () => handleOnDelete(values.id)},
+    {icon: <DeleteOutlineIcon/>, name: '删除', onClick: handleOnDelete},
     {icon: <SaveIcon/>, name: '保存', type: "submit"},
-    {icon: <SettingsIcon/>, name: '设置', onClick: () => disPatch(openDraw())},
+    {icon: <SettingsIcon/>, name: '设置', onClick: openSetting},
     {icon: <UploadMarkdown {...{handleFileUpload}}/>, name: '上传markdown'},
   ];
 

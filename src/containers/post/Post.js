@@ -1,16 +1,13 @@
 import React from "react";
-import {Container, Grid, TextField} from "@material-ui/core";
+import {Container, Grid, Paper, TextField} from "@material-ui/core";
 import {Field, Form, Formik} from 'formik';
 import MyEditor from '../../components/editor/Editor';
 import {Setting} from "./Setting";
 import SpeedSetting from "./SpeedSetting";
 import useStyles from "./post.styles";
-import {useSelector} from "react-redux";
-import {selectPost} from '../../redux/postSlice';
+import {useDispatch, useSelector} from "react-redux";
+import {addPostImg, selectPost} from '../../redux/postSlice';
 import BraftEditor from "braft-editor";
-import {Paper} from "@material-ui/core";
-import {useDispatch} from "react-redux";
-import {addPostImg} from '../../redux/postSlice';
 import {validatePost} from "../../helpers/validate";
 
 function Post({postId, onSubmit, handleOnSave}) {
@@ -20,7 +17,9 @@ function Post({postId, onSubmit, handleOnSave}) {
   const uploadFn = (form, successFn, errorFn) => {
     dispatch(addPostImg(form, postId, successFn, errorFn));
   };
-
+  const handleKeyDown = (e) => {
+    handleOnSave(e, formRef.current.values);
+  };
   const classes = useStyles();
   return (
     <Container component={Paper} className={classes.root} maxWidth={false}>
@@ -33,14 +32,15 @@ function Post({postId, onSubmit, handleOnSave}) {
       >
         {
           ({values, setFieldValue}) => (
-            <Form onKeyDown={(e) => handleOnSave(e, values)}>
+            <Form onKeyDown={handleKeyDown}>
               <Grid container alignItems="center">
                 <Field
                   name="title"
                   as={TextField}
                   fullWidth={true}
                   label="标题"
-                  variant="outlined"/>
+                  variant="outlined"
+                />
               </Grid>
               <MyEditor
                 uploadFn={uploadFn}

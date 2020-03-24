@@ -161,7 +161,6 @@ const EnhancedTable = (props) => {
         setRowCount(rowCount - 1);
       }
     });
-
   };
   const updateHandler = value => {
     let isNew = true;

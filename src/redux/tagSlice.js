@@ -65,7 +65,6 @@ export const addTag = () => dispatch => {
     }
   });
 };
-8;
 export const addTagImg = (value, data, updateHandler) => dispatch => {
   const messageId = uuidV4();
   dispatch(addLoadingMessage({id: messageId, message: '图片正在上传'}));
@@ -91,8 +90,5 @@ export const modifyTag = (value, image, updateHandler) => dispatch => {
   });
 };
 
-export const addAddImages = () => dispatch => {
-  // api.addTagImg
-};
 export const selectTag = state => state.tag;
 export default slice.reducer;

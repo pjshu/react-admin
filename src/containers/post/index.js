@@ -4,7 +4,7 @@ import {formatTime} from "../../helpers/datetime";
 import {useLocation} from "react-router-dom";
 import Loading from "../../components/Loading";
 import {useDispatch, useSelector} from "react-redux";
-import {getPost, getAllTags, modifyPost, selectPost} from '../../redux/postSlice';
+import {getAllTags, getPost, modifyPost, selectPost} from '../../redux/postSlice';
 
 function PostWrapper() {
   const {pathname} = useLocation();
@@ -29,8 +29,7 @@ function PostWrapper() {
     }
     try {
       data.excerpt = data.excerpt.toRAW();
-    } catch (e) {
-    }
+    } catch (e) {}
     data.create_date = formatTime(data.create_date);
     dispatch(modifyPost(data, postId));
   };
