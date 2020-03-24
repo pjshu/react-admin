@@ -1,41 +1,23 @@
 import React from 'react';
-import {
-  Button,
-  makeStyles,
-  Card,
-  Box,
-  CardMedia,
-  CardActionArea,
-  CardActions
-} from '@material-ui/core';
-import {useDispatch, useSelector} from "react-redux";
-import {deleteImageApi, uploadImages, deleteImage, uploadImagesDesc} from "../../redux/imageSlice";
+import {Box, Button, Card, CardActionArea, CardActions, CardMedia} from '@material-ui/core';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import {getImageForm} from '../../helpers/misc';
-import CardModal from './CardModal';
+import useStyles from './card.style';
 
-const useStyles = makeStyles({
-  root: {
-    padding: 10,
-    width: 345,
-    height: 220,
-    position: 'relative'
-    // minWidth:300,
-    // maxWidth: 345,
-  },
-  media: {
-    height: 160,
-  },
-  icon: {
-    position: 'absolute',
-    right: 10
-  }
-});
-const MyCard = ({image: {url}, upload, id, onClick, handleOnDelete, handleUpdate, ...rest}) => {
+const MyCard = (props) => {
   const classes = useStyles();
+  const {image: {url}, upload, handleOnCardClick, id} = props;
+  const handleOnDelete = () => {
+    props.handleOnDelete(upload, id);
+  };
+  const handleUpdate = () => {
+    props.uploadImage(url, id);
+  };
+  const handleOnClick = () => {
+    handleOnCardClick(id);
+  };
   return (
-    <Card component={Box} boxShadow={5} className={classes.root} {...rest}>
-      <CardActionArea onClick={onClick}>
+    <Card component={Box} boxShadow={5} className={classes.root}>
+      <CardActionArea onClick={handleOnClick}>
         <CardMedia
           className={classes.media}
           image={url}
@@ -64,34 +46,4 @@ const MyCard = ({image: {url}, upload, id, onClick, handleOnDelete, handleUpdate
   );
 };
 
-export default function MediaCard(props) {
-  const [modalOpen, setModalOpen] = React.useState(false);
-  const dispatch = useDispatch();
-  const handleModalOpen = (e) => {
-    e.preventDefault();
-    setModalOpen(true);
-  };
-  const handleOnDelete = React.useCallback(() => {
-    return props.upload ?
-      dispatch(deleteImage([props.id])) :
-      dispatch(deleteImageApi([props.id]));
-  }, []);
-
-  //修改图片描述
-  const handleUpdate = React.useCallback((describe) => {
-    // 如果图片未上传,先更新图片,再更新图片描述
-    //TODO:BUG uploadImages完成可能在uploadImagesDesc完成后
-    if (props.upload) {
-      getImageForm(props.url).then(form => {
-        dispatch(uploadImages(form, props.id));
-      });
-    }
-    dispatch(uploadImagesDesc(describe, props.id));
-  }, []);
-  return (
-    <>
-      <CardModal {...{...props, modalOpen, setModalOpen, handleOnDelete, handleUpdate}}/>
-      <MyCard {...{...props, handleOnDelete, handleUpdate, onClick: handleModalOpen}}/>
-    </>
-  );
-}
+export default MyCard;

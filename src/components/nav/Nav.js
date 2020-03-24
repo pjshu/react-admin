@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   AppBar,
+  Badge,
   CssBaseline,
   Drawer,
   IconButton,
@@ -8,8 +9,10 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Menu,
+  MenuItem,
   Toolbar,
-  Typography,
+  Typography
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Router from './Router';
@@ -18,16 +21,15 @@ import router from '../../contants/router';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import FaceIcon from '@material-ui/icons/Face';
-import useStyles from './navStyle';
+import useStyles from './nav.style';
 import SecurityIcon from '@material-ui/icons/Security';
-import Badge from '@material-ui/core/Badge';
 import PermMediaIcon from '@material-ui/icons/PermMedia';
 import MailIcon from '@material-ui/icons/Mail';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import Alert from '@material-ui/lab/Alert';
 import {useDispatch, useSelector} from "react-redux";
-import {selectMessage, removeMessage, clearAllMessage} from "../../redux/globalSlice";
+import {clearAllMessage, removeMessage, selectMessage} from "../../redux/globalSlice";
+import {logout} from '../../redux/userSlice';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 
 
 function Nav() {
@@ -65,11 +67,15 @@ function Nav() {
       dispatch(removeMessage(id));
     }
   };
+
   const handleClearAll = () => {
     dispatch(clearAllMessage());
     handleMenuClose();
   };
 
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
     <div className={classes.root}>
       <CssBaseline/>
@@ -87,13 +93,16 @@ function Nav() {
             <MenuIcon/>
           </IconButton>
           <Typography variant="h6" noWrap>导航</Typography>
+          <div
+            onClick={handleLogout}
+            title={'登出'}
+            className={classes.logoutWrapper}>
+            <LockOpenIcon/>
+          </div>
           <Badge
             title={message.length === 0 ? '没有消息' : ''}
             onClick={handleMenuClick}
-            style={{
-              position: "absolute",
-              right: '40px'
-            }}
+            className={classes.badge}
             badgeContent={message.length}
             color="secondary"
           >
@@ -119,12 +128,11 @@ function Nav() {
               清空全部
             </MenuItem>
             {message.map((msg) => (
-              <MenuItem style={{
-                width: '100%'
-              }} key={msg.id} onClose={handleMenuClose}>
-                <Alert onClose={() => handleDeleteMessage(msg.id)} style={{
-                  width: '100%'
-                }} variant="filled" severity={msg.state}>
+              <MenuItem className={classes.fullWidth} key={msg.id} onClose={handleMenuClose}>
+                <Alert
+                  onClose={() => handleDeleteMessage(msg.id)}
+                  className={classes.fullWidth}
+                  variant="filled" severity={msg.state}>
                   {msg.message}/{msg.time}
                 </Alert>
               </MenuItem>

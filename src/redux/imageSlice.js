@@ -78,6 +78,7 @@ export const uploadImages = (form, id) => dispatch => {
     if (res.status === 'success') {
       const data = res.data;
       dispatch(updateImage({...data, old_id: id}));
+      dispatch(addSuccessMessage('图片上传成功'))
     }
   });
 };

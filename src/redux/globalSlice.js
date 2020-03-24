@@ -2,6 +2,12 @@ import {createSlice} from '@reduxjs/toolkit';
 import getCurrentTime from "../helpers/datetime";
 import {v4 as uuidV4} from 'uuid';
 
+const setTimeAndIdState = (payload, state) => {
+  payload.time = getCurrentTime('second');
+  payload.id = uuidV4();
+  payload.state = state;
+};
+
 export const slice = createSlice({
   name: 'global',
   initialState: {
@@ -22,20 +28,21 @@ export const slice = createSlice({
       }
       state.message.push(payload);
     },
+    addWarningMessage(state, action) {
+      const payload = {message: action.payload};
+      setTimeAndIdState(payload, 'warning');
+      state.message.push(payload);
+    },
     //传入message
     addSuccessMessage(state, action) {
       const payload = {message: action.payload};
-      payload.time = getCurrentTime('second');
-      payload.id = uuidV4();
-      payload.state = 'success';
+      setTimeAndIdState(payload, 'success');
       state.message.push(payload);
     },
     // 传入message
     addErrorMessage(state, action) {
       const payload = {message: action.payload};
-      payload.time = getCurrentTime('second');
-      payload.id = uuidV4();
-      payload.state = 'error';
+      setTimeAndIdState(payload, 'error');
       state.message.push(payload);
     },
     //传入{id:'',message:''}
@@ -63,7 +70,8 @@ export const slice = createSlice({
     }
   }
 });
-export const {removeMessage, setMessageState, addSuccessMessage, clearAllMessage, addErrorMessage, addLoadingMessage} = slice.actions;
+export const {addWarningMessage, addErrorMessage, addLoadingMessage, addSuccessMessage} = slice.actions;
+export const {removeMessage, setMessageState, clearAllMessage} = slice.actions;
 export const {closeMessage} = slice.actions;
 export const selectMessage = state => state.global;
 

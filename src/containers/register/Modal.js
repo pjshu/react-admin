@@ -1,31 +1,10 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import {Button, Grid} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
-import {selectRegister, openModal, closeModal} from "../../redux/userSlice";
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'inline',
-    marginTop: theme.spacing(1),
-    marginRight: theme.spacing(1),
-  },
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  paper: {
-    width: "200px",
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
-
+import {closeModal, openModal, selectRegister} from "../../redux/userSlice";
+import useStyles from './registerUser.styles';
 
 export default function MyModal() {
   const dispatch = useDispatch();
@@ -71,9 +50,7 @@ export default function MyModal() {
             确认
           </Button>
           <Button
-            style={{
-              marginLeft: '50px'
-            }}
+            className={classes.cancelBtn}
             type="button"
             onClick={handleClose}
             color="primary"

@@ -8,7 +8,6 @@ import Emoticon, {defaultEmoticons} from 'braft-extensions/dist/emoticon';
 // 为标题区块(h1-h6)增加随机的id，便于在展示页支持锚点跳转功能
 import HeaderId from 'braft-extensions/dist/header-id';
 import React from "react";
-import {Button, makeStyles} from '@material-ui/core';
 import Preview from "./Preview";
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/table.css';
@@ -45,12 +44,6 @@ const emojiOption = {
 };
 
 BraftEditor.use([Table(), Markdown(), CodeHighlighter(codeHighlighterOptions), HeaderId(), Emoticon(emojiOption)]);
-const useStyles = makeStyles({
-  button: {color: '#6a6f7b'},
-  buttonLabel: {
-    height: 36
-  }
-});
 
 
 const MyEditor = ({uploadFn, value, ...props}) => {

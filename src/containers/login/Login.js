@@ -1,10 +1,9 @@
 import React from 'react';
 import {Container, Grid} from "@material-ui/core";
-import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import {Form, Formik} from 'formik';
-import loginStyles from './login.styles';
+import useStyles from './login.styles';
 import TextFieldWithError from "../../components/TextFieldWithError";
 import {Link} from 'react-router-dom';
 import router from '../../contants/router';
@@ -12,7 +11,6 @@ import {login, selectLogin} from '../../redux/userSlice';
 import {useDispatch, useSelector} from "react-redux";
 import {validateLogin} from '../../helpers/validate';
 
-const useStyles = makeStyles(theme => loginStyles(theme));
 
 function Login() {
   const classes = useStyles();
@@ -41,9 +39,7 @@ function Login() {
               justify="center"
               spacing={4}
             >
-              <Grid item style={{
-                width: '100%'
-              }}>
+              <Grid item className={classes.fullWidth}>
                 <Grid container direction="column" spacing={2}>
                   {
                     [
@@ -57,7 +53,7 @@ function Login() {
                   }
                 </Grid>
               </Grid>
-              <Grid item className={classes.submit}>
+              <Grid item className={classes.fullWidth}>
                 <Grid container direction={'column'}>
                   <Grid item>
                     <Button

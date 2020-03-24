@@ -26,20 +26,7 @@ import {
   useResizeColumns,
   useFlexLayout
 } from 'react-table';
-import {makeStyles} from "@material-ui/core";
-
-const useStyles = makeStyles(theme => ({
-  cell: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  tablePagination: {
-    overflow: 'visible',
-  },
-  tablePaginationToolBar: {
-    width: 200
-  }
-}));
+import useStyles from './table.style'
 
 
 const EnhancedTable = (props) => {
@@ -136,7 +123,6 @@ const EnhancedTable = (props) => {
   React.useEffect(() => {
     api.query(query).then(res => {
       const {data: {page, values, total}} = res;
-      console.log(res);
       setData(values);
       setRowCount(total);
     });

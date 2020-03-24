@@ -1,29 +1,21 @@
 import React from 'react';
-import {
-  Drawer,
-  FormControl,
-  Grid,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from '@material-ui/core';
+import {Drawer, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField,} from '@material-ui/core';
 import {Field, useFormikContext} from 'formik';
 import Tags from './Tags';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import useStyles from "./setting.styles";
 import CreateDate from "../../components/TimePickField";
 import {useDispatch, useSelector} from "react-redux";
-import {closeDrawer, selectPost, setAutoSaveTime, setAutoSaveChecked} from '../../redux/postSlice';
+import {closeDrawer, selectPost, setAutoSaveChecked, setAutoSaveTime} from '../../redux/postSlice';
 import Switch from '@material-ui/core/Switch';
 import Excerpt from "./Excerpt";
 
 export function Setting({formRef, onSubmit, uploadFn}) {
-  const classes = useStyles();
   const timerId = React.useRef();
   const {drawOpen, autoSave} = useSelector(selectPost);
   const dispatch = useDispatch();
+  const classes = useStyles(autoSave.open);
+
   const {values: {change_date, visibility}} = useFormikContext();
   // 计时器
   React.useEffect(() => {
@@ -88,7 +80,7 @@ export function Setting({formRef, onSubmit, uploadFn}) {
           />
         </div>
         <TextField
-          style={{display: autoSave.open ? '' : 'none'}}
+          className={classes.autoSave}
           title={autoSave.time === 0 ? '自动保存已关闭' : `自动保存周期为${autoSave.time}分钟`}
           value={autoSave.time}
           id="outlined-number"

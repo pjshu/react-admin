@@ -1,14 +1,9 @@
 import React from 'react';
-import {makeStyles, createMuiTheme, MuiThemeProvider} from "@material-ui/core/styles";
+import {createMuiTheme, MuiThemeProvider} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Pagination from "material-ui-flat-pagination";
+import useStyles from './pagination.style';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    direction: 'row'
-  },
-}));
 
 const theme = createMuiTheme();
 const TablePaginationActions = ({count, page, rowsPerPage, onChangePage}) => {

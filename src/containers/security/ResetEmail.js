@@ -2,27 +2,23 @@ import React, {useEffect, useRef} from 'react';
 import {Form, Formik} from "formik";
 import {Button, Grid} from "@material-ui/core";
 import {
-  asyncDecSendCodeTime, selectSecurity, resetSendCodeTime, setIsSendCode,
-  sendRestEmailCode, resetEmail
+  asyncDecSendCodeTime,
+  resetEmail,
+  resetSendCodeTime,
+  selectSecurity,
+  sendRestEmailCode,
+  setIsSendCode
 } from '../../redux/userSlice';
 import {useDispatch, useSelector} from "react-redux";
 import TextFieldWithError from '../../components/TextFieldWithError';
-import {makeStyles} from "@material-ui/core/styles";
 import {validateResetEmail} from '../../helpers/validate';
+import useStyles from './resetEmail.style';
 
-const useStyles = makeStyles((theme) => ({
-  textfield: {
-    width: '350px',
-    [theme.breakpoints.up('md')]: {
-      width: '550px',
-    },
-  }
-}));
 
 function ResetEmail({email}) {
   const dispatch = useDispatch();
-  const classes = useStyles();
   const {initial: {resetEmailInit}, resendTime, isSendCode} = useSelector(selectSecurity);
+  const classes = useStyles(isSendCode);
   const formRef = useRef();
   //TODO 性能优化:每次计时器改变,都会重新渲染
   useEffect(() => {
@@ -65,10 +61,7 @@ function ResetEmail({email}) {
           </Grid>
           <Grid item>
             <Button
-              style={{
-                width: '125px',
-                height: '45px'
-              }}
+              className={classes.button}
               disabled={resendTime > 0}
               variant="contained"
               color="primary"
@@ -81,10 +74,7 @@ function ResetEmail({email}) {
           </Grid>
 
           <Grid
-            style={{
-              marginTop: '50px',
-              display: isSendCode ? '' : 'none'
-            }}
+            className={classes.validateCodeWrapper}
           >
             <TextFieldWithError
               disabled={!isSendCode}
@@ -95,10 +85,7 @@ function ResetEmail({email}) {
             />
             <Grid>
               <Button
-                style={{
-                  width: '125px',
-                  height: '45px'
-                }}
+                className={classes.button}
                 variant="contained"
                 color="primary"
                 type={'submit'}

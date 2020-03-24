@@ -1,32 +1,25 @@
 import React, {useEffect} from 'react';
 import {Button, Container, Grid} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
-import {makeStyles} from "@material-ui/core/styles";
 import TextFieldWithError from "../../components/TextFieldWithError";
 import {Form, Formik} from 'formik';
 import {validateRecoveryPassword} from '../../helpers/validate';
 import {
-  resetSendCodeTime, setIsSendCode, selectRecoveryPassword, recoveryPassword,
-  sendRecPassCode, asyncDecSendCodeTime
+  asyncDecSendCodeTime,
+  recoveryPassword,
+  resetSendCodeTime,
+  selectRecoveryPassword,
+  sendRecPassCode,
+  setIsSendCode
 } from '../../redux/userSlice';
-import {useSelector, useDispatch} from "react-redux";
-
-const useStyles = makeStyles({
-  container: {
-    height: '100%'
-  },
-  paper: {
-    width: 500,
-    minHeight: 200,
-    padding: 40
-  },
-});
-
+import {useDispatch, useSelector} from "react-redux";
+import useStyles from './recoveryPassword.style';
 
 function RecoveryPassword() {
   const formRef = React.useRef();
   const {resendTime, isSendCode, initial} = useSelector(selectRecoveryPassword);
   const dispatch = useDispatch();
+  const classes = useStyles(isSendCode);
 
 
   useEffect(() => {
@@ -47,7 +40,6 @@ function RecoveryPassword() {
     }
   };
 
-  const classes = useStyles();
   return (
     <Container maxWidth={false} className={classes.container}>
       <Grid container justify="center" alignItems={"center"} className={classes.container}>
@@ -72,17 +64,12 @@ function RecoveryPassword() {
                     alignItems={"center"}
                     justify={"flex-start"}>
                     <TextFieldWithError
-                      style={{width: '265px'}}
+                      className={classes.textField}
                       {...{name: 'email', label: '邮箱', variant: "outlined"}}
                     />
 
-                    <Grid style={{marginBottom: '40px'}}>
+                    <Grid className={classes.btnWrapper}>
                       <Button
-                        style={{
-                          marginLeft: '30px',
-                          width: '125px',
-                          height: '45px'
-                        }}
                         disabled={resendTime > 0 || !!errors.email || !values.email}
                         variant="contained"
                         color="primary"
@@ -96,31 +83,20 @@ function RecoveryPassword() {
                     </Grid>
                   </Grid>
 
-                  <Grid
-                    style={{
-                      display: isSendCode ? '' : "none"
-                    }}>
+                  <Grid className={classes.validateCode}>
                     <Grid
                       container
                       alignItems={"center"}
                       justify={"flex-start"}
                     >
                       <TextFieldWithError
-                        style={{width: '265px'}}
+                        className={classes.textField}
                         {...{
                           name: 'code', label: '邮箱验证码', variant: "outlined"
                         }}/>
-                      <Grid
-                        style={{
-                          marginBottom: '40px'
-                        }}>
+                      <Grid className={classes.btnWrapper}>
                         <Button
                           type={'submit'}
-                          style={{
-                            marginLeft: '30px',
-                            width: '125px',
-                            height: '45px'
-                          }}
                           variant="contained"
                           color="primary"
                           className={classes.button}
@@ -134,12 +110,9 @@ function RecoveryPassword() {
                       container
                       alignItems={"center"}
                       justify={"flex-start"}
-                      style={{
-                        width: '100%'
-                        // display: isSendCode ? '' : "none"
-                      }}>
+                      className={classes.fullWidth}>
                       <TextFieldWithError
-                        style={{width: '100%'}}
+                        className={classes.fullWidth}
                         {...{name: 'password', label: '新密码', variant: "outlined"}}
                       />
                     </Grid>
@@ -147,11 +120,9 @@ function RecoveryPassword() {
                       container
                       alignItems={"center"}
                       justify={"flex-start"}
-                      style={{
-                        // display: isSendCode ? '' : "none"
-                      }}>
+                    >
                       <TextFieldWithError
-                        style={{width: '100%'}}
+                        sclassName={classes.fullWidth}
                         {...{
                           name: 'confirm_password', label: '确认密码', variant: "outlined"
                         }}

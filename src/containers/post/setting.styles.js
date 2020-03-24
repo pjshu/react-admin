@@ -23,4 +23,7 @@ export default makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
   },
+  autoSave: (open) => ({
+    display: open ? '' : 'none'
+  })
 }));

@@ -1,31 +1,10 @@
 import React from 'react';
-import {Modal, makeStyles, Typography} from "@material-ui/core";
+import {Modal, Typography} from "@material-ui/core";
 import {useFormikContext} from "formik";
 import MyEditor from "../../components/editor/Editor";
 import BraftEditor from "braft-editor";
+import useStyles from './excerpt.style';
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    position: 'absolute',
-    width: 800,
-    zIndex: '99',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%,-50%)',
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-  excerpt: {
-    padding: '5px',
-    width: '100%',
-    minHeight: '120px',
-    maxHeight: '150px',
-    border: '1px solid #6a6f7b',
-    borderRadius: '2px'
-  }
-}));
 
 function Excerpt({uploadFn}) {
   const [modalOpen, setModalOpen] = React.useState(false);

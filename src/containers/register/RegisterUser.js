@@ -6,9 +6,7 @@ import TextFieldWithError from "../../components/TextFieldWithError";
 function RegisterUser() {
   const classes = useStyles();
   return (
-    <Grid container style={{
-      marginTop: '20px'
-    }}>
+    <Grid container className={classes.root}>
       <Grid
         container
         justify="space-around"

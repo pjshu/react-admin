@@ -211,13 +211,22 @@ export const getUserInfo = (setLoading) => dispatch => {
 export const modifyUserInfo = (values) => dispatch => {
   api.modifyUserInfo(values).then(res => {
     if (res.status === 'success') {
-      dispatch(addSuccessMessage('用户信息修改成功'))
-    }else {
-      dispatch(addErrorMessage('用户信息修改失败'))
+      dispatch(addSuccessMessage('用户信息修改成功'));
+    } else {
+      dispatch(addErrorMessage('用户信息修改失败'));
     }
   });
 };
 
+export const logout = () => dispatch => {
+  api.logout().then(res => {
+    if (res.status === 'success') {
+      toLogin();
+    } else {
+      dispatch(addErrorMessage('登出失败'));
+    }
+  });
+};
 export const selectLogin = state => state.user.login;
 
 export const selectRecoveryPassword = state => ({

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {IconButton, makeStyles} from '@material-ui/core';
+import {IconButton} from '@material-ui/core';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
@@ -13,6 +13,7 @@ import marked from '../../config/marked';
 import BraftEditor from "braft-editor";
 import {useDispatch} from "react-redux";
 import {deletePost, openDraw} from '../../redux/postSlice';
+import {addWarningMessage} from '../../redux/globalSlice';
 
 
 export default function SpeedSetting() {
@@ -28,7 +29,7 @@ export default function SpeedSetting() {
   function handleFileUpload(e) {
     const file = e.target.files;
     if (file.length > 1) {
-      alert("仅支持单个上传");
+      disPatch(addWarningMessage('仅支持单个上传'));
     }
 
     const reader = new FileReader();
@@ -75,17 +76,22 @@ export default function SpeedSetting() {
   );
 }
 
-const UploadMarkdown = (props) => (<>
-  <input
-    style={{display: 'none'}}
-    accept=".md"
-    type="file"
-    id="upload-file"
-    multiple
-    onChange={props.handleFileUpload}/>
-  <label htmlFor="upload-file">
-    <IconButton color="primary" component="span" style={{padding: 0, width: '100%', height: '100%'}}>
-      <InsertDriveFileOutlinedIcon color="action"/>
-    </IconButton>
-  </label>
-</>);
+const UploadMarkdown = (props) => {
+  const classes = useStyles();
+  return (
+    <>
+      <input
+        className={classes.hidden}
+        accept=".md"
+        type="file"
+        id="upload-file"
+        multiple
+        onChange={props.handleFileUpload}/>
+      <label htmlFor="upload-file">
+        <IconButton color="primary" component="span" className={classes.uploadBtn}>
+          <InsertDriveFileOutlinedIcon color="action"/>
+        </IconButton>
+      </label>
+    </>
+  );
+};

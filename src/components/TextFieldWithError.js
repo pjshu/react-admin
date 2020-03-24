@@ -1,19 +1,6 @@
 import React from 'react';
 import {Field, useFormikContext} from "formik";
 import TextField from "@material-ui/core/TextField";
-import {makeStyles} from "@material-ui/core";
-
-
-const useStyles = makeStyles({
-  root: {
-    marginBottom: '40px'
-  },
-  error: {
-    height: '30px',
-    position: 'fixed',
-    background: '#fff'
-  }
-});
 
 const TextFieldWithError = ({name, label, ...rest}) => {
   const {errors, touched} = useFormikContext();

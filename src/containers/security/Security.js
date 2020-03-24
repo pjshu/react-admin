@@ -2,13 +2,7 @@ import React from 'react';
 import {Container, Grid, Paper} from "@material-ui/core";
 import ResetPassword from "./ResetPassword";
 import ValidateEmail from './ResetEmail';
-import {makeStyles} from "@material-ui/core/styles";
-
-const useStyles = makeStyles({
-  root: {
-    height: '90%'
-  }
-});
+import useStyles from './security.style';
 
 function Security() {
   const classes = useStyles();

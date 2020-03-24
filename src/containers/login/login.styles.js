@@ -1,4 +1,6 @@
-const loginStyles = () => ({
+import {makeStyles} from "@material-ui/core";
+
+export default makeStyles((theme) => ({
   container: {
     height: '100%'
   },
@@ -7,9 +9,8 @@ const loginStyles = () => ({
     height: 400,
     padding: 40
   },
-  submit: {
+  fullWidth: {
     width: '100%',
-  },
-});
+  }
+}));
 
-export default loginStyles;

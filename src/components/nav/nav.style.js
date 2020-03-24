@@ -46,5 +46,19 @@ export default makeStyles((theme) => ({
   },
   placeholder: {
     height: theme.spacing(10)
+  },
+  logoutWrapper: {
+    zIndex: '10',
+    position: "absolute",
+    right: '100px',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  badge: {
+    position: "absolute",
+    right: '40px'
+  },
+  fullWidth: {
+    width: '100%'
   }
 }));

@@ -1,8 +1,8 @@
 import React from 'react';
-import {Form, Formik, Field, useFormikContext} from "formik";
-import {Button, Grid} from "@material-ui/core";
+import {Field, Form, Formik, useFormikContext} from "formik";
+import {Button, FormHelperText, Grid} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
-import {selectSecurity, resetPassword} from "../../redux/userSlice";
+import {resetPassword, selectSecurity} from "../../redux/userSlice";
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -10,20 +10,11 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import FormControl from '@material-ui/core/FormControl';
-import {makeStyles} from "@material-ui/core/styles";
-import {FormHelperText} from "@material-ui/core";
 import {validateResetPassword} from '../../helpers/validate';
-
-const useStyles = makeStyles((theme) => ({
-  textfield: {
-    width: '350px',
-    [theme.breakpoints.up('md')]: {
-      width: '550px',
-    },
-  }
-}));
+import useStyles from './resetPassword.style';
 
 const PasswordField = ({name, label, ...rest}) => {
+  const classes = useStyles();
   const [showPassword, setShowPassword] = React.useState(false);
   const {errors, touched} = useFormikContext();
   const error = !!errors[name] && !!touched[name];
@@ -54,7 +45,8 @@ const PasswordField = ({name, label, ...rest}) => {
       />
       {
         error ?
-          <FormHelperText style={{color: 'red'}}>{errors[name]}</FormHelperText> : null
+          <FormHelperText className={classes.formHelperText}>{errors[name]}</FormHelperText>
+          : null
       }
     </FormControl>
   );
@@ -101,10 +93,7 @@ function ResetPassword() {
           <Grid item>
             <Button
               type={'submit'}
-              style={{
-                width: '125px',
-                height: '45px'
-              }}
+              className={classes.passwordField}
               variant="contained"
               color="primary"
             >

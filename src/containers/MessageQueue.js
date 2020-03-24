@@ -1,16 +1,12 @@
 import React, {useState} from "react";
 import Alert from '@material-ui/lab/Alert';
-import {useDispatch, useSelector} from "react-redux";
-import {selectMessage, closeMessage} from "../redux/globalSlice";
+import {useSelector} from "react-redux";
+import {selectMessage} from "../redux/globalSlice";
 import List from '@material-ui/core/List';
-import {ListItem, Box, Fade, Snackbar, makeStyles} from '@material-ui/core';
+import {Box, Fade, ListItem, Snackbar} from '@material-ui/core';
 import {getTimeStamp} from '../helpers/datetime';
+import useStyles from './messageQueue.style';
 
-const useStyles = makeStyles({
-  snackbarRoot: {
-    position: 'relative'
-  }
-});
 
 const Message = ({msg}) => {
   const classes = useStyles();
@@ -26,7 +22,7 @@ const Message = ({msg}) => {
       <Fade in={open}>
         <Box
           component={Alert}
-          style={{width: '100%'}}
+          className={classes.box}
           variant="filled"
           severity={msg.state}
           boxShadow={5}
@@ -41,29 +37,17 @@ const Message = ({msg}) => {
 
 const MessageQueue = ({length = 3}) => {
   const {message} = useSelector(selectMessage);
+  const classes = useStyles();
   // TODO
   let newlyMessage = message.slice().reverse().filter(item => {
     // 只显示6000毫秒内的消息
     return getTimeStamp() - getTimeStamp(item.time) < 6000;
   }).slice(-length).reverse();
   return (
-    <List style={{
-      flexDirection: 'column-reverse',
-      display: 'flex',
-      zIndex: '1000',
-      position: "fixed",
-      bottom: 0,
-      left: '10%',
-      // transform: 'translateX(-50%)',
-      height: 200,
-      minWidth: 200,
-      maxWidth: 300,
-    }}>
+    <List className={classes.list}>
       {
         newlyMessage.map(msg => (
-          <ListItem key={msg.id} style={{
-            display: 'block'
-          }}>
+          <ListItem key={msg.id} className={classes.listItem}>
             <Message msg={msg}/>
           </ListItem>
         ))

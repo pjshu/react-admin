@@ -4,17 +4,17 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import MyEditor from "../../components/editor/Editor";
 import InputWithIcon from './InputWithIcon';
-import {Avatar, Button, Grid} from "@material-ui/core";
+import {Avatar, Button, Grid, Paper, Typography} from "@material-ui/core";
 import useStyles from './user.styles';
 import {useDispatch, useSelector} from "react-redux";
-import {selectUserInfo, modifyUserInfo} from "../../redux/userSlice";
+import {modifyUserInfo, selectUserInfo} from "../../redux/userSlice";
 import BraftEditor from "braft-editor";
-import {Paper, Typography} from "@material-ui/core";
 import {validateUserInfo} from '../../helpers/validate';
 
 function User() {
   const dispatch = useDispatch();
   const {initial} = useSelector(selectUserInfo);
+  const formRef = React.useRef();
   const classes = useStyles();
   //blob url to base64
   const base64Avatar = (data) => new Promise((resolve => {
@@ -37,45 +37,41 @@ function User() {
     }
     dispatch(modifyUserInfo(data));
   };
-  //TODO: ???
-  const handleUploadAvatar = (e, setFieldValue) => {
+  const handleUploadAvatar = (e) => {
     const file = e.target.files;
     const url = window.URL.createObjectURL(file[0]);
-    setFieldValue('avatar', url);
+    formRef.current.setFieldValue('avatar', url);
+  };
+  const handleUserInfoChange = (value) => {
+    if (formRef.current) {
+      formRef.current.setFieldValue('about', value);
+    }
   };
 
   return (
-    <Grid style={{
-      margin: '10px',
-      minHeight: '100%',
-      padding: 30,
-      borderRadius: 4
-    }} container component={Paper}>
+    <Grid className={classes.root} container component={Paper}>
       <Formik
+        innerRef={formRef}
         enableReinitialize
         initialValues={initial}
         onSubmit={onSubmit}
         validationSchema={validateUserInfo}
       >
         {
-          ({values, setFieldValue, errors, touched}) => (
+          ({values}) => (
             <Form>
               <Grid container direction={"column"} spacing={5}>
                 <Grid item container alignItems={'center'} direction={"row"} spacing={5}>
-                  <Grid item style={{
-                    width: 200
-                  }}>
+                  <Grid item className={classes.avatarWrapper}>
                     <Typography>用户头像</Typography>
                   </Grid>
-                  <Grid item style={{
-                    marginLeft: '120px'
-                  }}>
+                  <Grid item className={classes.uploadWrapper}>
                     <input
-                      onChange={(e) => handleUploadAvatar(e, setFieldValue)}
+                      onChange={handleUploadAvatar}
                       accept="image/*"
                       type="file"
                       id={"avatar"}
-                      style={{display: "none"}}
+                      className={classes.hidden}
                     />
                     <label htmlFor={"avatar"} className={classes.avatar}>
                       <Avatar alt="Cindy Baker" src={values.avatar}/>
@@ -89,17 +85,13 @@ function User() {
                       {name: 'nickname', icon: <AccountCircleOutlinedIcon/>, label: "昵称", info: "用于展示"},
                     ].map(item => (
                       <Grid item container key={item.name}>
-                        <Grid style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          width: 200
-                        }}>
+                        <Grid className={classes.nameFieldWrapper}>
                           <Typography>{item.label}(必填)</Typography>
                         </Grid>
                         <Grid item>
                           <InputWithIcon
-                            style={{width: '350px'}}
-                            {...{...item, errors, touched}}
+                            className={'inputIcon'}
+                            {...item}
                           />
                         </Grid>
                       </Grid>
@@ -108,9 +100,6 @@ function User() {
                 </Grid>
                 <Grid item>
                   <Button
-                    style={{
-                      // width: '100%'
-                    }}
                     type={"submit"}
                     variant="contained"
                     color="primary">
@@ -124,9 +113,7 @@ function User() {
                   <Grid item>
                     <MyEditor
                       value={BraftEditor.createEditorState(values.about)}
-                      onChange={value => {
-                        setFieldValue('about', value);
-                      }}
+                      onChange={handleUserInfoChange}
                     />
                   </Grid>
                 </Grid>

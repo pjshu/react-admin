@@ -14,9 +14,11 @@ import {useDispatch} from "react-redux";
 import {addTagImg, modifyTag} from '../../redux/tagSlice';
 import {getImageForm} from "../../helpers/misc";
 import {validateTag} from "../../helpers/validate";
-
+import Box from "@material-ui/core/Box";
+import useStyles from './editorDialog.style';
 
 const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, closeDialog}) => {
+  const classes = useStyles();
   const [image, setImage] = React.useState({
     url: ''
   });
@@ -107,31 +109,25 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
                 name={'count'}
               />
 
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
+              <div className={classes.imgWrapper}>
                 <input
                   onChange={handleChangeImage}
                   accept="image/*"
                   type="file"
                   id={"tag"}
-                  style={{display: "none"}}
+                  className={classes.hidden}
                 />
-                <label htmlFor={"tag"}>
-                  <ButtonBase focusRipple component={'div'}>
-                    <img
-                      title={'点击上传图片'}
-                      style={{
-                        width: 400,
-                        minHeight: 200
-                      }}
-                      src={image.url}
-                      alt="标签插图"
-                    />
-                  </ButtonBase>
-                </label>
+                <Box boxShadow={4} className={classes.box}>
+                  <label htmlFor={"tag"}>
+                    <ButtonBase focusRipple component={'div'}>
+                      <img
+                        title={'点击上传图片'}
+                        src={image.url}
+                        alt="标签插图"
+                      />
+                    </ButtonBase>
+                  </label>
+                </Box>
               </div>
             </Form>
           </Formik>
