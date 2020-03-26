@@ -4,3 +4,4 @@ export async function getImageForm(blobUrl) {
   form.append('image', blob);
   return form;
 }
+

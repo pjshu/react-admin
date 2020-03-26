@@ -74,16 +74,22 @@ function ResetEmail({email}) {
           </Grid>
 
           <Grid
+            direction={'column'}
+            spacing={5}
+            container
+            item
             className={classes.validateCodeWrapper}
           >
-            <TextFieldWithError
-              disabled={!isSendCode}
-              name={'code'}
-              label={'验证码'}
-              variant="outlined"
-              className={classes.textfield}
-            />
-            <Grid>
+            <Grid item>
+              <TextFieldWithError
+                disabled={!isSendCode}
+                name={'code'}
+                label={'验证码'}
+                variant="outlined"
+                className={classes.textfield}
+              />
+            </Grid>
+            <Grid item>
               <Button
                 className={classes.button}
                 variant="contained"

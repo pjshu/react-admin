@@ -4,10 +4,22 @@ import 'braft-editor/dist/output.css';
 import Prism from './prism';
 import 'braft-extensions/dist/emoticon.css';
 import useStyles from './preview.style';
+import ReactDOM from 'react-dom';
+
+const modalRoot = document.getElementById('modal-root');
+
+export const PreviewField = ({value}) => {
+  const classes = useStyles();
+  return (<div
+      className={`${classes.table} ${classes.post} ${classes.emoji}`}
+      dangerouslySetInnerHTML={{__html: value.toHTML()}}
+    />
+  );
+};
 
 
-function Preview({modalOpen, handleOnClose, value}) {
-  const classes = useStyles(modalOpen);
+function Preview({modalOpen, handleOnClose, value, ...rest}) {
+  const classes = useStyles();
   React.useEffect(() => {
     Prism.highlightAll();
   }, [modalOpen]);
@@ -19,26 +31,27 @@ function Preview({modalOpen, handleOnClose, value}) {
   //  调用 editorRef.current.forceRender()重新,以重置光标位置
 
   return (
-    <div
-      className={classes.modal}
-    >
-      <div className={classes.paper}>
-        <div
-          className={`${classes.table} ${classes.post} ${classes.emoji}`}
-          dangerouslySetInnerHTML={{__html: value.toHTML()}}
-        />
-        <div>
-          {/*TODO这里用原生button需要添加type='button' 否则触发提交按钮,原因未知*/}
-          <Button
-            className={classes.closeButton}
-            variant="contained"
-            color="primary"
-            onClick={handleOnClose}>
-            关闭
-          </Button>
+    ReactDOM.createPortal(
+      (<div
+        className={classes.modal}
+        {...rest}
+      >
+        <div className={classes.paper}>
+          <PreviewField value={value}/>
+          <div>
+            {/*TODO这里用原生button需要添加type='button' 否则触发提交按钮,原因未知*/}
+            <Button
+              className={classes.closeButton}
+              variant="contained"
+              color="primary"
+              onClick={handleOnClose}>
+              关闭
+            </Button>
+          </div>
         </div>
-      </div>
-    </div>
+      </div>),
+      modalRoot
+    )
   );
 }
 

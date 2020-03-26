@@ -1,21 +1,23 @@
 import {makeStyles} from "@material-ui/core/styles";
 
-export default makeStyles(theme => ({
+export default makeStyles((theme) => ({
+  container: {
+    maxWidth: 800,
+    minWidth: 760,
+    height: '100%',
+    width: '100%',
+  },
   root: {
-    display: 'inline',
+    width: '100%',
+  },
+  button: {
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
   },
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  actionsContainer: {
+    marginBottom: theme.spacing(2),
   },
-  paper: {
-    width: "200px",
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+  resetContainer: {
+    padding: theme.spacing(3),
   },
 }));

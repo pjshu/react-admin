@@ -1,12 +1,16 @@
 import React from 'react';
 import {Container} from "@material-ui/core";
-import api from "../../helpers/http";
 import Table from '../../components/table';
 import EditorDialog from './EditorDialog';
 import {
-  addTag, setTagValue, initDialog, selectTag,
-  setDialogAsUpdate, closeDialog as _closeDialog,
+  addTag,
+  closeDialog as _closeDialog,
+  initDialog,
+  selectTag,
+  setDialogAsUpdate,
+  setTagValue,
 } from '../../redux/tagSlice';
+import api from '../../helpers/http'
 import {useDispatch, useSelector} from "react-redux";
 
 export default function Tags({columns}) {
@@ -14,19 +18,24 @@ export default function Tags({columns}) {
   const {initial, dialogState} = useSelector(selectTag);
 
   // 添加按钮事件
-  const handleAddRow = () => {
+  const handleAddRow = React.useCallback(() => {
     dispatch(initDialog());
     dispatch(addTag());
-  };
+  }, [dispatch]);
 
-  const handleEditor = ({original}) => {
+  const handleEditor = React.useCallback(({original}) => {
     dispatch(setTagValue(original));
     dispatch(setDialogAsUpdate());
-  };
+  }, [dispatch]);
 
   const closeDialog = (state = 'add') => {
     dispatch(_closeDialog(state));
   };
+  const _api = React.useMemo(() => ({
+    query: api.queryTags,
+    delete: api.deleteTag,
+    modify: api.modifyTag,
+  }), []);
 
   return (
     <Container maxWidth={false}>
@@ -43,11 +52,7 @@ export default function Tags({columns}) {
         handleAddRow={handleAddRow}
         handleEditor={handleEditor}
         columns={columns}
-        api={{
-          query: api.queryTags,
-          delete: api.deleteTag,
-          modify: api.modifyTag,
-        }}/>
+        api={_api}/>
     </Container>
   );
 }

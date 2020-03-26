@@ -1,21 +1,46 @@
-import {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import api from './helpers/http';
-import {toLogin} from './history';
 
 const useAuth = () => {
-  const [auth, setAuth] = useState(false);
-  useEffect(() => {
-    if (!localStorage.getItem('identify') || !localStorage.getItem('Authorization')) {
-      toLogin();
-      return;
+  const [state, setState] = React.useState({
+    loading: true,
+    auth: false,
+  });
+
+  const auth = React.useMemo(() => ({
+    success() {
+      setState({
+        loading: false,
+        auth: true,
+      });
+    },
+    failed() {
+      setState({
+        auth: false,
+        loading: false,
+      });
     }
-    api.auth().then(res => {
-      if (res.status === 'success') {
-        setAuth(true);
+  }), []);
+  const fetchData = () => {
+
+  };
+  useEffect(() => {
+    if (state.loading) {
+      if (!localStorage.getItem('identify') || !localStorage.getItem('Authorization')) {
+        auth.failed();
+      } else {
+        api.auth().then(res => {
+          if (res.status === 'success') {
+            auth.success();
+          } else {
+            auth.failed();
+          }
+        });
       }
-    });
-  }, []);
-  return auth;
+    }
+  }, [auth, state.loading]);
+
+  return [state, auth];
 };
 
 export {useAuth};

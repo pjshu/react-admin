@@ -3,7 +3,7 @@ import {Container, Grid} from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import {Form, Formik} from 'formik';
-import useStyles from './login.styles';
+import useStyles from './login.style';
 import TextFieldWithError from "../../components/TextFieldWithError";
 import {Link} from 'react-router-dom';
 import router from '../../contants/router';

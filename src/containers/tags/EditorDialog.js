@@ -1,21 +1,25 @@
 import React from 'react';
 
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Switch from '@material-ui/core/Switch';
-import TextField from '@material-ui/core/TextField';
-import Tooltip from '@material-ui/core/Tooltip';
+import {
+  Box,
+  Button,
+  ButtonBase,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Switch,
+  TextField,
+  Tooltip
+} from '@material-ui/core';
+
 import {Field, Form, Formik} from 'formik';
-import ButtonBase from "@material-ui/core/ButtonBase";
 import {useDispatch} from "react-redux";
 import {addTagImg, modifyTag} from '../../redux/tagSlice';
 import {getImageForm} from "../../helpers/misc";
 import {validateTag} from "../../helpers/validate";
-import Box from "@material-ui/core/Box";
 import useStyles from './editorDialog.style';
+
 
 const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, closeDialog}) => {
   const classes = useStyles();
@@ -33,39 +37,40 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
     addMultiple: false,
   });
 
-  const handleSwitchChange = name => event => {
+  const handleSwitchChange = React.useCallback(name => event => {
     setSwitchState({...switchState, [name]: event.target.checked});
-  };
+  }, [switchState]);
 
-  const resetSwitch = () => {
+  const resetSwitch = React.useCallback(() => {
     setSwitchState({addMultiple: false});
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     closeDialog();
     resetSwitch();
-  };
+  }, [closeDialog, resetSwitch]);
 
-  const handleChangeImage = (e) => {
+  const handleChangeImage = React.useCallback((e) => {
     const file = e.target.files;
     if (!file) {
       return;
     }
     const url = window.URL.createObjectURL(file[0]);
     setImage({...image, url});
-  };
+  }, [image]);
 
-  const uploadImage = (value) => {
+  const uploadImage = React.useCallback((value) => {
     getImageForm(image.url).then(res => {
       dispatch(addTagImg(value, res, updateHandler));
     });
-  };
+  }, [dispatch, image.url, updateHandler]);
 
-  const onSubmit = (value) => {
+  const onSubmit = React.useCallback((value) => {
     dispatch(modifyTag(value, image, updateHandler));
     uploadImage(value);
     switchState.addMultiple ? openDialog() : closeDialog();
-  };
+  }, [closeDialog, dispatch, image, openDialog, switchState.addMultiple, updateHandler, uploadImage]);
+
   return (
     <div>
       <Dialog
@@ -82,32 +87,24 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
             validationSchema={validateTag}
           >
             <Form id={'form'}>
-              <Field
-                as={TextField}
-                autoFocus
-                margin="dense"
-                label="标签名"
-                fullWidth
-                type="text"
-                name={'name'}
-              />
-              <Field
-                as={TextField}
-                margin="dense"
-                label="描述"
-                type="text"
-                fullWidth
-                name={'describe'}
-              />
-              <Field
-                as={TextField}
-                disabled={true}
-                margin="dense"
-                label="文章数量"
-                type="text"
-                fullWidth
-                name={'count'}
-              />
+              {
+                [
+                  {label: '标签名', name: 'name',},
+                  {label: '描述', name: 'describe',},
+                  {label: '文章数量', name: 'count', disabled: true},
+                ].map(({label, name, ...rest}) => (
+                  <Field
+                    as={TextField}
+                    autoFocus
+                    margin="dense"
+                    label={label}
+                    name={name}
+                    fullWidth
+                    type="text"
+                    {...rest}
+                  />
+                ))
+              }
 
               <div className={classes.imgWrapper}>
                 <input

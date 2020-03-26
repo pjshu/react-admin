@@ -3,12 +3,12 @@ import {Drawer, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, Tex
 import {Field, useFormikContext} from 'formik';
 import Tags from './Tags';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import useStyles from "./setting.styles";
+import useStyles from "./setting.style";
 import CreateDate from "../../components/TimePickField";
 import {useDispatch, useSelector} from "react-redux";
 import {closeDrawer, selectPost, setAutoSaveChecked, setAutoSaveTime} from '../../redux/postSlice';
 import Switch from '@material-ui/core/Switch';
-import Excerpt from "./Excerpt";
+import EditorArea from "../../components/editor/EditorArea";
 
 export function Setting({formRef, onSubmit, uploadFn}) {
   const timerId = React.useRef();
@@ -60,15 +60,16 @@ export function Setting({formRef, onSubmit, uploadFn}) {
           >
             {
               ["私密", "公开"].map(item => (
-                <MenuItem key={item} value="私密">{item}</MenuItem>
+                <MenuItem key={item} value={item}>{item}</MenuItem>
               ))
             }
           </Field>
         </FormControl>
         <Tags/>
         <CreateDate/>
+
         <TextField label="修改日期" InputProps={{readOnly: true}} value={change_date}/>
-        <Excerpt {...{uploadFn}}/>
+        <EditorArea uploadFn={uploadFn} field={'excerpt'} label={'摘录'}/>
         <div>
           自动保存:
           <Switch

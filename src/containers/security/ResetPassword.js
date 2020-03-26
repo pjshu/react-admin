@@ -26,7 +26,6 @@ const PasswordField = ({name, label, ...rest}) => {
       <InputLabel error={error} htmlFor="password">{label}</InputLabel>
       <Field
         as={OutlinedInput}
-        id="password"
         type={showPassword ? 'text' : 'password'}
         name={name}
         endAdornment={
@@ -69,27 +68,21 @@ function ResetPassword() {
     >
       <Form>
         <Grid container direction={"column"} spacing={5}>
-          <Grid item>
-            <PasswordField
-              className={classes.textfield}
-              name={'old_password'}
-              label={'旧密码'}
-            />
-          </Grid>
-          <Grid item>
-            <PasswordField
-              className={classes.textfield}
-              name={'password'}
-              label={'新密码'}
-            />
-          </Grid>
-          <Grid item>
-            <PasswordField
-              className={classes.textfield}
-              name={'confirm_password'}
-              label={'确认密码'}
-            />
-          </Grid>
+          {
+            [
+              {'name': 'old_password', label: '旧密码'},
+              {'name': 'password', label: '新密码'},
+              {'name': 'confirm_password', label: '确认密码'},
+            ].map(value => (
+              <Grid item key={value.name}>
+                <PasswordField
+                  className={classes.textfield}
+                  name={value.name}
+                  label={value.label}
+                />
+              </Grid>
+            ))
+          }
           <Grid item>
             <Button
               type={'submit'}

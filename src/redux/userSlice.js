@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import api from "../helpers/http";
 import {toAdmin, toLogin} from "../history";
-import {addSuccessMessage, addErrorMessage} from "./globalSlice";
+import {addErrorMessage, addSuccessMessage} from "./globalSlice";
 
 export const slice = createSlice({
   name: 'user',
@@ -86,19 +86,6 @@ export const login = values => dispatch => {
       dispatch(addSuccessMessage('登录成功'));
     } else {
       dispatch(addErrorMessage('登录失败'));
-    }
-  });
-};
-
-export const authLogin = setLoading => dispatch => {
-  api.auth().then(res => {
-    if (res.status === 'success') {
-      toAdmin();
-      dispatch(addSuccessMessage('您已登录'));
-    } else {
-      //TODO:
-      setLoading(false);
-      // dispatch(addErrorMessage('登录失败'));
     }
   });
 };
@@ -227,6 +214,7 @@ export const logout = () => dispatch => {
     }
   });
 };
+
 export const selectLogin = state => state.user.login;
 
 export const selectRecoveryPassword = state => ({

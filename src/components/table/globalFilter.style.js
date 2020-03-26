@@ -26,7 +26,7 @@ export default makeStyles(theme => ({
     justifyContent: 'center',
   },
   deleteIcon: {
-    zIndex: '100',
+    zIndex: 2,
     position: 'absolute',
     right: 0,
     height: '100%',

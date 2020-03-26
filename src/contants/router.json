@@ -1,5 +1,4 @@
 {
-  "HOME": "/admin",
   "LOGIN": "/admin/login",
   "REGISTER": "/admin/register",
   "RECOVER_PASSWORD": "/admin/recovery",

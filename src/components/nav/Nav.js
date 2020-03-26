@@ -58,6 +58,7 @@ function Nav() {
       open: false
     });
   };
+
   const handleDeleteMessage = (id) => {
     //这里不能把dispatch提出到外面
     if (message.length === 1) {

@@ -1,16 +1,34 @@
 import Login from './Login';
-import React, {useEffect, useState} from 'react';
+import React, {Profiler} from 'react';
 import Loading from "../../components/Loading";
-import {authLogin} from "../../redux/userSlice";
-import {useDispatch} from "react-redux";
+import {Redirect, useLocation} from 'react-router-dom';
+import router from '../../contants/router';
+import {useAuth} from "../../hook";
 
 function Index() {
-  const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(authLogin(setLoading));
-  }, []);
-  return loading ? <Loading/> : <Login/>;
+  const [state, auth] = useAuth();
+  const {state: routeState} = useLocation();
+  let from = router.ADMIN;
+  if (routeState) {
+    from = routeState.from;
+    if (routeState.from.pathname.match(/^\/admin/)) {
+      auth.failed();
+    }
+  }
+
+  return state.loading ? <Loading/> :
+    state.auth ? <Redirect to={from}/> :
+      <Login/>;
 }
 
-export default Index;
+function onRenderCallback(props) {
+  console.log(props);
+}
+
+export default function LogonCom() {
+  return (
+    <Profiler id={'login'} onRender={onRenderCallback}>
+      <Index/>
+    </Profiler>
+  );
+}

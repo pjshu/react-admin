@@ -62,7 +62,7 @@ export default makeStyles({
     },
     "& .bf-container .public-DraftEditor-content .braft-code-block-wrapper .braft-code-block-header": {
       position: "relative",
-      zIndex: "2",
+      zIndex: 2,
       height: "30px"
     },
     "& .bf-container .public-DraftEditor-content .braft-code-block-wrapper .braft-code-block-header .syntax-switcher": {

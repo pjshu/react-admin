@@ -53,7 +53,7 @@ export const api = {
   resetPassword: '/user/password/reset',
   recoveryPassword: '/user/password/recovery',
   email: '/user/email',
-  checkRegister: '/user/check',
+  checkRegister: '/user/register',
   images: '/images%',
 };
 const generateApi = (resource, method = 'get', type, ...config) => (data = null, id = null) => {

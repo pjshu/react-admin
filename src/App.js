@@ -12,6 +12,7 @@ const Login = lazy(() => import("./containers/login"));
 const RecoveryPass = lazy(() => import("./containers/recoveryPass/RecoveryPassword"));
 const MessageQueue = lazy(() => import("./containers/MessageQueue"));
 
+
 function App() {
   return (
     <Suspense fallback={<Loading/>}>
@@ -21,11 +22,11 @@ function App() {
           <Route path={router.LOGIN}><Login/></Route>
           <Route path={router.REGISTER}><Register/></Route>
           <Route path={router.RECOVER_PASSWORD}><RecoveryPass/></Route>
-          <Route path={router.HOME}><Root/></Route>
+          <Route path={router.ADMIN}><Root/></Route>
         </Switch>
       </Router>
     </Suspense>
   );
 }
 
-export default hot(module)(App);
+export default process.env.NODE_ENV === "development" ? hot(module)(App) : App;

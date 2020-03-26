@@ -18,12 +18,6 @@ export default function InputWithIcon({icon, label, info, name, ...other}) {
           label={label}
           {...{...other, errors, touched}}
         />
-        {/*<Field*/}
-        {/*  fullWidth={true}*/}
-        {/*  as={TextField}*/}
-        {/*  name={name}*/}
-        {/*  label={label}*/}
-        {/*  variant="outlined"/>*/}
       </Grid>
       {
         info ?

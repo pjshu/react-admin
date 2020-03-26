@@ -29,8 +29,8 @@ export default makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     width: 200,
-    '& .inputIcon': {
-      width: '350px'
-    }
+  },
+  inputIcon: {
+    width: '350px'
   }
 }));

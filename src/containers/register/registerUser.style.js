@@ -15,8 +15,5 @@ export default makeStyles({
     '& > *': {
       width: '45%',
     }
-  },
-  cancelBtn: {
-    marginLeft: '50px'
   }
 });

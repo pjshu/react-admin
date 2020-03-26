@@ -2,7 +2,7 @@ import React from "react";
 import {Container, Fab, Grid} from "@material-ui/core";
 import EditIcon from '@material-ui/icons/Edit';
 import Table from './Table';
-import useStyles from './posts.styles';
+import useStyles from './posts.style';
 import {useDispatch} from "react-redux";
 import {addPost} from '../../redux/postSlice';
 

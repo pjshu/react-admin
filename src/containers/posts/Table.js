@@ -1,10 +1,10 @@
-import React from 'react';
-import api from "../../helpers/http";
+import React, {useMemo} from 'react';
 import {toPost} from "../../history";
 import Table from '../../components/table';
 import Chip from "@material-ui/core/Chip";
 import {useDispatch} from "react-redux";
 import {addPost} from "../../redux/postSlice";
+import api from '../../helpers/http';
 
 const Tags = ({values}) => (
   <>
@@ -38,7 +38,7 @@ export default function Tables() {
       {
         Header: '评论',
         accessor: 'comments',
-        disableSortBy:true
+        disableSortBy: true
       },
       {
         Header: '状态',
@@ -56,13 +56,19 @@ export default function Tables() {
     []
   );
 
-  const handleAddRow = () => {
+  const handleAddRow = React.useCallback(() => {
     dispatch(addPost());
-  };
+  }, [dispatch]);
 
-  const handleEditor = ({original}) => {
+  const handleEditor = React.useCallback(({original}) => {
     toPost(original.id);
-  };
+  }, []);
+
+  const _api = useMemo(() => ({
+    query: api.queryPosts,
+    // modifyPost: api.modifyPost,
+    delete: api.deletePost
+  }), []);
 
   return (
     <Table
@@ -70,11 +76,7 @@ export default function Tables() {
       handleAddRow={handleAddRow}
       handleEditor={handleEditor}
       columns={columns}
-      api={{
-        query: api.queryPosts,
-        // modifyPost: api.modifyPost,
-        delete: api.deletePost
-      }}
+      api={_api}
     />
   );
 }

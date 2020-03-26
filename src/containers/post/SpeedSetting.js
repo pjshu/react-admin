@@ -8,7 +8,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import SettingsIcon from '@material-ui/icons/Settings';
 import {useFormikContext} from "formik";
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
-import useStyles from './speedSetting.styles';
+import useStyles from './speedSetting.style';
 import marked from '../../config/marked';
 import BraftEditor from "braft-editor";
 import {useDispatch} from "react-redux";
@@ -22,15 +22,15 @@ export default function SpeedSetting() {
   const {values, setFieldValue} = useFormikContext();
   const disPatch = useDispatch();
 
-  function handleOnDelete() {
+  const handleOnDelete = React.useCallback(() => {
     disPatch(deletePost([values.id]));
-  }
+  }, [disPatch, values.id]);
 
-  const openSetting = () => {
+  const openSetting = React.useCallback(() => {
     disPatch(openDraw());
-  };
+  }, [disPatch]);
 
-  function handleFileUpload(e) {
+  const handleFileUpload = React.useCallback((e) => {
     const file = e.target.files;
     if (file.length > 1) {
       disPatch(addWarningMessage('仅支持单个上传'));
@@ -42,14 +42,7 @@ export default function SpeedSetting() {
       let htmlString = marked(res.target.result);
       setFieldValue('article', BraftEditor.createEditorState(htmlString));
     };
-  }
-
-  const actions = [
-    {icon: <DeleteOutlineIcon/>, name: '删除', onClick: handleOnDelete},
-    {icon: <SaveIcon/>, name: '保存', type: "submit"},
-    {icon: <SettingsIcon/>, name: '设置', onClick: openSetting},
-    {icon: <UploadMarkdown {...{handleFileUpload}}/>, name: '上传markdown'},
-  ];
+  }, [disPatch, setFieldValue]);
 
   const handleClose = () => {
     setSettingOpen(false);
@@ -68,7 +61,12 @@ export default function SpeedSetting() {
       onOpen={handleOpen}
       open={settingOpen}
     >
-      {actions.map(({name, ...other}) => (
+      {[
+        {icon: <DeleteOutlineIcon/>, name: '删除', onClick: handleOnDelete},
+        {icon: <SaveIcon/>, name: '保存', type: "submit"},
+        {icon: <SettingsIcon/>, name: '设置', onClick: openSetting},
+        {icon: <UploadMarkdown {...{handleFileUpload}}/>, name: '上传markdown'},
+      ].map(({name, ...other}) => (
         <SpeedDialAction
           key={name}
           tooltipTitle={name}

@@ -4,9 +4,10 @@ export default makeStyles((theme) => ({
   modal: {
     display: (modalOpen) => modalOpen ? '' : 'none',
     position: 'absolute',
-    zIndex: '100',
-    left: '50%',
-    transform: 'translate(-50%, 0)'
+    zIndex: 4,
+    left: '55%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)'
   },
   paper: {
     width: 700,

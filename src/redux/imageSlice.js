@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import api from '../helpers/http';
-import {addLoadingMessage, setMessageState, addSuccessMessage, addErrorMessage} from "./globalSlice";
+import {addErrorMessage, addLoadingMessage, addSuccessMessage, setMessageState} from "./globalSlice";
 import {v4 as uuidV4} from "uuid";
 
 export const slice = createSlice({
@@ -78,7 +78,7 @@ export const uploadImages = (form, id) => dispatch => {
     if (res.status === 'success') {
       const data = res.data;
       dispatch(updateImage({...data, old_id: id}));
-      dispatch(addSuccessMessage('图片上传成功'))
+      dispatch(addSuccessMessage('图片上传成功'));
     }
   });
 };

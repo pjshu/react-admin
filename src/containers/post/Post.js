@@ -4,7 +4,7 @@ import {Field, Form, Formik} from 'formik';
 import MyEditor from '../../components/editor/Editor';
 import {Setting} from "./Setting";
 import SpeedSetting from "./SpeedSetting";
-import useStyles from "./post.styles";
+import useStyles from "./post.style";
 import {useDispatch, useSelector} from "react-redux";
 import {addPostImg, selectPost} from '../../redux/postSlice';
 import BraftEditor from "braft-editor";
@@ -14,12 +14,14 @@ function Post({postId, onSubmit, handleOnSave}) {
   const {initial} = useSelector(selectPost);
   const dispatch = useDispatch();
   const formRef = React.useRef();
-  const uploadFn = (form, successFn, errorFn) => {
+  const uploadFn = React.useCallback((form, successFn, errorFn) => {
     dispatch(addPostImg(form, postId, successFn, errorFn));
-  };
-  const handleKeyDown = (e) => {
+  }, [dispatch, postId]);
+
+  const handleKeyDown = React.useCallback((e) => {
     handleOnSave(e, formRef.current.values);
-  };
+  }, [handleOnSave]);
+
   const classes = useStyles();
   return (
     <Container component={Paper} className={classes.root} maxWidth={false}>

@@ -1,6 +1,6 @@
 import {Grid} from "@material-ui/core";
 import React from "react";
-import useStyles from './registerUser.styles';
+import useStyles from './registerUser.style';
 import TextFieldWithError from "../../components/TextFieldWithError";
 
 function RegisterUser() {

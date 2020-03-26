@@ -2,31 +2,31 @@ import React from 'react';
 
 import {
   Paper,
-  TableSortLabel,
-  TableRow,
-  TablePagination,
-  TableHead,
-  TableFooter,
   Table as MuiTable,
   TableBody,
   TableCell,
-  TableContainer
+  TableContainer,
+  TableFooter,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TableSortLabel
 } from '@material-ui/core';
 
 import TablePaginationActions from '../Pagination';
-import {EditorColumn, CheckBoxColumn} from './Column';
+import {CheckBoxColumn, EditorColumn} from './Column';
 
 import TableToolbar from './TableToolbar';
 import {
+  useFlexLayout,
   useGlobalFilter,
   usePagination,
+  useResizeColumns,
   useRowSelect,
   useSortBy,
-  useTable,
-  useResizeColumns,
-  useFlexLayout
+  useTable
 } from 'react-table';
-import useStyles from './table.style'
+import useStyles from './table.style';
 
 
 const EnhancedTable = (props) => {
@@ -77,13 +77,13 @@ const EnhancedTable = (props) => {
       manualSorting: true,
       manualGlobalFilter: true,
       manualPagination: true,
-      isMultiSortEvent: (_) => {
+      isMultiSortEvent: () => {
         return true;
       },
       autoResetPage: false,
       autoResetSortBy: false,
       autoResetFilters: false,
-      // pageCount
+      // pageCount: rowCount
     },
     useGlobalFilter,
     useSortBy,
@@ -120,13 +120,14 @@ const EnhancedTable = (props) => {
     search: globalFilter
   }), [globalFilter, sortBy, pageIndex, pageSize]);
 
+
   React.useEffect(() => {
     api.query(query).then(res => {
       const {data: {page, values, total}} = res;
       setData(values);
       setRowCount(total);
     });
-  }, [globalFilter, sortBy, pageIndex, pageSize]);
+  }, [api, query, setData]);
 
 
   const handleChangePage = (newPage) => {
@@ -147,35 +148,38 @@ const EnhancedTable = (props) => {
     });
   };
 
-
-  const deleteHandler = () => {
-    const id_list = [];
-    const newData = removeByIndexs(
-      data,
-      Object.keys(selectedRowIds).map(x => parseInt(x, 10)),
-      id_list
-    );
+  const deleteData = React.useCallback((id_list, newData) => {
     api.delete({id_list}).then(res => {
       if (res.status === 'success') {
         setData(newData);
         setRowCount(rowCount - 1);
       }
     });
-  };
-  const updateHandler = value => {
-    let isNew = true;
-    let newData = data.map(item => {
+  }, [api, rowCount, setData]);
+
+  const deleteHandler = React.useCallback(() => {
+    const id_list = [];
+    const newData = removeByIndexs(
+      data,
+      Object.keys(selectedRowIds).map(x => parseInt(x, 10)),
+      id_list
+    );
+    deleteData(id_list, newData);
+  }, [data, deleteData, selectedRowIds]);
+
+  const updateHandler = React.useCallback((value) => {
+    const newData = [];
+    for (let item of data) {
       if (item.id === value.id) {
-        isNew = false;
-        return value;
+        newData.push(value);
+        setRowCount((rowCount) => rowCount + 1);
+        break;
+      } else {
+        newData.push(item);
       }
-      return item;
-    });
-    if (isNew) {
-      newData.push(value);
     }
     setData(newData);
-  };
+  }, [data, setData]);
 
   return (
     <TableContainer component={Paper}>

@@ -26,19 +26,20 @@ function RecoveryPassword() {
     if (resendTime > 0) {
       dispatch(asyncDecSendCodeTime());
     }
-  }, [resendTime]);
+  }, [dispatch, resendTime]);
 
-  const onSubmit = (values) => {
+  const onSubmit = React.useCallback((values) => {
     dispatch(recoveryPassword(values));
-  };
-  const handelSendCode = () => {
+  }, [dispatch]);
+
+  const handelSendCode = React.useCallback(() => {
     const current = formRef.current;
     if (current.values.email && !current.errors.email) {
       dispatch(resetSendCodeTime());
       dispatch(setIsSendCode());
       dispatch(sendRecPassCode(current.values));
     }
-  };
+  }, [dispatch]);
 
   return (
     <Container maxWidth={false} className={classes.container}>

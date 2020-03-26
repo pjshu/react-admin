@@ -9,7 +9,7 @@ import {
   Stepper,
 } from "@material-ui/core";
 import RegisterUser from './RegisterUser';
-import useStyles from './register.styles';
+import useStyles from './register.style';
 import RegisterEmail from "./RegisterEmail";
 import {Form, Formik} from "formik";
 import Modal from "./Modal";

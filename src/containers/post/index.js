@@ -15,30 +15,30 @@ function PostWrapper() {
 
   useEffect(() => {
     dispatch(getPost(postId));
-  }, [postId]);
+  }, [dispatch, postId]);
 
   useEffect(() => {
     // 获取所有标签,用于自动补全
     dispatch(getAllTags());
-  }, []);
+  }, [dispatch]);
 
-  const onSubmit = (values) => {
+  const onSubmit = React.useCallback((values) => {
     const data = {...values};
     if (data.article) {
       data.article = data.article.toRAW();
     }
-    try {
+    if (data.excerpt) {
       data.excerpt = data.excerpt.toRAW();
-    } catch (e) {}
+    }
     data.create_date = formatTime(data.create_date);
     dispatch(modifyPost(data, postId));
-  };
+  }, [dispatch, postId]);
 
-  function handleOnSave(e, value) {
+  const handleOnSave = React.useCallback((e, value) => {
     if (e.keyCode === 83 && e.ctrlKey) {
       onSubmit(value);
     }
-  }
+  }, [onSubmit]);
 
   return loading
     ? <Loading/>

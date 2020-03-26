@@ -45,37 +45,42 @@ const emojiOption = {
 
 BraftEditor.use([Table(), Markdown(), CodeHighlighter(codeHighlighterOptions), HeaderId(), Emoticon(emojiOption)]);
 
-
+// uploadFn 控制图片上传
+// 不添加uploadFn参数则使用编辑器默认上传功能,将图片转为base64嵌入内容
 const MyEditor = ({uploadFn, value, ...props}) => {
   const [modalOpen, setModalOpen] = React.useState(false);
-  const handleOnOpen = () => {
+
+  const handleOnOpen = React.useCallback(() => {
     setModalOpen(true);
-  };
-  const handleOnClose = () => {
+  }, []);
+
+  const handleOnClose = React.useCallback(() => {
     setModalOpen(false);
-  };
+  }, []);
 
-  const myUploadFn = !uploadFn ? null : (param) => {
-    const form = new FormData();
-    form.append('image', param.file);
-    const successFn = (data) => {
-      param.success({
-        url: data.url,
-        meta: {
-          id: data.name,
-          title: data.name,
-          alt: data.name,
-        }
-      });
+  const myUploadFn = React.useCallback(() => {
+    return !uploadFn ? null : (param) => {
+      const form = new FormData();
+      form.append('image', param.file);
+      const successFn = (data) => {
+        param.success({
+          url: data.url,
+          meta: {
+            id: data.name,
+            title: data.name,
+            alt: data.name,
+          }
+        });
+      };
+      const errorFn = (response) => {
+        param.error({
+          msg: 'unable to upload.'
+        });
+      };
+      uploadFn(form, successFn, errorFn);
     };
+  }, [uploadFn]);
 
-    const errorFn = (response) => {
-      param.error({
-        msg: 'unable to upload.'
-      });
-    };
-    uploadFn(form, successFn, errorFn);
-  };
   const extendControls = [{
     key: 'preview',
     type: 'button',
@@ -85,7 +90,11 @@ const MyEditor = ({uploadFn, value, ...props}) => {
 
   return (
     <>
-      <Preview {...{modalOpen, handleOnClose, value}}/>
+      {
+        modalOpen ?
+          <Preview {...{modalOpen, handleOnClose, value}}/> :
+          null
+      }
       <BraftEditor media={{uploadFn: myUploadFn}} value={value} {...{extendControls, ...props}}/>
     </>
   );

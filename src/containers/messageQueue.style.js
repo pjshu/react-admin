@@ -7,7 +7,8 @@ export default makeStyles({
   list: {
     flexDirection: 'column-reverse',
     display: 'flex',
-    zIndex: '1000',
+    // 会对其他元素(拟态框)造成遮挡,导致该区域事件失效
+    zIndex: 10,
     position: "fixed",
     bottom: 0,
     left: '10%',

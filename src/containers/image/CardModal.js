@@ -15,7 +15,6 @@ const CardModal = (props) => {
   const {setModalOpen} = props;
   const [cacheDescribe, setCacheDescribe] = React.useState(describe);
   const [tabs, setTabs] = React.useState(0);
-
   const handleNextCard = () => {
     props.handleNextCard(id);
   };
@@ -23,17 +22,18 @@ const CardModal = (props) => {
     props.handlePreCard(id);
   };
 
-  const handleOnClose = () => {
+  const handleOnClose = React.useCallback(() => {
     setModalOpen(false);
-  };
+  }, [setModalOpen]);
 
-  const handleUploadDesc = () => {
+  const handleUploadDesc = React.useCallback(() => {
     props.handleUpdate(cacheDescribe, upload, id, url);
-  };
-  const handleDelete = () => {
+  }, [cacheDescribe, id, props.handleUpdate, upload, url]);
+
+  const handleDelete = React.useCallback(() => {
     props.handleOnDelete(upload, id);
     setModalOpen(false);
-  };
+  }, [id, props.handleOnDelete, setModalOpen, upload]);
 
   const handleCacheDescChange = (e) => {
     setCacheDescribe(e.target.value);
@@ -70,9 +70,7 @@ const CardModal = (props) => {
               color="primary"
               aria-label="outlined primary button group"
             >
-              <Button
-                onClick={handleToFirstTab}
-              >
+              <Button onClick={handleToFirstTab}>
                 链接
               </Button>
               <Button onClick={handleToSecondTab}>
@@ -99,16 +97,17 @@ const CardModal = (props) => {
           </Grid>
         </Grid>
         <div className={classes.actionBtn}>
-          <Button color="primary" onClick={handleOnClose}
-          >
-            关闭
-          </Button>
-          <Button color="primary" onClick={handleDelete}>
-            删除
-          </Button>
-          <Button color="primary" onClick={handleUploadDesc}>
-            更新
-          </Button>
+          {
+            [
+              {label: '关闭', onClick: handleOnClose},
+              {label: '删除', onClick: handleDelete},
+              {label: '更新', onClick: handleUploadDesc},
+            ].map(item => (
+              <Button key={item.label} color="primary" onClick={item.onClick}>
+                关闭
+              </Button>
+            ))
+          }
         </div>
 
       </Box>

@@ -2,14 +2,14 @@ import React from "react";
 import {Form, Formik} from 'formik';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import MyEditor from "../../components/editor/Editor";
 import InputWithIcon from './InputWithIcon';
 import {Avatar, Button, Grid, Paper, Typography} from "@material-ui/core";
-import useStyles from './user.styles';
+import useStyles from './user.style';
 import {useDispatch, useSelector} from "react-redux";
 import {modifyUserInfo, selectUserInfo} from "../../redux/userSlice";
-import BraftEditor from "braft-editor";
 import {validateUserInfo} from '../../helpers/validate';
+import EditorArea from '../../components/editor/EditorArea';
+
 
 function User() {
   const dispatch = useDispatch();
@@ -31,7 +31,9 @@ function User() {
 
   const onSubmit = async (values) => {
     const data = {...values};
-    data.about = data.about.toRAW();
+    if (data.about) {
+      data.about = data.about.toRAW();
+    }
     if (data.avatar) {
       data.avatar = await base64Avatar(data.avatar);
     }
@@ -47,7 +49,6 @@ function User() {
       formRef.current.setFieldValue('about', value);
     }
   };
-
   return (
     <Grid className={classes.root} container component={Paper}>
       <Formik
@@ -90,7 +91,7 @@ function User() {
                         </Grid>
                         <Grid item>
                           <InputWithIcon
-                            className={'inputIcon'}
+                            className={classes.inputIcon}
                             {...item}
                           />
                         </Grid>
@@ -107,15 +108,7 @@ function User() {
                   </Button>
                 </Grid>
                 <Grid item container direction={"column"} spacing={5}>
-                  <Grid item>
-                    <Typography>用户介绍:</Typography>
-                  </Grid>
-                  <Grid item>
-                    <MyEditor
-                      value={BraftEditor.createEditorState(values.about)}
-                      onChange={handleUserInfoChange}
-                    />
-                  </Grid>
+                  <EditorArea field={'about'} label={'用户介绍'}/>
                 </Grid>
               </Grid>
             </Form>

@@ -48,7 +48,7 @@ export default makeStyles((theme) => ({
     height: theme.spacing(10)
   },
   logoutWrapper: {
-    zIndex: '10',
+    zIndex: 2,
     position: "absolute",
     right: '100px',
     display: 'flex',

@@ -101,7 +101,7 @@ export const addPost = () => dispatch => {
     const {status, data} = res;
     if (status === 'success' && data.id) {
       toPost(data.id);
-      dispatch(addSuccessMessage('删除成功'));
+      dispatch(addSuccessMessage('创建文章成功'));
     } else {
       dispatch(addErrorMessage('删除成功'));
     }

@@ -16,7 +16,8 @@ const Table = (props) => {
   } = props;
   // Column为数组,数组元素为column实例(如./Column),用于添加不需要react-table数据渲染的列
   const [data, setData] = React.useState([]);
-  const updateMyData = (rowIndex, columnId, value) => {
+
+  const updateMyData = React.useCallback((rowIndex, columnId, value) => {
     setData(old =>
       old.map((row, index) => {
         if (index === rowIndex) {
@@ -28,7 +29,8 @@ const Table = (props) => {
         return row;
       })
     );
-  };
+  }, []);
+
   return (
     <div>
       <CssBaseline/>

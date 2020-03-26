@@ -18,6 +18,7 @@ const Message = ({message, severity, time}) => {
     </Snackbar>
   );
 };
+
 const createMessage = (message, time, severity) => {
   const div = document.createElement('div');
   document.body.appendChild(div);

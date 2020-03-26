@@ -3,13 +3,13 @@ import {makeStyles} from "@material-ui/core/styles";
 export default makeStyles({
   root: {
     position: 'absolute',
-    zIndex: '100',
+    zIndex: 2,
     left: '55%',
     top: '52%',
     transform: 'translate(-50%, -50%)'
   },
   preButton: {
-    zIndex: '101',
+    zIndex: 2,
     position: 'absolute',
     top: '50%',
     left: '-40px',
@@ -19,7 +19,7 @@ export default makeStyles({
     }
   },
   nextButton: {
-    zIndex: '101',
+    zIndex: 2,
     position: 'absolute',
     top: '50%',
     right: '-95px',
@@ -50,7 +50,7 @@ export default makeStyles({
     '&> *': {
       position: 'absolute',
       bottom: 20,
-      zIndex: '101'
+      zIndex: 2
     },
     '& > :first-child': {
       right: 20,

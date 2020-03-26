@@ -6,7 +6,10 @@ TODO:
 - 绑定手机
 - bug:
    - 标签表格点击添加新列按钮,表格行的总数不更新
+   - 图片删除,页数的总数不更新
 
+备忘:
+- nginx 开启gzip
    
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
