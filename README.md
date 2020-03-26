@@ -10,8 +10,7 @@ TODO:
 
 备忘:
 - nginx 开启gzip
-- 由于不清楚material-ui 组件底层数组对比方式,故所有传递给material-ui 的函数用useCallback包裹   
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+- 由于不清楚material-ui 组件底层数据对比方式,故所有传递给material-ui 的函数用useCallback包裹   
 
 
 ### Code Splitting
@@ -30,7 +29,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/ad
 ### Deployment
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

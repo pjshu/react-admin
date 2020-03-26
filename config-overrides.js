@@ -1,6 +1,8 @@
 const rewireReactHotLoader = require('react-app-rewire-hot-loader');
 const path = require('path');
 
+// 打包参考 https://juejin.im/post/5c00916f5188254caf186f80
+
 module.exports = function override(config, env) {
   config = rewireReactHotLoader(config, env);
   config.resolve.alias = {
@@ -19,11 +21,24 @@ module.exports = function override(config, env) {
       automaticNameDelimiter: '~',   // 打包分割符
       name: true,
       cacheGroups: {
-        vendors: { // 打包两个页面的公共代码
-          minChunks: 2, // 引入两次及以上被打包
-          name: 'vendors', // 分离包的名字
-          chunks: 'async'
+        vendors: { // 项目基本框架等
+          chunks: 'all',
+          test: /(react|react-dom|react-dom-router|redux)/,
+          priority: 100,
+          name: 'vendors',
         },
+        'async-commons': {  // 异步加载公共包、组件等
+          chunks: 'async',
+          minChunks: 2,
+          name: 'async-commons',
+          priority: 90,
+        },
+        commons: { // 其他同步加载公共包
+          chunks: 'all',
+          minChunks: 2,
+          name: 'commons',
+          priority: 80,
+        }
       }
     }
   };
