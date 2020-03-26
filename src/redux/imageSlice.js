@@ -67,9 +67,13 @@ export const deleteImageApi = (id_list) => dispatch => {
 
 export const queryImages = (query) => dispatch => {
   api.queryImages(query).then(res => {
-    const data = res.data;
-    dispatch(setCount(data.total));
-    dispatch(setImages(data.values));
+    const {data, status} = res;
+    if (status === 'success') {
+      dispatch(setCount(data.total));
+      dispatch(setImages(data.values));
+    } else {
+      //TODO
+    }
   });
 };
 

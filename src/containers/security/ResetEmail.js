@@ -25,7 +25,7 @@ function ResetEmail({email}) {
     if (resendTime > 0) {
       dispatch(asyncDecSendCodeTime());
     }
-  }, [resendTime]);
+  }, [dispatch, resendTime]);
 
   const onSubmit = (values) => {
     dispatch(resetEmail(values));

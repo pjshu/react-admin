@@ -1,7 +1,11 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import api from './helpers/http';
+import router from "./contants/router";
+import {useLocation} from "react-router-dom";
 
 const useAuth = () => {
+  const from = useRef(router.ADMIN);
+  const {state: routeState} = useLocation();
   const [state, setState] = React.useState({
     loading: true,
     auth: false,
@@ -21,26 +25,39 @@ const useAuth = () => {
       });
     }
   }), []);
-  const fetchData = () => {
 
-  };
+
+  const authLogin = React.useCallback(() => {
+    api.auth().then(res => {
+      if (res.status === 'success') {
+        auth.success();
+      } else {
+        auth.failed();
+      }
+    });
+  }, [auth]);
+
+  useEffect(() => {
+    if (routeState) {
+      from.current = routeState.from;
+      if (routeState.from.pathname.match(/^\/admin/)) {
+        auth.failed();
+      }
+    }
+  }, [auth, routeState]);
+
+
   useEffect(() => {
     if (state.loading) {
       if (!localStorage.getItem('identify') || !localStorage.getItem('Authorization')) {
         auth.failed();
       } else {
-        api.auth().then(res => {
-          if (res.status === 'success') {
-            auth.success();
-          } else {
-            auth.failed();
-          }
-        });
+        authLogin();
       }
     }
-  }, [auth, state.loading]);
+  }, [auth, authLogin, state.loading]);
 
-  return [state, auth];
+  return [state, from.current];
 };
 
 export {useAuth};

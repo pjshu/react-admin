@@ -5,12 +5,12 @@ import useStyles from './card.style';
 
 const MyCard = (props) => {
   const classes = useStyles();
-  const {image: {url}, upload, handleOnCardClick, id} = props;
+  const {image: {url}, upload, handleOnCardClick, id, handleDelete, uploadImage} = props;
   const handleOnDelete = () => {
-    props.handleOnDelete(upload, id);
+    handleDelete(upload, id);
   };
   const handleUpdate = () => {
-    props.uploadImage(url, id);
+    uploadImage(url, id);
   };
   const handleOnClick = () => {
     handleOnCardClick(id);

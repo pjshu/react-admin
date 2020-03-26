@@ -9,6 +9,6 @@ export default () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserEmail(setLoading));
-  }, []);
+  }, [dispatch]);
   return loading ? <Loading/> : <Security/>;
 };

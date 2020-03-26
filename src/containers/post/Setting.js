@@ -27,7 +27,7 @@ export function Setting({formRef, onSubmit, uploadFn}) {
       }, autoSave.time * 1000 * 60);
     }
     return () => clearInterval(timerId.current);
-  }, [autoSave.time, autoSave.open]);
+  }, [autoSave.time, autoSave.open, formRef, onSubmit]);
 
   const handleCloseDrawer = () => {
     dispatch(closeDrawer());

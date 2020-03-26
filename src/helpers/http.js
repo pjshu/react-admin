@@ -1,5 +1,5 @@
 import axios from "axios";
-import {toAdmin, toLogin} from "../history";
+import {toLogin} from "../history";
 
 let base = '/api/admin/';
 let localhost = 'http://127.0.0.1:5000';

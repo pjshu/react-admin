@@ -44,11 +44,7 @@ function User() {
     const url = window.URL.createObjectURL(file[0]);
     formRef.current.setFieldValue('avatar', url);
   };
-  const handleUserInfoChange = (value) => {
-    if (formRef.current) {
-      formRef.current.setFieldValue('about', value);
-    }
-  };
+
   return (
     <Grid className={classes.root} container component={Paper}>
       <Formik

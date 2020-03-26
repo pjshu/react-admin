@@ -17,12 +17,13 @@ export default function Tags({columns}) {
   const dispatch = useDispatch();
   const {initial, dialogState} = useSelector(selectTag);
 
-  // 添加按钮事件
+  // 表格"+" 按钮
   const handleAddRow = React.useCallback(() => {
     dispatch(initDialog());
     dispatch(addTag());
   }, [dispatch]);
 
+  // 表单编辑按钮
   const handleEditor = React.useCallback(({original}) => {
     dispatch(setTagValue(original));
     dispatch(setDialogAsUpdate());
@@ -31,6 +32,7 @@ export default function Tags({columns}) {
   const closeDialog = (state = 'add') => {
     dispatch(_closeDialog(state));
   };
+
   const _api = React.useMemo(() => ({
     query: api.queryTags,
     delete: api.deleteTag,

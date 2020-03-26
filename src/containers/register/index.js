@@ -10,7 +10,7 @@ function Index() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(checkRegister(setLoading));
-  }, []);
+  }, [dispatch]);
 
   return loading ?
     <Loading/> :

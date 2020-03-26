@@ -17,7 +17,7 @@ const Message = ({msg}) => {
 
   return (
     <Snackbar classes={{
-      root: classes.snackbarRoot
+      root: classes.root
     }} onClose={handleOnclose} autoHideDuration={6000} open={open}>
       <Fade in={open}>
         <Box

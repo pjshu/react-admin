@@ -26,11 +26,12 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
   const [image, setImage] = React.useState({
     url: ''
   });
+
   const dispatch = useDispatch();
   React.useEffect(() => {
     let url = dialogInit.image.url;
-    setImage({...image, url});
-  }, [dialogInit]);
+    setImage((image) => ({...image, url}));
+  }, [dialogInit.image.url]);
 
 
   const [switchState, setSwitchState] = React.useState({
@@ -60,9 +61,11 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
   }, [image]);
 
   const uploadImage = React.useCallback((value) => {
-    getImageForm(image.url).then(res => {
-      dispatch(addTagImg(value, res, updateHandler));
-    });
+    if (image.url) {
+      getImageForm(image.url).then(res => {
+        dispatch(addTagImg(value, res, updateHandler));
+      });
+    }
   }, [dispatch, image.url, updateHandler]);
 
   const onSubmit = React.useCallback((value) => {
@@ -94,6 +97,7 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
                   {label: '文章数量', name: 'count', disabled: true},
                 ].map(({label, name, ...rest}) => (
                   <Field
+                    key={name}
                     as={TextField}
                     autoFocus
                     margin="dense"

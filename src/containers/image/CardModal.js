@@ -12,7 +12,7 @@ const CardModal = (props) => {
   const classes = useStyles();
   const image = images.filter(item => item.id === props.cardId)[0];
   const {count, image: {url}, upload, id, relationship, describe} = image;
-  const {setModalOpen} = props;
+  const {setModalOpen, handleUpdate, handleDelete} = props;
   const [cacheDescribe, setCacheDescribe] = React.useState(describe);
   const [tabs, setTabs] = React.useState(0);
   const handleNextCard = () => {
@@ -27,13 +27,13 @@ const CardModal = (props) => {
   }, [setModalOpen]);
 
   const handleUploadDesc = React.useCallback(() => {
-    props.handleUpdate(cacheDescribe, upload, id, url);
-  }, [cacheDescribe, id, props.handleUpdate, upload, url]);
+    handleUpdate(cacheDescribe, upload, id, url);
+  }, [cacheDescribe, id, handleUpdate, upload, url]);
 
-  const handleDelete = React.useCallback(() => {
-    props.handleOnDelete(upload, id);
+  const handleOnDelete = React.useCallback(() => {
+    handleDelete(upload, id);
     setModalOpen(false);
-  }, [id, props.handleOnDelete, setModalOpen, upload]);
+  }, [id, handleDelete, setModalOpen, upload]);
 
   const handleCacheDescChange = (e) => {
     setCacheDescribe(e.target.value);
@@ -100,11 +100,11 @@ const CardModal = (props) => {
           {
             [
               {label: '关闭', onClick: handleOnClose},
-              {label: '删除', onClick: handleDelete},
+              {label: '删除', onClick: handleOnDelete},
               {label: '更新', onClick: handleUploadDesc},
             ].map(item => (
               <Button key={item.label} color="primary" onClick={item.onClick}>
-                关闭
+                {item.label}
               </Button>
             ))
           }

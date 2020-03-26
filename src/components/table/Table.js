@@ -168,15 +168,17 @@ const EnhancedTable = (props) => {
   }, [data, deleteData, selectedRowIds]);
 
   const updateHandler = React.useCallback((value) => {
-    const newData = [];
-    for (let item of data) {
+    let isNewData = true;
+    const newData = data.map(item => {
       if (item.id === value.id) {
-        newData.push(value);
+        isNewData = false;
         setRowCount((rowCount) => rowCount + 1);
-        break;
-      } else {
-        newData.push(item);
+        return value;
       }
+      return item;
+    });
+    if(isNewData){
+      newData.push(value)
     }
     setData(newData);
   }, [data, setData]);

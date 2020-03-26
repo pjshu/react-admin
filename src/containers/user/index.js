@@ -9,7 +9,7 @@ export default () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserInfo(setLoading));
-  }, []);
+  }, [dispatch]);
 
   return loading ? <Loading/> : <User/>;
 };

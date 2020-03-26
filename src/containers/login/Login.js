@@ -17,9 +17,9 @@ function Login() {
   const dispatch = useDispatch();
   const {initial} = useSelector(selectLogin);
 
-  function onSubmit(values) {
+  const onSubmit = React.useCallback((values) => {
     dispatch(login(values));
-  }
+  }, [dispatch]);
 
   return (
     <Container maxWidth={false} className={classes.container}>

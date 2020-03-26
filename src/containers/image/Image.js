@@ -43,7 +43,7 @@ function Image(props) {
   }, [dispatch]);
 
 
-  const handleOnDelete = React.useCallback((upload, id) => {
+  const handleDelete = React.useCallback((upload, id) => {
     return upload ?
       dispatch(deleteImage([id])) :
       dispatch(deleteImageApi([id]));
@@ -81,7 +81,7 @@ function Image(props) {
       >
         {
           modalOpen ?
-            <CardModal {...{cardId, setModalOpen, handleOnDelete, handleUpdate, handleNextCard, handlePreCard}}/> : null
+            <CardModal {...{cardId, setModalOpen, handleDelete, handleUpdate, handleNextCard, handlePreCard}}/> : null
         }
         <div>
           <Grid
@@ -94,7 +94,7 @@ function Image(props) {
               images.map(item => {
                 return (
                   <Grid item key={item.id}>
-                    <Card {...{...item, handleOnDelete, handleOnCardClick, uploadImage, handleUpdate}}/>
+                    <Card {...{...item, handleDelete, handleOnCardClick, uploadImage, handleUpdate}}/>
                   </Grid>
                 );
               })

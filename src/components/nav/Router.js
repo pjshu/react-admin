@@ -9,7 +9,7 @@ const Posts = lazy(() => import("../../containers/posts"));
 const Tags = lazy(() => import("../../containers/tags"));
 const User = lazy(() => import("../../containers/user"));
 const Security = lazy(() => import('../../containers/security'));
-const Image = lazy(() => import('../../containers/image/Image'));
+const Image = lazy(() => import('../../containers/image'));
 
 export default function Root() {
   return (
