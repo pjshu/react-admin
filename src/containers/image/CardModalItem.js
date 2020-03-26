@@ -3,7 +3,7 @@ import {CopyToClipboard} from "react-copy-to-clipboard";
 import React from "react";
 import {useDispatch} from "react-redux";
 import {addSuccessMessage} from '../../redux/globalSlice';
-import useStyles from './CardModalItem.style'
+import useStyles from './CardModalItem.style';
 
 export const UseInfo = ({count, relationship}) => {
   return (
@@ -25,9 +25,9 @@ export const UseInfo = ({count, relationship}) => {
 export const Links = ({url}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const handleCopySuccess = () => {
+  const handleCopySuccess = React.useCallback(() => {
     dispatch(addSuccessMessage('复制成功'));
-  };
+  }, [dispatch]);
   return (
     <Fade in={true} timeout={500}>
       <Grid item>

@@ -35,12 +35,14 @@ const CardModal = (props) => {
     setModalOpen(false);
   }, [id, handleDelete, setModalOpen, upload]);
 
-  const handleCacheDescChange = (e) => {
+  const handleCacheDescChange = React.useCallback((e) => {
     setCacheDescribe(e.target.value);
-  };
-  const handleToFirstTab = () => {
+  }, []);
+
+  const handleToFirstTab = React.useCallback(() => {
     setTabs(0);
-  };
+  }, []);
+
   const handleToSecondTab = () => {
     setTabs(1);
   };

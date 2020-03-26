@@ -22,14 +22,17 @@ function PostWrapper() {
     dispatch(getAllTags());
   }, [dispatch]);
 
+  const convert = (data, field) => {
+    try {
+      data[field] = data[field].toRAW();
+    } catch (e) {
+    }
+  };
+
   const onSubmit = React.useCallback((values) => {
     const data = {...values};
-    if (data.article) {
-      data.article = data.article.toRAW();
-    }
-    if (data.excerpt) {
-      data.excerpt = data.excerpt.toRAW();
-    }
+    convert(data, 'article');
+    convert(data, 'excerpt');
     data.create_date = formatTime(data.create_date);
     dispatch(modifyPost(data, postId));
   }, [dispatch, postId]);

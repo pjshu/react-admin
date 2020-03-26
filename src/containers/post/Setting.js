@@ -17,30 +17,36 @@ export function Setting({formRef, onSubmit, uploadFn}) {
   const classes = useStyles(autoSave.open);
 
   const {values: {change_date, visibility}} = useFormikContext();
+
+  const timingUpload = React.useCallback(() => {
+    return setInterval(() => {
+      onSubmit(formRef.current.values);
+    }, autoSave.time * 1000 * 60);
+  }, [autoSave.time, formRef, onSubmit]);
+
   // 计时器
   React.useEffect(() => {
     if (autoSave.open && autoSave.time > 0) {
-      timerId.current = setInterval(() => {
-        if (formRef.current) {
-          onSubmit(formRef.current.values);
-        }
-      }, autoSave.time * 1000 * 60);
+      timerId.current = timingUpload();
     }
     return () => clearInterval(timerId.current);
-  }, [autoSave.time, autoSave.open, formRef, onSubmit]);
+  }, [autoSave.time, autoSave.open, timingUpload]);
 
-  const handleCloseDrawer = () => {
+  const handleCloseDrawer = React.useCallback(() => {
     dispatch(closeDrawer());
-  };
-  const handleAutoSaveChange = (e) => {
+  }, [dispatch]);
+
+  const handleAutoSaveChange = React.useCallback((e) => {
     const time = e.target.value;
     if (time > 0) {
       dispatch(setAutoSaveTime(time));
     }
-  };
-  const handleAutoSaveChecked = (e) => {
+  }, [dispatch]);
+
+  const handleAutoSaveChecked = React.useCallback((e) => {
     dispatch(setAutoSaveChecked(e.target.checked));
-  };
+  }, [dispatch]);
+
   return (
     <Drawer
       variant="persistent"

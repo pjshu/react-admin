@@ -30,27 +30,31 @@ export default function SpeedSetting() {
     disPatch(openDraw());
   }, [disPatch]);
 
-  const handleFileUpload = React.useCallback((e) => {
-    const file = e.target.files;
-    if (file.length > 1) {
-      disPatch(addWarningMessage('仅支持单个上传'));
-    }
-
+  const readText = React.useCallback((file) => {
     const reader = new FileReader();
     reader.readAsText(file[0]);
     reader.onload = function (res) {
       let htmlString = marked(res.target.result);
       setFieldValue('article', BraftEditor.createEditorState(htmlString));
     };
-  }, [disPatch, setFieldValue]);
+  }, [setFieldValue]);
 
-  const handleClose = () => {
+  // 上传markdown
+  const handleFileUpload = React.useCallback((e) => {
+    const file = e.target.files;
+    if (file.length > 1) {
+      disPatch(addWarningMessage('仅支持单个上传'));
+    }
+    readText(file);
+  }, [disPatch, readText]);
+
+  const handleClose = React.useCallback(() => {
     setSettingOpen(false);
-  };
+  }, []);
 
-  const handleOpen = () => {
+  const handleOpen = React.useCallback(() => {
     setSettingOpen(true);
-  };
+  }, []);
 
   return (
     <SpeedDial

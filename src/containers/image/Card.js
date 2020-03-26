@@ -5,16 +5,27 @@ import useStyles from './card.style';
 
 const MyCard = (props) => {
   const classes = useStyles();
-  const {image: {url}, upload, handleOnCardClick, id, handleDelete, uploadImage} = props;
-  const handleOnDelete = () => {
+  const {
+    image: {url},
+    upload,
+    handleOnCardClick,
+    id,
+    handleDelete,
+    uploadImage
+  } = props;
+
+  const handleOnDelete = React.useCallback(() => {
     handleDelete(upload, id);
-  };
-  const handleUpdate = () => {
+  }, [handleDelete, id, upload]);
+
+  const handleUpdate = React.useCallback(() => {
     uploadImage(url, id);
-  };
-  const handleOnClick = () => {
+  }, [id, uploadImage, url]);
+
+  const handleOnClick = React.useCallback(() => {
     handleOnCardClick(id);
-  };
+  }, [handleOnCardClick, id]);
+
   return (
     <Card component={Box} boxShadow={5} className={classes.root}>
       <CardActionArea onClick={handleOnClick}>

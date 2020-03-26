@@ -6,9 +6,9 @@ import {render} from "react-dom";
 // TODO: 列消息, 多条消息有显示问题
 const Message = ({message, severity, time}) => {
   const [open, setOpen] = useState(true);
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     setOpen(false);
-  };
+  }, []);
 
   return (
     <Snackbar open={open} autoHideDuration={time} onClose={handleClose}>

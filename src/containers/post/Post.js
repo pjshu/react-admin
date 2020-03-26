@@ -14,6 +14,7 @@ function Post({postId, onSubmit, handleOnSave}) {
   const {initial} = useSelector(selectPost);
   const dispatch = useDispatch();
   const formRef = React.useRef();
+
   const uploadFn = React.useCallback((form, successFn, errorFn) => {
     dispatch(addPostImg(form, postId, successFn, errorFn));
   }, [dispatch, postId]);

@@ -41,23 +41,26 @@ function Nav() {
     anchorEl: null,
     open: false,
   });
-  const handleDrawerOpen = () => {
-    setOpen(!open);
-  };
-  const handleMenuClick = (e) => {
+
+  const handleDrawerOpen = React.useCallback(() => {
+    setOpen((open) => !open);
+  }, []);
+
+  const handleMenuClick = React.useCallback((e) => {
     if (message.length !== 0) {
       setMessageMenu({
         open: true,
         anchorEl: e.currentTarget
       });
     }
-  };
-  const handleMenuClose = () => {
+  }, [message.length]);
+
+  const handleMenuClose = React.useCallback(() => {
     setMessageMenu({
       ...messageMenu,
       open: false
     });
-  };
+  }, [messageMenu]);
 
   const handleDeleteMessage = (id) => {
     //这里不能把dispatch提出到外面
@@ -69,10 +72,10 @@ function Nav() {
     }
   };
 
-  const handleClearAll = () => {
+  const handleClearAll = React.useCallback(() => {
     dispatch(clearAllMessage());
     handleMenuClose();
-  };
+  },[dispatch, handleMenuClose]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -131,6 +134,7 @@ function Nav() {
             {message.map((msg) => (
               <MenuItem className={classes.fullWidth} key={msg.id} onClose={handleMenuClose}>
                 <Alert
+                  // data-id={msg.id}
                   onClose={() => handleDeleteMessage(msg.id)}
                   className={classes.fullWidth}
                   variant="filled" severity={msg.state}>

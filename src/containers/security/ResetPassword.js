@@ -18,9 +18,11 @@ const PasswordField = ({name, label, ...rest}) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const {errors, touched} = useFormikContext();
   const error = !!errors[name] && !!touched[name];
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+
+  const handleClickShowPassword = React.useCallback(() => {
+    setShowPassword((showPassword) => !showPassword);
+  },[]);
+
   return (
     <FormControl variant="outlined" {...rest}>
       <InputLabel error={error} htmlFor="password">{label}</InputLabel>

@@ -43,6 +43,7 @@ const MessageQueue = ({length = 3}) => {
     // 只显示6000毫秒内的消息
     return getTimeStamp() - getTimeStamp(item.time) < 6000;
   }).slice(-length).reverse();
+
   return (
     <List className={classes.list}>
       {

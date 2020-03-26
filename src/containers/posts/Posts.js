@@ -10,6 +10,11 @@ import {addPost} from '../../redux/postSlice';
 export default function Posts() {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  const handleOnClick = React.useCallback(() => {
+    dispatch(addPost());
+  },[dispatch]);
+
   return (
     <Container maxWidth={false}>
       <Grid
@@ -23,9 +28,5 @@ export default function Posts() {
       <Table/>
     </Container>
   );
-
-  function handleOnClick() {
-    dispatch(addPost());
-  }
 }
 

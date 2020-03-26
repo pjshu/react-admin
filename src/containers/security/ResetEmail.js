@@ -27,10 +27,11 @@ function ResetEmail({email}) {
     }
   }, [dispatch, resendTime]);
 
-  const onSubmit = (values) => {
+  const onSubmit = React.useCallback((values) => {
     dispatch(resetEmail(values));
-  };
-  const handleSendCode = () => {
+  }, [dispatch]);
+
+  const handleSendCode = React.useCallback(() => {
     dispatch(resetSendCodeTime());
     dispatch(setIsSendCode());
     const {setFieldValue, values} = formRef.current;
@@ -38,7 +39,7 @@ function ResetEmail({email}) {
       setFieldValue('email', '');
     }
     dispatch(sendRestEmailCode());
-  };
+  }, [dispatch, email]);
 
 
   return (

@@ -1,19 +1,11 @@
 import React from 'react';
-import {
-  Button,
-  Container,
-  Grid,
-  Step,
-  StepContent,
-  StepLabel,
-  Stepper,
-} from "@material-ui/core";
+import {Button, Container, Grid, Step, StepContent, StepLabel, Stepper,} from "@material-ui/core";
 import RegisterUser from './RegisterUser';
 import useStyles from './register.style';
 import RegisterEmail from "./RegisterEmail";
 import {Form, Formik} from "formik";
 import Modal from "./Modal";
-import {selectRegister, increaseActiveStep, decrementActiveStep, register, closeModal} from "../../redux/userSlice";
+import {closeModal, decrementActiveStep, increaseActiveStep, register, selectRegister} from "../../redux/userSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {validateRegister} from '../../helpers/validate';
 
@@ -32,7 +24,7 @@ function Register() {
   const dispatch = useDispatch();
   const steps = ['创建用户(必选)', '添加邮箱(可选)'];
   const formRef = React.useRef();
-  const handleNext = () => {
+  const handleNext = React.useCallback(() => {
     const errors = formRef.current.errors;
     if (activeStep === 0 && !errors.user) {
       dispatch(increaseActiveStep());
@@ -40,17 +32,17 @@ function Register() {
       // TODO:
       dispatch(decrementActiveStep());
     }
-  };
+  }, [activeStep, dispatch]);
 
-  const handleBack = () => {
+  const handleBack = React.useCallback(() => {
     dispatch(decrementActiveStep());
-  };
+  }, [dispatch]);
 
-  const onsubmit = (values) => {
+  const onsubmit = React.useCallback((values) => {
     const data = {...values.user, ...values.email};
     dispatch(closeModal());
     dispatch(register(data));
-  };
+  }, [dispatch]);
 
   return (
     <Container className={classes.container}>

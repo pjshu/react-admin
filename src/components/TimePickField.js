@@ -6,9 +6,10 @@ import {useFormikContext} from "formik";
 
 const TimePickField = ({format = "yyyy/MM/dd HH:mm"}) => {
   const {values: {change_date}, setFieldValue} = useFormikContext();
-  const handleCreateDateChange = (data) => {
+  const handleCreateDateChange = React.useCallback((data) => {
     setFieldValue('create_date', data);
-  };
+  },[setFieldValue]);
+
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDateTimePicker

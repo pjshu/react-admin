@@ -13,14 +13,15 @@ const GlobalFilter = ({globalFilter, setGlobalFilter}) => {
     setCacheFilter('');
     setGlobalFilter('');
   };
-  const handleInputChange = (e) => {
+  const handleInputChange = React.useCallback((e) => {
     setCacheFilter(e.target.value);
-  };
-  const handleSearch = (e) => {
+  }, []);
+  const handleSearch = React.useCallback((e) => {
     if (e.keyCode === 13) {
       setGlobalFilter(e.target.value);
     }
-  };
+  }, [setGlobalFilter]);
+
   return (
     <div title={'回车搜索'} className={classes.search}>
       <div className={classes.searchIcon}>

@@ -27,16 +27,16 @@ function Image(props) {
   const classes = useStyles();
   const {pagination, images} = useSelector(selectImages);
 
-  const preventDefault = (e) => {
+  const preventDefault = React.useCallback((e) => {
     e.preventDefault(e);
     e.stopPropagation();
-  };
+  }, []);
 
-  const handleDrop = e => {
+  const handleDrop = React.useCallback(e => {
     preventDefault(e);
     //TODO: 最大同时上传三个文件
     addNewImage(Object.values(e.dataTransfer.files).slice(-3));
-  };
+  }, [addNewImage, preventDefault]);
 
   const onChangePage = React.useCallback((page) => {
     dispatch(setPage(page));
@@ -89,7 +89,8 @@ function Image(props) {
               margin: '0 auto'
             }}
             spacing={8}
-            container>
+            container
+          >
             {
               images.map(item => {
                 return (

@@ -29,7 +29,7 @@ function User() {
     });
   }));
 
-  const onSubmit = async (values) => {
+  const onSubmit = React.useCallback(async (values) => {
     const data = {...values};
     if (data.about) {
       data.about = data.about.toRAW();
@@ -38,7 +38,8 @@ function User() {
       data.avatar = await base64Avatar(data.avatar);
     }
     dispatch(modifyUserInfo(data));
-  };
+  }, [dispatch]);
+
   const handleUploadAvatar = (e) => {
     const file = e.target.files;
     const url = window.URL.createObjectURL(file[0]);

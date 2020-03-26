@@ -39,8 +39,10 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
   });
 
   const handleSwitchChange = React.useCallback(name => event => {
-    setSwitchState({...switchState, [name]: event.target.checked});
-  }, [switchState]);
+    setSwitchState((switchState) => (
+      {...switchState, [name]: event.target.checked})
+    );
+  }, []);
 
   const resetSwitch = React.useCallback(() => {
     setSwitchState({addMultiple: false});
@@ -57,8 +59,8 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
       return;
     }
     const url = window.URL.createObjectURL(file[0]);
-    setImage({...image, url});
-  }, [image]);
+    setImage((image) => ({...image, url}));
+  }, []);
 
   const uploadImage = React.useCallback((value) => {
     if (image.url) {
@@ -68,11 +70,15 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
     }
   }, [dispatch, image.url, updateHandler]);
 
+  const addMultiple = React.useCallback(() => {
+    switchState.addMultiple ? openDialog() : closeDialog();
+  }, [closeDialog, openDialog, switchState.addMultiple]);
+
   const onSubmit = React.useCallback((value) => {
     dispatch(modifyTag(value, image, updateHandler));
     uploadImage(value);
-    switchState.addMultiple ? openDialog() : closeDialog();
-  }, [closeDialog, dispatch, image, openDialog, switchState.addMultiple, updateHandler, uploadImage]);
+    addMultiple();
+  }, [addMultiple, dispatch, image, updateHandler, uploadImage]);
 
   return (
     <div>

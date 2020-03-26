@@ -10,7 +10,7 @@ import {
   setDialogAsUpdate,
   setTagValue,
 } from '../../redux/tagSlice';
-import api from '../../helpers/http'
+import api from '../../helpers/http';
 import {useDispatch, useSelector} from "react-redux";
 
 export default function Tags({columns}) {
@@ -29,9 +29,9 @@ export default function Tags({columns}) {
     dispatch(setDialogAsUpdate());
   }, [dispatch]);
 
-  const closeDialog = (state = 'add') => {
+  const closeDialog = React.useCallback((state = 'add') => {
     dispatch(_closeDialog(state));
-  };
+  }, [dispatch]);
 
   const _api = React.useMemo(() => ({
     query: api.queryTags,

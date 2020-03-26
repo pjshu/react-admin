@@ -12,9 +12,9 @@ const TablePaginationActions = ({count, page, rowsPerPage, onChangePage}) => {
     return page * rowsPerPage;
   }, [page, rowsPerPage]);
 
-  const handleOnClick = (e, offset) => {
+  const handleOnClick = React.useCallback((e, offset) => {
     onChangePage(offset / rowsPerPage);
-  };
+  }, [onChangePage, rowsPerPage]);
   return (
     <div>
       <MuiThemeProvider theme={theme}>

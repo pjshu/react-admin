@@ -5,9 +5,11 @@ import {useFormikContext} from "formik";
 
 const Tags = () => {
   const {values: {allTags, tags}, setFieldValue} = useFormikContext();
-  const handleOnChange = (_, value) => {
+
+  const handleOnChange = React.useCallback((_, value) => {
     setFieldValue('tags', value);
-  };
+  }, [setFieldValue]);
+
   return (
     <div>
       <Autocomplete
