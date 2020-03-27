@@ -66,7 +66,9 @@ function RecoveryPassword() {
                     justify={"flex-start"}>
                     <TextFieldWithError
                       className={classes.textField}
-                      {...{name: 'email', label: '邮箱', variant: "outlined"}}
+                      name={'email'}
+                      label={'邮箱'}
+                      variant={"outlined"}
                     />
 
                     <Grid className={classes.btnWrapper}>
@@ -114,7 +116,9 @@ function RecoveryPassword() {
                       className={classes.fullWidth}>
                       <TextFieldWithError
                         className={classes.fullWidth}
-                        {...{name: 'password', label: '新密码', variant: "outlined"}}
+                        name={'password'}
+                        label={'新密码'}
+                        variant={"outlined"}
                       />
                     </Grid>
                     <Grid

@@ -5,13 +5,17 @@ import './global.css';
 import history from "./history";
 import Loading from "./components/Loading";
 import {hot} from 'react-hot-loader';
+import MessageQueue from './containers/MessageQueue';
+import ErrorBoundaries from "./components/ErrorBoundaries";
+import * as Sentry from '@sentry/browser';
+import security from './config/security';
+
+Sentry.init({dsn: security.dsn});
 
 const Root = lazy(() => import("./components/nav/"));
 const Register = lazy(() => import("./containers/register"));
 const Login = lazy(() => import("./containers/login"));
 const RecoveryPass = lazy(() => import("./containers/recoveryPass/RecoveryPassword"));
-const MessageQueue = lazy(() => import("./containers/MessageQueue"));
-
 
 function App() {
   return (
@@ -19,6 +23,7 @@ function App() {
       <Router history={history}>
         <MessageQueue/>
         <Switch>
+          <Route><ErrorBoundaries/></Route>
           <Route path={router.LOGIN}><Login/></Route>
           <Route path={router.REGISTER}><Register/></Route>
           <Route path={router.RECOVER_PASSWORD}><RecoveryPass/></Route>

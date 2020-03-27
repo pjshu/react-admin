@@ -7,10 +7,10 @@ function RegisterEmail() {
   const classes = useStyles();
   return (
     <Grid container direction={"column"}>
-      <div className={classes.classes}>
+      <div className={classes.wrapper}>
         <TextFieldWithError
           variant={"outlined"}
-          name={'email.email'}
+          name={'email'}
           label={'邮箱'}
         />
       </div>

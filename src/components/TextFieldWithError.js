@@ -3,9 +3,12 @@ import {Field, useFormikContext} from "formik";
 import TextField from "@material-ui/core/TextField";
 
 const TextFieldWithError = ({name, label, ...rest}) => {
-  const {errors, touched} = useFormikContext();
+  let {errors, touched} = useFormikContext();
 
-  const error = !!errors[name] && !!touched[name];
+  const error = React.useMemo(() => {
+    return !!errors[name] && !!touched[name];
+  }, [errors, name, touched]);
+
   return (
     <Field
       as={TextField}
@@ -14,7 +17,7 @@ const TextFieldWithError = ({name, label, ...rest}) => {
       color="primary"
       fullWidth={true}
       error={error}
-      helperText={errors[name]}
+      helperText={error ? errors[name] : ""}
       {...rest}
     />
   );

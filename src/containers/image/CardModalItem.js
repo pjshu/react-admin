@@ -39,7 +39,7 @@ export const Links = ({url}) => {
               color="textSecondary"
               component="p"
             >
-              <span className={'label'}>url:</span>
+              <span className={classes.label}>url:</span>
               <span>{url}</span>
             </Typography>
           </Button>
@@ -54,7 +54,7 @@ export const Links = ({url}) => {
               color="textSecondary"
               component="p"
             >
-             <span className={'label'}>
+             <span className={classes.label}>
                markdown:
              </span>
               <span>

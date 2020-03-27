@@ -5,27 +5,33 @@ import TextFieldWithError from "../../components/TextFieldWithError";
 
 function RegisterUser() {
   const classes = useStyles();
+
   return (
     <Grid container className={classes.root}>
       <Grid
         container
         justify="space-around"
-        className={classes.name}>
+        className={classes.name}
+      >
         {
           [
-            {name: 'user.nickname', label: '昵称', variant: "outlined"},
-            {name: 'user.username', label: '用户名', variant: "outlined"}
-          ].map(item => (<TextFieldWithError key={item.name} {...item}/>))
+            {name: 'nickname', label: '昵称', variant: "outlined"},
+            {name: 'username', label: '用户名', variant: "outlined"}
+          ].map(item => (
+            <TextFieldWithError
+              key={item.name}
+              {...{...item, fullWidth: false}}
+            />))
         }
       </Grid>
 
       <Grid container justify="space-around" className={classes.password}>
         {
           [
-            {name: 'user.password', label: '密码', type: "password", variant: "outlined"},
-            {name: 'user.confirm_password', label: '确认密码', type: "password", variant: "outlined"},
+            {name: 'password', label: '密码', type: "password",},
+            {name: 'confirm_password', label: '确认密码', type: "password"},
           ].map(item => (
-            <TextFieldWithError key={item.name} {...item}/>
+            <TextFieldWithError key={item.name} {...{...item, variant: "outlined", fullWidth: false}}/>
           ))
         }
       </Grid>

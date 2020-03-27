@@ -7,8 +7,8 @@ export default makeStyles({
     width: '100%',
     maxWidth: 660,
     textOverflow: 'ellipsis',
-    '& > .label': {
-      fontWeight: 'bold'
-    }
   },
+  label: {
+    fontWeight: 'bold'
+  }
 });

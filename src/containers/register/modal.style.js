@@ -6,11 +6,6 @@ export default makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
   },
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   modalRoot: {
     position: 'absolute',
     left: '50%',

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Container, Grid, Step, StepContent, StepLabel, Stepper,} from "@material-ui/core";
+import {Button, Grid, Step, StepContent, StepLabel, Stepper,} from "@material-ui/core";
 import RegisterUser from './RegisterUser';
 import useStyles from './register.style';
 import RegisterEmail from "./RegisterEmail";
@@ -24,28 +24,36 @@ function Register() {
   const dispatch = useDispatch();
   const steps = ['创建用户(必选)', '添加邮箱(可选)'];
   const formRef = React.useRef();
-  const handleNext = React.useCallback(() => {
+
+  const canNext = React.useCallback(() => {
     const errors = formRef.current.errors;
-    if (activeStep === 0 && !errors.user) {
-      dispatch(increaseActiveStep());
-    } else {
-      // TODO:
-      dispatch(decrementActiveStep());
+    if (activeStep === 0) {
+      for (let key of Object.keys(errors)) {
+        if (key !== 'email' && errors[key]) {
+          return false;
+        }
+      }
     }
-  }, [activeStep, dispatch]);
+    return true;
+  }, [activeStep]);
+
+  const handleNext = React.useCallback(() => {
+    if (canNext()) {
+      dispatch(increaseActiveStep());
+    }
+  }, [canNext, dispatch]);
 
   const handleBack = React.useCallback(() => {
     dispatch(decrementActiveStep());
   }, [dispatch]);
 
   const onsubmit = React.useCallback((values) => {
-    const data = {...values.user, ...values.email};
     dispatch(closeModal());
-    dispatch(register(data));
+    dispatch(register(values));
   }, [dispatch]);
 
   return (
-    <Container className={classes.container}>
+    <div className={classes.root}>
       <Grid
         container
         justify="center"
@@ -57,7 +65,7 @@ function Register() {
           onSubmit={onsubmit}
           initialValues={initial}
         >
-          <Form id={'form'} className={classes.root}>
+          <Form id={'form'} className={classes.form}>
             <Stepper activeStep={activeStep} orientation="vertical">
               {
                 steps.map((label, index) => (
@@ -96,7 +104,7 @@ function Register() {
           </Form>
         </Formik>
       </Grid>
-    </Container>
+    </div>
   );
 }
 

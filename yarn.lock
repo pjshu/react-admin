@@ -1391,6 +1391,58 @@
     redux-thunk "^2.3.0"
     reselect "^4.0.0"
 
+"@sentry/browser@^5.15.2":
+  version "5.15.2"
+  resolved "https://registry.npm.taobao.org/@sentry/browser/download/@sentry/browser-5.15.2.tgz#8008a2d621ac0da7c8a06cb6e490376421d4b4a2"
+  integrity sha1-gAii1iGsDafIoGy25JA3ZCHUtKI=
+  dependencies:
+    "@sentry/core" "5.15.2"
+    "@sentry/types" "5.15.2"
+    "@sentry/utils" "5.15.2"
+    tslib "^1.9.3"
+
+"@sentry/core@5.15.2":
+  version "5.15.2"
+  resolved "https://registry.npm.taobao.org/@sentry/core/download/@sentry/core-5.15.2.tgz#4f46ea3fcc48c58a1a4df41d48967c6595e79714"
+  integrity sha1-T0bqP8xIxYoaTfQdSJZ8ZZXnlxQ=
+  dependencies:
+    "@sentry/hub" "5.15.2"
+    "@sentry/minimal" "5.15.2"
+    "@sentry/types" "5.15.2"
+    "@sentry/utils" "5.15.2"
+    tslib "^1.9.3"
+
+"@sentry/hub@5.15.2":
+  version "5.15.2"
+  resolved "https://registry.npm.taobao.org/@sentry/hub/download/@sentry/hub-5.15.2.tgz#92bdb71d962b6d3fa76822df667fdbb11ac6996f"
+  integrity sha1-kr23HZYrbT+naCLfZn/bsRrGmW8=
+  dependencies:
+    "@sentry/types" "5.15.2"
+    "@sentry/utils" "5.15.2"
+    tslib "^1.9.3"
+
+"@sentry/minimal@5.15.2":
+  version "5.15.2"
+  resolved "https://registry.npm.taobao.org/@sentry/minimal/download/@sentry/minimal-5.15.2.tgz#80530a3701930df0e8878cc683ad435f14eeb11b"
+  integrity sha1-gFMKNwGTDfDoh4zGg61DXxTusRs=
+  dependencies:
+    "@sentry/hub" "5.15.2"
+    "@sentry/types" "5.15.2"
+    tslib "^1.9.3"
+
+"@sentry/types@5.15.2":
+  version "5.15.2"
+  resolved "https://registry.npm.taobao.org/@sentry/types/download/@sentry/types-5.15.2.tgz#50a7620ae578bd291ca946c05dcfd7d835bb016b"
+  integrity sha1-UKdiCuV4vSkcqUbAXc/X2DW7AWs=
+
+"@sentry/utils@5.15.2":
+  version "5.15.2"
+  resolved "https://registry.npm.taobao.org/@sentry/utils/download/@sentry/utils-5.15.2.tgz#457745802172be35a576ad26bd5c521c55cbe1bb"
+  integrity sha1-RXdFgCFyvjWldq0mvVxSHFXL4bs=
+  dependencies:
+    "@sentry/types" "5.15.2"
+    tslib "^1.9.3"
+
 "@sheerun/mutationobserver-shim@^0.3.2":
   version "0.3.3"
   resolved "https://registry.npm.taobao.org/@sheerun/mutationobserver-shim/download/@sheerun/mutationobserver-shim-0.3.3.tgz#5405ee8e444ed212db44e79351f0c70a582aae25"
@@ -12840,7 +12892,7 @@ ts-pnp@^1.1.2:
   resolved "https://registry.npm.taobao.org/ts-pnp/download/ts-pnp-1.1.6.tgz#389a24396d425a0d3162e96d2b4638900fdc289a"
   integrity sha1-OJokOW1CWg0xYultK0Y4kA/cKJo=
 
-tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0:
+tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.11.1"
   resolved "https://registry.npm.taobao.org/tslib/download/tslib-1.11.1.tgz#eb15d128827fbee2841549e171f45ed338ac7e35"
   integrity sha1-6xXRKIJ/vuKEFUnhcfRe0zisfjU=

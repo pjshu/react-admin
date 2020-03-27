@@ -6,6 +6,9 @@ import List from '@material-ui/core/List';
 import {Box, Fade, ListItem, Snackbar} from '@material-ui/core';
 import {getTimeStamp} from '../helpers/datetime';
 import useStyles from './messageQueue.style';
+import ReactDOM from 'react-dom';
+
+const messageRoot = document.getElementById('message-root');
 
 
 const Message = ({msg}) => {
@@ -57,4 +60,5 @@ const MessageQueue = ({length = 3}) => {
   );
 };
 
-export default MessageQueue;
+export default () => ReactDOM.createPortal(<MessageQueue/>, messageRoot);
+

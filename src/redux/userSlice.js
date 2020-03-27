@@ -14,8 +14,11 @@ export const slice = createSlice({
     },
     register: {
       initial: {
-        user: {username: '', nickname: '', password: '', confirm_password: ''},
-        email: {email: ''}
+        username: '',
+        nickname: '',
+        password: '',
+        confirm_password: '',
+        email: ''
       },
       modalOpen: false,
       activeStep: 0

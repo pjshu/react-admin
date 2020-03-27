@@ -1,13 +1,19 @@
 import {makeStyles} from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%'
+  },
   container: {
     maxWidth: 800,
     minWidth: 760,
     height: '100%',
     width: '100%',
   },
-  root: {
+  form: {
     width: '100%',
   },
   button: {
