@@ -6,9 +6,10 @@ import history from "./history";
 import Loading from "./components/Loading";
 import {hot} from 'react-hot-loader';
 import MessageQueue from './containers/MessageQueue';
-import ErrorBoundaries from "./components/ErrorBoundaries";
 import * as Sentry from '@sentry/browser';
 import security from './config/security';
+import ErrorBoundaries from './components/ErrorBoundaries';
+
 
 Sentry.init({dsn: security.dsn});
 
@@ -21,14 +22,16 @@ function App() {
   return (
     <Suspense fallback={<Loading/>}>
       <Router history={history}>
-        <MessageQueue/>
-        <Switch>
-          <Route><ErrorBoundaries/></Route>
-          <Route path={router.LOGIN}><Login/></Route>
-          <Route path={router.REGISTER}><Register/></Route>
-          <Route path={router.RECOVER_PASSWORD}><RecoveryPass/></Route>
-          <Route path={router.ADMIN}><Root/></Route>
-        </Switch>
+        <ErrorBoundaries>
+          <MessageQueue/>
+          <Switch>
+            {/*<Route><ErrorBoundaries/></Route>*/}
+            <Route path={router.LOGIN}><Login/></Route>
+            <Route path={router.REGISTER}><Register/></Route>
+            <Route path={router.RECOVER_PASSWORD}><RecoveryPass/></Route>
+            <Route path={router.ADMIN}><Root/></Route>
+          </Switch>
+        </ErrorBoundaries>
       </Router>
     </Suspense>
   );
