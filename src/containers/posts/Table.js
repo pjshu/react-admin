@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {toPost} from "../../history";
 import Table from '../../components/table';
 import Chip from "@material-ui/core/Chip";
@@ -56,11 +56,11 @@ export default function Tables() {
     []
   );
 
-  const handleAddRow = React.useCallback(() => {
+  const handleAddRow = useCallback(() => {
     dispatch(addPost());
   }, [dispatch]);
 
-  const handleEditor = React.useCallback(({original}) => {
+  const handleEditor = useCallback(({original}) => {
     toPost(original.id);
   }, []);
 

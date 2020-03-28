@@ -2,7 +2,6 @@ import {makeStyles} from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
   modal: {
-    display: (modalOpen) => modalOpen ? '' : 'none',
     position: 'absolute',
     zIndex: 4,
     left: '55%',
@@ -10,8 +9,10 @@ export default makeStyles((theme) => ({
     transform: 'translate(-50%, -50%)'
   },
   paper: {
-    width: 700,
+    width: 800,
     minHeight: 700,
+    maxHeight: 900,
+    overflow: 'scroll',
     backgroundColor: theme.palette.background.paper,
     // border: '2px solid #000',
     boxShadow: theme.shadows[5],

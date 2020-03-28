@@ -20,7 +20,7 @@ const Message = ({msg}) => {
 
   return (
     <Snackbar classes={{
-      root: classes.root
+      root: classes.snackbar
     }} onClose={handleOnclose} autoHideDuration={6000} open={open}>
       <Fade in={open}>
         <Box
@@ -42,21 +42,31 @@ const MessageQueue = ({length = 3}) => {
   const {message} = useSelector(selectMessage);
   const classes = useStyles();
   // TODO
-  let newlyMessage = message.slice().reverse().filter(item => {
-    // 只显示6000毫秒内的消息
-    return getTimeStamp() - getTimeStamp(item.time) < 6000;
-  }).slice(-length).reverse();
+  const newlyMessage = React.useMemo(() => {
+    return message.slice().reverse().filter(item => {
+      // 只显示6000毫秒内的消息
+      return getTimeStamp() - getTimeStamp(item.time) < 6000;
+    }).slice(-length).reverse();
+  }, [length, message]);
 
   return (
-    <List className={classes.list}>
+    <>
       {
-        newlyMessage.map(msg => (
-          <ListItem key={msg.id} className={classes.listItem}>
-            <Message msg={msg}/>
-          </ListItem>
-        ))
+        newlyMessage.length === 0 ?
+          null :
+          (
+            <List className={classes.root}>
+              {
+                newlyMessage.map(msg => (
+                  <ListItem key={msg.id} className={classes.listItem}>
+                    <Message msg={msg}/>
+                  </ListItem>
+                ))
+              }
+            </List>
+          )
       }
-    </List>
+    </>
   );
 };
 

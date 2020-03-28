@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {IconButton} from '@material-ui/core';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
@@ -22,15 +22,15 @@ export default function SpeedSetting() {
   const {values, setFieldValue} = useFormikContext();
   const disPatch = useDispatch();
 
-  const handleOnDelete = React.useCallback(() => {
+  const handleOnDelete = useCallback(() => {
     disPatch(deletePost([values.id]));
   }, [disPatch, values.id]);
 
-  const openSetting = React.useCallback(() => {
+  const openSetting = useCallback(() => {
     disPatch(openDraw());
   }, [disPatch]);
 
-  const readText = React.useCallback((file) => {
+  const readText = useCallback((file) => {
     const reader = new FileReader();
     reader.readAsText(file[0]);
     reader.onload = function (res) {
@@ -40,7 +40,7 @@ export default function SpeedSetting() {
   }, [setFieldValue]);
 
   // 上传markdown
-  const handleFileUpload = React.useCallback((e) => {
+  const handleFileUpload = useCallback((e) => {
     const file = e.target.files;
     if (file.length > 1) {
       disPatch(addWarningMessage('仅支持单个上传'));
@@ -48,11 +48,11 @@ export default function SpeedSetting() {
     readText(file);
   }, [disPatch, readText]);
 
-  const handleClose = React.useCallback(() => {
+  const handleClose = useCallback(() => {
     setSettingOpen(false);
   }, []);
 
-  const handleOpen = React.useCallback(() => {
+  const handleOpen = useCallback(() => {
     setSettingOpen(true);
   }, []);
 
@@ -67,7 +67,7 @@ export default function SpeedSetting() {
     >
       {[
         {icon: <DeleteOutlineIcon/>, name: '删除', onClick: handleOnDelete},
-        {icon: <SaveIcon/>, name: '保存', type: "submit"},
+        {icon: <SaveIcon/>, name: '保存', type: "submit", form: 'post-form'},
         {icon: <SettingsIcon/>, name: '设置', onClick: openSetting},
         {icon: <UploadMarkdown {...{handleFileUpload}}/>, name: '上传markdown'},
       ].map(({name, ...other}) => (
@@ -82,7 +82,7 @@ export default function SpeedSetting() {
   );
 }
 
-const UploadMarkdown = (props) => {
+const UploadMarkdown = ({handleFileUpload}) => {
   const classes = useStyles();
   return (
     <>
@@ -92,7 +92,7 @@ const UploadMarkdown = (props) => {
         type="file"
         id="upload-file"
         multiple
-        onChange={props.handleFileUpload}/>
+        onChange={handleFileUpload}/>
       <label htmlFor="upload-file">
         <IconButton color="primary" component="span" className={classes.uploadBtn}>
           <InsertDriveFileOutlinedIcon color="action"/>

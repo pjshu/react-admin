@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 
 import {
   Box,
@@ -38,22 +38,22 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
     addMultiple: false,
   });
 
-  const handleSwitchChange = React.useCallback(name => event => {
+  const handleSwitchChange = useCallback(name => event => {
     setSwitchState((switchState) => (
       {...switchState, [name]: event.target.checked})
     );
   }, []);
 
-  const resetSwitch = React.useCallback(() => {
+  const resetSwitch = useCallback(() => {
     setSwitchState({addMultiple: false});
   }, []);
 
-  const handleClose = React.useCallback(() => {
+  const handleClose = useCallback(() => {
     closeDialog();
     resetSwitch();
   }, [closeDialog, resetSwitch]);
 
-  const handleChangeImage = React.useCallback((e) => {
+  const handleChangeImage = useCallback((e) => {
     const file = e.target.files;
     if (!file) {
       return;
@@ -62,7 +62,7 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
     setImage((image) => ({...image, url}));
   }, []);
 
-  const uploadImage = React.useCallback((value) => {
+  const uploadImage = useCallback((value) => {
     if (image.url) {
       getImageForm(image.url).then(res => {
         dispatch(addTagImg(value, res, updateHandler));
@@ -70,11 +70,11 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
     }
   }, [dispatch, image.url, updateHandler]);
 
-  const addMultiple = React.useCallback(() => {
+  const addMultiple = useCallback(() => {
     switchState.addMultiple ? openDialog() : closeDialog();
   }, [closeDialog, openDialog, switchState.addMultiple]);
 
-  const onSubmit = React.useCallback((value) => {
+  const onSubmit = useCallback((value) => {
     dispatch(modifyTag(value, image, updateHandler));
     uploadImage(value);
     addMultiple();
@@ -127,11 +127,17 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
                 <Box boxShadow={4} className={classes.box}>
                   <label htmlFor={"tag"}>
                     <ButtonBase focusRipple component={'div'}>
-                      <img
-                        title={'点击上传图片'}
-                        src={image.url}
-                        alt="标签插图"
-                      />
+                      {
+                        image.url ? (
+                          <img
+                            title={'点击上传图片'}
+                            src={image.url}
+                            alt="标签插图"
+                          />
+                        ) : (
+                          <span>点击上传图片</span>
+                        )
+                      }
                     </ButtonBase>
                   </label>
                 </Box>

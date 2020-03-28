@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import Image from './Image';
 import {v4 as uuidV4} from "uuid";
 import {addImages, queryImages, selectImages, uploadImages, uploadImagesDesc} from "../../redux/imageSlice";
@@ -34,7 +34,7 @@ export default () => {
     }
   };
 
-  const handleNextCard = React.useCallback((id) => {
+  const handleNextCard = useCallback((id) => {
     const lastCardId = images[images.length - 1].id;
     if (id !== lastCardId) {
       getNextMoveId(id, images);
@@ -43,7 +43,7 @@ export default () => {
     }
   }, [dispatch, images]);
 
-  const handlePreCard = React.useCallback((id) => {
+  const handlePreCard = useCallback((id) => {
     const firstCardId = images[0].id;
     if (id !== firstCardId) {
       getNextMoveId(id, images.slice().reverse());
@@ -52,7 +52,7 @@ export default () => {
     }
   }, [dispatch, images]);
 
-  const addNewImage = React.useCallback((files) => {
+  const addNewImage = useCallback((files) => {
     const cacheFiles = [];
     files.forEach(file => {
       if (file instanceof File) {
@@ -72,12 +72,12 @@ export default () => {
     dispatch(addImages(cacheFiles));
   }, [dispatch]);
 
-  const handleOnCardClick = React.useCallback((id) => {
+  const handleOnCardClick = useCallback((id) => {
     setCardId(id);
     setModalOpen(true);
   }, []);
 
-  const uploadImage = React.useCallback((url, id) => {
+  const uploadImage = useCallback((url, id) => {
     getImageForm(url).then(form => {
       dispatch(uploadImages(form, id));
     });
@@ -85,19 +85,19 @@ export default () => {
 
 
   //修改图片描述
-  const handleUpdate = React.useCallback((describe, upload, id, url) => {
+  const handleUpdate = useCallback((describe, upload, id, url) => {
     // 如果图片未上传,先更新图片,再更新图片描述
     //TODO:BUG uploadImages完成可能在uploadImagesDesc完成后
     uploadImage(url, id);
     dispatch(uploadImagesDesc(describe, id));
   }, [dispatch, uploadImage]);
 
-  const handleFileUpload = React.useCallback((e) => {
+  const handleFileUpload = useCallback((e) => {
     //TODO: 最大同时上传三个文件
     addNewImage(Object.values(e.target.files).slice(-3));
   }, [addNewImage]);
 
-  const handleUploadAll = React.useCallback(() => {
+  const handleUploadAll = useCallback(() => {
     images.forEach(item => {
       if (item.upload) {
         uploadImage(item.image.url, item.id);

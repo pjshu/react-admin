@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useCallback,useState} from 'react';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import EnhancedTable from './Table';
@@ -15,9 +15,9 @@ const Table = (props) => {
     tableName,
   } = props;
   // Column为数组,数组元素为column实例(如./Column),用于添加不需要react-table数据渲染的列
-  const [data, setData] = React.useState([]);
+  const [data, setData] = useState([]);
 
-  const updateMyData = React.useCallback((rowIndex, columnId, value) => {
+  const updateMyData = useCallback((rowIndex, columnId, value) => {
     setData(old =>
       old.map((row, index) => {
         if (index === rowIndex) {

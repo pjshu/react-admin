@@ -6,6 +6,7 @@ import 'braft-extensions/dist/emoticon.css';
 import useStyles from './preview.style';
 import ReactDOM from 'react-dom';
 
+
 const modalRoot = document.getElementById('modal-root');
 
 export const PreviewField = ({value}) => {
@@ -36,7 +37,10 @@ function Preview({modalOpen, handleOnClose, value, ...rest}) {
         className={classes.modal}
         {...rest}
       >
-        <div className={classes.paper}>
+        <div
+          autoCorrect={true}
+          className={classes.paper}
+        >
           <PreviewField value={value}/>
           <div>
             {/*TODO这里用原生button需要添加type='button' 否则触发提交按钮,原因未知*/}

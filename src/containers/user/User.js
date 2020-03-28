@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {Form, Formik} from 'formik';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
@@ -29,7 +29,7 @@ function User() {
     });
   }));
 
-  const onSubmit = React.useCallback(async (values) => {
+  const onSubmit = useCallback(async (values) => {
     const data = {...values};
     if (data.about) {
       data.about = data.about.toRAW();

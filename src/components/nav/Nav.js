@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {
   AppBar,
   Badge,
@@ -42,11 +42,11 @@ function Nav() {
     open: false,
   });
 
-  const handleDrawerOpen = React.useCallback(() => {
+  const handleDrawerOpen = useCallback(() => {
     setOpen((open) => !open);
   }, []);
 
-  const handleMenuClick = React.useCallback((e) => {
+  const handleMenuClick = useCallback((e) => {
     if (message.length !== 0) {
       setMessageMenu({
         open: true,
@@ -55,7 +55,7 @@ function Nav() {
     }
   }, [message.length]);
 
-  const handleMenuClose = React.useCallback(() => {
+  const handleMenuClose = useCallback(() => {
     setMessageMenu({
       ...messageMenu,
       open: false
@@ -72,7 +72,7 @@ function Nav() {
     }
   };
 
-  const handleClearAll = React.useCallback(() => {
+  const handleClearAll = useCallback(() => {
     dispatch(clearAllMessage());
     handleMenuClose();
   },[dispatch, handleMenuClose]);

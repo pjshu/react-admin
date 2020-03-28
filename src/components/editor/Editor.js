@@ -7,14 +7,15 @@ import CodeHighlighter from "braft-extensions/dist/code-highlighter";
 import Emoticon, {defaultEmoticons} from 'braft-extensions/dist/emoticon';
 // 为标题区块(h1-h6)增加随机的id，便于在展示页支持锚点跳转功能
 import HeaderId from 'braft-extensions/dist/header-id';
-import React from "react";
+import React, {useCallback, useState} from "react";
 import Preview from "./Preview";
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/table.css';
 import 'braft-extensions/dist/emoticon.css';
-import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-python.min';
+import 'prismjs/components/prism-jsx.min';
+import 'prismjs/components/prism-bash.min';
 import './prism.css';
-
 
 const codeHighlighterOptions = {
   syntaxs: [
@@ -30,6 +31,14 @@ const codeHighlighterOptions = {
     }, {
       name: 'Python',
       syntax: 'python',
+    },
+    {
+      name: 'JSX',
+      syntax: 'jsx'
+    },
+    {
+      name: 'Bash',
+      syntax: 'bash'
     }
   ]
 };
@@ -48,18 +57,17 @@ BraftEditor.use([Table(), Markdown(), CodeHighlighter(codeHighlighterOptions), H
 // uploadFn 控制图片上传
 // 不添加uploadFn参数则使用编辑器默认上传功能,将图片转为base64嵌入内容
 const MyEditor = ({uploadFn, value, ...props}) => {
-  const [modalOpen, setModalOpen] = React.useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
-  const handleOnOpen = React.useCallback(() => {
-    setModalOpen(true);
-  }, []);
+    const handleOnOpen = useCallback(() => {
+      setModalOpen(true);
+    }, []);
 
-  const handleOnClose = React.useCallback(() => {
-    setModalOpen(false);
-  }, []);
+    const handleOnClose = useCallback(() => {
+      setModalOpen(false);
+    }, []);
 
-  const myUploadFn = React.useCallback(() => {
-    return !uploadFn ? null : (param) => {
+    const myUploadFn = useCallback((param) => {
       const form = new FormData();
       form.append('image', param.file);
       const successFn = (data) => {
@@ -78,26 +86,26 @@ const MyEditor = ({uploadFn, value, ...props}) => {
         });
       };
       uploadFn(form, successFn, errorFn);
-    };
-  }, [uploadFn]);
+    }, [uploadFn]);
 
-  const extendControls = [{
-    key: 'preview',
-    type: 'button',
-    text: '预览',
-    onClick: handleOnOpen
-  }];
+    const extendControls = [{
+      key: 'preview',
+      type: 'button',
+      text: '预览',
+      onClick: handleOnOpen
+    }];
 
-  return (
-    <>
-      {
-        modalOpen ?
-          <Preview {...{modalOpen, handleOnClose, value}}/> :
-          null
-      }
-      <BraftEditor media={{uploadFn: myUploadFn}} value={value} {...{extendControls, ...props}}/>
-    </>
-  );
-};
+    return (
+      <>
+        {
+          modalOpen ?
+            <Preview {...{modalOpen, handleOnClose, value}}/> :
+            null
+        }
+        <BraftEditor media={{uploadFn: myUploadFn}} value={value} {...{extendControls, ...props}}/>
+      </>
+    );
+  }
+;
 
 export default MyEditor;

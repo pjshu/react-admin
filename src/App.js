@@ -25,7 +25,6 @@ function App() {
         <ErrorBoundaries>
           <MessageQueue/>
           <Switch>
-            {/*<Route><ErrorBoundaries/></Route>*/}
             <Route path={router.LOGIN}><Login/></Route>
             <Route path={router.REGISTER}><Register/></Route>
             <Route path={router.RECOVER_PASSWORD}><RecoveryPass/></Route>

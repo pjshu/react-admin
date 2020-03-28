@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {TextField} from '@material-ui/core';
 import Autocomplete from "@material-ui/lab/Autocomplete/";
 import {useFormikContext} from "formik";
@@ -6,7 +6,7 @@ import {useFormikContext} from "formik";
 const Tags = () => {
   const {values: {allTags, tags}, setFieldValue} = useFormikContext();
 
-  const handleOnChange = React.useCallback((_, value) => {
+  const handleOnChange = useCallback((_, value) => {
     setFieldValue('tags', value);
   }, [setFieldValue]);
 

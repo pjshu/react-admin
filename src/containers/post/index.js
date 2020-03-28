@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import Post from './Post';
 import {formatTime} from "../../helpers/datetime";
 import {useLocation} from "react-router-dom";
@@ -29,7 +29,7 @@ function PostWrapper() {
     }
   };
 
-  const onSubmit = React.useCallback((values) => {
+  const onSubmit = useCallback((values) => {
     const data = {...values};
     convert(data, 'article');
     convert(data, 'excerpt');
@@ -37,7 +37,7 @@ function PostWrapper() {
     dispatch(modifyPost(data, postId));
   }, [dispatch, postId]);
 
-  const handleOnSave = React.useCallback((e, value) => {
+  const handleOnSave = useCallback((e, value) => {
     if (e.keyCode === 83 && e.ctrlKey) {
       onSubmit(value);
     }

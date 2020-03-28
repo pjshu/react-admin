@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Button, Grid, Step, StepContent, StepLabel, Stepper,} from "@material-ui/core";
 import RegisterUser from './RegisterUser';
 import useStyles from './register.style';
@@ -25,7 +25,7 @@ function Register() {
   const steps = ['创建用户(必选)', '添加邮箱(可选)'];
   const formRef = React.useRef();
 
-  const canNext = React.useCallback(() => {
+  const canNext = useCallback(() => {
     const errors = formRef.current.errors;
     if (activeStep === 0) {
       for (let key of Object.keys(errors)) {
@@ -37,17 +37,17 @@ function Register() {
     return true;
   }, [activeStep]);
 
-  const handleNext = React.useCallback(() => {
+  const handleNext = useCallback(() => {
     if (canNext()) {
       dispatch(increaseActiveStep());
     }
   }, [canNext, dispatch]);
 
-  const handleBack = React.useCallback(() => {
+  const handleBack = useCallback(() => {
     dispatch(decrementActiveStep());
   }, [dispatch]);
 
-  const onsubmit = React.useCallback((values) => {
+  const onsubmit = useCallback((values) => {
     dispatch(closeModal());
     dispatch(register(values));
   }, [dispatch]);

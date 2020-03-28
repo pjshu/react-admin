@@ -1,14 +1,14 @@
 import 'date-fns';
-import React from 'react';
+import React, {useCallback} from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {KeyboardDateTimePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
 import {useFormikContext} from "formik";
 
 const TimePickField = ({format = "yyyy/MM/dd HH:mm"}) => {
   const {values: {change_date}, setFieldValue} = useFormikContext();
-  const handleCreateDateChange = React.useCallback((data) => {
+  const handleCreateDateChange = useCallback((data) => {
     setFieldValue('create_date', data);
-  },[setFieldValue]);
+  }, [setFieldValue]);
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>

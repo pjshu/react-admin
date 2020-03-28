@@ -32,9 +32,13 @@ export default makeStyles({
     padding: 10,
     width: 700,
     maxHeight: 800,
-    '& > img': {
+    '& img': {
       maxWidth: 680,
       maxHeight: 370
+    },
+    '& .skeleton': {
+      width: 350,
+      height: 300
     }
   },
   buttonGroup: {

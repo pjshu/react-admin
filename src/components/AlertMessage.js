@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import {render} from "react-dom";
@@ -6,7 +6,7 @@ import {render} from "react-dom";
 // TODO: 列消息, 多条消息有显示问题
 const Message = ({message, severity, time}) => {
   const [open, setOpen] = useState(true);
-  const handleClose = React.useCallback(() => {
+  const handleClose = useCallback(() => {
     setOpen(false);
   }, []);
 
@@ -27,6 +27,7 @@ const createMessage = (message, time, severity) => {
     document.body.removeChild(div);
   }, time);
 };
+
 export default {
   success(message, time = 6000) {
     createMessage(message, time = 6000, 'success');

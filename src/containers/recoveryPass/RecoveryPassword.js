@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Button, Container, Grid} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import TextFieldWithError from "../../components/TextFieldWithError";
@@ -28,11 +28,11 @@ function RecoveryPassword() {
     }
   }, [dispatch, resendTime]);
 
-  const onSubmit = React.useCallback((values) => {
+  const onSubmit = useCallback((values) => {
     dispatch(recoveryPassword(values));
   }, [dispatch]);
 
-  const handelSendCode = React.useCallback(() => {
+  const handelSendCode = useCallback(() => {
     const current = formRef.current;
     if (current.values.email && !current.errors.email) {
       dispatch(resetSendCodeTime());

@@ -10,8 +10,16 @@ export default makeStyles({
     marginTop: '20px',
     '& img': {
       width: 400,
-      minHeight: 200
-    }
+      maxHeight: 250,
+    },
+    '& span': {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 400,
+      minHeight: 200,
+      maxHeight: 300
+    },
   },
   hidden: {
     display: "none"

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useCallback, useEffect, useRef} from "react";
 import api from './helpers/http';
 import router from "./contants/router";
 import {useLocation} from "react-router-dom";
@@ -27,7 +27,7 @@ const useAuth = () => {
   }), []);
 
 
-  const authLogin = React.useCallback(() => {
+  const authLogin = useCallback(() => {
     api.auth().then(res => {
       if (res.status === 'success') {
         auth.success();

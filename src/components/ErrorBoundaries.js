@@ -21,21 +21,26 @@ class ErrorBoundaries extends Component {
 
   render() {
     if (this.state.hasError) {
-      return (
-        <div style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          background: 'white'
-        }}>
-          未知错误
-        </div>
-      );
+      return <ErrorUi/>;
     }
     return this.props.children;
   }
+}
+
+
+export function ErrorUi() {
+  return (
+    <div style={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      background: 'white'
+    }}>
+      未知错误
+    </div>
+  );
 }
 
 export default ErrorBoundaries;

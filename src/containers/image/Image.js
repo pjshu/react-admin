@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Button, Grid, Paper} from "@material-ui/core";
 import Card from "./Card";
 import Pagination from "../../components/Pagination";
@@ -27,23 +27,23 @@ function Image(props) {
   const classes = useStyles();
   const {pagination, images} = useSelector(selectImages);
 
-  const preventDefault = React.useCallback((e) => {
+  const preventDefault = useCallback((e) => {
     e.preventDefault(e);
     e.stopPropagation();
   }, []);
 
-  const handleDrop = React.useCallback(e => {
+  const handleDrop = useCallback(e => {
     preventDefault(e);
     //TODO: 最大同时上传三个文件
     addNewImage(Object.values(e.dataTransfer.files).slice(-3));
   }, [addNewImage, preventDefault]);
 
-  const onChangePage = React.useCallback((page) => {
+  const onChangePage = useCallback((page) => {
     dispatch(setPage(page));
   }, [dispatch]);
 
 
-  const handleDelete = React.useCallback((upload, id) => {
+  const handleDelete = useCallback((upload, id) => {
     return upload ?
       dispatch(deleteImage([id])) :
       dispatch(deleteImageApi([id]));

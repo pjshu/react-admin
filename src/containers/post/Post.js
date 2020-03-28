@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {Container, Grid, Paper, TextField} from "@material-ui/core";
 import {Field, Form, Formik} from 'formik';
 import MyEditor from '../../components/editor/Editor';
@@ -15,13 +15,19 @@ function Post({postId, onSubmit, handleOnSave}) {
   const dispatch = useDispatch();
   const formRef = React.useRef();
 
-  const uploadFn = React.useCallback((form, successFn, errorFn) => {
+  const uploadFn = useCallback((form, successFn, errorFn) => {
     dispatch(addPostImg(form, postId, successFn, errorFn));
   }, [dispatch, postId]);
 
-  const handleKeyDown = React.useCallback((e) => {
+  const handleKeyDown = useCallback((e) => {
     handleOnSave(e, formRef.current.values);
   }, [handleOnSave]);
+
+  const handleChangeEditorState = useCallback((value) => {
+    if (formRef.current) {
+      formRef.current.setFieldValue('article', value);
+    }
+  }, []);
 
   const classes = useStyles();
   return (
@@ -34,8 +40,8 @@ function Post({postId, onSubmit, handleOnSave}) {
         validationSchema={validatePost}
       >
         {
-          ({values, setFieldValue}) => (
-            <Form onKeyDown={handleKeyDown}>
+          ({values}) => (
+            <Form onKeyDown={handleKeyDown} id={'post-form'}>
               <Grid container alignItems="center">
                 <Field
                   name="title"
@@ -48,11 +54,9 @@ function Post({postId, onSubmit, handleOnSave}) {
               <MyEditor
                 uploadFn={uploadFn}
                 value={BraftEditor.createEditorState(values.article)}
-                onChange={value => {
-                  setFieldValue('article', value);
-                }}
+                onChange={handleChangeEditorState}
                 contentStyle={{
-                  minHeight: '100vh'
+                  minHeight: '700px'
                 }}
               />
               <Setting

@@ -15,8 +15,8 @@ if (process.env.NODE_ENV === 'development') {
 axios.defaults.baseURL = base;
 
 axios.interceptors.request.use(config => {
-  const identify = localStorage.getItem('identify');
-  const Authorization = localStorage.getItem('Authorization');
+  const identify = localStorage.identify;
+  const Authorization = localStorage.Authorization;
   if (identify && Authorization) {
     config.headers.identify = identify;
     config.headers.Authorization = `Bearer ${Authorization}`;
@@ -45,7 +45,7 @@ axios.interceptors.response.use(res => {
 export const api = {
   tags: '/tags%',
   tagsImage: '/images/tags%',
-  allTags: '/posts/tags',
+  allTags: '/posts/tags/all',
   posts: '/posts%',
   postsImage: '/images/posts%',
   sessions: '/sessions',

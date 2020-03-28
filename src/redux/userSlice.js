@@ -170,7 +170,6 @@ export const resetPassword = (values) => dispatch => {
       /**
        * data.msg.old_password.[0: "error"]
        */
-      // AlertMessage.failed(res.data.msg);
     }
   });
 };

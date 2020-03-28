@@ -1,6 +1,6 @@
 import {Button, Fade, Grid, Typography} from "@material-ui/core";
 import {CopyToClipboard} from "react-copy-to-clipboard";
-import React from "react";
+import React, {useCallback} from "react";
 import {useDispatch} from "react-redux";
 import {addSuccessMessage} from '../../redux/globalSlice';
 import useStyles from './CardModalItem.style';
@@ -25,7 +25,7 @@ export const UseInfo = ({count, relationship}) => {
 export const Links = ({url}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const handleCopySuccess = React.useCallback(() => {
+  const handleCopySuccess = useCallback(() => {
     dispatch(addSuccessMessage('复制成功'));
   }, [dispatch]);
   return (

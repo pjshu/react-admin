@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Button, Grid} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {closeModal, openModal, selectRegister} from "../../redux/userSlice";
@@ -12,7 +12,7 @@ const ConfirmModal = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const handleClose = React.useCallback(() => {
+  const handleClose = useCallback(() => {
     dispatch(closeModal());
   }, [dispatch]);
 
@@ -45,9 +45,9 @@ export default function MyModal() {
   const {modalOpen} = useSelector(selectRegister);
   const classes = useStyles();
 
-  const handleOpen = React.useCallback(() => {
+  const handleOpen = useCallback(() => {
     dispatch(openModal());
-  },[dispatch]);
+  }, [dispatch]);
 
   return (
     <Grid className={classes.root}>

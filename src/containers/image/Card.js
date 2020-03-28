@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Box, Button, Card, CardActionArea, CardActions, CardMedia} from '@material-ui/core';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import useStyles from './card.style';
@@ -14,15 +14,15 @@ const MyCard = (props) => {
     uploadImage
   } = props;
 
-  const handleOnDelete = React.useCallback(() => {
+  const handleOnDelete = useCallback(() => {
     handleDelete(upload, id);
   }, [handleDelete, id, upload]);
 
-  const handleUpdate = React.useCallback(() => {
+  const handleUpdate = useCallback(() => {
     uploadImage(url, id);
   }, [id, uploadImage, url]);
 
-  const handleOnClick = React.useCallback(() => {
+  const handleOnClick = useCallback(() => {
     handleOnCardClick(id);
   }, [handleOnCardClick, id]);
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Container} from "@material-ui/core";
 import Table from '../../components/table';
 import EditorDialog from './EditorDialog';
@@ -18,18 +18,18 @@ export default function Tags({columns}) {
   const {initial, dialogState} = useSelector(selectTag);
 
   // 表格"+" 按钮
-  const handleAddRow = React.useCallback(() => {
+  const handleAddRow = useCallback(() => {
     dispatch(initDialog());
     dispatch(addTag());
   }, [dispatch]);
 
   // 表单编辑按钮
-  const handleEditor = React.useCallback(({original}) => {
+  const handleEditor = useCallback(({original}) => {
     dispatch(setTagValue(original));
     dispatch(setDialogAsUpdate());
   }, [dispatch]);
 
-  const closeDialog = React.useCallback((state = 'add') => {
+  const closeDialog = useCallback((state = 'add') => {
     dispatch(_closeDialog(state));
   }, [dispatch]);
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 
 import {
   Paper,
@@ -123,7 +123,7 @@ const EnhancedTable = (props) => {
 
   React.useEffect(() => {
     api.query(query).then(res => {
-      const {data: {page, values, total}} = res;
+      const {data: {values, total}} = res;
       setData(values);
       setRowCount(total);
     });
@@ -148,7 +148,7 @@ const EnhancedTable = (props) => {
     });
   };
 
-  const deleteData = React.useCallback((id_list, newData) => {
+  const deleteData = useCallback((id_list, newData) => {
     api.delete({id_list}).then(res => {
       if (res.status === 'success') {
         setData(newData);
@@ -157,7 +157,7 @@ const EnhancedTable = (props) => {
     });
   }, [api, rowCount, setData]);
 
-  const deleteHandler = React.useCallback(() => {
+  const deleteHandler = useCallback(() => {
     const id_list = [];
     const newData = removeByIndexs(
       data,
@@ -167,7 +167,7 @@ const EnhancedTable = (props) => {
     deleteData(id_list, newData);
   }, [data, deleteData, selectedRowIds]);
 
-  const updateHandler = React.useCallback((value) => {
+  const updateHandler = useCallback((value) => {
     let isNewData = true;
     const newData = data.map(item => {
       if (item.id === value.id) {
@@ -177,18 +177,22 @@ const EnhancedTable = (props) => {
       }
       return item;
     });
-    if(isNewData){
-      newData.push(value)
+    if (isNewData) {
+      newData.push(value);
     }
     setData(newData);
   }, [data, setData]);
+
+  const numSelected = React.useMemo(() => {
+    return Object.keys(selectedRowIds).length;
+  }, [selectedRowIds]);
 
   return (
     <TableContainer component={Paper}>
       {renderDialog ? renderDialog(updateHandler) : null}
       <TableToolbar
-        numSelected={Object.keys(selectedRowIds).length}
         {...{
+          numSelected,
           tableName,
           handleAddRow,
           deleteHandler,

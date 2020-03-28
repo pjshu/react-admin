@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {Box, Button, ButtonGroup, Grid, Paper, TextField} from "@material-ui/core";
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
@@ -6,6 +6,8 @@ import {useSelector} from "react-redux";
 import {selectImages} from "../../redux/imageSlice";
 import {Links, UseInfo} from "./CardModalItem";
 import useStyles from './cardModal.style';
+import LoadingImg from '../../components/LoadingImg';
+
 
 const CardModal = (props) => {
   const {images} = useSelector(selectImages);
@@ -22,24 +24,24 @@ const CardModal = (props) => {
     props.handlePreCard(id);
   };
 
-  const handleOnClose = React.useCallback(() => {
+  const handleOnClose = useCallback(() => {
     setModalOpen(false);
   }, [setModalOpen]);
 
-  const handleUploadDesc = React.useCallback(() => {
+  const handleUploadDesc = useCallback(() => {
     handleUpdate(cacheDescribe, upload, id, url);
   }, [cacheDescribe, id, handleUpdate, upload, url]);
 
-  const handleOnDelete = React.useCallback(() => {
+  const handleOnDelete = useCallback(() => {
     handleDelete(upload, id);
     setModalOpen(false);
   }, [id, handleDelete, setModalOpen, upload]);
 
-  const handleCacheDescChange = React.useCallback((e) => {
+  const handleCacheDescChange = useCallback((e) => {
     setCacheDescribe(e.target.value);
   }, []);
 
-  const handleToFirstTab = React.useCallback(() => {
+  const handleToFirstTab = useCallback(() => {
     setTabs(0);
   }, []);
 
@@ -63,7 +65,9 @@ const CardModal = (props) => {
         <ArrowRightIcon/>
       </div>
       <Box className={classes.imgWrapper} boxShadow={5} component={Paper}>
-        <img src={url} alt=""/>
+        <Grid container justify={'center'}>
+          <LoadingImg src={url} alt=""/>
+        </Grid>
         <Grid container direction={'column'} alignItems={'center'} spacing={4}>
           <Grid item container>
             <ButtonGroup

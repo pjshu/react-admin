@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
@@ -13,10 +13,10 @@ const GlobalFilter = ({globalFilter, setGlobalFilter}) => {
     setCacheFilter('');
     setGlobalFilter('');
   };
-  const handleInputChange = React.useCallback((e) => {
+  const handleInputChange = useCallback((e) => {
     setCacheFilter(e.target.value);
   }, []);
-  const handleSearch = React.useCallback((e) => {
+  const handleSearch = useCallback((e) => {
     if (e.keyCode === 13) {
       setGlobalFilter(e.target.value);
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Container, Grid} from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -17,7 +17,7 @@ function Login() {
   const dispatch = useDispatch();
   const {initial} = useSelector(selectLogin);
 
-  const onSubmit = React.useCallback((values) => {
+  const onSubmit = useCallback((values) => {
     dispatch(login(values));
   }, [dispatch]);
 

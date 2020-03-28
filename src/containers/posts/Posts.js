@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {Container, Fab, Grid} from "@material-ui/core";
 import EditIcon from '@material-ui/icons/Edit';
 import Table from './Table';
@@ -11,9 +11,9 @@ export default function Posts() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const handleOnClick = React.useCallback(() => {
+  const handleOnClick = useCallback(() => {
     dispatch(addPost());
-  },[dispatch]);
+  }, [dispatch]);
 
   return (
     <Container maxWidth={false}>

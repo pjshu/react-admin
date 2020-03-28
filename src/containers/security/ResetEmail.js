@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {Form, Formik} from "formik";
 import {Button, Grid} from "@material-ui/core";
 import {
@@ -27,11 +27,11 @@ function ResetEmail({email}) {
     }
   }, [dispatch, resendTime]);
 
-  const onSubmit = React.useCallback((values) => {
+  const onSubmit = useCallback((values) => {
     dispatch(resetEmail(values));
   }, [dispatch]);
 
-  const handleSendCode = React.useCallback(() => {
+  const handleSendCode = useCallback(() => {
     dispatch(resetSendCodeTime());
     dispatch(setIsSendCode());
     const {setFieldValue, values} = formRef.current;

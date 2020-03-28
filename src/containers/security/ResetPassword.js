@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Field, Form, Formik, useFormikContext} from "formik";
 import {Button, FormHelperText, Grid} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
@@ -19,9 +19,9 @@ const PasswordField = ({name, label, ...rest}) => {
   const {errors, touched} = useFormikContext();
   const error = !!errors[name] && !!touched[name];
 
-  const handleClickShowPassword = React.useCallback(() => {
+  const handleClickShowPassword = useCallback(() => {
     setShowPassword((showPassword) => !showPassword);
-  },[]);
+  }, []);
 
   return (
     <FormControl variant="outlined" {...rest}>

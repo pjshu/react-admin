@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Drawer, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField,} from '@material-ui/core';
 import {Field, useFormikContext} from 'formik';
 import Tags from './Tags';
@@ -18,7 +18,7 @@ export function Setting({formRef, onSubmit, uploadFn}) {
 
   const {values: {change_date, visibility}} = useFormikContext();
 
-  const timingUpload = React.useCallback(() => {
+  const timingUpload = useCallback(() => {
     return setInterval(() => {
       onSubmit(formRef.current.values);
     }, autoSave.time * 1000 * 60);
@@ -32,18 +32,18 @@ export function Setting({formRef, onSubmit, uploadFn}) {
     return () => clearInterval(timerId.current);
   }, [autoSave.time, autoSave.open, timingUpload]);
 
-  const handleCloseDrawer = React.useCallback(() => {
+  const handleCloseDrawer = useCallback(() => {
     dispatch(closeDrawer());
   }, [dispatch]);
 
-  const handleAutoSaveChange = React.useCallback((e) => {
+  const handleAutoSaveChange = useCallback((e) => {
     const time = e.target.value;
     if (time > 0) {
       dispatch(setAutoSaveTime(time));
     }
   }, [dispatch]);
 
-  const handleAutoSaveChecked = React.useCallback((e) => {
+  const handleAutoSaveChecked = useCallback((e) => {
     dispatch(setAutoSaveChecked(e.target.checked));
   }, [dispatch]);
 
