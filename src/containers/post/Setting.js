@@ -10,7 +10,7 @@ import {closeDrawer, selectPost, setAutoSaveChecked, setAutoSaveTime} from '../.
 import Switch from '@material-ui/core/Switch';
 import EditorArea from "../../components/editor/EditorArea";
 
-export function Setting({formRef, onSubmit, uploadFn}) {
+function Setting({formRef, onSubmit, uploadFn}) {
   const timerId = React.useRef();
   const {drawOpen, autoSave} = useSelector(selectPost);
   const dispatch = useDispatch();
@@ -109,3 +109,4 @@ export function Setting({formRef, onSubmit, uploadFn}) {
   );
 }
 
+export default React.memo(Setting);

@@ -9,17 +9,17 @@ import ReactDOM from 'react-dom';
 
 const modalRoot = document.getElementById('modal-root');
 
-export const PreviewField = ({value}) => {
+export const PreviewField = React.memo(({value}) => {
   const classes = useStyles();
   return (<div
       className={`${classes.table} ${classes.post} ${classes.emoji}`}
       dangerouslySetInnerHTML={{__html: value.toHTML()}}
     />
   );
-};
+});
 
 
-function Preview({modalOpen, handleOnClose, value, ...rest}) {
+function Preview({modalOpen, handleOnClose, value}) {
   const classes = useStyles();
   React.useEffect(() => {
     Prism.highlightAll();
@@ -35,7 +35,6 @@ function Preview({modalOpen, handleOnClose, value, ...rest}) {
     ReactDOM.createPortal(
       (<div
         className={classes.modal}
-        {...rest}
       >
         <div
           autoCorrect={true}
@@ -59,4 +58,4 @@ function Preview({modalOpen, handleOnClose, value, ...rest}) {
   );
 }
 
-export default Preview;
+export default React.memo(Preview);

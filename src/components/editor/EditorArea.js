@@ -9,7 +9,7 @@ import {PreviewField} from './Preview';
 
 const modalRoot = document.getElementById('modal-root');
 
-function ModalEditor({field, uploadFn, setModalOpen}) {
+const ModalEditor = React.memo(({field, uploadFn, setModalOpen}) => {
   const classes = useStyles();
   const {values, setFieldValue} = useFormikContext();
   const handleOnChange = (value) => {
@@ -36,7 +36,7 @@ function ModalEditor({field, uploadFn, setModalOpen}) {
       </Button>
     </div>
   ), modalRoot);
-}
+});
 
 
 function EditorArea({uploadFn, field, label}) {
@@ -65,4 +65,4 @@ function EditorArea({uploadFn, field, label}) {
   );
 }
 
-export default EditorArea;
+export default React.memo(EditorArea);

@@ -121,4 +121,4 @@ const CardModal = (props) => {
   );
 };
 
-export default CardModal;
+export default React.memo(CardModal);

@@ -14,7 +14,7 @@ const Tags = ({values}) => (
   </>
 );
 
-export default function Tables() {
+function Tables() {
   const dispatch = useDispatch();
   const columns = React.useMemo(
     () => [
@@ -80,3 +80,5 @@ export default function Tables() {
     />
   );
 }
+
+export default React.memo(Tables)

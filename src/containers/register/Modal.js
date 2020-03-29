@@ -8,7 +8,7 @@ import {createPortal} from 'react-dom';
 
 const RootModal = document.getElementById('modal-root');
 
-const ConfirmModal = () => {
+const ConfirmModal = React.memo(() => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -37,10 +37,10 @@ const ConfirmModal = () => {
       </Button>
     </div>
   ), RootModal);
-};
+});
 
 
-export default function MyModal() {
+function MyModal() {
   const dispatch = useDispatch();
   const {modalOpen} = useSelector(selectRegister);
   const classes = useStyles();
@@ -67,3 +67,4 @@ export default function MyModal() {
     </Grid>
   );
 }
+export default React.memo(MyModal)

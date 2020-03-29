@@ -90,4 +90,4 @@ const TableToolbar = props => {
   );
 };
 
-export default TableToolbar;
+export default React.memo(TableToolbar);

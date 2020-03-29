@@ -107,4 +107,4 @@ function ResetEmail({email}) {
   );
 }
 
-export default ResetEmail;
+export default React.memo(ResetEmail);

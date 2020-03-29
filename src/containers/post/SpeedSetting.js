@@ -16,7 +16,7 @@ import {deletePost, openDraw} from '../../redux/postSlice';
 import {addWarningMessage} from '../../redux/globalSlice';
 
 
-export default function SpeedSetting() {
+function SpeedSetting() {
   const classes = useStyles();
   const [settingOpen, setSettingOpen] = useState(false);
   const {values, setFieldValue} = useFormikContext();
@@ -82,7 +82,7 @@ export default function SpeedSetting() {
   );
 }
 
-const UploadMarkdown = ({handleFileUpload}) => {
+const UploadMarkdown = React.memo(({handleFileUpload}) => {
   const classes = useStyles();
   return (
     <>
@@ -100,4 +100,6 @@ const UploadMarkdown = ({handleFileUpload}) => {
       </label>
     </>
   );
-};
+});
+
+export default React.memo(SpeedSetting);

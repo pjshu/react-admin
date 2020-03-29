@@ -22,4 +22,4 @@ const TextFieldWithError = ({name, label, ...rest}) => {
     />
   );
 };
-export default TextFieldWithError;
+export default React.memo(TextFieldWithError);

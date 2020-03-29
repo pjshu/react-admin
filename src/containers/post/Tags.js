@@ -31,4 +31,4 @@ const Tags = () => {
   );
 };
 
-export default Tags;
+export default React.memo(Tags);

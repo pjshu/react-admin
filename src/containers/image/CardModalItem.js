@@ -5,7 +5,7 @@ import {useDispatch} from "react-redux";
 import {addSuccessMessage} from '../../redux/globalSlice';
 import useStyles from './CardModalItem.style';
 
-export const UseInfo = ({count, relationship}) => {
+export const UseInfo = React.memo(({count, relationship}) => {
   return (
     <Fade in={true} timeout={500}>
       <Grid item>
@@ -20,9 +20,9 @@ export const UseInfo = ({count, relationship}) => {
       </Grid>
     </Fade>
   );
-};
+});
 
-export const Links = ({url}) => {
+export const Links = React.memo(({url}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const handleCopySuccess = useCallback(() => {
@@ -66,4 +66,4 @@ export const Links = ({url}) => {
       </Grid>
     </Fade>
   );
-};
+});

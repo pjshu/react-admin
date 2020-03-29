@@ -18,4 +18,4 @@ function RegisterEmail() {
   );
 }
 
-export default RegisterEmail;
+export default React.memo(RegisterEmail);

@@ -2,7 +2,7 @@ import React, {useCallback} from "react";
 import {Container, Grid, Paper, TextField} from "@material-ui/core";
 import {Field, Form, Formik} from 'formik';
 import MyEditor from '../../components/editor/Editor';
-import {Setting} from "./Setting";
+import Setting from "./Setting";
 import SpeedSetting from "./SpeedSetting";
 import useStyles from "./post.style";
 import {useDispatch, useSelector} from "react-redux";

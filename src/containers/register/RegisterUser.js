@@ -39,4 +39,4 @@ function RegisterUser() {
   );
 }
 
-export default RegisterUser;
+export default React.memo(RegisterUser);

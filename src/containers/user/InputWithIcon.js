@@ -4,7 +4,7 @@ import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import TextFieldWithError from '../../components/TextFieldWithError';
 
 
-export default function InputWithIcon({icon, label, info, name, ...other}) {
+function InputWithIcon({icon, label, info, name, ...other}) {
   return (
     <Grid container spacing={5} alignItems="center">
       <Grid item>
@@ -28,3 +28,5 @@ export default function InputWithIcon({icon, label, info, name, ...other}) {
     </Grid>
   );
 }
+
+export default React.memo(InputWithIcon);

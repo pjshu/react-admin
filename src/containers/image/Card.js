@@ -57,4 +57,4 @@ const MyCard = (props) => {
   );
 };
 
-export default MyCard;
+export default React.memo(MyCard);

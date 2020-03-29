@@ -49,4 +49,4 @@ const GlobalFilter = ({globalFilter, setGlobalFilter}) => {
 };
 
 
-export default GlobalFilter;
+export default React.memo(GlobalFilter);

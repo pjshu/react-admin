@@ -173,4 +173,4 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
 };
 
 
-export default EditorDialog;
+export default React.memo(EditorDialog);

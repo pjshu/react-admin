@@ -11,7 +11,7 @@ import ReactDOM from 'react-dom';
 const messageRoot = document.getElementById('message-root');
 
 
-const Message = ({msg}) => {
+const Message = React.memo(({msg}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
 
@@ -37,7 +37,7 @@ const Message = ({msg}) => {
       </Fade>
     </Snackbar>
   );
-};
+});
 
 // length为消息条最大个数
 // autoHideDuration 为自动隐藏时间

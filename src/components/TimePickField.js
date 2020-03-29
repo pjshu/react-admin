@@ -23,4 +23,4 @@ const TimePickField = ({format = "yyyy/MM/dd HH:mm"}) => {
   );
 };
 
-export default TimePickField;
+export default React.memo(TimePickField);

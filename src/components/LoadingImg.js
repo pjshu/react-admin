@@ -19,4 +19,4 @@ function LoadingImg({src, alt}) {
   );
 }
 
-export default LoadingImg;
+export default React.memo(LoadingImg);

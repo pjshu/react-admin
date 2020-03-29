@@ -2,6 +2,16 @@ import EditIcon from "@material-ui/icons/Edit";
 import React from "react";
 import {Checkbox} from "@material-ui/core";
 
+const MemoEditorCell = React.memo(({handleEditor, row}) => {
+  return (
+    <div>
+      <EditIcon onClick={() => {
+        handleEditor(row);
+      }}/>
+    </div>
+  );
+});
+
 const EditorColumn = () => ({
   id: 'editor',
   Header: '编辑',
@@ -9,11 +19,7 @@ const EditorColumn = () => ({
   width: 70,
   disableResizing: true,
   Cell: ({handleEditor, row}) => (
-    <div>
-      <EditIcon onClick={() => {
-        handleEditor(row);
-      }}/>
-    </div>
+    <MemoEditorCell handleEditor={handleEditor} row={row}/>
   ),
 });
 
@@ -36,20 +42,31 @@ const IndeterminateCheckbox = React.forwardRef(
   }
 );
 
+
+const MemoCheckBoxCell = React.memo(({row}) => (
+  <div>
+    <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+  </div>
+));
+
+const MemoCheckBoxHeader = React.memo(({getToggleAllRowsSelectedProps}) => {
+  return (
+    <div>
+      <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+    </div>
+  );
+});
+
 const CheckBoxColumn = (column) => ({
   id: 'selection',
   disableSortBy: true,
   width: 70,
   disableResizing: true,
   Header: ({getToggleAllRowsSelectedProps}) => (
-    <div>
-      <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-    </div>
+    <MemoCheckBoxHeader getToggleAllRowsSelectedProps={getToggleAllRowsSelectedProps}/>
   ),
   Cell: ({row}) => (
-    <div>
-      <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-    </div>
+    <MemoCheckBoxCell row={row}/>
   ),
 });
 

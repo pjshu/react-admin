@@ -13,7 +13,7 @@ import {
 import api from '../../helpers/http';
 import {useDispatch, useSelector} from "react-redux";
 
-export default function Tags({columns}) {
+function Tags({columns}) {
   const dispatch = useDispatch();
   const {initial, dialogState} = useSelector(selectTag);
 
@@ -58,3 +58,5 @@ export default function Tags({columns}) {
     </Container>
   );
 }
+
+export default React.memo(Tags);

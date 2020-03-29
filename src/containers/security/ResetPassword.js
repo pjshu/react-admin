@@ -13,7 +13,7 @@ import FormControl from '@material-ui/core/FormControl';
 import {validateResetPassword} from '../../helpers/validate';
 import useStyles from './resetPassword.style';
 
-const PasswordField = ({name, label, ...rest}) => {
+const PasswordField = React.memo(({name, label, ...rest}) => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = React.useState(false);
   const {errors, touched} = useFormikContext();
@@ -51,7 +51,7 @@ const PasswordField = ({name, label, ...rest}) => {
       }
     </FormControl>
   );
-};
+});
 
 function ResetPassword() {
   const classes = useStyles();
@@ -101,4 +101,4 @@ function ResetPassword() {
   );
 }
 
-export default ResetPassword;
+export default React.memo(ResetPassword);

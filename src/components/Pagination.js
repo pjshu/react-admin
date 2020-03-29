@@ -31,4 +31,4 @@ const TablePaginationActions = ({count, page, rowsPerPage, onChangePage}) => {
   );
 };
 
-export default TablePaginationActions;
+export default React.memo(TablePaginationActions);
