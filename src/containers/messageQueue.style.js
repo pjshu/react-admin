@@ -9,7 +9,7 @@ export default makeStyles({
     bottom: 0,
     left: '10%',
     // transform: 'translateX(-50%)',
-    height: 200,
+    // height: 200,
     minWidth: 200,
     maxWidth: 300,
   },
