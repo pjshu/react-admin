@@ -1,5 +1,5 @@
 import {array, number, object, ref, string} from "yup";
-
+//TODO
 const validatePost = object({
   id: number()
     .min(0, 'id不能小于0')
@@ -10,7 +10,7 @@ const validatePost = object({
   visibility: string()
     .matches(/(私密|公开')/),
   excerpt: string()
-    .required('请输入摘录')
+    // .required('请输入摘录')
     .max(300, '摘录不超过300字'),
   article: string()
     .ensure(),

@@ -21,6 +21,6 @@ export default makeStyles(theme => ({
     maxHeight: '150px',
     border: '2px solid #eee',
     borderRadius: '4px',
-    overflow: 'scroll'
+    // overflow: 'scroll'
   }
 }));

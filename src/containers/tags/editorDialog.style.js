@@ -10,6 +10,7 @@ export default makeStyles({
     marginTop: '20px',
     '& img': {
       width: 400,
+      minHeight: 200,
       maxHeight: 250,
     },
     '& span': {

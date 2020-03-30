@@ -6,7 +6,7 @@ export default makeStyles((theme) => ({
     zIndex: 4,
     left: '55%',
     top: '50%',
-    transform: 'translate(-50%, -50%)'
+    transform: 'translate(-50%, -45%)'
   },
   paper: {
     width: 800,
@@ -16,7 +16,7 @@ export default makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     // border: '2px solid #000',
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: 16,
   },
   post: {
     whiteSpace: 'pre-wrap'

@@ -37,7 +37,6 @@ function Preview({modalOpen, handleOnClose, value}) {
         className={classes.modal}
       >
         <div
-          autoCorrect={true}
           className={classes.paper}
         >
           <PreviewField value={value}/>

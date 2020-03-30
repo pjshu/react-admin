@@ -1,5 +1,5 @@
 import React, {useCallback} from "react";
-import {Container, Grid, Paper, TextField} from "@material-ui/core";
+import {Container, Grid, Paper, TextField, Box} from "@material-ui/core";
 import {Field, Form, Formik} from 'formik';
 import MyEditor from '../../components/editor/Editor';
 import Setting from "./Setting";
@@ -31,7 +31,7 @@ function Post({postId, onSubmit, handleOnSave}) {
 
   const classes = useStyles();
   return (
-    <Container component={Paper} className={classes.root} maxWidth={false}>
+    <Container component={Paper}  className={classes.root} maxWidth={false}>
       <Formik
         innerRef={formRef}
         enableReinitialize

@@ -29,8 +29,8 @@ function Tags({columns}) {
     dispatch(setDialogAsUpdate());
   }, [dispatch]);
 
-  const closeDialog = useCallback((state = 'add') => {
-    dispatch(_closeDialog(state));
+  const closeDialog = useCallback(() => {
+    dispatch(_closeDialog());
   }, [dispatch]);
 
   const _api = React.useMemo(() => ({

@@ -1,20 +1,20 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import Post from './Post';
 import {formatTime} from "../../helpers/datetime";
 import {useLocation} from "react-router-dom";
 import Loading from "../../components/Loading";
-import {useDispatch, useSelector} from "react-redux";
-import {getAllTags, getPost, modifyPost, selectPost} from '../../redux/postSlice';
+import {useDispatch} from "react-redux";
+import {getAllTags, getPost, modifyPost} from '../../redux/postSlice';
 
 function PostWrapper() {
   const {pathname} = useLocation();
   const path = pathname.split('/');
   const postId = path[path.length - 1];
-  const {loading} = useSelector(selectPost);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getPost(postId));
+    dispatch(getPost(postId, setLoading));
   }, [dispatch, postId]);
 
   useEffect(() => {

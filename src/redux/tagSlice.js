@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import api from "../helpers/http";
-import {addSuccessMessage, addErrorMessage, setMessageState, addLoadingMessage} from "./globalSlice";
+import {addErrorMessage, addLoadingMessage, addSuccessMessage, setMessageState} from "./globalSlice";
 import {v4 as uuidV4} from 'uuid';
 
 export const slice = createSlice({
@@ -42,8 +42,7 @@ export const slice = createSlice({
       state.dialogState.action = 'update';
       state.dialogState.open = true;
     },
-    closeDialog(state, action) {
-      state.dialogState.action = action.payload;
+    closeDialog(state) {
       state.dialogState.open = false;
     },
   }

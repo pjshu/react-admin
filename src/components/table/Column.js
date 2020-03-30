@@ -3,11 +3,13 @@ import React from "react";
 import {Checkbox} from "@material-ui/core";
 
 const MemoEditorCell = React.memo(({handleEditor, row}) => {
+  const handleOnClick = React.useCallback(() => {
+    handleEditor(row);
+  }, [handleEditor, row]);
+
   return (
     <div>
-      <EditIcon onClick={() => {
-        handleEditor(row);
-      }}/>
+      <EditIcon onClick={handleOnClick}/>
     </div>
   );
 });
@@ -43,30 +45,16 @@ const IndeterminateCheckbox = React.forwardRef(
 );
 
 
-const MemoCheckBoxCell = React.memo(({row}) => (
-  <div>
-    <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-  </div>
-));
-
-const MemoCheckBoxHeader = React.memo(({getToggleAllRowsSelectedProps}) => {
-  return (
-    <div>
-      <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-    </div>
-  );
-});
-
 const CheckBoxColumn = (column) => ({
   id: 'selection',
   disableSortBy: true,
   width: 70,
   disableResizing: true,
   Header: ({getToggleAllRowsSelectedProps}) => (
-    <MemoCheckBoxHeader getToggleAllRowsSelectedProps={getToggleAllRowsSelectedProps}/>
+    <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
   ),
   Cell: ({row}) => (
-    <MemoCheckBoxCell row={row}/>
+    <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
   ),
 });
 

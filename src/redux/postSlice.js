@@ -20,8 +20,7 @@ export const slice = createSlice({
       create_date: formatTime(new Date()),
       change_date: formatTime(new Date())
     },
-    drawOpen: false,
-    loading: true,
+    drawOpen: true,
     autoSave: {
       open: false,
       time: 0
@@ -40,9 +39,6 @@ export const slice = createSlice({
     openDraw(state) {
       state.drawOpen = true;
     },
-    setLoading(state) {
-      state.loading = false;
-    },
     setAutoSaveTime(state, action) {
       state.autoSave.time = action.payload;
     },
@@ -52,15 +48,15 @@ export const slice = createSlice({
   }
 });
 const {initState, addAllTags} = slice.actions;
-export const {closeDrawer, openDraw, setLoading} = slice.actions;
+export const {closeDrawer, openDraw} = slice.actions;
 export const {setAutoSaveTime, setAutoSaveChecked} = slice.actions;
 
-export const getPost = (postId) => dispatch => {
+export const getPost = (postId, setLoading) => dispatch => {
   api.getPost(null, postId).then(res => {
     if (res.status === 'success') {
       const {data} = res;
       dispatch(initState(data));
-      dispatch(setLoading(false));
+      setLoading(false);
     } else {
       dispatch(addErrorMessage('请求错误'));
     }
