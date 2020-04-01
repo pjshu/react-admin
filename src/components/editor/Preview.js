@@ -18,8 +18,13 @@ export const PreviewField = React.memo(({value}) => {
 });
 
 
-function Preview({handleOnClose, value}) {
+function Preview({handleOnClose, value, modalOpen}) {
   const classes = useStyles();
+  React.useEffect(() => {
+    if (modalOpen === true) {
+      Prism.highlightAll();
+    }
+  }, [modalOpen]);
   // 这里用material-ui的拟态框(Modal组件)有两个坑:
   // 1.prism加载有问题
   //  Prism.highlightAll() 需要写成setTimeout() =>Prism.highlightAll(),0.001)的形式才会更新样式,原因未知

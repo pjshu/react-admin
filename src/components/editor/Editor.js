@@ -106,15 +106,12 @@ const MyEditor = ({uploadFn, value, ...props}) => {
       onClick: handleOnOpen
     }];
 
-    React.useEffect(() => {
-      Prism.highlightAll();
-    }, []);
 
     return (
       <>
         {
           modalOpen ?
-            <Preview {...{handleOnClose, value}}/> :
+            <Preview {...{modalOpen,handleOnClose, value}}/> :
             null
         }
         <BraftEditor

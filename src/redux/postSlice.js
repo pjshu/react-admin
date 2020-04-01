@@ -22,8 +22,8 @@ export const slice = createSlice({
     },
     drawOpen: true,
     autoSave: {
-      open: false,
-      time: 0
+      open: true,
+      time: 1000
     }
   },
   reducers: {
