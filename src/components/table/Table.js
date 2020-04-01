@@ -130,13 +130,13 @@ const EnhancedTable = (props) => {
   }, [api, query, setData]);
 
 
-  const handleChangePage = (newPage) => {
+  const handleChangePage = React.useCallback((newPage) => {
     gotoPage(newPage);
-  };
+  }, []);
 
-  const handleChangeRowsPerPage = event => {
+  const handleChangeRowsPerPage = React.useCallback(event => {
     setPageSize(Number(event.target.value));
-  };
+  }, []);
 
   const removeByIndexs = (array, indexs, ids) => {
     return array.filter((item, i) => {
@@ -246,30 +246,8 @@ const EnhancedTable = (props) => {
 
         <TableFooter>
           <TableRow>
-            <TablePagination
-              classes={{
-                root: classes.tablePagination,
-                toolbar: classes.tablePaginationToolBar
-              }}
-              // 写入配置
-              labelRowsPerPage={'每页:'}
-              labelDisplayedRows={
-                ({from, to, count}) => {
-                  return `${from}-${to}/${count}`;
-                }
-              }
-              rowsPerPageOptions={[5, 10, 25]}
-              colSpan={3}
-              count={rowCount}
-              rowsPerPage={pageSize}
-              page={pageIndex}
-              SelectProps={{
-                inputProps: {'aria-label': 'rows per page'},
-                // native: true,
-              }}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
+            <MemoPagination
+              {...{rowCount, pageSize, pageIndex, handleChangePage, handleChangeRowsPerPage}}
             />
           </TableRow>
         </TableFooter>
@@ -277,5 +255,37 @@ const EnhancedTable = (props) => {
     </TableContainer>
   );
 };
+
+const MemoPagination = React.memo((props) => {
+  const {rowCount, pageSize, pageIndex, handleChangePage, handleChangeRowsPerPage} = props;
+  const classes = useStyles();
+  return (
+    <TablePagination
+      classes={{
+        root: classes.tablePagination,
+        toolbar: classes.tablePaginationToolBar
+      }}
+      // 写入配置
+      labelRowsPerPage={'每页:'}
+      labelDisplayedRows={
+        ({from, to, count}) => {
+          return `${from}-${to}/${count}`;
+        }
+      }
+      rowsPerPageOptions={[5, 10, 25]}
+      colSpan={3}
+      count={rowCount}
+      rowsPerPage={pageSize}
+      page={pageIndex}
+      SelectProps={{
+        inputProps: {'aria-label': 'rows per page'},
+        // native: true,
+      }}
+      onChangePage={handleChangePage}
+      onChangeRowsPerPage={handleChangeRowsPerPage}
+      ActionsComponent={TablePaginationActions}
+    />
+  );
+});
 
 export default EnhancedTable;

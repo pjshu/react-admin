@@ -55,27 +55,18 @@ function Nav() {
     }
   }, [message.length]);
 
+
   const handleMenuClose = useCallback(() => {
-    setMessageMenu({
+    setMessageMenu((messageMenu) => ({
       ...messageMenu,
       open: false
-    });
-  }, [messageMenu]);
-
-  const handleDeleteMessage = (id) => {
-    //这里不能把dispatch提出到外面
-    if (message.length === 1) {
-      dispatch(removeMessage(id));
-      handleMenuClose();
-    } else {
-      dispatch(removeMessage(id));
-    }
-  };
+    }));
+  }, [setMessageMenu]);
 
   const handleClearAll = useCallback(() => {
     dispatch(clearAllMessage());
     handleMenuClose();
-  },[dispatch, handleMenuClose]);
+  }, [dispatch, handleMenuClose]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -112,65 +103,10 @@ function Nav() {
           >
             <MailIcon/>
           </Badge>
-          <Menu
-            id="long-menu"
-            anchorEl={messageMenu.anchorEl}
-            keepMounted
-            open={messageMenu.open}
-            onClose={handleMenuClose}
-            PaperProps={{
-              style: {
-                minHeight: 100,
-                maxHeight: 400,
-                minWidth: 300,
-                maxWidth: 350,
-                overflow: 'scroll'
-              },
-            }}
-          >
-            <MenuItem onClick={handleClearAll}>
-              清空全部
-            </MenuItem>
-            {message.map((msg) => (
-              <MenuItem className={classes.fullWidth} key={msg.id} onClose={handleMenuClose}>
-                <Alert
-                  // data-id={msg.id}
-                  onClose={() => handleDeleteMessage(msg.id)}
-                  className={classes.fullWidth}
-                  variant="filled" severity={msg.state}>
-                  {msg.message}/{msg.time}
-                </Alert>
-              </MenuItem>
-            ))}
-          </Menu>
+          <MemoMenu {...{handleMenuClose, messageMenu, handleClearAll}}/>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="permanent"
-        className={`${classes.drawer} ${open ? classes.drawerOpen : classes.drawerClose}`}
-        classes={{paper: `${open ? classes.drawerOpen : classes.drawerClose}`}}
-        open={open}
-      >
-        {/*占位 防止被导航栏覆盖*/}
-        <div className={classes.placeholder}/>
-        <List>
-          {
-            [
-              {title: '主页', route: router.ADMIN, icon: <AssignmentIcon/>},
-              {title: '标签', route: router.ADMIN_TAGS, icon: <LocalOfferIcon/>},
-              {title: '图片', route: router.ADMIN_PIC, icon: <PermMediaIcon/>},
-              {title: '用户', route: router.ADMIN_USER, icon: <FaceIcon/>},
-              {title: '安全', route: router.ADMIN_SECURITY, icon: <SecurityIcon/>},
-            ].map(item => (
-              <ListItem key={item.title} title={item.title} button component={Link} to={item.route}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.title}/>
-              </ListItem>
-            ))
-          }
-        </List>
-      </Drawer>
-
+      <MemoDraw open={open}/>
       <main className={classes.content}>
         {/*占位,防止被导航栏覆盖*/}
         <div className={classes.placeholder}/>
@@ -179,5 +115,97 @@ function Nav() {
     </div>
   );
 }
+
+//TODO: messageMenu数据对比
+const MemoMenu = React.memo((props) => {
+  const {handleMenuClose, messageMenu, handleClearAll} = props;
+  const classes = useStyles();
+  const {message} = useSelector(selectMessage);
+  return (
+    <Menu
+      id="long-menu"
+      anchorEl={messageMenu.anchorEl}
+      keepMounted
+      open={messageMenu.open}
+      onClose={handleMenuClose}
+      PaperProps={{
+        style: {
+          minHeight: 100,
+          maxHeight: 400,
+          minWidth: 300,
+          maxWidth: 350,
+          overflow: 'scroll'
+        },
+      }}
+    >
+      <MenuItem onClick={handleClearAll}>
+        清空全部
+      </MenuItem>
+      {message.map((msg) => (
+        <MenuItem className={classes.fullWidth} key={msg.id} onClose={handleMenuClose}>
+          <MemoAlert msg={msg} handleMenuClose={handleMenuClose}/>
+        </MenuItem>
+      ))}
+    </Menu>
+  );
+});
+
+// 单独提取成组件的原因:如果不提取,Alert组件中的handleDeleteMessage函数只能写成內联形式(需要传入id属性)
+const MemoAlert = React.memo(({msg, handleMenuClose}) => {
+  const {message} = useSelector(selectMessage);
+  const dispatch = useDispatch();
+  const classes = useStyles();
+
+  const handleDeleteMessage = useCallback(() => {
+    //这里不能把dispatch提出到外面
+    if (message.length === 1) {
+      dispatch(removeMessage(msg.id));
+      handleMenuClose();
+    } else {
+      dispatch(removeMessage(msg.id));
+    }
+  }, [dispatch, handleMenuClose, message.length, msg.id]);
+
+  return (
+    <Alert
+      onClose={handleDeleteMessage}
+      className={classes.fullWidth}
+      variant="filled" severity={msg.state}>
+      {msg.message}/{msg.time}
+    </Alert>
+  );
+});
+
+
+const MemoDraw = React.memo(({open}) => {
+  const classes = useStyles();
+  return (
+    <Drawer
+      variant="permanent"
+      className={`${classes.drawer} ${open ? classes.drawerOpen : classes.drawerClose}`}
+      classes={{paper: `${open ? classes.drawerOpen : classes.drawerClose}`}}
+      open={open}
+    >
+      {/*占位 防止被导航栏覆盖*/}
+      <div className={classes.placeholder}/>
+      <List>
+        {
+          [
+            {title: '主页', route: router.ADMIN, icon: <AssignmentIcon/>},
+            {title: '标签', route: router.ADMIN_TAGS, icon: <LocalOfferIcon/>},
+            {title: '图片', route: router.ADMIN_PIC, icon: <PermMediaIcon/>},
+            {title: '用户', route: router.ADMIN_USER, icon: <FaceIcon/>},
+            {title: '安全', route: router.ADMIN_SECURITY, icon: <SecurityIcon/>},
+          ].map(item => (
+            <ListItem key={item.title} title={item.title} button component={Link} to={item.route}>
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.title}/>
+            </ListItem>
+          ))
+        }
+      </List>
+    </Drawer>
+  );
+});
 
 export default Nav;

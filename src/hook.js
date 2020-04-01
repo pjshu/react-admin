@@ -60,4 +60,18 @@ const useAuth = () => {
   return [state, from.current];
 };
 
-export {useAuth};
+// 定时刷新token
+const useRefreshToken = () => {
+  // TODO 具体时间写入配置
+  const timing = useRef(-1);
+  useEffect(() => {
+    timing.current = setInterval(() => {
+      api.auth().then(res => {
+        //TODO
+      });
+    }, 30 * 1000);
+    return clearInterval(timing.current);
+  }, []);
+};
+
+export {useAuth, useRefreshToken};

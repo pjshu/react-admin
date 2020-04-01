@@ -108,6 +108,7 @@ export const recoveryPassword = values => dispatch => {
 export const sendRecPassCode = values => dispatch => {
   api.sendRecPassCode({email: values.email}).then(res => {
     if (res.status === 'success') {
+      dispatch(setIsSendCode());
       dispatch(addSuccessMessage('邮件发送成功,请检查邮箱'));
     } else {
       dispatch(addErrorMessage(res.data.msg));

@@ -1,4 +1,4 @@
-import React,{useCallback,useState} from 'react';
+import React, {useCallback, useState} from 'react';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import EnhancedTable from './Table';
@@ -52,4 +52,4 @@ const Table = (props) => {
   );
 };
 
-export default Table;
+export default React.memo(Table);

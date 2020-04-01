@@ -1,4 +1,6 @@
 import {makeStyles} from "@material-ui/core/styles";
+import 'braft-editor/dist/output.css';
+
 
 export default makeStyles((theme) => ({
   modal: {
@@ -19,7 +21,15 @@ export default makeStyles((theme) => ({
     padding: 16,
   },
   post: {
-    whiteSpace: 'pre-wrap'
+    whiteSpace: 'pre-wrap',
+    '& blockquote': {
+      margin: '0 0 10px',
+      padding: '15px 20px',
+      backgroundColor: '#f1f2f3',
+      borderLeft: '5px solid #ccc',
+      color: '#666',
+      fontStyle: 'italic'
+    }
   },
   closeButton: {
     width: '100px',

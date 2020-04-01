@@ -88,7 +88,9 @@ export default () => {
   const handleUpdate = useCallback((describe, upload, id, url) => {
     // 如果图片未上传,先更新图片,再更新图片描述
     //TODO:BUG uploadImages完成可能在uploadImagesDesc完成后
-    uploadImage(url, id);
+    if (upload) {
+      uploadImage(url, id);
+    }
     dispatch(uploadImagesDesc(describe, id));
   }, [dispatch, uploadImage]);
 

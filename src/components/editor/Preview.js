@@ -1,6 +1,5 @@
 import React from 'react';
 import {Button} from "@material-ui/core";
-import 'braft-editor/dist/output.css';
 import Prism from './prism';
 import 'braft-extensions/dist/emoticon.css';
 import useStyles from './preview.style';
@@ -19,12 +18,8 @@ export const PreviewField = React.memo(({value}) => {
 });
 
 
-function Preview({modalOpen, handleOnClose, value}) {
+function Preview({handleOnClose, value}) {
   const classes = useStyles();
-  React.useEffect(() => {
-    Prism.highlightAll();
-  }, [modalOpen]);
-
   // 这里用material-ui的拟态框(Modal组件)有两个坑:
   // 1.prism加载有问题
   //  Prism.highlightAll() 需要写成setTimeout() =>Prism.highlightAll(),0.001)的形式才会更新样式,原因未知

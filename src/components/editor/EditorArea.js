@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Button, Typography} from "@material-ui/core";
 import {useFormikContext} from "formik";
 import MyEditor from "../../components/editor/Editor";
@@ -12,12 +12,12 @@ const modalRoot = document.getElementById('modal-root');
 const ModalEditor = React.memo(({field, uploadFn, setModalOpen}) => {
   const classes = useStyles();
   const {values, setFieldValue} = useFormikContext();
-  const handleOnChange = (value) => {
+  const handleOnChange = useCallback((value) => {
     setFieldValue(field, value);
-  };
-  const handleOnClose = () => {
+  }, [field, setFieldValue]);
+  const handleOnClose = useCallback(() => {
     setModalOpen(false);
-  };
+  }, [setModalOpen]);
   return ReactDOM.createPortal((
     <div className={classes.modalRoot}>
       <MyEditor
@@ -26,9 +26,7 @@ const ModalEditor = React.memo(({field, uploadFn, setModalOpen}) => {
         onChange={handleOnChange}
       />
       <Button
-        style={{
-          float: 'right',
-        }}
+        className={classes.closeBtn}
         color={'primary'}
         onClick={handleOnClose}
       >

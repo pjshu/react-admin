@@ -5,7 +5,7 @@ export default makeStyles({
     height: '100%'
   },
   paper: {
-    width: 500,
+    width: 520,
     minHeight: 200,
     padding: 40
   },
@@ -13,7 +13,7 @@ export default makeStyles({
     width: '265px'
   },
   button: {
-    marginLeft: '30px',
+    marginLeft: '25px',
     width: '125px',
     height: '45px'
   },
@@ -23,7 +23,4 @@ export default makeStyles({
   fullWidth: {
     width: '100%'
   },
-  btnWrapper: {
-    marginBottom: '40px'
-  }
 });

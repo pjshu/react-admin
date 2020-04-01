@@ -4,7 +4,7 @@ export default makeStyles(theme => ({
   modalRoot: {
     position: 'absolute',
     width: 800,
-    zIndex: 2,
+    zIndex: 1201,
     left: '55%',
     top: '50%',
     transform: 'translate(-50%,-50%)',
@@ -21,6 +21,10 @@ export default makeStyles(theme => ({
     maxHeight: '150px',
     border: '2px solid #eee',
     borderRadius: '4px',
+    overflow: 'hidden'
     // overflow: 'scroll'
+  },
+  closeBtn: {
+    float: 'right'
   }
 }));

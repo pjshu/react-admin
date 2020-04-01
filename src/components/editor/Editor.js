@@ -15,7 +15,12 @@ import 'braft-extensions/dist/emoticon.css';
 import 'prismjs/components/prism-python.min';
 import 'prismjs/components/prism-jsx.min';
 import 'prismjs/components/prism-bash.min';
+import 'prismjs/components/prism-c.min';
+import 'prismjs/components/prism-nasm.min';
 import './prism.css';
+import Prism from "./prism";
+//https://prismjs.com/#languages-list
+
 
 const codeHighlighterOptions = {
   syntaxs: [
@@ -39,6 +44,12 @@ const codeHighlighterOptions = {
     {
       name: 'Bash',
       syntax: 'bash'
+    }, {
+      name: 'C',
+      syntax: 'c'
+    }, {
+      name: 'Nasm',
+      syntax: 'nasm'
     }
   ]
 };
@@ -95,17 +106,25 @@ const MyEditor = ({uploadFn, value, ...props}) => {
       onClick: handleOnOpen
     }];
 
+    React.useEffect(() => {
+      Prism.highlightAll();
+    }, []);
+
     return (
       <>
         {
           modalOpen ?
-            <Preview {...{modalOpen, handleOnClose, value}}/> :
+            <Preview {...{handleOnClose, value}}/> :
             null
         }
-        <BraftEditor media={{uploadFn: myUploadFn}} value={value} {...{extendControls, ...props}}/>
+        <BraftEditor
+          media={{uploadFn: myUploadFn}}
+          value={value}
+          {...{extendControls, ...props}}
+        />
       </>
     );
   }
 ;
 
-export default MyEditor;
+export default React.memo(MyEditor);
