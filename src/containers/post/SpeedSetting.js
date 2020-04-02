@@ -6,25 +6,25 @@ import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import SettingsIcon from '@material-ui/icons/Settings';
-import {useFormikContext} from "formik";
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import useStyles from './speedSetting.style';
 import marked from '../../config/marked';
 import BraftEditor from "braft-editor";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {deletePost, openDraw} from '../../redux/postSlice';
 import {addWarningMessage} from '../../redux/globalSlice';
-
+import {selectPost} from '../../redux/postSlice';
 
 function SpeedSetting() {
   const classes = useStyles();
+  const {form: {id}} = useSelector(selectPost);
   const [settingOpen, setSettingOpen] = useState(false);
-  const {values, setFieldValue} = useFormikContext();
+  // const {values, setFieldValue} = useFormikContext();
   const disPatch = useDispatch();
 
   const handleOnDelete = useCallback(() => {
-    disPatch(deletePost([values.id]));
-  }, [disPatch, values.id]);
+    disPatch(deletePost([id]));
+  }, [disPatch, id]);
 
   const openSetting = useCallback(() => {
     disPatch(openDraw());
@@ -35,9 +35,9 @@ function SpeedSetting() {
     reader.readAsText(file[0]);
     reader.onload = function (res) {
       let htmlString = marked(res.target.result);
-      setFieldValue('article', BraftEditor.createEditorState(htmlString));
+      // setFieldValue('article', BraftEditor.createEditorState(htmlString));
     };
-  }, [setFieldValue]);
+  }, []);
 
   // 上传markdown
   const handleFileUpload = useCallback((e) => {

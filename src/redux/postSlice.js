@@ -4,11 +4,13 @@ import api from "../helpers/http";
 import {toAdmin, toPost} from "../history";
 import {addErrorMessage, addLoadingMessage, addSuccessMessage, setMessageState} from './globalSlice';
 import {v4 as uuidV4} from 'uuid';
+import BraftEditor from "braft-editor";
+
 
 export const slice = createSlice({
   name: 'post',
   initialState: {
-    initial: {
+    form: {
       id: -1,
       title: '',
       tags: [],
@@ -20,6 +22,7 @@ export const slice = createSlice({
       create_date: formatTime(new Date()),
       change_date: formatTime(new Date())
     },
+    errors: {name: '', value: ''},
     drawOpen: true,
     autoSave: {
       open: true,
@@ -44,17 +47,32 @@ export const slice = createSlice({
     },
     setAutoSaveChecked(state, action) {
       state.autoSave.open = action.payload;
+    },
+    changePostFormField(state, action) {
+      const {name, value} = action.payload;
+      state.form[name] = value;
+    },
+    changePostFormError(state, action) {
+      const {name, value} = action.payload;
+      state.errors = {name, value};
+    },
+    clearPostFormError(state) {
+      state.errors = {name: '', value: ''};
     }
   }
 });
 const {initState, addAllTags} = slice.actions;
 export const {closeDrawer, openDraw} = slice.actions;
 export const {setAutoSaveTime, setAutoSaveChecked} = slice.actions;
+export const {changePostFormField, changePostFormError, clearPostFormError} = slice.actions;
+
 
 export const getPost = (postId, setLoading) => dispatch => {
   api.getPost(null, postId).then(res => {
     if (res.status === 'success') {
       const {data} = res;
+      data.excerpt = BraftEditor.createEditorState(data.excerpt);
+      data.article = BraftEditor.createEditorState(data.article);
       dispatch(initState(data));
       setLoading(false);
     } else {

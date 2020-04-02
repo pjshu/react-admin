@@ -1,6 +1,6 @@
-import React, {useCallback,useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Drawer, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField,} from '@material-ui/core';
-import {Field, useFormikContext} from 'formik';
+import {Field} from '../../components/Form';
 import Tags from './Tags';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import useStyles from "./setting.style";
@@ -10,19 +10,19 @@ import {closeDrawer, selectPost, setAutoSaveChecked, setAutoSaveTime} from '../.
 import Switch from '@material-ui/core/Switch';
 import EditorArea from "../../components/editor/EditorArea";
 
-const Setting = ({formRef, onSubmit, uploadFn}) => {
+const Setting = ({onSubmit, uploadFn}) => {
   const timerId = React.useRef();
   const {drawOpen, autoSave} = useSelector(selectPost);
   const dispatch = useDispatch();
   const classes = useStyles(autoSave.open);
 
-  const {values: {change_date}} = useFormikContext();
+  // const {values: {change_date}} = useFormikContext();
 
   const timingUpload = useCallback(() => {
     return setInterval(() => {
-      onSubmit(formRef.current.values);
+      onSubmit();
     }, autoSave.time * 1000 * 60);
-  }, [autoSave.time, formRef, onSubmit]);
+  }, [autoSave.time, onSubmit]);
 
   // 计时器
   useEffect(() => {
@@ -59,11 +59,22 @@ const Setting = ({formRef, onSubmit, uploadFn}) => {
         <div className={classes.placeholder}/>
         <MemoArticleState/>
         <Tags/>
-        <CreateDate/>
-        <TextField label="修改日期" InputProps={{readOnly: true}} value={change_date}/>
-        <EditorArea uploadFn={uploadFn} field={'excerpt'} label={'摘录'}/>
+        <CreateDate formName={'post'}/>
+        <Field
+          name={'change_date'}
+          label="修改日期"
+          formName={'post'}
+          variant={'standard'}
+          InputProps={{readOnly: true}}
+        />
+        <EditorArea
+          uploadFn={uploadFn}
+          field={'excerpt'}
+          label={'摘录'}
+          formName={'post'}
+        />
         <MemoAutoSave {...{open: autoSave.open, handleAutoSaveChecked}}/>
-        <MemoExcerpt {...{handleAutoSaveChange, autoSave}}/>
+        {/*<MemoExcerpt {...{handleAutoSaveChange, autoSave}}/>*/}
         <div className={classes.toolbar}>
           <IconButton onClick={handleCloseDrawer}>
             <ChevronRightIcon/>
@@ -90,14 +101,13 @@ const MemoAutoSave = React.memo(({open, handleAutoSaveChecked}) => {
 });
 
 const MemoArticleState = React.memo(() => {
-  const {values: {visibility}} = useFormikContext();
   return (
     <FormControl>
       <InputLabel>状态</InputLabel>
       <Field
-        name='visibility'
+        formName={'post'}
+        name={'visibility'}
         as={Select}
-        value={visibility}
       >
         {
           ["私密", "公开"].map(item => (

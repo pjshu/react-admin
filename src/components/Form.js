@@ -1,25 +1,31 @@
 import React, {useCallback, useMemo} from 'react';
-import {
-  changeFormField as _changeFormField,
-  selects
-} from "../redux/userSlice";
+import {selects, changeFormField as _changeFormField} from "../redux";
 
 import {useDispatch, useSelector} from "react-redux";
 
 import {Button, TextField} from "@material-ui/core";
 
+const fieldAreEqual = (prev, next) => {
+  return prev.getValue === next.getValue;
+};
 
 //TODO: 计时时会重新渲染,TextField的问题
-const Field = React.memo(({label, name, formName, ...rest}) => {
+const Field = React.memo((props) => {
+  const {as, label, name, formName, getValue, children, ...rest} = props;
   const {form, errors} = useSelector(selects[formName]);
   const dispatch = useDispatch();
 
-  const changeFormField = useCallback((props) => _changeFormField({...props, form: formName}), [formName]);
+  const changeFormField = React.useCallback((props) => _changeFormField[formName](props), [formName]);
 
-  const handleFormChange = React.useCallback((e) => {
-    const {name, value} = e.target;
+  const handleFormChange = useCallback((e, other) => {
+    let value;
+    if (getValue) {
+      value = getValue(e, other);
+    } else {
+      value = e.target.value;
+    }
     dispatch(changeFormField({name, value}));
-  }, [changeFormField, dispatch]);
+  }, [changeFormField, dispatch, getValue, name]);
 
   const value = useMemo(() => {
     return form[name];
@@ -33,20 +39,32 @@ const Field = React.memo(({label, name, formName, ...rest}) => {
       isError: field === name
     };
   }, [errors, name]);
-
   return (
-    <MyTextField {...{name, value, handleFormChange, label, error, ...rest}}/>
+    <MyTextField {...{as, name, value, handleFormChange, label, error, children, ...rest}}/>
   );
-});
+}, fieldAreEqual);
 
-const textFieldAreEqual = (prevProps, nextProps) => {
-  return nextProps.value === prevProps.value && prevProps.error === nextProps.error;
+const textFieldAreEqual = (prev, next) => {
+  return next.value === prev.value && prev.error === next.error && next.children === prev.children;
 };
 
-const MyTextField = React.memo(({name, value, handleFormChange, label, error, ...rest}) => {
+const MyTextField = React.memo((props) => {
+  const {as, name, value, handleFormChange, label, error, children, ...rest} = props;
+  if (as) {
+    // const MyComponent = as;
+    // return (
+    //   <MyComponent {...{value, onChange: handleFormChange, label, ...rest}}>
+    //     {children}
+    //   </MyComponent>
+    // );
+    return React.createElement(
+      as,
+      {value, onChange: handleFormChange, label, ...rest},
+      children
+    );
+  }
   return (
     <TextField
-      name={name}
       value={value}
       onChange={handleFormChange}
       label={label}

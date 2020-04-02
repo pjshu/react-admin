@@ -1,23 +1,26 @@
 import React, {useCallback} from 'react';
 import {TextField} from '@material-ui/core';
 import Autocomplete from "@material-ui/lab/Autocomplete/";
-import {useFormikContext} from "formik";
+import {selectPost} from "../../redux/postSlice";
+import {useSelector} from "react-redux";
+import {Field} from "../../components/Form";
 
 const Tags = () => {
-  const {values: {allTags, tags}, setFieldValue} = useFormikContext();
-
-  const handleOnChange = useCallback((_, value) => {
-    setFieldValue('tags', value);
-  }, [setFieldValue]);
+  const {form: {allTags}} = useSelector(selectPost);
+  const getValue = useCallback((e, value) => {
+    return value;
+  }, []);
 
   return (
     <div>
-      <Autocomplete
+      <Field
+        formName={'post'}
+        as={Autocomplete}
         multiple
         freeSolo
-        value={tags}
+        name={'tags'}
         options={allTags}
-        onChange={handleOnChange}
+        getValue={getValue}
         renderInput={params => (
           <TextField
             {...params}
@@ -25,8 +28,7 @@ const Tags = () => {
             fullWidth
           />
         )}
-      >
-      </Autocomplete>
+      />
     </div>
   );
 };

@@ -1,29 +1,34 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Button, Typography} from "@material-ui/core";
-import {useFormikContext} from "formik";
 import MyEditor from "../../components/editor/Editor";
 import BraftEditor from "braft-editor";
 import useStyles from './editorArea.style';
 import ReactDOM from 'react-dom';
 import {PreviewField} from './Preview';
+import {Field} from "../Form";
+import {useSelector} from "react-redux";
+import {selects} from '../../redux';
+
 
 const modalRoot = document.getElementById('modal-root');
 
-const ModalEditor = React.memo(({field, uploadFn, setModalOpen}) => {
+const ModalEditor = React.memo(({name, uploadFn, setModalOpen, formName}) => {
   const classes = useStyles();
-  const {values, setFieldValue} = useFormikContext();
-  const handleOnChange = useCallback((value) => {
-    setFieldValue(field, value);
-  }, [field, setFieldValue]);
+  const getValue = useCallback((value) => {
+    return value;
+  }, []);
+
   const handleOnClose = useCallback(() => {
     setModalOpen(false);
   }, [setModalOpen]);
   return ReactDOM.createPortal((
     <div className={classes.modalRoot}>
-      <MyEditor
+      <Field
+        name={name}
+        formName={formName}
+        as={MyEditor}
         uploadFn={uploadFn}
-        value={BraftEditor.createEditorState(values[field])}
-        onChange={handleOnChange}
+        getValue={getValue}
       />
       <Button
         className={classes.closeBtn}
@@ -37,9 +42,9 @@ const ModalEditor = React.memo(({field, uploadFn, setModalOpen}) => {
 });
 
 
-function EditorArea({uploadFn, field, label}) {
-  const [modalOpen, setModalOpen] = React.useState(false);
-  const {values} = useFormikContext();
+function EditorArea({uploadFn, field, label, formName, name}) {
+  const [modalOpen, setModalOpen] = useState(false);
+  // const {form} = useSelector(selects[formName]);
   const classes = useStyles();
   const handleOnOpen = () => {
     setModalOpen(true);
@@ -52,11 +57,11 @@ function EditorArea({uploadFn, field, label}) {
       <div
         onDoubleClick={handleOnOpen}
         className={classes.textField}>
-        <PreviewField value={BraftEditor.createEditorState(values[field])}/>
+        {/*<PreviewField value={BraftEditor.createEditorState(values[field])}/>*/}
       </div>
       {
         modalOpen ?
-          <ModalEditor {...{field, uploadFn, setModalOpen}}/> :
+          <ModalEditor {...{field, uploadFn, setModalOpen, name, formName}}/> :
           null
       }
     </div>

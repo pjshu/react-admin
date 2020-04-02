@@ -105,7 +105,7 @@ function User() {
                   </Button>
                 </Grid>
                 <Grid item container direction={"column"} spacing={5}>
-                  <EditorArea field={'about'} label={'用户介绍'}/>
+                  <EditorArea field={'about'} label={'用户介绍'} name={'excerpt'}/>
                 </Grid>
               </Grid>
             </Form>

@@ -3,14 +3,15 @@ import Post from './Post';
 import {formatTime} from "../../helpers/datetime";
 import {useLocation} from "react-router-dom";
 import Loading from "../../components/Loading";
-import {useDispatch} from "react-redux";
-import {getAllTags, getPost, modifyPost} from '../../redux/postSlice';
+import {useDispatch, useSelector} from "react-redux";
+import {getAllTags, getPost, modifyPost, selectPost} from '../../redux/postSlice';
 
 function PostWrapper() {
   const {pathname} = useLocation();
   const path = pathname.split('/');
   const postId = path[path.length - 1];
   const [loading, setLoading] = useState(true);
+  const {form} = useSelector(selectPost);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,17 +30,17 @@ function PostWrapper() {
     }
   };
 
-  const onSubmit = useCallback((values) => {
-    const data = {...values};
+  const onSubmit = useCallback(() => {
+    const data = {...form};
     convert(data, 'article');
     convert(data, 'excerpt');
     data.create_date = formatTime(data.create_date);
     dispatch(modifyPost(data, postId));
   }, [dispatch, postId]);
 
-  const handleOnSave = useCallback((e, value) => {
+  const handleOnSave = useCallback((e) => {
     if (e.keyCode === 83 && e.ctrlKey) {
-      onSubmit(value);
+      onSubmit();
     }
   }, [onSubmit]);
 

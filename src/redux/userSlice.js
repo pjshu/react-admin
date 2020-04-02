@@ -250,12 +250,4 @@ export const selectSecurity = state => ({
   isSendCode: state.user.isSendCode,
 });
 
-export const selects = {
-  recoveryPassword: selectRecoveryPassword,
-  login: selectLogin,
-  register: selectRegister,
-  userInfo: selectUserInfo,
-  security: selectSecurity
-};
-
 export default slice.reducer;

@@ -4,7 +4,7 @@ import Loading from "../../components/Loading";
 import {Redirect} from 'react-router-dom';
 import {useAuth} from "../../hook";
 
-export default () => {
+export default React.memo(() => {
   const [state, from] = useAuth();
   return (
     <>
@@ -14,4 +14,4 @@ export default () => {
       }
     </>
   );
-};
+});
