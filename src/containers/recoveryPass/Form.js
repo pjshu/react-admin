@@ -9,11 +9,9 @@ import {Button, TextField} from "@material-ui/core";
 
 const changeFormField = (props) => _changeFormField({...props, form: 'recoveryPassword'});
 
-
 //TODO: 计时时会重新渲染,TextField的问题
 const Field = React.memo(({label, name, ...rest}) => {
   const {form, errors} = useSelector(selectRecoveryPassword);
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   const handleFormChange = React.useCallback((e) => {
@@ -35,6 +33,17 @@ const Field = React.memo(({label, name, ...rest}) => {
   }, [errors, name]);
 
   return (
+    <MyTextField {...{name, value, handleFormChange, label, error, ...rest}}/>
+  );
+});
+
+const areEqual = (prevProps, nextProps) => {
+  return nextProps.value === prevProps.value && prevProps.error === nextProps.error;
+};
+
+const MyTextField = React.memo(({name, value, handleFormChange, label, error, ...rest}) => {
+  const classes = useStyles();
+  return (
     <TextField
       name={name}
       value={value}
@@ -49,9 +58,7 @@ const Field = React.memo(({label, name, ...rest}) => {
       {...rest}
     />
   );
-});
-
-
+}, areEqual);
 
 const SubmitBtn = React.memo(({children, handleOnSubmit, ...rest}) => {
   const classes = useStyles();
@@ -67,4 +74,5 @@ const SubmitBtn = React.memo(({children, handleOnSubmit, ...rest}) => {
     </Button>
   );
 });
+
 export {Field, SubmitBtn};
