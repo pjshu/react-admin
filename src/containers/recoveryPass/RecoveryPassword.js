@@ -1,117 +1,127 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {Button, Container, Grid} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
-import TextFieldWithError from "../../components/TextFieldWithError";
-import {Form, Formik, useFormikContext} from 'formik';
-import {validateRecoveryPassword} from '../../helpers/validate';
 import {
   asyncDecSendCodeTime,
-  recoveryPassword,
+  changeFormError as _changeFormError,
+  clearFormError as _clearFormError,
   resetSendCodeTime,
   selectRecoveryPassword,
-  sendRecPassCode
+  sendRecPassCode,
+  recoveryPassword
 } from '../../redux/userSlice';
 import {useDispatch, useSelector} from "react-redux";
 import useStyles from './recoveryPassword.style';
+import {Field, SubmitBtn} from './Form';
+import {validateEmail, validateRecoveryPassword} from "../../helpers/validate";
 
-function RecoveryPassword() {
-  const formRef = React.useRef();
-  const {isSendCode, initial} = useSelector(selectRecoveryPassword);
-  const dispatch = useDispatch();
-  const classes = useStyles(isSendCode);
+const clearFormError = (props) => _clearFormError({...props, form: 'recoveryPassword'});
+const changeFormError = (props) => _changeFormError({...props, form: 'recoveryPassword'});
 
-  const onSubmit = useCallback((values) => {
-    dispatch(recoveryPassword(values));
-  }, [dispatch]);
+const RecoveryPassword = () => {
+  const {isSendCode} = useSelector(selectRecoveryPassword);
+  const classes = useStyles();
 
   return (
     <Container maxWidth={false} className={classes.container}>
-      <Grid container justify="center" alignItems={"center"} className={classes.container}>
-        <Formik
-          innerRef={formRef}
-          initialValues={initial}
-          onSubmit={onSubmit}
-          validationSchema={validateRecoveryPassword}
+      <Grid
+        className={classes.container}
+        container
+        justify="center"
+        alignItems={"center"}
+      >
+        <Paper
+          className={classes.paper}
+          component={Grid}
+          alignItems={'center'}
+          container
+          spacing={3}
         >
-          <Form>
-            <Paper
-              className={classes.paper}
-              component={Grid}
-              alignItems={'center'}
-              container
-              spacing={3}
-            >
-              <Grid
-                item
-                container
-                direction={'row'}
-                alignItems={"center"}
-              >
-                <TextFieldWithError
-                  className={classes.textField}
-                  name={'email'}
-                  label={'邮箱'}
-                  variant={"outlined"}
-                />
-                <Timing/>
-              </Grid>
-
-              <Grid
-                spacing={3}
-                container
-                item
-                className={classes.validateCode}
-              >
-                <Grid
-                  item
-                  container
-                  direction={'row'}
-                  alignItems={"center"}
-                >
-                  <TextFieldWithError
-                    className={classes.textField}
-                    name={'code'}
-                    label={'邮箱验证码'}
-                    variant={"outlined"}
-                  />
-                  <Button
-                    type={'submit'}
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                  >
-                    提交
-                  </Button>
-                </Grid>
-                {/*添加显示密码按钮 https://material-ui.com/components/text-fields/*/}
-                <Grid item className={classes.fullWidth}>
-                  <TextFieldWithError
-                    name={'password'}
-                    label={'新密码'}
-                    variant={"outlined"}
-                  />
-                </Grid>
-                <Grid item className={classes.fullWidth}>
-                  <TextFieldWithError
-                    name={'confirm_password'}
-                    label={'确认密码'}
-                    variant={"outlined"}
-                  />
-                </Grid>
-              </Grid>
-            </Paper>
-          </Form>
-        </Formik>
+          <Grid
+            item
+            container
+            direction={'row'}
+            alignItems={"center"}
+          >
+            <Field name={'email'} label={"邮箱"}/>
+            <Timing/>
+          </Grid>
+          {
+            isSendCode ? <HiddenField/> : null
+          }
+        </Paper>
       </Grid>
     </Container>
   );
-}
+};
+
+const HiddenField = React.memo(() => {
+  const dispatch = useDispatch();
+  const classes = useStyles();
+  const {form} = useSelector(selectRecoveryPassword);
+
+  const handleOnSubmit = useCallback(() => {
+    validateRecoveryPassword.validate({
+      ...form
+    }).then((values) => {
+      dispatch(clearFormError());
+      dispatch(recoveryPassword(values));
+    }).catch(({path, errors}) => {
+      dispatch(changeFormError({name: path, value: errors[0]}));
+    });
+  }, [dispatch, form]);
+
+  return (
+    <Grid
+      spacing={3}
+      container
+      item
+    >
+      <Grid
+        item
+        container
+        direction={'row'}
+        alignItems={"center"}
+      >
+        <Field name={'code'} label={"邮箱验证码"}/>
+        <SubmitBtn handleOnSubmit={handleOnSubmit}>
+          提交
+        </SubmitBtn>
+      </Grid>
+      <Grid item className={classes.fullWidth}>
+        <Field name={'password'} label={"新密码"}/>
+      </Grid>
+      <Grid item className={classes.fullWidth}>
+        <Field name={'confirm_password'} label={"确认密码"}/>
+      </Grid>
+    </Grid>
+  );
+});
+
 
 const Timing = React.memo(() => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const {resendTime} = useSelector(selectRecoveryPassword);
-  const {values, errors} = useFormikContext();
+  const {resendTime, form, errors} = useSelector(selectRecoveryPassword);
+
+  // TODO:BUG 什么都不输入直接点击
+  const disabled = useMemo(() => {
+    const value = errors['value'];
+    return value !== '' || resendTime > 0;
+  }, [errors, resendTime]);
+
+
+  const handleOnSubmit = React.useCallback(() => {
+    validateEmail.validate({
+      email: form.email
+    }).then((res) => {
+      dispatch(clearFormError());
+      dispatch(resetSendCodeTime());
+      dispatch(sendRecPassCode(res));
+    }).catch(({path, errors}) => {
+      dispatch(changeFormError({name: path, value: errors[0]}));
+    });
+  }, [dispatch, form.email]);
 
   useEffect(() => {
     if (resendTime > 0) {
@@ -119,25 +129,18 @@ const Timing = React.memo(() => {
     }
   }, [dispatch, resendTime]);
 
-  const handelSendCode = useCallback(() => {
-    if (values.email && !errors.email) {
-      dispatch(resetSendCodeTime());
-      dispatch(sendRecPassCode(values));
-    }
-  }, [dispatch, errors.email, values]);
-
   return (
-    <Button
-      disabled={resendTime > 0 || !!errors.email || !values.email}
-      variant="contained"
-      color="primary"
-      onClick={handelSendCode}
+    <SubmitBtn
+      disabled={disabled}
       className={classes.button}
+      handleOnSubmit={handleOnSubmit}
     >
       {
         resendTime > 0 ? `重新发送:${resendTime}` : '发送验证码'
       }
-    </Button>
+    </SubmitBtn>
+
   );
 });
-export default RecoveryPassword;
+
+export default React.memo(RecoveryPassword);

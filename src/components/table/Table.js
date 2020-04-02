@@ -132,7 +132,7 @@ const EnhancedTable = (props) => {
 
   const handleChangePage = React.useCallback((newPage) => {
     gotoPage(newPage);
-  }, []);
+  }, [gotoPage]);
 
   const handleChangeRowsPerPage = React.useCallback(event => {
     setPageSize(Number(event.target.value));

@@ -6,12 +6,15 @@ import history from "./history";
 import Loading from "./components/Loading";
 import {hot} from 'react-hot-loader';
 import MessageQueue from './containers/MessageQueue';
-import * as Sentry from '@sentry/browser';
 import security from './config/security';
 import ErrorBoundaries from './components/ErrorBoundaries';
 
 
-Sentry.init({dsn: security.dsn});
+if (process.env.NODE_ENV !== "development") {
+  const Sentry = require('@sentry/browser');
+  Sentry.init({dsn: security.dsn});
+
+}
 
 const Root = lazy(() => import("./components/nav/"));
 const Register = lazy(() => import("./containers/register"));

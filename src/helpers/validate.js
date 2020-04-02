@@ -102,6 +102,13 @@ const validateTag = object({
   count: number()
     .required('count不能为空'),
 });
+
+const validateEmail = object({
+  email: string()
+    .email('请输入正确的邮箱格式')
+    .required('请输入邮箱'),
+});
+
 export {
   validatePost,
   validateUserInfo,
@@ -110,5 +117,6 @@ export {
   validateResetEmail,
   validateResetPassword,
   validateRegister,
-  validateTag
+  validateTag,
+  validateEmail
 };

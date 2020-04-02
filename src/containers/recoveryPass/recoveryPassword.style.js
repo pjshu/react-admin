@@ -17,9 +17,9 @@ export default makeStyles({
     width: '125px',
     height: '45px'
   },
-  validateCode: (isSendCode) => ({
-    display: isSendCode ? '' : "none"
-  }),
+  // validateCode: (isSendCode) => ({
+  //   display: isSendCode ? '' : "none"
+  // }),
   fullWidth: {
     width: '100%'
   },

@@ -7,10 +7,12 @@ export const slice = createSlice({
   name: 'user',
   initialState: {
     login: {
-      initial: {username: '', password: ''}
+      form: {username: '', password: ''},
+      errors: {name: '', value: ''}
     },
     recoveryPassword: {
-      initial: {email: '', code: '', password: '', confirm_password: ''},
+      form: {email: '', code: '', password: '', confirm_password: ''},
+      errors: {name: '', value: ''}
     },
     register: {
       initial: {
@@ -71,12 +73,25 @@ export const slice = createSlice({
     },
     openModal(state) {
       state.register.modalOpen = true;
+    },
+    changeFormField(state, action) {
+      const {name, value, form} = action.payload;
+      state[form].form[name] = value;
+    },
+    changeFormError(state, action) {
+      const {name, value, form} = action.payload;
+      state[form].errors = {name, value};
+    },
+    clearFormError(state, action) {
+      const {form} = action.payload;
+      state[form].errors = {name: '', value: ''};
     }
   },
 });
 
 export const {resetSendCodeTime, setIsSendCode, decSendCodeTime, clearRendCodeState} = slice.actions;
 export const {increaseActiveStep, decrementActiveStep, openModal, closeModal} = slice.actions;
+export const {changeFormField, changeFormError, clearFormError} = slice.actions;
 const {setUserEmail, setUserInfo} = slice.actions;
 
 export const login = values => dispatch => {
@@ -106,7 +121,7 @@ export const recoveryPassword = values => dispatch => {
 };
 
 export const sendRecPassCode = values => dispatch => {
-  api.sendRecPassCode({email: values.email}).then(res => {
+  api.sendRecPassCode(values).then(res => {
     if (res.status === 'success') {
       dispatch(setIsSendCode());
       dispatch(addSuccessMessage('邮件发送成功,请检查邮箱'));
