@@ -12,7 +12,7 @@ import {
 } from '../../redux/userSlice';
 import {useDispatch, useSelector} from "react-redux";
 import useStyles from './recoveryPassword.style';
-import {Field, SubmitBtn} from './Form';
+import {Field, SubmitBtn} from '../../components/Form';
 import {validateEmail, validateRecoveryPassword} from "../../helpers/validate";
 
 const clearFormError = (props) => _clearFormError({...props, form: 'recoveryPassword'});
@@ -43,7 +43,12 @@ const RecoveryPassword = () => {
             direction={'row'}
             alignItems={"center"}
           >
-            <Field name={'email'} label={"邮箱"}/>
+            <Field
+              name={'email'}
+              label={"邮箱"}
+              className={classes.textField}
+              formName={'recoveryPassword'}
+            />
             <Timing/>
           </Grid>
           {
@@ -83,16 +88,31 @@ const HiddenField = React.memo(() => {
         direction={'row'}
         alignItems={"center"}
       >
-        <Field name={'code'} label={"邮箱验证码"}/>
-        <SubmitBtn handleOnSubmit={handleOnSubmit}>
+        <Field
+          name={'code'}
+          label={"邮箱验证码"}
+          className={classes.textField}
+          formName={'recoveryPassword'}
+        />
+        <SubmitBtn handleOnSubmit={handleOnSubmit} className={classes.button}>
           提交
         </SubmitBtn>
       </Grid>
       <Grid item className={classes.fullWidth}>
-        <Field name={'password'} label={"新密码"}/>
+        <Field
+          name={'password'}
+          label={"新密码"}
+          className={classes.textField}
+          formName={'recoveryPassword'}
+        />
       </Grid>
       <Grid item className={classes.fullWidth}>
-        <Field name={'confirm_password'} label={"确认密码"}/>
+        <Field
+          name={'confirm_password'}
+          label={"确认密码"}
+          className={classes.textField}
+          formName={'recoveryPassword'}
+        />
       </Grid>
     </Grid>
   );

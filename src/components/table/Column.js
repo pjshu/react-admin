@@ -2,27 +2,22 @@ import EditIcon from "@material-ui/icons/Edit";
 import React from "react";
 import {Checkbox} from "@material-ui/core";
 
-const MemoEditorCell = React.memo(({handleEditor, row}) => {
-  const handleOnClick = React.useCallback(() => {
-    handleEditor(row);
-  }, [handleEditor, row]);
-
-  return (
-    <div>
-      <EditIcon onClick={handleOnClick}/>
-    </div>
-  );
-});
-
 const EditorColumn = () => ({
   id: 'editor',
   Header: '编辑',
   disableSortBy: true,
   width: 70,
   disableResizing: true,
-  Cell: ({handleEditor, row}) => (
-    <MemoEditorCell handleEditor={handleEditor} row={row}/>
-  ),
+  Cell: ({handleEditor, row}) => {
+    const handleOnClick = React.useCallback(() => {
+      handleEditor(row);
+    }, [handleEditor, row]);
+    return (
+      <div>
+        <EditIcon onClick={handleOnClick}/>
+      </div>
+    );
+  },
 });
 
 

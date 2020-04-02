@@ -7,7 +7,7 @@ import {
   TableCell,
   TableContainer,
   TableFooter,
-  TableHead,
+  TableHead as MuiTableHeader,
   TablePagination,
   TableRow,
   TableSortLabel
@@ -202,31 +202,7 @@ const EnhancedTable = (props) => {
         }}
       />
       <MuiTable {...getTableProps()}>
-        <TableHead>
-          {headerGroups.map(headerGroup => (
-            <TableRow {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <TableCell
-                  className={classes.cell}
-                  // padding={'none'}
-                  {...(column.disableSortBy
-                    ? column.getHeaderProps()
-                    : column.getHeaderProps(column.getSortByToggleProps()))
-                  }
-                >
-                  {column.render('Header')}
-                  {column.disableSortBy ? null : (
-                    <TableSortLabel
-                      active={column.isSorted}
-                      // react-table has a unsorted state which is not treated here
-                      direction={column.isSortedDesc ? 'desc' : 'asc'}
-                    />
-                  )}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableHead>
+        <TableHeader headerGroups={headerGroups}/>
         <TableBody>
           {rows.map((row, i) => {
             prepareRow(row);
@@ -255,6 +231,44 @@ const EnhancedTable = (props) => {
     </TableContainer>
   );
 };
+
+// TODO 注意,表单头,写死不重新渲染,以后扩展可能有bug
+const headerAreEqual = (prevProps, nextProps) => {
+  return true;
+};
+
+const TableHeader = React.memo(({headerGroups}) => {
+  const classes = useStyles();
+  return (
+    <MuiTableHeader>
+      {headerGroups.map(headerGroup => (
+        <TableRow {...headerGroup.getHeaderGroupProps()}>
+          {
+            headerGroup.headers.map(column => (
+              <TableCell
+                className={classes.cell}
+                // padding={'none'}
+                {...(column.disableSortBy
+                  ? column.getHeaderProps()
+                  : column.getHeaderProps(column.getSortByToggleProps()))
+                }
+              >
+                {column.render('Header')}
+                {column.disableSortBy ? null : (
+                  <TableSortLabel
+                    active={column.isSorted}
+                    // react-table has a unsorted state which is not treated here
+                    direction={column.isSortedDesc ? 'desc' : 'asc'}
+                  />
+                )}
+              </TableCell>
+            ))}
+        </TableRow>
+      ))}
+    </MuiTableHeader>
+  );
+}, headerAreEqual);
+
 
 const MemoPagination = React.memo((props) => {
   const {rowCount, pageSize, pageIndex, handleChangePage, handleChangeRowsPerPage} = props;
@@ -288,4 +302,4 @@ const MemoPagination = React.memo((props) => {
   );
 });
 
-export default EnhancedTable;
+export default React.memo(EnhancedTable);
