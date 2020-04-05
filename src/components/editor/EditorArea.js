@@ -23,13 +23,13 @@ const ModalEditor = React.memo(({name, uploadFn, setModalOpen, formName}) => {
   }, [setModalOpen]);
   return ReactDOM.createPortal((
     <div className={classes.modalRoot}>
-      <Field
-        name={name}
-        formName={formName}
-        as={MyEditor}
-        uploadFn={uploadFn}
-        getValue={getValue}
-      />
+      {/*<Field*/}
+      {/*  name={name}*/}
+      {/*  formName={formName}*/}
+      {/*  as={MyEditor}*/}
+      {/*  uploadFn={uploadFn}*/}
+      {/*  getValue={getValue}*/}
+      {/*/>*/}
       <Button
         className={classes.closeBtn}
         color={'primary'}

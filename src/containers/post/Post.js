@@ -35,16 +35,16 @@ function Post({postId, onSubmit, handleOnSave}) {
             formName={'post'}
           />
         </Grid>
-        <Field
-          as={MyEditor}
-          formName={'post'}
-          name={'article'}
-          uploadFn={uploadFn}
-          getValue={getValue}
-          contentStyle={{
-            minHeight: '700px'
-          }}
-        />
+        {/*<Field*/}
+        {/*  as={MyEditor}*/}
+        {/*  formName={'post'}*/}
+        {/*  name={'article'}*/}
+        {/*  uploadFn={uploadFn}*/}
+        {/*  getValue={getValue}*/}
+        {/*  contentStyle={{*/}
+        {/*    minHeight: '700px'*/}
+        {/*  }}*/}
+        {/*/>*/}
         <Setting
           onSubmit={onSubmit}
           uploadFn={uploadFn}

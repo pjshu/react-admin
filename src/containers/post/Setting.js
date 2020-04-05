@@ -14,9 +14,7 @@ const Setting = ({onSubmit, uploadFn}) => {
   const timerId = React.useRef();
   const {drawOpen, autoSave} = useSelector(selectPost);
   const dispatch = useDispatch();
-  const classes = useStyles(autoSave.open);
-
-  // const {values: {change_date}} = useFormikContext();
+  const classes = useStyles();
 
   const timingUpload = useCallback(() => {
     return setInterval(() => {
@@ -139,4 +137,6 @@ const MemoExcerpt = React.memo(({autoSave, handleAutoSaveChange}) => {
 });
 
 
-export default React.memo(Setting);
+export default React.memo(Setting, (pre, next) => {
+  return pre.onSubmit === next.onSubmit && next.uploadFn === next.uploadFn;
+});

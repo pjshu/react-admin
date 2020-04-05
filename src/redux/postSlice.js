@@ -16,7 +16,7 @@ export const slice = createSlice({
       tags: [],
       visibility: '私密',
       excerpt: '',
-      article: null,
+      article: 'test',
       allTags: [],
       comments: 0,
       create_date: formatTime(new Date()),
@@ -31,10 +31,10 @@ export const slice = createSlice({
   },
   reducers: {
     initState(state, action) {
-      state.initial = {...state.initial, ...action.payload};
+      state.form = {...state.form, ...action.payload};
     },
     addAllTags(state, action) {
-      state.initial.allTags = action.payload;
+      state.form.allTags = action.payload;
     },
     closeDrawer(state) {
       state.drawOpen = false;
@@ -71,8 +71,8 @@ export const getPost = (postId, setLoading) => dispatch => {
   api.getPost(null, postId).then(res => {
     if (res.status === 'success') {
       const {data} = res;
-      data.excerpt = BraftEditor.createEditorState(data.excerpt);
-      data.article = BraftEditor.createEditorState(data.article);
+      // data.excerpt = BraftEditor.createEditorState(data.excerpt);
+      // data.article = BraftEditor.createEditorState(data.article);
       dispatch(initState(data));
       setLoading(false);
     } else {

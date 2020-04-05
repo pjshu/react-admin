@@ -111,7 +111,7 @@ const MyEditor = ({uploadFn, value, ...props}) => {
       <>
         {
           modalOpen ?
-            <Preview {...{modalOpen,handleOnClose, value}}/> :
+            <Preview {...{modalOpen, handleOnClose, value}}/> :
             null
         }
         <BraftEditor

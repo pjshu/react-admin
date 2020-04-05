@@ -51,12 +51,6 @@ const textFieldAreEqual = (prev, next) => {
 const MyTextField = React.memo((props) => {
   const {as, name, value, handleFormChange, label, error, children, ...rest} = props;
   if (as) {
-    // const MyComponent = as;
-    // return (
-    //   <MyComponent {...{value, onChange: handleFormChange, label, ...rest}}>
-    //     {children}
-    //   </MyComponent>
-    // );
     return React.createElement(
       as,
       {value, onChange: handleFormChange, label, ...rest},
