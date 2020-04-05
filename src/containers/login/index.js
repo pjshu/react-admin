@@ -4,7 +4,7 @@ import Loading from "../../components/Loading";
 import {Redirect} from 'react-router-dom';
 import {useAuth} from "../../hook";
 
-export default React.memo(() => {
+const Index = React.memo(function Index(){
   const [state, from] = useAuth();
   return (
     <>
@@ -15,3 +15,5 @@ export default React.memo(() => {
     </>
   );
 });
+
+export default Index;

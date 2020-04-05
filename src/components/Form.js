@@ -4,13 +4,15 @@ import {selects, changeFormField as _changeFormField} from "../redux";
 import {useDispatch, useSelector} from "react-redux";
 
 import {Button, TextField} from "@material-ui/core";
+import {Link} from "react-router-dom";
+import router from "../contants/router";
 
 const fieldAreEqual = (prev, next) => {
   return prev.getValue === next.getValue;
 };
 
 //TODO: 计时时会重新渲染,TextField的问题
-const Field = React.memo((props) => {
+const Field = React.memo(function Field(props) {
   const {as, label, name, formName, getValue, children, ...rest} = props;
   const {form, errors} = useSelector(selects[formName]);
   const dispatch = useDispatch();
@@ -40,7 +42,7 @@ const Field = React.memo((props) => {
     };
   }, [errors, name]);
   return (
-    <MyTextField {...{as, name, value, handleFormChange, label, error, children, ...rest}}/>
+    <MemoTextField {...{as, name, value, handleFormChange, label, error, children, ...rest}}/>
   );
 }, fieldAreEqual);
 
@@ -48,7 +50,7 @@ const textFieldAreEqual = (prev, next) => {
   return next.value === prev.value && prev.error === next.error && next.children === prev.children;
 };
 
-const MyTextField = React.memo((props) => {
+const MemoTextField = React.memo(function MyTextField(props) {
   const {as, name, value, handleFormChange, label, error, children, ...rest} = props;
   if (as) {
     return React.createElement(
@@ -72,7 +74,7 @@ const MyTextField = React.memo((props) => {
   );
 }, textFieldAreEqual);
 
-const SubmitBtn = React.memo(({children, handleOnSubmit, ...rest}) => {
+const SubmitBtn = React.memo(function SubmitBtn({children, handleOnSubmit, ...rest}) {
   return (
     <Button
       variant="contained"
@@ -85,4 +87,13 @@ const SubmitBtn = React.memo(({children, handleOnSubmit, ...rest}) => {
   );
 });
 
-export {Field, SubmitBtn};
+const CommonBtn = React.memo(function CommonBtn({children, ...props}) {
+  return (
+    <Button
+      {...props}
+    >
+      {children}
+    </Button>
+  );
+});
+export {Field, SubmitBtn, CommonBtn};
