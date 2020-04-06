@@ -5,21 +5,22 @@ import store from './redux/store';
 import {Provider} from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 
-
-if (process.env.NODE_ENV === 'development') {
-  const whyDidYouRender = require('@welldone-software/why-did-you-render');
-  whyDidYouRender(React, {
-    trackAllPureComponents: true,
-    trackExtraHooks: [[require('react-redux/lib'), 'useSelector']],
-  });
-}
+// if (process.env.NODE_ENV === 'development') {
+//   const whyDidYouRender = require('@welldone-software/why-did-you-render');
+//   whyDidYouRender(React, {
+//     trackAllPureComponents: true,
+//     trackExtraHooks: [[require('react-redux/lib'), 'useSelector']],
+//   });
+// }
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  (
     <Provider store={store}>
       <App/>
     </Provider>
-  </React.StrictMode>,
+  ),
+  // </React.StrictMode>
   document.getElementById('root')
 );
 

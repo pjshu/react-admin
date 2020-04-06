@@ -6,7 +6,7 @@ import {deleteImage, deleteImageApi, selectImages, setPage} from "../../redux/im
 import {useDispatch, useSelector} from "react-redux";
 import CardModal from "./CardModal";
 import useStyles from './Image.style';
-
+import {areEqual} from "../../helpers/misc";
 
 function Image(props) {
   const {
@@ -79,15 +79,18 @@ function Image(props) {
         onDragLeave={preventDefault}
         className={classes.imageZone}
       >
-        {
-          modalOpen ?
-            <CardModal {...{cardId, setModalOpen, handleDelete, handleUpdate, handleNextCard, handlePreCard}}/> : null
-        }
+        <CardModal {...{
+          modalOpen,
+          cardId,
+          setModalOpen,
+          handleDelete,
+          handleUpdate,
+          handleNextCard,
+          handlePreCard
+        }}/>
         <div>
           <Grid
-            style={{
-              margin: '0 auto'
-            }}
+            className={classes.autoCenter}
             spacing={8}
             container
           >
@@ -116,4 +119,4 @@ function Image(props) {
   );
 };
 
-export default Image;
+export default React.memo(Image, areEqual);

@@ -4,13 +4,21 @@ import Autocomplete from "@material-ui/lab/Autocomplete/";
 import {selectPost} from "../../redux/postSlice";
 import {useSelector} from "react-redux";
 import {Field} from "../../components/Form";
+import {objAreEqual} from "../../helpers/misc";
 
-const Tags = () => {
+const areEqual = (pre, next) => {
+  return objAreEqual(pre, next);
+};
+
+const Tags = React.memo(() => {
   const {form: {allTags}} = useSelector(selectPost);
+  return <ContextTags allTags={allTags}/>;
+});
+
+const ContextTags = React.memo(function ContextTags({allTags}) {
   const getValue = useCallback((e, value) => {
     return value;
   }, []);
-
   return (
     <div>
       <Field
@@ -31,6 +39,6 @@ const Tags = () => {
       />
     </div>
   );
-};
+}, areEqual);
 
-export default React.memo(Tags);
+export default Tags;

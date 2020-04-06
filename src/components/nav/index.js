@@ -16,4 +16,4 @@ function Root() {
     }}/>;
 }
 
-export default Root;
+export default React.memo(Root);

@@ -12,7 +12,7 @@ const Security = lazy(() => import('../../containers/security'));
 const Image = lazy(() => import('../../containers/image'));
 
 
-export default function Root() {
+const Root = React.memo(function Root() {
   return (
     <Suspense fallback={<Loading/>}>
       <Switch>
@@ -25,4 +25,5 @@ export default function Root() {
       </Switch>
     </Suspense>
   );
-}
+});
+export default Root;

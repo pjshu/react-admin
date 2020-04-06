@@ -7,17 +7,18 @@ import {Box, Fade, ListItem, Snackbar} from '@material-ui/core';
 import {getTimeStamp} from '../helpers/datetime';
 import useStyles from './messageQueue.style';
 import ReactDOM from 'react-dom';
+import {areEqual} from "../helpers/misc";
 
 const messageRoot = document.getElementById('message-root');
 
 
-const Message = React.memo(({msg}) => {
+const Message = React.memo(function Message({msg}) {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
 
-  const handleOnclose = () => {
+  const handleOnclose = React.useCallback(() => {
     setOpen(false);
-  };
+  }, []);
 
   return (
     <Snackbar classes={{
@@ -37,12 +38,16 @@ const Message = React.memo(({msg}) => {
       </Fade>
     </Snackbar>
   );
-});
+}, areEqual);
+
+const MessageQueue = React.memo(function MessageQueue(props) {
+  const {message} = useSelector(selectMessage);
+  return <ContextMessageQueue message={message} {...props}/>;
+}, areEqual);
 
 // length为消息条最大个数
 // autoHideDuration 为自动隐藏时间
-const MessageQueue = ({length = 3, autoHideDuration = 3000}) => {
-  const {message} = useSelector(selectMessage);
+const ContextMessageQueue = React.memo(function ContextMessageQueue({length = 3, autoHideDuration = 3000, message}) {
   const [newlyMessages, setNewlyMessages] = useState([]);
   const timerId = React.useRef();
   const classes = useStyles();
@@ -110,9 +115,8 @@ const MessageQueue = ({length = 3, autoHideDuration = 3000}) => {
       }
     </>
   );
-};
+}, areEqual);
 
-const MemoMessageQueue = React.memo(MessageQueue);
 
-export default () => ReactDOM.createPortal(<MemoMessageQueue/>, messageRoot);
+export default () => ReactDOM.createPortal(<MessageQueue/>, messageRoot);
 

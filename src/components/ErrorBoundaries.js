@@ -1,7 +1,19 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {captureException, withScope} from '@sentry/browser';
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
-class ErrorBoundaries extends Component {
+const useStyles = makeStyles({
+  root: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: 'white'
+  }
+});
+
+class ErrorBoundaries extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {eventId: null};
@@ -29,15 +41,9 @@ class ErrorBoundaries extends Component {
 
 
 export function ErrorUi() {
+  const classes = useStyles();
   return (
-    <div style={{
-      width: '100%',
-      height: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      background: 'white'
-    }}>
+    <div className={classes.root}>
       未知错误
     </div>
   );

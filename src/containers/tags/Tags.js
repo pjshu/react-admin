@@ -13,9 +13,13 @@ import {
 import api from '../../helpers/http';
 import {useDispatch, useSelector} from "react-redux";
 
-function Tags({columns}) {
+const Tags = React.memo(function Tags({columns}) {
+  const {form, dialogState} = useSelector(selectTag);
+  return <ContextTags {...{form, dialogState, columns}}/>;
+});
+
+function ContextTags({form, dialogState, columns}) {
   const dispatch = useDispatch();
-  const {initial, dialogState} = useSelector(selectTag);
 
   // 表格"+" 按钮
   const handleAddRow = useCallback(() => {
@@ -46,7 +50,7 @@ function Tags({columns}) {
         renderDialog={(updateHandler) => (
           <EditorDialog {...{
             updateHandler,
-            dialogInit: initial,
+            dialogInit: form,
             dialogState,
             closeDialog,
           }}/>)

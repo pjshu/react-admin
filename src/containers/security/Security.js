@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container, Grid, Paper} from "@material-ui/core";
 import ResetPassword from "./ResetPassword";
-import ValidateEmail from './ResetEmail';
+import ResetEmail from './ResetEmail';
 import useStyles from './security.style';
 
 function Security() {
@@ -16,7 +16,7 @@ function Security() {
           <ResetPassword/>
         </Grid>
         <Grid item>
-          <ValidateEmail/>
+          <ResetEmail/>
         </Grid>
       </Grid>
     </Container>

@@ -5,11 +5,17 @@ import {addImages, queryImages, selectImages, uploadImages, uploadImagesDesc} fr
 import {useDispatch, useSelector} from "react-redux";
 import {addWarningMessage} from "../../redux/globalSlice";
 import {getImageForm} from "../../helpers/misc";
+import {areEqual} from "../../helpers/misc";
 
-export default () => {
+const ImageWrapper = React.memo(function ImageWrapper() {
+  const {pagination, images} = useSelector(selectImages);
+  return <ContextImageWrapper {...{pagination, images}}/>;
+});
+
+
+const ContextImageWrapper = React.memo(function ContextImageWrapper({pagination, images}) {
   const [cardId, setCardId] = React.useState(-1);
   const [modalOpen, setModalOpen] = React.useState(false);
-  const {pagination, images} = useSelector(selectImages);
   const dispatch = useDispatch();
 
   const query = React.useMemo(() => ({
@@ -120,4 +126,6 @@ export default () => {
     handleFileUpload,
     setModalOpen
   }}/>;
-}
+}, areEqual);
+
+export default React.memo(ImageWrapper);

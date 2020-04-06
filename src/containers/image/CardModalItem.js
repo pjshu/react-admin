@@ -4,6 +4,7 @@ import React, {useCallback} from "react";
 import {useDispatch} from "react-redux";
 import {addSuccessMessage} from '../../redux/globalSlice';
 import useStyles from './CardModalItem.style';
+import {areEqual} from "../../helpers/misc";
 
 export const UseInfo = React.memo(({count, relationship}) => {
   return (
@@ -20,9 +21,9 @@ export const UseInfo = React.memo(({count, relationship}) => {
       </Grid>
     </Fade>
   );
-});
+}, areEqual);
 
-export const Links = React.memo(({url}) => {
+export const Links = React.memo(function Links({url}) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const handleCopySuccess = useCallback(() => {

@@ -1,7 +1,7 @@
 import {Grid} from "@material-ui/core";
 import React from "react";
 import useStyles from './registerUser.style';
-import TextFieldWithError from "../../components/TextFieldWithError";
+import {Field} from "../../components/Form";
 
 function RegisterUser() {
   const classes = useStyles();
@@ -18,9 +18,9 @@ function RegisterUser() {
             {name: 'nickname', label: '昵称', variant: "outlined"},
             {name: 'username', label: '用户名', variant: "outlined"}
           ].map(item => (
-            <TextFieldWithError
+            <Field
               key={item.name}
-              {...{...item, fullWidth: false}}
+              {...{...item, fullWidth: false, formName: 'register'}}
             />))
         }
       </Grid>
@@ -31,7 +31,7 @@ function RegisterUser() {
             {name: 'password', label: '密码', type: "password",},
             {name: 'confirm_password', label: '确认密码', type: "password"},
           ].map(item => (
-            <TextFieldWithError key={item.name} {...{...item, variant: "outlined", fullWidth: false}}/>
+            <Field key={item.name} {...{...item, variant: "outlined", fullWidth: false, formName: 'register'}}/>
           ))
         }
       </Grid>

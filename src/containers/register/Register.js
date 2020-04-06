@@ -3,7 +3,6 @@ import {Button, Grid, Step, StepContent, StepLabel, Stepper,} from "@material-ui
 import RegisterUser from './RegisterUser';
 import useStyles from './register.style';
 import RegisterEmail from "./RegisterEmail";
-import {Form, Formik} from "formik";
 import Modal from "./Modal";
 import {closeModal, decrementActiveStep, increaseActiveStep, register, selectRegister} from "../../redux/userSlice";
 import {useDispatch, useSelector} from "react-redux";
@@ -59,50 +58,41 @@ function Register() {
         justify="center"
         alignItems="center"
         className={classes.container}>
-        <Formik
-          innerRef={formRef}
-          validationSchema={validateRegister}
-          onSubmit={onsubmit}
-          initialValues={initial}
-        >
-          <Form id={'form'} className={classes.form}>
-            <Stepper activeStep={activeStep} orientation="vertical">
-              {
-                steps.map((label, index) => (
-                  <Step key={label}>
-                    <StepLabel>{label}</StepLabel>
-                    <StepContent>
-                      <Content {...{step: index}}/>
-                      <div className={classes.actionsContainer}>
-                        <div>
-                          <Button
-                            disabled={activeStep === 0}
-                            onClick={handleBack}
-                            className={classes.button}
-                          >
-                            回退
-                          </Button>
-                          {
-                            activeStep !== steps.length - 1 ? (
-                                <Button
-                                  variant="contained"
-                                  color="primary"
-                                  onClick={handleNext}
-                                  className={classes.button}
-                                >
-                                  下一步
-                                </Button>
-                              ) :
-                              <Modal/>
-                          }
-                        </div>
-                      </div>
-                    </StepContent>
-                  </Step>
-                ))}
-            </Stepper>
-          </Form>
-        </Formik>
+        <Stepper activeStep={activeStep} orientation="vertical">
+          {
+            steps.map((label, index) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+                <StepContent>
+                  <Content {...{step: index}}/>
+                  <div className={classes.actionsContainer}>
+                    <div>
+                      <Button
+                        disabled={activeStep === 0}
+                        onClick={handleBack}
+                        className={classes.button}
+                      >
+                        回退
+                      </Button>
+                      {
+                        activeStep !== steps.length - 1 ? (
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={handleNext}
+                              className={classes.button}
+                            >
+                              下一步
+                            </Button>
+                          ) :
+                          <Modal/>
+                      }
+                    </div>
+                  </div>
+                </StepContent>
+              </Step>
+            ))}
+        </Stepper>
       </Grid>
     </div>
   );

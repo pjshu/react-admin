@@ -30,12 +30,16 @@ import {useDispatch, useSelector} from "react-redux";
 import {clearAllMessage, removeMessage, selectMessage} from "../../redux/globalSlice";
 import {logout} from '../../redux/userSlice';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
+import {areEqual} from "../../helpers/misc";
 
+const Nav = React.memo(function Nav() {
+  const {message} = useSelector(selectMessage);
+  return <ContextNav message={message}/>;
+}, areEqual);
 
-function Nav() {
+const ContextNav = React.memo(function ContextNav({message}) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const {message} = useSelector(selectMessage);
   const [open, setOpen] = React.useState(false);
   const [messageMenu, setMessageMenu] = React.useState({
     anchorEl: null,
@@ -114,7 +118,7 @@ function Nav() {
       </main>
     </div>
   );
-}
+});
 
 //TODO: messageMenu数据对比
 const MemoMenu = React.memo((props) => {

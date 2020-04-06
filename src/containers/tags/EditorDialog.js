@@ -13,13 +13,13 @@ import {
   Tooltip
 } from '@material-ui/core';
 
-import {Field, Form, Formik} from 'formik';
 import {useDispatch} from "react-redux";
 import {addTagImg, modifyTag} from '../../redux/tagSlice';
 import {getImageForm} from "../../helpers/misc";
 import {validateTag} from "../../helpers/validate";
 import useStyles from './editorDialog.style';
-
+import {areEqual} from "../../helpers/misc";
+import {Field} from "../../components/Form";
 
 const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, closeDialog}) => {
   const classes = useStyles();
@@ -32,7 +32,6 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
     let url = dialogInit.image.url;
     setImage((image) => ({...image, url}));
   }, [dialogInit.image.url]);
-
 
   const [switchState, setSwitchState] = React.useState({
     addMultiple: false,
@@ -89,61 +88,52 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
         <DialogTitle>{dialogState.action === 'add' ? '添加' : '修改'}标签</DialogTitle>
         <DialogContent>
           {/*<DialogContentText>Demo add item to react table.</DialogContentText>*/}
-          <Formik
-            enableReinitialize
-            initialValues={dialogInit}
-            onSubmit={onSubmit}
-            validationSchema={validateTag}
-          >
-            <Form id={'form'}>
-              {
-                [
-                  {label: '标签名', name: 'name',},
-                  {label: '描述', name: 'describe',},
-                  {label: '文章数量', name: 'count', disabled: true},
-                ].map(({label, name, ...rest}) => (
-                  <Field
-                    key={name}
-                    as={TextField}
-                    autoFocus
-                    margin="dense"
-                    label={label}
-                    name={name}
-                    fullWidth
-                    type="text"
-                    {...rest}
-                  />
-                ))
-              }
+          {
+            [
+              {label: '标签名', name: 'name',},
+              {label: '描述', name: 'describe',},
+              {label: '文章数量', name: 'count', disabled: true},
+            ].map(({label, name, ...rest}) => (
+              <Field
+                key={name}
+                formName={'tags'}
+                autoFocus
+                margin="dense"
+                label={label}
+                name={name}
+                fullWidth
+                type="text"
+                {...rest}
+              />
+            ))
+          }
 
-              <div className={classes.imgWrapper}>
-                <input
-                  onChange={handleChangeImage}
-                  accept="image/*"
-                  type="file"
-                  id={"tag"}
-                  className={classes.hidden}
-                />
-                <Box boxShadow={4} className={classes.box}>
-                  <label htmlFor={"tag"}>
-                    <ButtonBase focusRipple component={'div'}>
-                      {
-                        image.url ? (
-                          <img
-                            title={'点击上传图片'}
-                            src={image.url}
-                            alt="标签插图"
-                          />
-                        ) : (
-                          <span>点击上传图片</span>
-                        )
-                      }
-                    </ButtonBase>
-                  </label>
-                </Box>
-              </div>
-            </Form>
-          </Formik>
+          <div className={classes.imgWrapper}>
+            <input
+              onChange={handleChangeImage}
+              accept="image/*"
+              type="file"
+              id={"tag"}
+              className={classes.hidden}
+            />
+            <Box boxShadow={4} className={classes.box}>
+              <label htmlFor={"tag"}>
+                <ButtonBase focusRipple component={'div'}>
+                  {
+                    image.url ? (
+                      <img
+                        title={'点击上传图片'}
+                        src={image.url}
+                        alt="标签插图"
+                      />
+                    ) : (
+                      <span>点击上传图片</span>
+                    )
+                  }
+                </ButtonBase>
+              </label>
+            </Box>
+          </div>
         </DialogContent>
         <DialogActions>
           {
@@ -173,4 +163,4 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
 };
 
 
-export default React.memo(EditorDialog);
+export default React.memo(EditorDialog, areEqual);

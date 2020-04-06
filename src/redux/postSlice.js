@@ -4,7 +4,6 @@ import api from "../helpers/http";
 import {toAdmin, toPost} from "../history";
 import {addErrorMessage, addLoadingMessage, addSuccessMessage, setMessageState} from './globalSlice';
 import {v4 as uuidV4} from 'uuid';
-import BraftEditor from "braft-editor";
 
 
 export const slice = createSlice({
@@ -15,8 +14,8 @@ export const slice = createSlice({
       title: '',
       tags: [],
       visibility: '私密',
-      excerpt: '',
-      article: 'test',
+      // excerpt: '',
+      // article: 'test',
       allTags: [],
       comments: 0,
       create_date: formatTime(new Date()),
@@ -26,7 +25,7 @@ export const slice = createSlice({
     drawOpen: true,
     autoSave: {
       open: true,
-      time: 1000
+      time: 1
     }
   },
   reducers: {
@@ -61,25 +60,11 @@ export const slice = createSlice({
     }
   }
 });
-const {initState, addAllTags} = slice.actions;
+export const {initState, addAllTags} = slice.actions;
 export const {closeDrawer, openDraw} = slice.actions;
 export const {setAutoSaveTime, setAutoSaveChecked} = slice.actions;
 export const {changePostFormField, changePostFormError, clearPostFormError} = slice.actions;
 
-
-export const getPost = (postId, setLoading) => dispatch => {
-  api.getPost(null, postId).then(res => {
-    if (res.status === 'success') {
-      const {data} = res;
-      // data.excerpt = BraftEditor.createEditorState(data.excerpt);
-      // data.article = BraftEditor.createEditorState(data.article);
-      dispatch(initState(data));
-      setLoading(false);
-    } else {
-      dispatch(addErrorMessage('请求错误'));
-    }
-  });
-};
 
 export const getAllTags = () => dispatch => {
   api.getAllTags().then(res => {

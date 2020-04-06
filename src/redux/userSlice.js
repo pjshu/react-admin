@@ -15,29 +15,32 @@ export const slice = createSlice({
       errors: {name: '', value: ''}
     },
     register: {
-      initial: {
+      form: {
         username: '',
         nickname: '',
         password: '',
         confirm_password: '',
         email: ''
       },
+      errors: {name: '', value: ''},
       modalOpen: false,
       activeStep: 0
     },
     security: {
-      initial: {
+      form: {
         resetEmailInit: {email: '', code: ''},
         resetPasswordInit: {old_password: '', password: '', confirm_password: ''}
-      }
+      },
+      errors: {name: '', value: ''},
     },
     userInfo: {
-      initial: {
+      form: {
         username: '',
         nickname: '',
         about: null,
         avatar: ''
-      }
+      },
+      errors: {name: '', value: ''},
     },
     resendTime: 0,
     isSendCode: false

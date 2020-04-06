@@ -4,22 +4,26 @@ import Prism from './prism';
 import 'braft-extensions/dist/emoticon.css';
 import useStyles from './preview.style';
 import ReactDOM from 'react-dom';
-
+import {areEqual} from "../../helpers/misc";
 
 const modalRoot = document.getElementById('modal-root');
 
-export const PreviewField = React.memo(({value}) => {
+export const PreviewField = React.memo(function () {
+
+});
+
+const ContextPreviewField = React.memo(({value}) => {
   const classes = useStyles();
   return (<div
       className={`${classes.table} ${classes.post} ${classes.emoji}`}
       dangerouslySetInnerHTML={{__html: value.toHTML()}}
     />
   );
-});
+}, areEqual);
 
 
 function Preview({handleOnClose, value, modalOpen}) {
-  const classes = useStyles();
+  const classes = useStyles(modalOpen);
   React.useEffect(() => {
     if (modalOpen === true) {
       Prism.highlightAll();
@@ -57,4 +61,4 @@ function Preview({handleOnClose, value, modalOpen}) {
   );
 }
 
-export default React.memo(Preview);
+export default React.memo(Preview, areEqual);

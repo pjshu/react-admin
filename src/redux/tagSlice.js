@@ -6,7 +6,7 @@ import {v4 as uuidV4} from 'uuid';
 export const slice = createSlice({
   name: 'tag',
   initialState: {
-    initial: {
+    form: {
       id: -1,
       name: '',
       describe: '',
@@ -45,11 +45,23 @@ export const slice = createSlice({
     closeDialog(state) {
       state.dialogState.open = false;
     },
+    changeTagsFormField(state, action) {
+      const {name, value} = action.payload;
+      state.form[name] = value;
+    },
+    changeTagsFormError(state, action) {
+      const {name, value} = action.payload;
+      state.errors = {name, value};
+    },
+    clearTagsFormError(state) {
+      state.errors = {name: '', value: ''};
+    }
   }
 });
 
 
 export const {initDialog, setTagId, setDialogAsAdd, setDialogAsUpdate, closeDialog, setTagValue} = slice.actions;
+export const {changeTagsFormField, changeTagsFormError, clearTagsFormError} = slice.actions;
 
 
 export const addTag = () => dispatch => {

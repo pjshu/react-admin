@@ -1,52 +1,45 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback} from "react";
 import Post from './Post';
-import {formatTime} from "../../helpers/datetime";
 import {useLocation} from "react-router-dom";
 import Loading from "../../components/Loading";
-import {useDispatch, useSelector} from "react-redux";
-import {getAllTags, getPost, modifyPost, selectPost} from '../../redux/postSlice';
+import {Container, Paper} from "@material-ui/core";
+import useStyles from './post.style';
+import {useSubmitPost, useGetPost, useGetAllTags} from '../../hook';
+
 
 function PostWrapper() {
+  const classes = useStyles();
   const {pathname} = useLocation();
   const path = pathname.split('/');
   const postId = path[path.length - 1];
-  const [loading, setLoading] = useState(true);
-  const {form} = useSelector(selectPost);
-  const dispatch = useDispatch();
+  const onSubmit = useSubmitPost(postId);
+  const loading = useGetPost(postId);
+  useGetAllTags();
 
-  useEffect(() => {
-    dispatch(getPost(postId, setLoading));
-  }, [dispatch, postId]);
-
-  useEffect(() => {
-    // 获取所有标签,用于自动补全
-    dispatch(getAllTags());
-  }, [dispatch]);
-
-  const convert = (data, field) => {
-    try {
-      data[field] = data[field].toRAW();
-    } catch (e) {
-    }
-  };
-
-  const onSubmit = useCallback(() => {
-    const data = {...form};
-    convert(data, 'article');
-    convert(data, 'excerpt');
-    data.create_date = formatTime(data.create_date);
-    dispatch(modifyPost(data, postId));
-  }, [dispatch, postId]);
-
-  const handleOnSave = useCallback((e) => {
+  const handleKeyDown = useCallback((e) => {
     if (e.keyCode === 83 && e.ctrlKey) {
+      e.preventDefault();
       onSubmit();
     }
   }, [onSubmit]);
 
+  // 由于Post 页面最顶层组件需要监听ctrl+s快捷键,用于保存文章
+  // 需要调用onSubmit函数
+  // 但onSubmit函数在表单字段改变时会改变
+  // 传递onSubmit到子组件会引起重新渲染
+  // 所以将 <Container> 提取到这个组件而不是Post组件
   return loading
     ? <Loading/>
-    : <Post {...{postId, onSubmit, handleOnSave}}/>;
+    : (
+      <Container
+        component={Paper}
+        className={classes.root}
+        maxWidth={false}
+        onKeyDown={handleKeyDown}
+      >
+        <Post {...{postId}}/>
+      </Container>
+    );
 }
 
-export default PostWrapper;
+export default React.memo(PostWrapper);

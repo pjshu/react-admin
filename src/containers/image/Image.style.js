@@ -16,5 +16,8 @@ export default makeStyles({
   },
   hidden: {
     display:'none'
+  },
+  autoCenter:{
+    margin: '0 auto'
   }
 });

@@ -1,5 +1,4 @@
-import React, {useCallback, useEffect, useRef} from 'react';
-import {Form, Formik} from "formik";
+import React, {useCallback, useEffect} from 'react';
 import {Button, Grid} from "@material-ui/core";
 import {
   asyncDecSendCodeTime,
@@ -10,16 +9,19 @@ import {
   setIsSendCode
 } from '../../redux/userSlice';
 import {useDispatch, useSelector} from "react-redux";
-import TextFieldWithError from '../../components/TextFieldWithError';
 import {validateResetEmail} from '../../helpers/validate';
 import useStyles from './resetEmail.style';
+import {Field} from "../../components/Form";
+import {areEqual} from "../../helpers/misc";
 
+const ResetEmail = React.memo(function ResetEmail() {
+  const {resendTime, isSendCode} = useSelector(selectSecurity);
+  return <ContextResetEmail {...{resendTime, isSendCode}}/>;
+}, areEqual);
 
-function ResetEmail({email}) {
+function ContextResetEmail({resendTime, isSendCode}) {
   const dispatch = useDispatch();
-  const {initial: {resetEmailInit}, resendTime, isSendCode} = useSelector(selectSecurity);
   const classes = useStyles(isSendCode);
-  const formRef = useRef();
   //TODO 性能优化:每次计时器改变,都会重新渲染
   useEffect(() => {
     if (resendTime > 0) {
@@ -34,77 +36,70 @@ function ResetEmail({email}) {
   const handleSendCode = useCallback(() => {
     dispatch(resetSendCodeTime());
     dispatch(setIsSendCode());
-    const {setFieldValue, values} = formRef.current;
-    if (values.email === email) {
-      setFieldValue('email', '');
-    }
     dispatch(sendRestEmailCode());
-  }, [dispatch, email]);
+    // if (values.email === email) {
+    //   setFieldValue('email', '');
+    // }
+  }, [dispatch]);
 
 
   return (
-    <Formik
-      innerRef={formRef}
-      initialValues={resetEmailInit}
-      onSubmit={onSubmit}
-      validationSchema={validateResetEmail}
-    >
-      <Form>
-        <Grid container direction={"column"} spacing={5}>
-          <Grid item>
-            <TextFieldWithError
-              disabled={!isSendCode}
-              name={'email'}
-              label={'邮箱'}
-              variant="outlined"
-              className={classes.textfield}
-            />
-          </Grid>
-          <Grid item>
-            <Button
-              className={classes.button}
-              disabled={resendTime > 0}
-              variant="contained"
-              color="primary"
-              onClick={handleSendCode}
-            >
-              {
-                ` ${resendTime > 0 ? `重新发送(${resendTime})` : `${isSendCode ? '重新发送' : '修改邮箱'}`}`
-              }
-            </Button>
-          </Grid>
 
-          <Grid
-            direction={'column'}
-            spacing={5}
-            container
-            item
-            className={classes.validateCodeWrapper}
-          >
-            <Grid item>
-              <TextFieldWithError
-                disabled={!isSendCode}
-                name={'code'}
-                label={'验证码'}
-                variant="outlined"
-                className={classes.textfield}
-              />
-            </Grid>
-            <Grid item>
-              <Button
-                className={classes.button}
-                variant="contained"
-                color="primary"
-                type={'submit'}
-              >
-                提交
-              </Button>
-            </Grid>
-          </Grid>
+    <Grid container direction={"column"} spacing={5}>
+      <Grid item>
+        <Field
+          formName={'security'}
+          disabled={!isSendCode}
+          name={'email'}
+          label={'邮箱'}
+          variant="outlined"
+          className={classes.textfield}
+        />
+      </Grid>
+      <Grid item>
+        <Button
+          className={classes.button}
+          disabled={resendTime > 0}
+          variant="contained"
+          color="primary"
+          onClick={handleSendCode}
+        >
+          {
+            ` ${resendTime > 0 ? `重新发送(${resendTime})` : `${isSendCode ? '重新发送' : '修改邮箱'}`}`
+          }
+        </Button>
+      </Grid>
+
+      <Grid
+        direction={'column'}
+        spacing={5}
+        container
+        item
+        className={classes.validateCodeWrapper}
+      >
+        <Grid item>
+          <Field
+            formName={'security'}
+            disabled={!isSendCode}
+            name={'code'}
+            label={'验证码'}
+            variant="outlined"
+            className={classes.textfield}
+          />
         </Grid>
-      </Form>
-    </Formik>
+        <Grid item>
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="primary"
+            type={'submit'}
+          >
+            提交
+          </Button>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 }
 
-export default React.memo(ResetEmail);
+export default ResetEmail;

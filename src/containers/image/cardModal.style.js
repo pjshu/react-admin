@@ -6,7 +6,8 @@ export default makeStyles({
     zIndex: 2,
     left: '55%',
     top: '52%',
-    transform: 'translate(-50%, -50%)'
+    transform: 'translate(-50%, -50%)',
+    display: (modalOpen) => modalOpen ? '' : 'none'
   },
   preButton: {
     zIndex: 2,

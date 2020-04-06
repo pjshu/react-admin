@@ -7,16 +7,34 @@ import {selectImages} from "../../redux/imageSlice";
 import {Links, UseInfo} from "./CardModalItem";
 import useStyles from './cardModal.style';
 import LoadingImg from '../../components/LoadingImg';
+import {areEqual} from "../../helpers/misc";
 
-
-const CardModal = (props) => {
+const CardModal = React.memo(function CardModal({modalOpen, cardId, ...props}) {
   const {images} = useSelector(selectImages);
-  const classes = useStyles();
-  const image = images.filter(item => item.id === props.cardId)[0];
+
+  const image = images.filter(item => item.id === cardId)[0];
   const {count, image: {url}, upload, id, relationship, describe} = image;
-  const {setModalOpen, handleUpdate, handleDelete} = props;
+  return <ContextCardModal {...{modalOpen, upload, id, relationship, describe, count, url, ...props}}/>;
+}, areEqual);
+
+const ContextCardModal = React.memo(function ContextCardModal(props) {
+  const {
+    upload,
+    id,
+    relationship,
+    modalOpen,
+    describe,
+    count,
+    url,
+    setModalOpen,
+    handleUpdate,
+    handleDelete
+  } = props;
+  const classes = useStyles(modalOpen);
+
   const [cacheDescribe, setCacheDescribe] = React.useState(describe);
   const [tabs, setTabs] = React.useState(0);
+
   const handleNextCard = () => {
     props.handleNextCard(id);
   };
@@ -119,6 +137,6 @@ const CardModal = (props) => {
       </Box>
     </div>
   );
-};
+}, areEqual);
 
-export default React.memo(CardModal);
+export default CardModal;

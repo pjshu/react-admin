@@ -1,8 +1,8 @@
 import React from 'react';
 import {Grid} from '@material-ui/core';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
-import TextFieldWithError from '../../components/TextFieldWithError';
-
+import {Field} from "../../components/Form";
+import {areEqual} from "../../helpers/misc";
 
 function InputWithIcon({icon, label, info, name, ...other}) {
   return (
@@ -11,11 +11,12 @@ function InputWithIcon({icon, label, info, name, ...other}) {
         {icon}
       </Grid>
       <Grid item>
-        <TextFieldWithError
+        <Field
+          formName={'userInfo'}
           name={name}
           variant="outlined"
           label={label}
-          {...{...other}}
+          {...other}
         />
       </Grid>
       {
@@ -29,4 +30,4 @@ function InputWithIcon({icon, label, info, name, ...other}) {
   );
 }
 
-export default React.memo(InputWithIcon);
+export default React.memo(InputWithIcon, areEqual);
