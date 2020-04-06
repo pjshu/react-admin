@@ -71,7 +71,7 @@ const Setting = ({onSubmit, uploadFn}) => {
           label={'摘录'}
           formName={'post'}
         />
-        <MemoAutoSave {...{open: autoSave.open, handleAutoSaveChecked}}/>
+        {/*<MemoAutoSave {...{open: autoSave.open, handleAutoSaveChecked}}/>*/}
         {/*<MemoExcerpt {...{handleAutoSaveChange, autoSave}}/>*/}
         <div className={classes.toolbar}>
           <IconButton onClick={handleCloseDrawer}>

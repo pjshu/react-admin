@@ -36,7 +36,7 @@ function PostWrapper() {
     convert(data, 'excerpt');
     data.create_date = formatTime(data.create_date);
     dispatch(modifyPost(data, postId));
-  }, [dispatch, form, postId]);
+  }, [dispatch, postId]);
 
   const handleOnSave = useCallback((e) => {
     if (e.keyCode === 83 && e.ctrlKey) {
