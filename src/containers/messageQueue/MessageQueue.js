@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import Alert from '@material-ui/lab/Alert';
 import {useSelector} from "react-redux";
-import {selectMessage} from "../redux/globalSlice";
+import {selectMessage} from "../../redux/globalSlice";
 import List from '@material-ui/core/List';
 import {Box, Fade, ListItem, Snackbar} from '@material-ui/core';
-import {getTimeStamp} from '../helpers/datetime';
+import {getTimeStamp} from '../../helpers/datetime';
 import useStyles from './messageQueue.style';
 import ReactDOM from 'react-dom';
-import {areEqual} from "../helpers/misc";
+import {areEqual} from "../../helpers/misc";
 
 const messageRoot = document.getElementById('message-root');
 

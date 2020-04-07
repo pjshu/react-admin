@@ -1,17 +1,18 @@
-import React, {useCallback, useEffect, useMemo} from 'react';
-import {Button, Container, Grid} from "@material-ui/core";
+import React from 'react';
+import {Container, Grid} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import {
-  selectRecoveryPassword,
+  selectValidateCode
 } from '../../redux/userSlice';
 import {useSelector} from "react-redux";
 import useStyles from './recoveryPassword.style';
 import {Field} from '../../components/Form';
 import {Timing, HiddenField} from "./Items";
+import {FORM} from "../../redux";
 
 
 const RecoveryPassword = () => {
-  const {isSendCode} = useSelector(selectRecoveryPassword);
+  const {isSendCode} = useSelector(selectValidateCode);
   const classes = useStyles();
 
   return (
@@ -39,7 +40,7 @@ const RecoveryPassword = () => {
               name={'email'}
               label={"邮箱"}
               className={classes.textField}
-              formName={'recoveryPassword'}
+              formName={FORM.recoveryPassword}
             />
             <Timing/>
           </Grid>

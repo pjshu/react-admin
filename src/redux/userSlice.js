@@ -26,10 +26,15 @@ export const slice = createSlice({
       modalOpen: false,
       activeStep: 0
     },
-    security: {
+    resetEmail: {
       form: {
-        resetEmailInit: {email: '', code: ''},
-        resetPasswordInit: {old_password: '', password: '', confirm_password: ''}
+        email: '', code: ''
+      },
+      errors: {name: '', value: ''},
+    },
+    resetPassword: {
+      form: {
+        old_password: '', password: '', confirm_password: ''
       },
       errors: {name: '', value: ''},
     },
@@ -66,7 +71,7 @@ export const slice = createSlice({
       state.register.activeStep -= 1;
     },
     setUserEmail(state, action) {
-      state.security.form.resetEmailInit.email = action.payload;
+      state.resetEmail.form.email = action.payload;
     },
     setUserInfo(state, action) {
       state.userInfo.form = action.payload;
@@ -82,11 +87,11 @@ export const slice = createSlice({
       state[form].form[name] = value;
     },
     changeFormError(state, action) {
-      const {name, value, form} = action.payload;
+      let {name, value, form} = action.payload;
       state[form].errors = {name, value};
     },
     clearFormError(state, action) {
-      const {form} = action.payload;
+      let form = action.payload;
       state[form].errors = {name: '', value: ''};
     }
   },
@@ -239,19 +244,19 @@ export const logout = () => dispatch => {
 
 export const selectLogin = state => state.user.login;
 
-export const selectRecoveryPassword = state => ({
-  ...state.user.recoveryPassword,
-  resendTime: state.user.resendTime,
-  isSendCode: state.user.isSendCode,
-});
+export const selectRecoveryPassword = state => state.user.recoveryPassword;
 
 export const selectRegister = state => state.user.register;
+
 export const selectUserInfo = state => state.user.userInfo;
 
-export const selectSecurity = state => ({
-  ...state.user.security,
+export const selectValidateCode = state => ({
   resendTime: state.user.resendTime,
   isSendCode: state.user.isSendCode,
 });
+
+export const selectResetEmail = state => state.user.resetEmail;
+
+export const selectResetPassword = state => state.user.resetPassword;
 
 export default slice.reducer;

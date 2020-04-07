@@ -6,6 +6,7 @@ import Setting from "./Setting";
 import SpeedSetting from "./SpeedSetting";
 import {useDispatch} from "react-redux";
 import {addPostImg} from '../../redux/postSlice';
+import {FORM} from "../../redux";
 
 function Post({postId}) {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ function Post({postId}) {
           <Field
             name="title"
             label="标题"
-            formName={'post'}
+            formName={FORM.post}
           />
         </Grid>
         <MyEditor

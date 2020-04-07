@@ -2,6 +2,7 @@ import {Grid} from "@material-ui/core";
 import React from "react";
 import useStyles from './registerUser.style';
 import {Field} from "../../components/Form";
+import {FORM} from "../../redux";
 
 function RegisterUser() {
   const classes = useStyles();
@@ -20,7 +21,7 @@ function RegisterUser() {
           ].map(item => (
             <Field
               key={item.name}
-              {...{...item, fullWidth: false, formName: 'register'}}
+              {...{...item, fullWidth: false, formName: FORM.register}}
             />))
         }
       </Grid>
@@ -31,7 +32,7 @@ function RegisterUser() {
             {name: 'password', label: '密码', type: "password",},
             {name: 'confirm_password', label: '确认密码', type: "password"},
           ].map(item => (
-            <Field key={item.name} {...{...item, variant: "outlined", fullWidth: false, formName: 'register'}}/>
+            <Field key={item.name} {...{...item, variant: "outlined", fullWidth: false, formName: FORM.register}}/>
           ))
         }
       </Grid>

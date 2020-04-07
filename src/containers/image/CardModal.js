@@ -6,98 +6,107 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectImages} from "../../redux/imageSlice";
 import {Links, UseInfo} from "./CardModalItem";
 import useStyles from './cardModal.style';
-import LoadingImg from '../../components/LoadingImg';
+import {LoadingImg} from '../../components';
 import {areEqual} from "../../helpers/misc";
 import {addWarningMessage} from "../../redux/globalSlice";
+import {setClickCardId, closeCardModal} from '../../redux/imageSlice';
 
-const CardModal = React.memo(function CardModal({cardId, setCardId, ...props}) {
-  const {images} = useSelector(selectImages);
+const CardModal = React.memo(function CardModal(props) {
+  const {handleUpdate, handleDelete} = props;
+  const {images, clickCardId, cardModalOpen} = useSelector(selectImages);
   const dispatch = useDispatch();
-  const image = images.filter(item => item.id === cardId)[0];
-  const {count, image: {url}, upload, id, relationship, describe} = image;
-
+  //从images数组中获取被点击图片详细信息
+  const image = images.filter(item => item.id === clickCardId)[0];
+  const {count, image: {url}, upload, relationship, describe} = image || {
+    image: {url: ''}
+  };
   const getNextMoveId = React.useCallback((images) => {
     let miss = false;
     for (let item of images) {
-      if (item.id === id) {
+      if (item.id === clickCardId) {
         miss = true;
       } else if (miss === true) {
-        setCardId(item.cardId);
+        dispatch(setClickCardId(item.id));
         break;
       }
     }
-  }, [id, setCardId]);
+  }, [clickCardId, dispatch]);
 
-  const handleNextCard = useCallback((id) => {
+  const handleNextCard = useCallback(() => {
     const lastCardId = images[images.length - 1].id;
-    if (id !== lastCardId) {
-      getNextMoveId(id, images);
+    if (clickCardId !== lastCardId) {
+      getNextMoveId(images);
     } else {
       dispatch(addWarningMessage('已是最后一张'));
     }
-  }, [dispatch, getNextMoveId, images]);
+  }, [clickCardId, dispatch, getNextMoveId, images]);
 
-  const handlePreCard = useCallback((id) => {
+  const handlePreCard = useCallback(() => {
     const firstCardId = images[0].id;
-    if (id !== firstCardId) {
-      getNextMoveId(id, images.slice().reverse());
+    if (clickCardId !== firstCardId) {
+      getNextMoveId(images.slice().reverse());
     } else {
       dispatch(addWarningMessage('已是第一张'));
     }
-  }, [dispatch, getNextMoveId, images]);
+  }, [clickCardId, dispatch, getNextMoveId, images]);
+
+  const handleUploadDesc = useCallback((cacheDescribe) => {
+    handleUpdate(cacheDescribe, upload, clickCardId, url);
+  }, [clickCardId, handleUpdate, upload, url]);
+
+
+  const handleOnClose = useCallback(() => {
+    dispatch(closeCardModal());
+  }, [dispatch]);
+
+  const handleOnDelete = useCallback(() => {
+    handleDelete(upload, clickCardId);
+    dispatch(closeCardModal());
+  }, [clickCardId, dispatch, handleDelete, upload]);
 
   return (
-    <ContextCardModal
-      {...{
-        upload,
-        id,
-        relationship,
-        describe,
-        count,
-        url,
-        handleNextCard,
-        handlePreCard,
-        ...props,
-      }}/>);
+    <>
+      {
+        cardModalOpen ? (
+          <ContextCardModal
+            {...{
+              relationship,
+              describe,
+              count,
+              url,
+              handleNextCard,
+              handlePreCard,
+              handleUploadDesc,
+              handleOnDelete,
+              handleOnClose,
+            }}/>
+        ) : null
+      }
+    </>
+  );
 }, areEqual);
 
 
 const ContextCardModal = React.memo(function ContextCardModal(props) {
   const {
-    upload,
-    id,
     relationship,
     describe,
     count,
     url,
-    setModalOpen,
-    handleUpdate,
-    handleDelete
+    handleNextCard,
+    handlePreCard,
+    handleUploadDesc,
+    handleOnDelete,
+    handleOnClose
   } = props;
   const classes = useStyles();
 
   const [cacheDescribe, setCacheDescribe] = React.useState(describe);
   const [tabs, setTabs] = React.useState(0);
 
-  const handleNextCard = () => {
-    props.handleNextCard(id);
-  };
-  const handlePreCard = () => {
-    props.handlePreCard(id);
-  };
-
-  const handleOnClose = useCallback(() => {
-    setModalOpen(false);
-  }, [setModalOpen]);
-
-  const handleUploadDesc = useCallback(() => {
-    handleUpdate(cacheDescribe, upload, id, url);
-  }, [cacheDescribe, id, handleUpdate, upload, url]);
-
-  const handleOnDelete = useCallback(() => {
-    handleDelete(upload, id);
-    setModalOpen(false);
-  }, [id, handleDelete, setModalOpen, upload]);
+  const handleUpload = useCallback(() => {
+    handleUploadDesc(cacheDescribe);
+  }, [cacheDescribe, handleUploadDesc]);
 
   const handleCacheDescChange = useCallback((e) => {
     setCacheDescribe(e.target.value);
@@ -107,9 +116,10 @@ const ContextCardModal = React.memo(function ContextCardModal(props) {
     setTabs(0);
   }, []);
 
-  const handleToSecondTab = () => {
+  const handleToSecondTab = React.useCallback(() => {
     setTabs(1);
-  };
+  }, []);
+
   return (
     <div className={classes.root}>
       <div
@@ -169,7 +179,7 @@ const ContextCardModal = React.memo(function ContextCardModal(props) {
             [
               {label: '关闭', onClick: handleOnClose},
               {label: '删除', onClick: handleOnDelete},
-              {label: '更新', onClick: handleUploadDesc},
+              {label: '更新', onClick: handleUpload},
             ].map(item => (
               <Button key={item.label} color="primary" onClick={item.onClick}>
                 {item.label}

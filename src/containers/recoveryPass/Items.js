@@ -8,6 +8,7 @@ import {
 } from "../../redux/userSlice";
 import {Grid} from "@material-ui/core";
 import {Field, SubmitBtn} from "../../components/Form";
+import {FORM} from "../../redux";
 
 
 export const HiddenField = React.memo(() => {
@@ -28,7 +29,7 @@ export const HiddenField = React.memo(() => {
           name={'code'}
           label={"邮箱验证码"}
           className={classes.textField}
-          formName={'recoveryPassword'}
+          formName={FORM.recoveryPassword}
         />
         <SubmitBtn formName={'recoveryPassword'} className={classes.button}>
           提交
@@ -39,7 +40,7 @@ export const HiddenField = React.memo(() => {
           name={'password'}
           label={"新密码"}
           className={classes.textField}
-          formName={'recoveryPassword'}
+          formName={FORM.recoveryPassword}
         />
       </Grid>
       <Grid item className={classes.fullWidth}>
@@ -47,7 +48,7 @@ export const HiddenField = React.memo(() => {
           name={'confirm_password'}
           label={"确认密码"}
           className={classes.textField}
-          formName={'recoveryPassword'}
+          formName={FORM.recoveryPassword}
         />
       </Grid>
     </Grid>

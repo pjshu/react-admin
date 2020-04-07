@@ -51,7 +51,7 @@ const Nav = React.memo(function Nav() {
       ...messageMenu,
       open: false
     }));
-  }, [setMessageMenu]);
+  }, []);
 
   const handleClearAll = useCallback(() => {
     dispatch(clearAllMessage());
@@ -75,7 +75,7 @@ const Nav = React.memo(function Nav() {
             edge="start"
             className={classes.menuButton}
           >
-            <MenuIcon setMessageMenu={setMessageMenu}/>
+            <MenuIcon/>
           </IconButton>
           <Typography variant="h6" noWrap>导航</Typography>
           <div
@@ -84,7 +84,7 @@ const Nav = React.memo(function Nav() {
             className={classes.logoutWrapper}>
             <LockOpenIcon/>
           </div>
-          <MessageBox/>
+          <MessageBox setMessageMenu={setMessageMenu}/>
           <MemoMenu {...{handleMenuClose, messageMenu, handleClearAll}}/>
         </Toolbar>
       </AppBar>
@@ -107,7 +107,7 @@ const MessageBox = React.memo(function MessageBox({setMessageMenu}) {
         anchorEl: e.currentTarget
       });
     }
-  }, [message.length]);
+  }, [message.length, setMessageMenu]);
   return <ContextMessageBox messageLength={message.length} handleMenuClick={handleMenuClick}/>;
 }, areEqual);
 

@@ -10,7 +10,8 @@ import {closeDrawer, selectPost, setAutoSaveChecked, setAutoSaveTime} from '../.
 import Switch from '@material-ui/core/Switch';
 import EditorArea from "../../components/editor/EditorArea";
 import {areEqual} from "../../helpers/misc";
-import {useSubmitPost} from "../../hook";
+import {useSubmit} from "../../hook";
+import {FORM} from "../../redux";
 
 
 const Setting = React.memo(function Setting({uploadFn, postId}) {
@@ -43,7 +44,7 @@ const ContextSetting = React.memo(function ContextSetting(props) {
         <Field
           name={'change_date'}
           label="修改日期"
-          formName={'post'}
+          formName={FORM.post}
           variant={'standard'}
           InputProps={{readOnly: true}}
         />
@@ -73,7 +74,7 @@ const ContextAutoSave = React.memo(function ContextAutoSave({autoSave, open, pos
   const timerId = React.useRef();
   const dispatch = useDispatch();
   const classes = useStyles(open);
-  const onSubmit = useSubmitPost(postId);
+  const onSubmit = useSubmit(FORM.post,postId);
 
   const timingUpload = useCallback(() => {
     return setInterval(() => {
@@ -134,7 +135,7 @@ const MemoArticleState = React.memo(() => {
     <FormControl>
       <InputLabel>状态</InputLabel>
       <Field
-        formName={'post'}
+        formName={FORM.post}
         name={'visibility'}
         as={Select}
       >

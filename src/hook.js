@@ -7,23 +7,21 @@ import {getAllTags, initState, modifyPost, selectPost} from "./redux/postSlice";
 import {useDispatch, useSelector} from "react-redux";
 import EditorContext from "./redux/editorState";
 import {addErrorMessage} from "./redux/globalSlice";
-import {validateEmail, validateLogin, validateRecoveryPassword} from "./helpers/validate";
+import {FORM, selects, clearFormErrors, changeFormErrors} from "./redux";
+import {validations} from "./helpers/validate";
 import {
-  changeFormError as _changeFormError,
-  clearFormError as _clearFormError,
   closeModal,
   login,
   modifyUserInfo,
   recoveryPassword,
-  register, resetEmail,
+  register,
   resetSendCodeTime,
-  selectLogin,
-  selectRecoveryPassword,
-  selectRegister, selectSecurity,
-  selectUserInfo,
-  sendRecPassCode
+  sendRecPassCode,
+  resetPassword,
+  resetEmail
 } from "./redux/userSlice";
 import {blog2Base64, toEditorState, toRaw} from "./helpers/misc";
+
 
 export const useAuth = () => {
   const from = useRef(router.ADMIN);
@@ -96,23 +94,6 @@ export const useRefreshToken = () => {
   }, []);
 };
 
-// 用于文章表单提交
-// 由于有多组件需要同时使用,且必须层层传递,表单字段改变会导致该函数改变,引起接受该函数的组件重新渲染
-// 所以提取成hooks
-export const useSubmitPost = (postId) => {
-  const {form} = useSelector(selectPost);
-  const {state: {article, excerpt}} = useContext(EditorContext);
-  const dispatch = useDispatch();
-
-
-  return useCallback(() => {
-    const data = {...form, article, excerpt};
-    toRaw(data, 'article');
-    toRaw(data, 'excerpt');
-    data.create_date = formatTime(data.create_date);
-    dispatch(modifyPost(data, postId));
-  }, [article, dispatch, excerpt, form, postId]);
-};
 
 export const useGetPost = (postId) => {
   const [loading, setLoading] = useState(true);
@@ -143,72 +124,54 @@ export const useGetAllTags = () => {
   }, [dispatch]);
 };
 
-export const useSubmitLogin = () => {
-  const clearFormError = (props) => _clearFormError({...props, form: 'recoveryPassword'});
-  const changeFormError = (props) => _changeFormError({...props, form: 'recoveryPassword'});
-  const {form} = useSelector(selectLogin);
+
+const useSubmitPost = (postId) => {
+  const {state: {article, excerpt}} = useContext(EditorContext);
   const dispatch = useDispatch();
-  return useCallback(() => {
-    validateLogin.validate({
-      ...form
-    }).then((res) => {
-      dispatch(login(res));
-      dispatch(clearFormError());
-    }).catch(({path: name, errors}) => {
-      dispatch(changeFormError({name, value: errors[0]}));
-    });
-  }, [dispatch, form]);
+
+  return useCallback((form) => {
+    const data = {...form, article, excerpt};
+    toRaw(data, 'article');
+    toRaw(data, 'excerpt');
+    data.create_date = formatTime(data.create_date);
+    dispatch(modifyPost(data, postId));
+  }, [article, dispatch, excerpt, postId]);
 };
 
-export const useSubmitRecPass = () => {
-  const clearFormError = (props) => _clearFormError({...props, form: 'recoveryPassword'});
-  const changeFormError = (props) => _changeFormError({...props, form: 'recoveryPassword'});
-  const {form} = useSelector(selectRecoveryPassword);
+const useSubmitLogin = () => {
   const dispatch = useDispatch();
-  return useCallback(() => {
-    validateRecoveryPassword.validate({
-      ...form
-    }).then((values) => {
-      dispatch(clearFormError());
-      dispatch(recoveryPassword(values));
-    }).catch(({path, errors}) => {
-      dispatch(changeFormError({name: path, value: errors[0]}));
-    });
-  }, [dispatch, form]);
+  return useCallback((res) => {
+    dispatch(login(res));
+  }, [dispatch]);
 };
 
-export const useRecPassFormRendCode = () => {
-  const clearFormError = (props) => _clearFormError({...props, form: 'recoveryPassword'});
-  const changeFormError = (props) => _changeFormError({...props, form: 'recoveryPassword'});
-  const {form} = useSelector(selectRecoveryPassword);
+const useSubmitRecPass = () => {
   const dispatch = useDispatch();
-  return useCallback(() => {
-    validateEmail.validate({
-      email: form.email
-    }).then((res) => {
-      dispatch(clearFormError());
-      dispatch(resetSendCodeTime());
-      dispatch(sendRecPassCode(res));
-    }).catch(({path, errors}) => {
-      dispatch(changeFormError({name: path, value: errors[0]}));
-    });
-  }, [dispatch, form.email]);
+  return useCallback((values) => {
+    dispatch(recoveryPassword(values));
+  }, [dispatch]);
 };
 
-export const useSubmitRegister = () => {
-  const {form} = useSelector(selectRegister);
+const useRecPassFormRendCode = () => {
   const dispatch = useDispatch();
-  return useCallback(() => {
+  return useCallback((res) => {
+    dispatch(resetSendCodeTime());
+    dispatch(sendRecPassCode(res));
+  }, [dispatch]);
+};
+
+const useSubmitRegister = () => {
+  const dispatch = useDispatch();
+  return useCallback((res) => {
     dispatch(closeModal());
-    dispatch(register(form));
-  }, [dispatch, form]);
+    dispatch(register(res));
+  }, [dispatch]);
 };
 
-export const useSubmitUserInfo = () => {
+const useSubmitUserInfo = () => {
   const dispatch = useDispatch();
-  const {form} = useSelector(selectUserInfo);
-  return useCallback(async () => {
-    const data = {...form};
+  return useCallback(async (res) => {
+    const data = {...res};
     if (data.about) {
       data.about = data.about.toRAW();
     }
@@ -216,23 +179,51 @@ export const useSubmitUserInfo = () => {
       data.avatar = await blog2Base64(data.avatar);
     }
     dispatch(modifyUserInfo(data));
-  }, [dispatch, form]);
+  }, [dispatch]);
 };
 
-export const useSubmitSecurity = () => {
+const useResetEmail = () => {
   const dispatch = useDispatch();
-  const {form} = useSelector(selectSecurity);
-  return useCallback(() => {
-    dispatch(resetEmail(form));
-  }, [dispatch, form]);
+  return useCallback((res) => {
+    dispatch(resetEmail(res));
+  }, [dispatch]);
 };
 
-export const submitHooks = {
-  'recoveryPassword': useSubmitRecPass,
-  'recoveryPasswordRendCode': useRecPassFormRendCode,
-  'login': useSubmitLogin,
-  'post': useSubmitPost,
-  'register': useSubmitRegister,
-  'userInfo': useSubmitUserInfo,
-  'security': useSubmitSecurity,
+const useResetPassword = () => {
+  const dispatch = useDispatch();
+  return useCallback((res) => {
+    dispatch(resetPassword(res));
+  }, [dispatch]);
+};
+
+const submitHooks = {
+  [FORM.recoveryPassword]: useSubmitRecPass,
+  [FORM.recoveryPasswordRendCode]: useRecPassFormRendCode,
+  [FORM.login]: useSubmitLogin,
+  [FORM.post]: useSubmitPost,
+  [FORM.register]: useSubmitRegister,
+  [FORM.userInfo]: useSubmitUserInfo,
+  [FORM.resetEmail]: useResetEmail,
+  [FORM.resetPassword]: useResetPassword
+};
+
+export const useSubmit = (formName, ...other) => {
+  const schema = validations[formName];
+  const useSubmit = submitHooks[formName];
+  const clearFormError = clearFormErrors[formName];
+  const changeFormError = changeFormErrors[formName];
+  const {form} = useSelector(selects[formName]);
+  const dispatch = useDispatch();
+  const onSubmit = useSubmit();
+  return useCallback(() => {
+    schema.validate({
+      ...form,
+    }).then((res) => {
+      onSubmit(res, ...other);
+      dispatch(clearFormError());
+    }).catch(({path: name, errors}) => {
+      dispatch(changeFormError({name, value: errors[0]}));
+    });
+  }, [changeFormError, clearFormError, dispatch, form, onSubmit, other, schema]);
+
 };

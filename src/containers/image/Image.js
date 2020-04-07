@@ -10,14 +10,10 @@ import {areEqual} from "../../helpers/misc";
 
 function Image(props) {
   const {
-    cardId,
-    modalOpen,
     addNewImage,
     handleUpdate,
     handleUploadAll,
     handleFileUpload,
-    setCardId,
-    setModalOpen,
   } = props;
 
   const dispatch = useDispatch();
@@ -76,16 +72,10 @@ function Image(props) {
         onDragLeave={preventDefault}
         className={classes.imageZone}
       >
-        {
-          modalOpen ? (
-            <CardModal {...{
-              cardId,
-              handleDelete,
-              handleUpdate,
-              setCardId
-            }}/>
-          ) : null
-        }
+        <CardModal {...{
+          handleUpdate,
+          handleDelete,
+        }}/>
         <div>
           <Grid
             className={classes.autoCenter}
@@ -95,13 +85,11 @@ function Image(props) {
             {
               images.map(item => {
                 return (
-                  <Grid key={item.id}>
+                  <Grid key={item.id} item>
                     <Card
                       {...{
                         ...item,
                         handleDelete,
-                        setCardId,
-                        setModalOpen,
                       }}/>
                   </Grid>
                 );
@@ -121,6 +109,6 @@ function Image(props) {
       </Grid>
     </>
   );
-};
+}
 
 export default React.memo(Image, areEqual);

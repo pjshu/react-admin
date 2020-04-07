@@ -3,6 +3,7 @@ import {Grid} from '@material-ui/core';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import {Field} from "../../components/Form";
 import {areEqual} from "../../helpers/misc";
+import {FORM} from "../../redux";
 
 function InputWithIcon({icon, label, info, name, ...other}) {
   return (
@@ -12,7 +13,7 @@ function InputWithIcon({icon, label, info, name, ...other}) {
       </Grid>
       <Grid item>
         <Field
-          formName={'userInfo'}
+          formName={FORM.userInfo}
           name={name}
           variant="outlined"
           label={label}

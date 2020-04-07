@@ -20,6 +20,7 @@ import {validateTag} from "../../helpers/validate";
 import useStyles from './editorDialog.style';
 import {areEqual} from "../../helpers/misc";
 import {Field} from "../../components/Form";
+import {FORM} from "../../redux";
 
 const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, closeDialog}) => {
   const classes = useStyles();
@@ -96,7 +97,7 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
             ].map(({label, name, ...rest}) => (
               <Field
                 key={name}
-                formName={'tags'}
+                formName={FORM.tags}
                 autoFocus
                 margin="dense"
                 label={label}

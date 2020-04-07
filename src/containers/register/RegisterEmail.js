@@ -2,6 +2,7 @@ import React from 'react';
 import {Grid} from "@material-ui/core";
 import useStyles from './registerEmail.style';
 import {Field} from "../../components/Form";
+import {FORM} from "../../redux";
 
 function RegisterEmail() {
   const classes = useStyles();
@@ -9,7 +10,7 @@ function RegisterEmail() {
     <Grid container direction={"column"}>
       <div className={classes.wrapper}>
         <Field
-          formName={'security'}
+          formName={FORM.register}
           variant={"outlined"}
           name={'email'}
           label={'邮箱'}

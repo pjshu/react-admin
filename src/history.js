@@ -19,5 +19,6 @@ const toLogin = () => {
 const toPreView = () => {
   history.push();
 };
+
 export {toAdmin, toPost, toLogin, toPreView};
 export default history;

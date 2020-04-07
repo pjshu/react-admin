@@ -1,4 +1,5 @@
 import {array, number, object, ref, string} from "yup";
+import {FORM} from "../redux";
 //TODO
 const validatePost = object({
   id: number()
@@ -119,4 +120,16 @@ export {
   validateRegister,
   validateTag,
   validateEmail
+};
+
+export const validations = {
+  [FORM.post]: validatePost,
+  [FORM.login]: validateLogin,
+  [FORM.resetPassword]: validateResetPassword,
+  [FORM.userInfo]: validateUserInfo,
+  [FORM.tags]: validateTag,
+  [FORM.register]: validateRegister,
+  [FORM.resetEmail]: validateResetEmail,
+  [FORM.recoveryPasswordRendCode]: validateEmail,
+  [FORM.recoveryPassword]: validateRecoveryPassword
 };

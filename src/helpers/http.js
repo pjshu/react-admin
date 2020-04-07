@@ -94,7 +94,7 @@ export default {
   resetPassword: generateApi('resetPassword', 'patch'),
 
   sendRecPassCode: generateApi('recoveryPassword', 'get'),
-  RecPassword: generateApi('recoveryPassword', 'PUT'),
+  RecPassword: generateApi('recoveryPassword', 'put'),
 
   // 修改邮箱时调用,发送验证码
   sendRestEmailCode: generateApi('email', 'get'),

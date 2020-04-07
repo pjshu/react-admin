@@ -1,6 +1,6 @@
 import Login from './Login';
 import React from 'react';
-import Loading from "../../components/Loading";
+import {Loading} from "../../components";
 import {Redirect} from 'react-router-dom';
 import {useAuth} from "../../hook";
 

@@ -3,21 +3,17 @@ import {Button, Grid} from "@material-ui/core";
 import {
   asyncDecSendCodeTime,
   resetSendCodeTime,
-  selectSecurity,
   sendRestEmailCode,
+  selectValidateCode,
   setIsSendCode
 } from '../../redux/userSlice';
 import {useDispatch, useSelector} from "react-redux";
 import useStyles from './resetEmail.style';
 import {Field, SubmitBtn} from "../../components/Form";
-import {areEqual} from "../../helpers/misc";
+import {FORM} from "../../redux";
 
-const ResetEmail = React.memo(function ResetEmail() {
-  const {resendTime, isSendCode} = useSelector(selectSecurity);
-  return <ContextResetEmail {...{resendTime, isSendCode}}/>;
-}, areEqual);
-
-function ContextResetEmail({resendTime, isSendCode}) {
+function ResetEmail() {
+  const {isSendCode, resendTime} = useSelector(selectValidateCode);
   const dispatch = useDispatch();
   const classes = useStyles(isSendCode);
   //TODO 性能优化:每次计时器改变,都会重新渲染
@@ -41,7 +37,7 @@ function ContextResetEmail({resendTime, isSendCode}) {
     <Grid container direction={"column"} spacing={5}>
       <Grid item>
         <Field
-          formName={'security'}
+          formName={FORM.resetEmail}
           disabled={!isSendCode}
           name={'email'}
           label={'邮箱'}
@@ -72,7 +68,7 @@ function ContextResetEmail({resendTime, isSendCode}) {
       >
         <Grid item>
           <Field
-            formName={'security'}
+            formName={FORM.resetEmail}
             disabled={!isSendCode}
             name={'code'}
             label={'验证码'}
@@ -85,7 +81,7 @@ function ContextResetEmail({resendTime, isSendCode}) {
             className={classes.button}
             variant="contained"
             color="primary"
-            formName={'security'}
+            formName={'resetEmail'}
           >
             提交
           </SubmitBtn>

@@ -2,7 +2,7 @@ import React, {useCallback, useMemo} from 'react';
 import {changeFormField as _changeFormField, selects} from "../redux";
 import {objAreEqual} from '../helpers/misc';
 import {useDispatch, useSelector} from "react-redux";
-import {submitHooks} from "../hook";
+import {useSubmit} from "../hook";
 import {Button, TextField} from "@material-ui/core";
 
 //使用方法与formik类似:
@@ -31,7 +31,6 @@ const areEqual = (pre, next) => {
 const Field = React.memo(function Field(props) {
   const {as, label, name, formName, getValue, children, ...rest} = props;
   const {errors, form} = useSelector(selects[formName]);
-
   const value = useMemo(() => {
     return form[name];
   }, [form, name]);
@@ -86,13 +85,12 @@ const ContextField = React.memo(function ContextField(props) {
 }, areEqual);
 
 const SubmitBtn = React.memo(function SubmitBtn(props) {
-  const {children, handleOnSubmit, formName, hookParam, as, ...rest} = props;
-  const useSubmit = submitHooks[formName];
-  const handleOnClick = useSubmit(hookParam) || handleOnSubmit;
+  const {children, formName, hookParam, as, ...rest} = props;
+  const onSubmit = useSubmit(formName, hookParam);
   if (as) {
     return React.createElement(
       as,
-      {onClick: handleOnClick, ...rest},
+      {onClick: onSubmit, ...rest},
       children
     );
   }
@@ -100,7 +98,7 @@ const SubmitBtn = React.memo(function SubmitBtn(props) {
     <Button
       variant="contained"
       color="primary"
-      onClick={handleOnClick}
+      onClick={onSubmit}
       {...rest}
     >
       {children}

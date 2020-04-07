@@ -1,10 +1,11 @@
 import React, {useCallback} from "react";
 import Post from './Post';
 import {useLocation} from "react-router-dom";
-import Loading from "../../components/Loading";
+import {Loading} from "../../components/";
 import {Container, Paper} from "@material-ui/core";
 import useStyles from './post.style';
-import {useSubmitPost, useGetPost, useGetAllTags} from '../../hook';
+import {useSubmit, useGetPost, useGetAllTags} from '../../hook';
+import {FORM} from "../../redux";
 
 
 function PostWrapper() {
@@ -12,7 +13,7 @@ function PostWrapper() {
   const {pathname} = useLocation();
   const path = pathname.split('/');
   const postId = path[path.length - 1];
-  const onSubmit = useSubmitPost(postId);
+  const onSubmit = useSubmit(FORM.post,postId);
   const loading = useGetPost(postId);
   useGetAllTags();
 

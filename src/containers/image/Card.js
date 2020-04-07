@@ -1,21 +1,22 @@
 import React, {useCallback} from 'react';
-import {Box, Button, Card, CardActionArea, CardActions, CardMedia, Grid} from '@material-ui/core';
+import {Box, Button, Card, CardActionArea, CardActions, CardMedia} from '@material-ui/core';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import useStyles from './card.style';
 import {areEqual} from "../../helpers/misc";
+import {useDispatch} from "react-redux";
+import {setClickCardId, openCardModal} from '../../redux/imageSlice';
 
 const MyCard = (props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
   const {
     image: {url},
     upload,
     id,
     handleDelete,
     uploadImage,
-    setCardId,
-    setModalOpen
   } = props;
-
 
   const handleOnDelete = useCallback(() => {
     handleDelete(upload, id);
@@ -26,9 +27,9 @@ const MyCard = (props) => {
   }, [id, uploadImage, url]);
 
   const handleOnClick = useCallback(() => {
-    setCardId(id);
-    setModalOpen(true);
-  }, [id, setCardId, setModalOpen]);
+    dispatch(setClickCardId(id));
+    dispatch(openCardModal());
+  }, [dispatch, id]);
 
   return (
     <Card component={Box} boxShadow={5} className={classes.root}>

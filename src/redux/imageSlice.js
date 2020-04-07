@@ -6,7 +6,9 @@ import {v4 as uuidV4} from "uuid";
 export const slice = createSlice({
   name: 'images',
   initialState: {
+    clickCardId: -1,
     images: [],
+    cardModalOpen: false,
     pagination: {
       count: 0,
       page: 0,
@@ -46,11 +48,21 @@ export const slice = createSlice({
     setPage(state, action) {
       state.pagination.page = action.payload;
     },
+    setClickCardId(state, action) {
+      state.clickCardId = action.payload;
+    },
+    closeCardModal(state) {
+      state.cardModalOpen = false;
+    },
+    openCardModal(state) {
+      state.cardModalOpen = true;
+    }
   }
 });
 
 export const {deleteImage, setImages, addImages, updateImage} = slice.actions;
 export const {setCount, setPage, test} = slice.actions;
+export const {setClickCardId, closeCardModal, openCardModal} = slice.actions;
 
 export const deleteImageApi = (id_list) => dispatch => {
   const messageId = uuidV4();
@@ -88,7 +100,8 @@ export const uploadImages = (form, id) => dispatch => {
 };
 
 export const uploadImagesDesc = (desc, id) => dispatch => {
-  api.modifyImageInfo(desc, id).then(res => {
+
+  api.modifyImageInfo({describe:desc}, id).then(res => {
     if (res.status === 'success') {
       dispatch(addSuccessMessage('修改描述成功'));
     } else {

@@ -21,7 +21,6 @@ const ConfirmModal = React.memo(() => {
       <h2>确认提交?</h2>
       <SubmitBtn
         formName={'register'}
-        type={'submit'}
         variant="contained"
         color="primary"
       >

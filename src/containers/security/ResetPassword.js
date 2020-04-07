@@ -11,7 +11,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import FormControl from '@material-ui/core/FormControl';
 import {validateResetPassword} from '../../helpers/validate';
 import useStyles from './resetPassword.style';
-import {Field} from "../../components/Form";
+import {Field, SubmitBtn} from "../../components/Form";
+import {FORM} from "../../redux";
 
 // const EyeIcon = React.memo(function EyeIcon({handleClickShowPassword}) {
 //   return (
@@ -62,13 +63,7 @@ import {Field} from "../../components/Form";
 
 function ResetPassword() {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const onSubmit = (values) => {
-    dispatch(resetPassword(values));
-  };
-
   return (
-
     <Grid container direction={"column"} spacing={5}>
       {
         [
@@ -78,7 +73,7 @@ function ResetPassword() {
         ].map(value => (
           <Grid item key={value.name}>
             <Field
-              formName={'security'}
+              formName={FORM.resetPassword}
               className={classes.textfield}
               name={value.name}
               label={value.label}
@@ -87,14 +82,14 @@ function ResetPassword() {
         ))
       }
       <Grid item>
-        <Button
-          type={'submit'}
+        <SubmitBtn
+          formName={'resetPassword'}
           className={classes.passwordField}
           variant="contained"
           color="primary"
         >
           修改密码
-        </Button>
+        </SubmitBtn>
       </Grid>
     </Grid>
   );

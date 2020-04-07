@@ -3,6 +3,7 @@ import useStyles from './login.style';
 import {Link} from 'react-router-dom';
 import router from '../../contants/router';
 import {Field, SubmitBtn, CommonBtn} from "../../components/Form";
+import {FORM} from "../../redux";
 
 function Login() {
   const classes = useStyles();
@@ -18,7 +19,7 @@ function Login() {
                 {name: "password", label: "密码", type: "password"}
               ].map(item => (
                 <div key={item.name} className={classes.spacing}>
-                  <Field formName={'login'} {...item}/>
+                  <Field formName={FORM.login} {...item}/>
                 </div>
               ))
             }

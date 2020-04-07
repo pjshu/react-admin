@@ -11,11 +11,9 @@ const ImageWrapper = React.memo(function ImageWrapper() {
   return <ContextImageWrapper {...{pagination, images}}/>;
 });
 
-
 const ContextImageWrapper = React.memo(function ContextImageWrapper({pagination, images}) {
   // 记录被点击卡片id,用于获取下一张/上一张卡片
-  const [cardId, setCardId] = React.useState(-1);
-  const [modalOpen, setModalOpen] = React.useState(false);
+  //用于获取从image数组中获取卡片详细数据
   const dispatch = useDispatch();
 
   const query = React.useMemo(() => ({
@@ -78,15 +76,10 @@ const ContextImageWrapper = React.memo(function ContextImageWrapper({pagination,
   }, [images, uploadImage]);
 
   return <Image {...{
-    cardId,
-    setCardId,
-    modalOpen,
     addNewImage,
-    uploadImage,
     handleUpdate,
     handleUploadAll,
     handleFileUpload,
-    setModalOpen,
   }}/>;
 }, areEqual);
 
