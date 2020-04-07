@@ -7,7 +7,7 @@ export default makeStyles((theme) => ({
     padding: 10,
     '& > *': {
       width: '100%',
-      marginTop: 40
+      marginTop: 35
     }
   },
   drawerPaper: {
@@ -24,7 +24,7 @@ export default makeStyles((theme) => ({
   toolbar: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
   },

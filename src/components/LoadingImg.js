@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
-
+import {areEqual} from "../helpers/misc";
 
 function LoadingImg({src, alt}) {
   const [loading, setLoading] = React.useState(true);
@@ -19,4 +19,4 @@ function LoadingImg({src, alt}) {
   );
 }
 
-export default React.memo(LoadingImg);
+export default React.memo(LoadingImg, areEqual);

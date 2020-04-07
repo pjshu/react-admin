@@ -1,18 +1,21 @@
 import React, {useCallback} from 'react';
-import {Box, Button, Card, CardActionArea, CardActions, CardMedia} from '@material-ui/core';
+import {Box, Button, Card, CardActionArea, CardActions, CardMedia, Grid} from '@material-ui/core';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import useStyles from './card.style';
+import {areEqual} from "../../helpers/misc";
 
 const MyCard = (props) => {
   const classes = useStyles();
   const {
     image: {url},
     upload,
-    handleOnCardClick,
     id,
     handleDelete,
-    uploadImage
+    uploadImage,
+    setCardId,
+    setModalOpen
   } = props;
+
 
   const handleOnDelete = useCallback(() => {
     handleDelete(upload, id);
@@ -23,8 +26,9 @@ const MyCard = (props) => {
   }, [id, uploadImage, url]);
 
   const handleOnClick = useCallback(() => {
-    handleOnCardClick(id);
-  }, [handleOnCardClick, id]);
+    setCardId(id);
+    setModalOpen(true);
+  }, [id, setCardId, setModalOpen]);
 
   return (
     <Card component={Box} boxShadow={5} className={classes.root}>
@@ -57,4 +61,4 @@ const MyCard = (props) => {
   );
 };
 
-export default React.memo(MyCard);
+export default React.memo(MyCard, areEqual);

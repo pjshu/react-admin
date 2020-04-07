@@ -1,39 +1,11 @@
-import React, {useCallback} from 'react';
-import {Container, Grid} from "@material-ui/core";
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
+import React from 'react';
 import useStyles from './login.style';
 import {Link} from 'react-router-dom';
 import router from '../../contants/router';
-import {
-  login,
-  selectLogin,
-  changeFormError as _changeFormError,
-  clearFormError as _clearFormError
-} from '../../redux/userSlice';
-import {useDispatch, useSelector} from "react-redux";
 import {Field, SubmitBtn, CommonBtn} from "../../components/Form";
-import {validateLogin} from '../../helpers/validate';
-
-const clearFormError = (props) => _clearFormError({...props, form: 'recoveryPassword'});
-const changeFormError = (props) => _changeFormError({...props, form: 'recoveryPassword'});
-
 
 function Login() {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const {form} = useSelector(selectLogin);
-
-  const handleOnSubmit = useCallback(() => {
-    validateLogin.validate({
-      ...form
-    }).then((res) => {
-      dispatch(login(res));
-      dispatch(clearFormError());
-    }).catch(({path: name, errors}) => {
-      dispatch(changeFormError({name, value: errors[0]}));
-    });
-  }, [dispatch, form]);
 
   return (
     <div className={classes.container}>
@@ -58,7 +30,7 @@ function Login() {
               <SubmitBtn
                 variant="outlined"
                 fullWidth={true}
-                handleOnSubmit={handleOnSubmit}
+                formName={'login'}
               >
                 登陆
               </SubmitBtn>
@@ -80,4 +52,4 @@ function Login() {
 }
 
 
-export default Login;
+export default React.memo(Login);

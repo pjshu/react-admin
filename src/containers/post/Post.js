@@ -9,12 +9,13 @@ import {addPostImg} from '../../redux/postSlice';
 
 function Post({postId}) {
   const dispatch = useDispatch();
+
   const uploadFn = useCallback((form, successFn, errorFn) => {
     dispatch(addPostImg(form, postId, successFn, errorFn));
   }, [dispatch, postId]);
 
   const contentStyle = {
-    minHeight: '700px'
+    height: '500px'
   };
 
   return (

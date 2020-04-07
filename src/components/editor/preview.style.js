@@ -5,7 +5,7 @@ import 'braft-editor/dist/output.css';
 export default makeStyles((theme) => ({
   modal: {
     position: 'absolute',
-    zIndex: 4,
+    zIndex: 1202,
     left: '55%',
     top: '50%',
     transform: 'translate(-50%, -45%)',

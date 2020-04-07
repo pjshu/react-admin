@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 
 import {
   Paper,
@@ -27,6 +27,7 @@ import {
   useTable
 } from 'react-table';
 import useStyles from './table.style';
+import {objAreEqual, areEqual} from "../../helpers/misc";
 
 
 const EnhancedTable = (props) => {
@@ -42,10 +43,10 @@ const EnhancedTable = (props) => {
     handleAddRow,
     handleEditor
   } = props;
-  const [rowCount, setRowCount] = React.useState(0);
+  const [rowCount, setRowCount] = useState(0);
 
   const classes = useStyles();
-  const defaultColumn = React.useMemo(
+  const defaultColumn = useMemo(
     () => ({
       minWidth: 30,
       width: 150,
@@ -111,7 +112,7 @@ const EnhancedTable = (props) => {
    *'totalCount':1
    * }
    */
-  const query = React.useMemo(() => ({
+  const query = useMemo(() => ({
     page: pageIndex,
     pageSize: pageSize,
     orderBy: sortBy.map(item => {
@@ -121,7 +122,7 @@ const EnhancedTable = (props) => {
   }), [globalFilter, sortBy, pageIndex, pageSize]);
 
 
-  React.useEffect(() => {
+  useEffect(() => {
     api.query(query).then(res => {
       const {data: {values, total}} = res;
       setData(values);
@@ -130,13 +131,13 @@ const EnhancedTable = (props) => {
   }, [api, query, setData]);
 
 
-  const handleChangePage = React.useCallback((newPage) => {
+  const handleChangePage = useCallback((newPage) => {
     gotoPage(newPage);
   }, [gotoPage]);
 
-  const handleChangeRowsPerPage = React.useCallback(event => {
+  const handleChangeRowsPerPage = useCallback(event => {
     setPageSize(Number(event.target.value));
-  }, []);
+  }, [setPageSize]);
 
   const removeByIndexs = (array, indexs, ids) => {
     return array.filter((item, i) => {
@@ -183,7 +184,7 @@ const EnhancedTable = (props) => {
     setData(newData);
   }, [data, setData]);
 
-  const numSelected = React.useMemo(() => {
+  const numSelected = useMemo(() => {
     return Object.keys(selectedRowIds).length;
   }, [selectedRowIds]);
 
@@ -300,6 +301,12 @@ const MemoPagination = React.memo((props) => {
       ActionsComponent={TablePaginationActions}
     />
   );
-});
+}, areEqual);
 
-export default React.memo(EnhancedTable);
+const tableAreEqual = (pre, next) => {
+  //不对比columns字段
+  const blacklist = ['columns', 'tableName'];
+  return objAreEqual(pre, next, blacklist);
+};
+
+export default React.memo(EnhancedTable, tableAreEqual);

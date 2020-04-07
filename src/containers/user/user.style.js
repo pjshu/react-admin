@@ -3,7 +3,7 @@ import {makeStyles} from "@material-ui/core";
 export default makeStyles((theme) => ({
   root: {
     margin: '10px',
-    minHeight: '100%',
+    minHeight: '90%',
     padding: 30,
     borderRadius: 4
   },

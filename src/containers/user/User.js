@@ -6,10 +6,10 @@ import {Avatar, Button, Grid, Paper, Typography} from "@material-ui/core";
 import useStyles from './user.style';
 import {useDispatch, useSelector} from "react-redux";
 import {modifyUserInfo, selectUserInfo} from "../../redux/userSlice";
-import {validateUserInfo} from '../../helpers/validate';
 import EditorArea from '../../components/editor/EditorArea';
 import {areEqual} from "../../helpers/misc";
 import {changeFormField as _changeFormField} from '../../redux';
+import {SubmitBtn} from "../../components/Form";
 
 const changeFormField = _changeFormField['userInfo'];
 
@@ -22,28 +22,7 @@ const ContextUser = React.memo(function ContextUser({avatar}) {
   const dispatch = useDispatch();
   const classes = useStyles();
   //blob url to base64
-  const base64Avatar = (data) => new Promise((resolve => {
-    fetch(data).then(res => {
-      res.blob().then(res => {
-        const reader = new FileReader();
-        reader.readAsDataURL(res);
-        reader.onloadend = () => {
-          resolve(reader.result);
-        };
-      });
-    });
-  }));
 
-  const onSubmit = useCallback(async (values) => {
-    const data = {...values};
-    if (data.about) {
-      data.about = data.about.toRAW();
-    }
-    if (data.avatar) {
-      data.avatar = await base64Avatar(data.avatar);
-    }
-    dispatch(modifyUserInfo(data));
-  }, [dispatch]);
 
   const handleUploadAvatar = (e) => {
     const file = e.target.files;
@@ -91,17 +70,21 @@ const ContextUser = React.memo(function ContextUser({avatar}) {
             ))
           }
         </Grid>
-        <Grid item>
-          <Button
-            type={"submit"}
-            variant="contained"
-            color="primary">
-            提交
-          </Button>
-        </Grid>
+
         <Grid item container direction={"column"} spacing={5}>
-          <EditorArea field={'about'} label={'用户介绍'} name={'excerpt'}/>
+          <EditorArea field={'about'} label={'用户介绍'} name={'aboutMe'}/>
         </Grid>
+      </Grid>
+
+      <Grid item>
+        <SubmitBtn
+          formName={'userInfo'}
+          type={"submit"}
+          variant="contained"
+          color="primary"
+        >
+          提交
+        </SubmitBtn>
       </Grid>
     </Grid>
   );

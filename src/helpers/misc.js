@@ -1,3 +1,5 @@
+import BraftEditor from "braft-editor";
+
 export async function getImageForm(blobUrl) {
   const form = new FormData();
   const blob = await fetch(blobUrl).then(r => r.blob());
@@ -5,14 +7,43 @@ export async function getImageForm(blobUrl) {
   return form;
 }
 
+//转化BraftState
+export const toRaw = (data, field) => {
+  try {
+    data[field] = data[field].toRAW();
+  } catch (e) {
+
+  }
+};
+
+export const toEditorState = (data) => {
+  return BraftEditor.createEditorState(data);
+};
+export const blog2Base64 = (data) => new Promise((resolve => {
+  fetch(data).then(res => {
+    res.blob().then(res => {
+      const reader = new FileReader();
+      reader.readAsDataURL(res);
+      reader.onloadend = () => {
+        resolve(reader.result);
+      };
+    });
+  });
+}));
+
 // 对象对比函数
 // TODO 优化算法
 // 或者使用immutable
 export const objAreEqual = (prePro, nextPro, blacklist = []) => {
   let isEqual = true;
+  let compare = 0;
   blacklist.push('cacheBusterProp');
   const _objAreEqual = (pre, next) => {
-    console.log('compare');
+    compare += 1;
+    if (compare > 20) {
+      alert(compare);
+      console.log(prePro, compare);
+    }
     if (isEqual === false) {
       return;
     }
@@ -38,7 +69,7 @@ export const objAreEqual = (prePro, nextPro, blacklist = []) => {
       //暂且通过convertOptions属性判断是不是 BraftEditor对象
       if (pre.hasOwnProperty('convertOptions')) {
         if (next.hasOwnProperty('convertOptions')) {
-          isEqual = pre.id === next.id;
+          isEqual = pre === next;
           return;
         }
       }

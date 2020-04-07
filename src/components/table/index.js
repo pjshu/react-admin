@@ -2,8 +2,14 @@ import React, {useCallback, useState} from 'react';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import EnhancedTable from './Table';
+import {objAreEqual} from "../../helpers/misc";
 
-
+const tableAreEqual = (pre, next) => {
+  //不对比columns字段
+  const blacklist = ['columns','tableName'];
+  return objAreEqual(pre, next, blacklist);
+};
+// TODO 添加验证
 const Table = (props) => {
   const {
     renderDialog,
@@ -15,6 +21,9 @@ const Table = (props) => {
     tableName,
   } = props;
   // Column为数组,数组元素为column实例(如./Column),用于添加不需要react-table数据渲染的列
+  //handleAddR用于处理 + 号按钮行为
+  // handleEditor 处理编辑行为
+  // api 包括删除,更新,添加三🛎种api
   const [data, setData] = useState([]);
 
   const updateMyData = useCallback((rowIndex, columnId, value) => {
@@ -52,4 +61,4 @@ const Table = (props) => {
   );
 };
 
-export default React.memo(Table);
+export default React.memo(Table, tableAreEqual);

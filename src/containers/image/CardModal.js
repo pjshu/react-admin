@@ -2,27 +2,71 @@ import React, {useCallback} from "react";
 import {Box, Button, ButtonGroup, Grid, Paper, TextField} from "@material-ui/core";
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {selectImages} from "../../redux/imageSlice";
 import {Links, UseInfo} from "./CardModalItem";
 import useStyles from './cardModal.style';
 import LoadingImg from '../../components/LoadingImg';
 import {areEqual} from "../../helpers/misc";
+import {addWarningMessage} from "../../redux/globalSlice";
 
-const CardModal = React.memo(function CardModal({modalOpen, cardId, ...props}) {
+const CardModal = React.memo(function CardModal({cardId, setCardId, ...props}) {
   const {images} = useSelector(selectImages);
-
+  const dispatch = useDispatch();
   const image = images.filter(item => item.id === cardId)[0];
   const {count, image: {url}, upload, id, relationship, describe} = image;
-  return <ContextCardModal {...{modalOpen, upload, id, relationship, describe, count, url, ...props}}/>;
+
+  const getNextMoveId = React.useCallback((images) => {
+    let miss = false;
+    for (let item of images) {
+      if (item.id === id) {
+        miss = true;
+      } else if (miss === true) {
+        setCardId(item.cardId);
+        break;
+      }
+    }
+  }, [id, setCardId]);
+
+  const handleNextCard = useCallback((id) => {
+    const lastCardId = images[images.length - 1].id;
+    if (id !== lastCardId) {
+      getNextMoveId(id, images);
+    } else {
+      dispatch(addWarningMessage('已是最后一张'));
+    }
+  }, [dispatch, getNextMoveId, images]);
+
+  const handlePreCard = useCallback((id) => {
+    const firstCardId = images[0].id;
+    if (id !== firstCardId) {
+      getNextMoveId(id, images.slice().reverse());
+    } else {
+      dispatch(addWarningMessage('已是第一张'));
+    }
+  }, [dispatch, getNextMoveId, images]);
+
+  return (
+    <ContextCardModal
+      {...{
+        upload,
+        id,
+        relationship,
+        describe,
+        count,
+        url,
+        handleNextCard,
+        handlePreCard,
+        ...props,
+      }}/>);
 }, areEqual);
+
 
 const ContextCardModal = React.memo(function ContextCardModal(props) {
   const {
     upload,
     id,
     relationship,
-    modalOpen,
     describe,
     count,
     url,
@@ -30,7 +74,7 @@ const ContextCardModal = React.memo(function ContextCardModal(props) {
     handleUpdate,
     handleDelete
   } = props;
-  const classes = useStyles(modalOpen);
+  const classes = useStyles();
 
   const [cacheDescribe, setCacheDescribe] = React.useState(describe);
   const [tabs, setTabs] = React.useState(0);

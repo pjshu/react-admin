@@ -8,7 +8,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from "@material-ui/icons/Add";
-import useStyles from './toolbar.style'
+import useStyles from './toolbar.style';
+import {areEqual} from "../../helpers/misc";
 
 const TableToolbar = props => {
   const classes = useStyles();
@@ -70,4 +71,4 @@ const TableToolbar = props => {
   );
 };
 
-export default React.memo(TableToolbar);
+export default React.memo(TableToolbar, areEqual);

@@ -25,14 +25,14 @@ export const slice = createSlice({
       Object.keys(state.initial).forEach(key => {
         state.initial[key] = '';
       });
-      state.initial.count = 0;
-      state.initial.image = {url: ''};
+      state.form.count = 0;
+      state.form.image = {url: ''};
     },
     setTagId(state, action) {
-      state.initial.id = action.payload;
+      state.form.id = action.payload;
     },
     setTagValue(state, action) {
-      state.initial = action.payload;
+      state.form = action.payload;
     },
     setDialogAsAdd(state) {
       state.dialogState.action = 'add';

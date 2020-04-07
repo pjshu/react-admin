@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {closeModal, openModal, selectRegister} from "../../redux/userSlice";
 import useStyles from './modal.style';
 import {createPortal} from 'react-dom';
-
+import {SubmitBtn} from "../../components/Form";
 
 const RootModal = document.getElementById('modal-root');
 
@@ -19,14 +19,14 @@ const ConfirmModal = React.memo(() => {
   return createPortal((
     <div className={classes.modalRoot}>
       <h2>确认提交?</h2>
-      <Button
-        form={'form'}
+      <SubmitBtn
+        formName={'register'}
         type={'submit'}
         variant="contained"
         color="primary"
       >
         确认
-      </Button>
+      </SubmitBtn>
       <Button
         className={classes.cancelBtn}
         type="button"

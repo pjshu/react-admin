@@ -3,7 +3,6 @@ import Image from './Image';
 import {v4 as uuidV4} from "uuid";
 import {addImages, queryImages, selectImages, uploadImages, uploadImagesDesc} from "../../redux/imageSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {addWarningMessage} from "../../redux/globalSlice";
 import {getImageForm} from "../../helpers/misc";
 import {areEqual} from "../../helpers/misc";
 
@@ -14,6 +13,7 @@ const ImageWrapper = React.memo(function ImageWrapper() {
 
 
 const ContextImageWrapper = React.memo(function ContextImageWrapper({pagination, images}) {
+  // 记录被点击卡片id,用于获取下一张/上一张卡片
   const [cardId, setCardId] = React.useState(-1);
   const [modalOpen, setModalOpen] = React.useState(false);
   const dispatch = useDispatch();
@@ -27,36 +27,6 @@ const ContextImageWrapper = React.memo(function ContextImageWrapper({pagination,
   React.useEffect(() => {
     dispatch(queryImages(query));
   }, [dispatch, query]);
-
-  const getNextMoveId = (id, images) => {
-    let miss = false;
-    for (let item of images) {
-      if (item.id === id) {
-        miss = true;
-      } else if (miss === true) {
-        setCardId(item.id);
-        break;
-      }
-    }
-  };
-
-  const handleNextCard = useCallback((id) => {
-    const lastCardId = images[images.length - 1].id;
-    if (id !== lastCardId) {
-      getNextMoveId(id, images);
-    } else {
-      dispatch(addWarningMessage('已是最后一张'));
-    }
-  }, [dispatch, images]);
-
-  const handlePreCard = useCallback((id) => {
-    const firstCardId = images[0].id;
-    if (id !== firstCardId) {
-      getNextMoveId(id, images.slice().reverse());
-    } else {
-      dispatch(addWarningMessage('已是第一张'));
-    }
-  }, [dispatch, images]);
 
   const addNewImage = useCallback((files) => {
     const cacheFiles = [];
@@ -78,17 +48,11 @@ const ContextImageWrapper = React.memo(function ContextImageWrapper({pagination,
     dispatch(addImages(cacheFiles));
   }, [dispatch]);
 
-  const handleOnCardClick = useCallback((id) => {
-    setCardId(id);
-    setModalOpen(true);
-  }, []);
-
   const uploadImage = useCallback((url, id) => {
     getImageForm(url).then(form => {
       dispatch(uploadImages(form, id));
     });
   }, [dispatch]);
-
 
   //修改图片描述
   const handleUpdate = useCallback((describe, upload, id, url) => {
@@ -114,18 +78,16 @@ const ContextImageWrapper = React.memo(function ContextImageWrapper({pagination,
   }, [images, uploadImage]);
 
   return <Image {...{
-    handleOnCardClick,
     cardId,
+    setCardId,
     modalOpen,
     addNewImage,
-    handlePreCard,
-    handleNextCard,
     uploadImage,
     handleUpdate,
     handleUploadAll,
     handleFileUpload,
-    setModalOpen
+    setModalOpen,
   }}/>;
 }, areEqual);
 
-export default React.memo(ImageWrapper);
+export default ImageWrapper;

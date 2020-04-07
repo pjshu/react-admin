@@ -1,13 +1,14 @@
 import React from 'react';
-import BraftEditor from "braft-editor";
+import {toEditorState} from "../helpers/misc";
+
 
 //redux 储存braftjs 数据有问题
 // 于是用这个context储存
 
 export const defaultValue = {
-  article: BraftEditor.createEditorState(null),
-  excerpt: BraftEditor.createEditorState(null),
-  aboutMe: BraftEditor.createEditorState(null),
+  article: toEditorState(null),
+  excerpt: toEditorState(null),
+  aboutMe: toEditorState(null),
 };
 
 

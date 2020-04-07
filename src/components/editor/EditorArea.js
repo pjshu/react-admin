@@ -1,35 +1,27 @@
 import React, {useCallback, useState} from 'react';
 import {Button, Typography} from "@material-ui/core";
 import MyEditor from "../../components/editor/Editor";
-import BraftEditor from "braft-editor";
 import useStyles from './editorArea.style';
 import ReactDOM from 'react-dom';
 import {PreviewField} from './Preview';
-import {Field} from "../Form";
-import {useSelector} from "react-redux";
-import {selects} from '../../redux';
+import {areEqual} from "../../helpers/misc";
 
 
 const modalRoot = document.getElementById('modal-root');
 
-const ModalEditor = React.memo(({name, uploadFn, setModalOpen, formName}) => {
+const ModalEditor = React.memo(({name, uploadFn, setModalOpen}) => {
   const classes = useStyles();
-  const getValue = useCallback((value) => {
-    return value;
-  }, []);
 
   const handleOnClose = useCallback(() => {
     setModalOpen(false);
   }, [setModalOpen]);
+
   return ReactDOM.createPortal((
     <div className={classes.modalRoot}>
-      {/*<Field*/}
-      {/*  name={name}*/}
-      {/*  formName={formName}*/}
-      {/*  as={MyEditor}*/}
-      {/*  uploadFn={uploadFn}*/}
-      {/*  getValue={getValue}*/}
-      {/*/>*/}
+      <MyEditor
+        name={name}
+        uploadFn={uploadFn}
+      />
       <Button
         className={classes.closeBtn}
         color={'primary'}
@@ -39,12 +31,11 @@ const ModalEditor = React.memo(({name, uploadFn, setModalOpen, formName}) => {
       </Button>
     </div>
   ), modalRoot);
-});
+},areEqual);
 
 
-function EditorArea({uploadFn, field, label, formName, name}) {
+function EditorArea({uploadFn, field, label, name}) {
   const [modalOpen, setModalOpen] = useState(false);
-  // const {form} = useSelector(selects[formName]);
   const classes = useStyles();
   const handleOnOpen = () => {
     setModalOpen(true);
@@ -57,15 +48,15 @@ function EditorArea({uploadFn, field, label, formName, name}) {
       <div
         onDoubleClick={handleOnOpen}
         className={classes.textField}>
-        {/*<PreviewField value={BraftEditor.createEditorState(values[field])}/>*/}
+        <PreviewField name={name}/>
       </div>
       {
         modalOpen ?
-          <ModalEditor {...{field, uploadFn, setModalOpen, name, formName}}/> :
+          <ModalEditor {...{field, uploadFn, setModalOpen, name}}/> :
           null
       }
     </div>
   );
 }
 
-export default React.memo(EditorArea);
+export default React.memo(EditorArea, areEqual);

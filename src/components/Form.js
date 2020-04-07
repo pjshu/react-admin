@@ -2,7 +2,7 @@ import React, {useCallback, useMemo} from 'react';
 import {changeFormField as _changeFormField, selects} from "../redux";
 import {objAreEqual} from '../helpers/misc';
 import {useDispatch, useSelector} from "react-redux";
-
+import {submitHooks} from "../hook";
 import {Button, TextField} from "@material-ui/core";
 
 //使用方法与formik类似:
@@ -85,18 +85,28 @@ const ContextField = React.memo(function ContextField(props) {
   );
 }, areEqual);
 
-const SubmitBtn = React.memo(function SubmitBtn({children, handleOnSubmit, ...rest}) {
+const SubmitBtn = React.memo(function SubmitBtn(props) {
+  const {children, handleOnSubmit, formName, hookParam, as, ...rest} = props;
+  const useSubmit = submitHooks[formName];
+  const handleOnClick = useSubmit(hookParam) || handleOnSubmit;
+  if (as) {
+    return React.createElement(
+      as,
+      {onClick: handleOnClick, ...rest},
+      children
+    );
+  }
   return (
     <Button
       variant="contained"
       color="primary"
-      onClick={handleOnSubmit}
+      onClick={handleOnClick}
       {...rest}
     >
       {children}
     </Button>
   );
-});
+}, areEqual);
 
 const CommonBtn = React.memo(function CommonBtn({children, ...props}) {
   return (

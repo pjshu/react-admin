@@ -10,17 +10,14 @@ import {areEqual} from "../../helpers/misc";
 
 function Image(props) {
   const {
-    handleOnCardClick,
     cardId,
     modalOpen,
     addNewImage,
-    handlePreCard,
-    handleNextCard,
-    uploadImage,
     handleUpdate,
     handleUploadAll,
     handleFileUpload,
-    setModalOpen
+    setCardId,
+    setModalOpen,
   } = props;
 
   const dispatch = useDispatch();
@@ -71,23 +68,24 @@ function Image(props) {
         </Button>
       </Grid>
       <Grid
-        component={Paper}
         container
+        component={Paper}
         onDrop={handleDrop}
         onDragOver={preventDefault}
         onDragEnter={preventDefault}
         onDragLeave={preventDefault}
         className={classes.imageZone}
       >
-        <CardModal {...{
-          modalOpen,
-          cardId,
-          setModalOpen,
-          handleDelete,
-          handleUpdate,
-          handleNextCard,
-          handlePreCard
-        }}/>
+        {
+          modalOpen ? (
+            <CardModal {...{
+              cardId,
+              handleDelete,
+              handleUpdate,
+              setCardId
+            }}/>
+          ) : null
+        }
         <div>
           <Grid
             className={classes.autoCenter}
@@ -97,8 +95,14 @@ function Image(props) {
             {
               images.map(item => {
                 return (
-                  <Grid item key={item.id}>
-                    <Card {...{...item, handleDelete, handleOnCardClick, uploadImage, handleUpdate}}/>
+                  <Grid key={item.id}>
+                    <Card
+                      {...{
+                        ...item,
+                        handleDelete,
+                        setCardId,
+                        setModalOpen,
+                      }}/>
                   </Grid>
                 );
               })

@@ -66,10 +66,10 @@ export const slice = createSlice({
       state.register.activeStep -= 1;
     },
     setUserEmail(state, action) {
-      state.security.initial.resetEmailInit.email = action.payload;
+      state.security.form.resetEmailInit.email = action.payload;
     },
     setUserInfo(state, action) {
-      state.userInfo.initial = action.payload;
+      state.userInfo.form = action.payload;
     },
     closeModal(state) {
       state.register.modalOpen = false;
@@ -160,6 +160,7 @@ export const checkRegister = (setLoading) => dispatch => {
     }
   });
 };
+
 export const sendRestEmailCode = () => dispatch => {
   api.sendRestEmailCode().then(res => {
     if (res.status === 'success') {

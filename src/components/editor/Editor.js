@@ -8,17 +8,10 @@ import './prism.css';
 import EditorContext from "../../redux/editorState";
 import {areEqual} from "../../helpers/misc";
 
-function MyEditor({name, ...props}) {
-  const {state, dispatch, action} = useContext(EditorContext);
-  const handleOnChange = useCallback((value) => {
-    dispatch(action[name](value));
-  }, [action, dispatch, name]);
-  return <ContextMyEditor {...{...props, value: state[name], handleOnChange}}/>;
-};
 
 // uploadFn 控制图片上传
 // 不添加uploadFn参数则使用编辑器默认上传功能,将图片转为base64嵌入内容
-const ContextMyEditor = React.memo(function ContextMyEditor({value,uploadFn, handleOnChange, ...props}) {
+const ContextMyEditor = React.memo(function ContextMyEditor({name, value, uploadFn, handleOnChange, ...props}) {
   const [modalOpen, setModalOpen] = useState(false);
   const handleOnOpen = useCallback(() => {
     setModalOpen(true);
@@ -59,7 +52,7 @@ const ContextMyEditor = React.memo(function ContextMyEditor({value,uploadFn, han
   const media = {uploadFn: myUploadFn};
   return (
     <>
-      <Preview {...{modalOpen, handleOnClose, value}}/>
+      <Preview {...{modalOpen, handleOnClose, name}}/>
       <BraftEditor
         media={media}
         value={value}
@@ -70,5 +63,13 @@ const ContextMyEditor = React.memo(function ContextMyEditor({value,uploadFn, han
   );
 }, areEqual);
 
+
+function MyEditor({name, ...props}) {
+  const {state, dispatch, action} = useContext(EditorContext);
+  const handleOnChange = useCallback((value) => {
+    dispatch(action[name](value));
+  }, [action, dispatch, name]);
+  return <ContextMyEditor {...{...props, value: state[name], name, handleOnChange}}/>;
+}
 
 export default React.memo(MyEditor, areEqual);

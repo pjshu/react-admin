@@ -2,16 +2,14 @@ import React, {useCallback, useEffect} from 'react';
 import {Button, Grid} from "@material-ui/core";
 import {
   asyncDecSendCodeTime,
-  resetEmail,
   resetSendCodeTime,
   selectSecurity,
   sendRestEmailCode,
   setIsSendCode
 } from '../../redux/userSlice';
 import {useDispatch, useSelector} from "react-redux";
-import {validateResetEmail} from '../../helpers/validate';
 import useStyles from './resetEmail.style';
-import {Field} from "../../components/Form";
+import {Field, SubmitBtn} from "../../components/Form";
 import {areEqual} from "../../helpers/misc";
 
 const ResetEmail = React.memo(function ResetEmail() {
@@ -29,10 +27,6 @@ function ContextResetEmail({resendTime, isSendCode}) {
     }
   }, [dispatch, resendTime]);
 
-  const onSubmit = useCallback((values) => {
-    dispatch(resetEmail(values));
-  }, [dispatch]);
-
   const handleSendCode = useCallback(() => {
     dispatch(resetSendCodeTime());
     dispatch(setIsSendCode());
@@ -41,7 +35,6 @@ function ContextResetEmail({resendTime, isSendCode}) {
     //   setFieldValue('email', '');
     // }
   }, [dispatch]);
-
 
   return (
 
@@ -88,14 +81,14 @@ function ContextResetEmail({resendTime, isSendCode}) {
           />
         </Grid>
         <Grid item>
-          <Button
+          <SubmitBtn
             className={classes.button}
             variant="contained"
             color="primary"
-            type={'submit'}
+            formName={'security'}
           >
             提交
-          </Button>
+          </SubmitBtn>
         </Grid>
       </Grid>
     </Grid>

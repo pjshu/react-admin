@@ -48,8 +48,8 @@ const ContextSetting = React.memo(function ContextSetting(props) {
           InputProps={{readOnly: true}}
         />
         <EditorArea
+          name={'excerpt'}
           uploadFn={uploadFn}
-          field={'excerpt'}
           label={'摘录'}
           formName={'post'}
         />
