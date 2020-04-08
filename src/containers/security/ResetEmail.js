@@ -81,7 +81,7 @@ function ResetEmail() {
             className={classes.button}
             variant="contained"
             color="primary"
-            formName={'resetEmail'}
+            formName={FORM.resetEmail}
           >
             提交
           </SubmitBtn>

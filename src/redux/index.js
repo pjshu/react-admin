@@ -1,6 +1,6 @@
 import {
   selectLogin,
-  selectRecoveryPassword,
+  selectRecoveryPassword, selectRecoveryPasswordSendCode,
   selectRegister,
   selectResetEmail,
   selectResetPassword,
@@ -17,9 +17,12 @@ import {
   clearFormError as clearUserFormError
 } from './userSlice';
 
+// TODO : 删除重复代码
+// TODO 某些字段为了分开验证,被一分为二,比如security被拆分为resetEmail与resetPassword,重新设计,减少冗余代码
+// 表单名
 export const FORM = {
   recoveryPassword: 'recoveryPassword',
-  recoveryPasswordRendCode: 'recoveryPasswordRendCode',
+  recoveryPasswordSendCode: 'recoveryPasswordSendCode',
   login: 'login',
   register: 'register',
   userInfo: 'userInfo',
@@ -29,8 +32,10 @@ export const FORM = {
   tags: 'tags'
 };
 
+// 所有包含表单的select,统一导出
 export const selects = {
   [FORM.recoveryPassword]: selectRecoveryPassword,
+  [FORM.recoveryPasswordSendCode]: selectRecoveryPasswordSendCode,
   [FORM.login]: selectLogin,
   [FORM.register]: selectRegister,
   [FORM.userInfo]: selectUserInfo,
@@ -40,9 +45,16 @@ export const selects = {
   [FORM.tags]: selectTag
 };
 
+//修改表单字段方法,统一导出
 export const changeFormField = {
   [FORM.recoveryPassword](props) {
     return changeUserFormField({...props, form: FORM.recoveryPassword});
+  },
+  [FORM.recoveryPasswordSendCode](props) {
+    return changeUserFormField({...props, form: FORM.recoveryPasswordSendCode});
+  },
+  [FORM.register](props) {
+    return changeUserFormField({...props, form: FORM.register});
   },
   [FORM.login](props) {
     return changeUserFormField({...props, form: FORM.login});
@@ -63,7 +75,7 @@ export const changeFormField = {
     return changeTagsFormField(props);
   },
 };
-
+// 修改表单错误,统一导出
 export const changeFormErrors = {
   [FORM.recoveryPassword](props) {
     return changeUserFormError({...props, form: FORM.recoveryPassword});
@@ -73,6 +85,12 @@ export const changeFormErrors = {
   },
   [FORM.userInfo](props) {
     return changeUserFormError({...props, form: FORM.userInfo});
+  },
+  [FORM.recoveryPasswordSendCode](props) {
+    return changeUserFormError({...props, form: FORM.recoveryPasswordSendCode});
+  },
+  [FORM.register](props) {
+    return changeUserFormError({...props, form: FORM.register});
   },
   [FORM.resetEmail](props) {
     return changeUserFormError({...props, form: FORM.resetEmail});
@@ -88,12 +106,19 @@ export const changeFormErrors = {
   },
 };
 
+// 清除表单错误,统一导出
 export const clearFormErrors = {
   [FORM.recoveryPassword]() {
     return clearUserFormError(FORM.recoveryPassword);
   },
   [FORM.login]() {
     return clearUserFormError(FORM.login);
+  },
+  [FORM.recoveryPasswordSendCode](props) {
+    return clearUserFormError({...props, form: FORM.recoveryPasswordSendCode});
+  },
+  [FORM.register](props) {
+    return clearUserFormError({...props, form: FORM.register});
   },
   [FORM.userInfo]() {
     return clearUserFormError(FORM.userInfo);
@@ -102,7 +127,7 @@ export const clearFormErrors = {
     return clearUserFormError(FORM.resetEmail);
   },
   [FORM.resetPassword]() {
-    return clearUserFormError( FORM.resetPassword);
+    return clearUserFormError(FORM.resetPassword);
   },
   [FORM.post]() {
     return clearPostFormError();

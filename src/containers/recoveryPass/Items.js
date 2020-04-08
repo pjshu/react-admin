@@ -1,9 +1,8 @@
-import React, {useEffect, useMemo} from "react";
+import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import useStyles from "./recoveryPassword.style";
 import {
   asyncDecSendCodeTime,
-  recoveryPassword,
   selectRecoveryPassword,
 } from "../../redux/userSlice";
 import {Grid} from "@material-ui/core";
@@ -28,10 +27,13 @@ export const HiddenField = React.memo(() => {
         <Field
           name={'code'}
           label={"邮箱验证码"}
-          className={classes.textField}
           formName={FORM.recoveryPassword}
+          className={classes.textField}
         />
-        <SubmitBtn formName={'recoveryPassword'} className={classes.button}>
+        <SubmitBtn
+          formName={FORM.recoveryPassword}
+          className={classes.button}
+        >
           提交
         </SubmitBtn>
       </Grid>
@@ -59,13 +61,7 @@ export const HiddenField = React.memo(() => {
 export const Timing = React.memo(() => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const {resendTime, errors} = useSelector(selectRecoveryPassword);
-
-  // TODO:BUG 什么都不输入直接点击
-  const disabled = useMemo(() => {
-    const value = errors['value'];
-    return value !== '' || resendTime > 0;
-  }, [errors, resendTime]);
+  const {resendTime} = useSelector(selectRecoveryPassword);
 
   useEffect(() => {
     if (resendTime > 0) {
@@ -75,9 +71,9 @@ export const Timing = React.memo(() => {
 
   return (
     <SubmitBtn
-      disabled={disabled}
+      disabled={resendTime > 0}
       className={classes.button}
-      formName={'recoveryPasswordRendCode'}
+      formName={FORM.recoveryPasswordSendCode}
     >
       {
         resendTime > 0 ? `重新发送:${resendTime}` : '发送验证码'

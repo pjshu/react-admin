@@ -83,7 +83,7 @@ function ResetPassword() {
       }
       <Grid item>
         <SubmitBtn
-          formName={'resetPassword'}
+          formName={FORM.resetPassword}
           className={classes.passwordField}
           variant="contained"
           color="primary"

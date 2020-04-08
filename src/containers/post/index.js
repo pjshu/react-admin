@@ -13,7 +13,7 @@ function PostWrapper() {
   const {pathname} = useLocation();
   const path = pathname.split('/');
   const postId = path[path.length - 1];
-  const onSubmit = useSubmit(FORM.post,postId);
+  const onSubmit = useSubmit(FORM.post, postId);
   const loading = useGetPost(postId);
   useGetAllTags();
 

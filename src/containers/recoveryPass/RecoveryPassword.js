@@ -39,8 +39,8 @@ const RecoveryPassword = () => {
             <Field
               name={'email'}
               label={"邮箱"}
+              formName={FORM.recoveryPasswordSendCode}
               className={classes.textField}
-              formName={FORM.recoveryPassword}
             />
             <Timing/>
           </Grid>

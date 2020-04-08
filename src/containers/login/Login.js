@@ -31,7 +31,7 @@ function Login() {
               <SubmitBtn
                 variant="outlined"
                 fullWidth={true}
-                formName={'login'}
+                formName={FORM.login}
               >
                 登陆
               </SubmitBtn>

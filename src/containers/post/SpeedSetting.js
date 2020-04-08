@@ -16,6 +16,7 @@ import {selectPost} from '../../redux/postSlice';
 import {SubmitBtn} from "../../components/Form";
 import {areEqual, toEditorState} from "../../helpers/misc";
 import EditorContext from "../../redux/editorState";
+import {FORM} from "../../redux";
 
 
 const SpeedSetting = React.memo(function SpeedSetting({postId}) {
@@ -109,7 +110,7 @@ const UploadMarkdown = React.memo(({postId}) => {
           color="primary"
           component="span"
           className={classes.uploadBtn}
-          formName={'post'}
+          formName={FORM.post}
           hookParam={postId}
         >
           <InsertDriveFileOutlinedIcon color="action"/>

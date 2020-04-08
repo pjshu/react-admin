@@ -130,6 +130,6 @@ export const validations = {
   [FORM.tags]: validateTag,
   [FORM.register]: validateRegister,
   [FORM.resetEmail]: validateResetEmail,
-  [FORM.recoveryPasswordRendCode]: validateEmail,
+  [FORM.recoveryPasswordSendCode]: validateEmail,
   [FORM.recoveryPassword]: validateRecoveryPassword
 };

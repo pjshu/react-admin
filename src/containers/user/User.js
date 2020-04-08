@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {modifyUserInfo, selectUserInfo} from "../../redux/userSlice";
 import EditorArea from '../../components/editor/EditorArea';
 import {areEqual} from "../../helpers/misc";
-import {changeFormField as _changeFormField} from '../../redux';
+import {changeFormField as _changeFormField, FORM} from '../../redux';
 import {SubmitBtn} from "../../components/Form";
 
 const changeFormField = _changeFormField['userInfo'];
@@ -78,7 +78,7 @@ const ContextUser = React.memo(function ContextUser({avatar}) {
 
       <Grid item>
         <SubmitBtn
-          formName={'userInfo'}
+          formName={FORM.userInfo}
           type={"submit"}
           variant="contained"
           color="primary"

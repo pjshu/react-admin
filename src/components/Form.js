@@ -50,7 +50,9 @@ const Field = React.memo(function Field(props) {
 const ContextField = React.memo(function ContextField(props) {
   const {as, label, name, formName, getValue, children, value, error, ...rest} = props;
   const dispatch = useDispatch();
-  const changeFormField = React.useCallback((props) => _changeFormField[formName](props), [formName]);
+  const changeFormField = useCallback((props) => {
+    return _changeFormField[formName](props);
+  }, [formName]);
 
   const handleFormChange = useCallback((e, other) => {
     let value;

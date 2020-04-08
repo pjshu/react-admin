@@ -40,7 +40,7 @@ const ContextSetting = React.memo(function ContextSetting(props) {
         <div className={classes.placeholder}/>
         <MemoArticleState/>
         <Tags/>
-        <CreateDate formName={'post'}/>
+        <CreateDate formName={FORM.post}/>
         <Field
           name={'change_date'}
           label="修改日期"
@@ -52,7 +52,7 @@ const ContextSetting = React.memo(function ContextSetting(props) {
           name={'excerpt'}
           uploadFn={uploadFn}
           label={'摘录'}
-          formName={'post'}
+          formName={FORM.post}
         />
         <MemoAutoSave {...{postId}}/>
         <div className={classes.toolbar}>

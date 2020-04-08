@@ -3,7 +3,7 @@ import api from './helpers/http';
 import router from "./contants/router";
 import {useLocation} from "react-router-dom";
 import {formatTime} from "./helpers/datetime";
-import {getAllTags, initState, modifyPost, selectPost} from "./redux/postSlice";
+import {getAllTags, initState, modifyPost} from "./redux/postSlice";
 import {useDispatch, useSelector} from "react-redux";
 import EditorContext from "./redux/editorState";
 import {addErrorMessage} from "./redux/globalSlice";
@@ -99,6 +99,7 @@ export const useGetPost = (postId) => {
   const [loading, setLoading] = useState(true);
   const {dispatch: dispatchEditorState, action} = useContext(EditorContext);
   const dispatch = useDispatch();
+
   const getPost = React.useCallback(() => api.getPost(null, postId).then(res => {
     if (res.status === 'success') {
       const {data: {article, excerpt, ...values}} = res;
@@ -110,6 +111,7 @@ export const useGetPost = (postId) => {
       dispatch(addErrorMessage('请求错误'));
     }
   }), [action, dispatch, dispatchEditorState, postId]);
+
   useEffect(() => {
     getPost();
   }, [getPost]);
@@ -125,17 +127,17 @@ export const useGetAllTags = () => {
 };
 
 
-const useSubmitPost = (postId) => {
+const useSubmitPost = () => {
   const {state: {article, excerpt}} = useContext(EditorContext);
   const dispatch = useDispatch();
 
-  return useCallback((form) => {
+  return useCallback((form, postId) => {
     const data = {...form, article, excerpt};
     toRaw(data, 'article');
     toRaw(data, 'excerpt');
     data.create_date = formatTime(data.create_date);
     dispatch(modifyPost(data, postId));
-  }, [article, dispatch, excerpt, postId]);
+  }, [article, dispatch, excerpt]);
 };
 
 const useSubmitLogin = () => {
@@ -196,9 +198,10 @@ const useResetPassword = () => {
   }, [dispatch]);
 };
 
+// 表单提交方法统一导出
 const submitHooks = {
   [FORM.recoveryPassword]: useSubmitRecPass,
-  [FORM.recoveryPasswordRendCode]: useRecPassFormRendCode,
+  [FORM.recoveryPasswordSendCode]: useRecPassFormRendCode,
   [FORM.login]: useSubmitLogin,
   [FORM.post]: useSubmitPost,
   [FORM.register]: useSubmitRegister,
@@ -221,9 +224,9 @@ export const useSubmit = (formName, ...other) => {
     }).then((res) => {
       onSubmit(res, ...other);
       dispatch(clearFormError());
-    }).catch(({path: name, errors}) => {
+    }).catch(({path: name, errors, ...other}) => {
+      console.log(other);
       dispatch(changeFormError({name, value: errors[0]}));
     });
   }, [changeFormError, clearFormError, dispatch, form, onSubmit, other, schema]);
-
 };

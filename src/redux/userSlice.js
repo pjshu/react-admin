@@ -11,7 +11,13 @@ export const slice = createSlice({
       errors: {name: '', value: ''}
     },
     recoveryPassword: {
-      form: {email: '', code: '', password: '', confirm_password: ''},
+      form: {code: '', password: '', confirm_password: ''},
+      errors: {name: '', value: ''}
+    },
+    recoveryPasswordSendCode: {
+      form: {
+        email: '',
+      },
       errors: {name: '', value: ''}
     },
     register: {
@@ -245,6 +251,8 @@ export const logout = () => dispatch => {
 export const selectLogin = state => state.user.login;
 
 export const selectRecoveryPassword = state => state.user.recoveryPassword;
+
+export const selectRecoveryPasswordSendCode = state => state.user.recoveryPasswordSendCode;
 
 export const selectRegister = state => state.user.register;
 
