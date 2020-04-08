@@ -3,11 +3,12 @@ import api from './helpers/http';
 import router from "./contants/router";
 import {useLocation} from "react-router-dom";
 import {formatTime} from "./helpers/datetime";
-import {getAllTags, initState, modifyPost} from "./redux/postSlice";
+import {modifyPost} from "./redux/postSlice";
+import {addTagImg, modifyTag} from "./redux/tagSlice";
 import {useDispatch, useSelector} from "react-redux";
 import EditorContext from "./redux/editorState";
 import {addErrorMessage} from "./redux/globalSlice";
-import {FORM, selects, clearFormErrors, changeFormErrors} from "./redux";
+import {FORM, selectForm, clearFormError, changeFormField, changeFormError} from "./redux/formSlice";
 import {validations} from "./helpers/validate";
 import {
   closeModal,
@@ -97,33 +98,29 @@ export const useRefreshToken = () => {
 
 export const useGetPost = (postId) => {
   const [loading, setLoading] = useState(true);
+  // 由于需要使用useContext,useGetPost不写成非hook形式,所以不放在postSlice.js内
   const {dispatch: dispatchEditorState, action} = useContext(EditorContext);
   const dispatch = useDispatch();
 
-  const getPost = React.useCallback(() => api.getPost(null, postId).then(res => {
-    if (res.status === 'success') {
-      const {data: {article, excerpt, ...values}} = res;
-      dispatch(initState(values));
-      dispatchEditorState(action.article(toEditorState(article)));
-      dispatchEditorState(action.excerpt(toEditorState(excerpt)));
-      setLoading(false);
-    } else {
-      dispatch(addErrorMessage('请求错误'));
-    }
-  }), [action, dispatch, dispatchEditorState, postId]);
+  const getPost = React.useCallback(() => {
+    return api.getPost(null, postId).then(res => {
+      if (res.status === 'success') {
+        const {data: {article, excerpt, ...values}} = res;
+        dispatch(changeFormField({...values, form: FORM.post}));
+        dispatchEditorState(action.article(toEditorState(article)));
+        dispatchEditorState(action.excerpt(toEditorState(excerpt)));
+        setLoading(false);
+      } else {
+        dispatch(addErrorMessage('请求错误'));
+      }
+    });
+  }, [action, dispatch, dispatchEditorState, postId]);
 
   useEffect(() => {
     getPost();
   }, [getPost]);
-  return loading;
-};
 
-export const useGetAllTags = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    // 获取所有标签,用于自动补全
-    dispatch(getAllTags());
-  }, [dispatch]);
+  return loading;
 };
 
 
@@ -149,9 +146,11 @@ const useSubmitLogin = () => {
 
 const useSubmitRecPass = () => {
   const dispatch = useDispatch();
+  const {[FORM.recoveryPasswordSendCode]: {email}} = useSelector(selectForm);
+
   return useCallback((values) => {
-    dispatch(recoveryPassword(values));
-  }, [dispatch]);
+    dispatch(recoveryPassword({...values, email}));
+  }, [dispatch, email]);
 };
 
 const useRecPassFormRendCode = () => {
@@ -198,6 +197,15 @@ const useResetPassword = () => {
   }, [dispatch]);
 };
 
+const useSubmitTagsForm = () => {
+  const dispatch = useDispatch();
+  return useCallback((value, {updateHandler, addMultiple}) => {
+    dispatch(modifyTag(value, updateHandler));
+    dispatch(addTagImg(value, updateHandler));
+    addMultiple();
+  }, [dispatch]);
+};
+
 // 表单提交方法统一导出
 const submitHooks = {
   [FORM.recoveryPassword]: useSubmitRecPass,
@@ -207,15 +215,14 @@ const submitHooks = {
   [FORM.register]: useSubmitRegister,
   [FORM.userInfo]: useSubmitUserInfo,
   [FORM.resetEmail]: useResetEmail,
-  [FORM.resetPassword]: useResetPassword
+  [FORM.resetPassword]: useResetPassword,
+  [FORM.tags]: useSubmitTagsForm
 };
 
 export const useSubmit = (formName, ...other) => {
   const schema = validations[formName];
   const useSubmit = submitHooks[formName];
-  const clearFormError = clearFormErrors[formName];
-  const changeFormError = changeFormErrors[formName];
-  const {form} = useSelector(selects[formName]);
+  const {[formName]: form} = useSelector(selectForm);
   const dispatch = useDispatch();
   const onSubmit = useSubmit();
   return useCallback(() => {
@@ -224,9 +231,11 @@ export const useSubmit = (formName, ...other) => {
     }).then((res) => {
       onSubmit(res, ...other);
       dispatch(clearFormError());
-    }).catch(({path: name, errors, ...other}) => {
-      console.log(other);
-      dispatch(changeFormError({name, value: errors[0]}));
+    }).catch(({path = '', errors = ['']}) => {
+      dispatch(changeFormError({
+        name: path,
+        value: errors[0]
+      }));
     });
-  }, [changeFormError, clearFormError, dispatch, form, onSubmit, other, schema]);
+  }, [dispatch, form, onSubmit, other, schema]);
 };

@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo} from 'react';
-import {changeFormField as _changeFormField, selects} from "../redux";
+import {changeFormField, selectForm} from "../redux/formSlice";
 import {objAreEqual} from '../helpers/misc';
 import {useDispatch, useSelector} from "react-redux";
 import {useSubmit} from "../hook";
@@ -10,7 +10,7 @@ import {Button, TextField} from "@material-ui/core";
 //Field 组件
 // as, name属性与formik相应属性类似(必须添加)
 // label属性用于添加TextField 标签,如果重置as属性则无需添加
-// formName属性指定表单名,用于从redux/index.js selects 获取相应selects(必须添加
+// formName属性指定表单名,用于从redux/formSlice.js selects 获取相应selects(必须添加
 // 如果相应的redux slice使用了field,
 // 如果Field 某个属性为组件,则必须为该组件添加key或id属性用于数据对比
 // TODO:
@@ -30,7 +30,7 @@ const areEqual = (pre, next) => {
 
 const Field = React.memo(function Field(props) {
   const {as, label, name, formName, getValue, children, ...rest} = props;
-  const {errors, form} = useSelector(selects[formName]);
+  const {errors, [formName]: form} = useSelector(selectForm);
   const value = useMemo(() => {
     return form[name];
   }, [form, name]);
@@ -43,6 +43,7 @@ const Field = React.memo(function Field(props) {
       isError: field === name
     };
   }, [errors, name]);
+
   return <ContextField {...{as, label, name, formName, value, error, getValue, children, ...rest}}/>;
 }, areEqual);
 
@@ -50,9 +51,6 @@ const Field = React.memo(function Field(props) {
 const ContextField = React.memo(function ContextField(props) {
   const {as, label, name, formName, getValue, children, value, error, ...rest} = props;
   const dispatch = useDispatch();
-  const changeFormField = useCallback((props) => {
-    return _changeFormField[formName](props);
-  }, [formName]);
 
   const handleFormChange = useCallback((e, other) => {
     let value;
@@ -61,8 +59,8 @@ const ContextField = React.memo(function ContextField(props) {
     } else {
       value = e.target.value;
     }
-    dispatch(changeFormField({name, value}));
-  }, [changeFormField, dispatch, getValue, name]);
+    dispatch(changeFormField({[name]: value, form: formName}));
+  }, [dispatch, formName, getValue, name]);
 
   if (as) {
     return React.createElement(
@@ -78,7 +76,6 @@ const ContextField = React.memo(function ContextField(props) {
       label={label}
       color="primary"
       fullWidth={true}
-      variant={"outlined"}
       error={error.isError}
       helperText={error.text}
       {...rest}
@@ -98,7 +95,6 @@ const SubmitBtn = React.memo(function SubmitBtn(props) {
   }
   return (
     <Button
-      variant="contained"
       color="primary"
       onClick={onSubmit}
       {...rest}
@@ -108,13 +104,5 @@ const SubmitBtn = React.memo(function SubmitBtn(props) {
   );
 }, areEqual);
 
-const CommonBtn = React.memo(function CommonBtn({children, ...props}) {
-  return (
-    <Button
-      {...props}
-    >
-      {children}
-    </Button>
-  );
-});
-export {Field, SubmitBtn, CommonBtn};
+
+export {Field, SubmitBtn};

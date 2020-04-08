@@ -8,7 +8,7 @@ import {useSelector} from "react-redux";
 import useStyles from './recoveryPassword.style';
 import {Field} from '../../components/Form';
 import {Timing, HiddenField} from "./Items";
-import {FORM} from "../../redux";
+import {FORM} from "../../redux/formSlice";
 
 
 const RecoveryPassword = () => {

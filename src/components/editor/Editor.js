@@ -4,7 +4,7 @@ import Preview from "./Preview";
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/table.css';
 import 'braft-extensions/dist/emoticon.css';
-import './prism.css';
+// import 'braft-extensions/dist/code-highlighter.css'
 import EditorContext from "../../redux/editorState";
 import {areEqual} from "../../helpers/misc";
 

@@ -10,7 +10,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import useStyles from './resetEmail.style';
 import {Field, SubmitBtn} from "../../components/Form";
-import {FORM} from "../../redux";
+import {FORM} from "../../redux/formSlice";
 
 function ResetEmail() {
   const {isSendCode, resendTime} = useSelector(selectValidateCode);
@@ -41,7 +41,6 @@ function ResetEmail() {
           disabled={!isSendCode}
           name={'email'}
           label={'邮箱'}
-          variant="outlined"
           className={classes.textfield}
         />
       </Grid>
@@ -72,7 +71,6 @@ function ResetEmail() {
             disabled={!isSendCode}
             name={'code'}
             label={'验证码'}
-            variant="outlined"
             className={classes.textfield}
           />
         </Grid>

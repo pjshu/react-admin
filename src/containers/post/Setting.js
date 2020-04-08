@@ -11,7 +11,7 @@ import Switch from '@material-ui/core/Switch';
 import EditorArea from "../../components/editor/EditorArea";
 import {areEqual} from "../../helpers/misc";
 import {useSubmit} from "../../hook";
-import {FORM} from "../../redux";
+import {FORM} from "../../redux/formSlice";
 
 
 const Setting = React.memo(function Setting({uploadFn, postId}) {

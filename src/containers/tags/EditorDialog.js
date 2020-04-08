@@ -9,30 +9,33 @@ import {
   DialogContent,
   DialogTitle,
   Switch,
-  TextField,
   Tooltip
 } from '@material-ui/core';
 
-import {useDispatch} from "react-redux";
-import {addTagImg, modifyTag} from '../../redux/tagSlice';
-import {getImageForm} from "../../helpers/misc";
-import {validateTag} from "../../helpers/validate";
+import {useDispatch, useSelector} from "react-redux";
+import {selectTag, closeDialog as _closeDialog} from '../../redux/tagSlice';
 import useStyles from './editorDialog.style';
 import {areEqual} from "../../helpers/misc";
-import {Field} from "../../components/Form";
-import {FORM} from "../../redux";
+import {Field, SubmitBtn} from "../../components/Form";
+import {FORM, selectForm, changeFormField} from "../../redux/formSlice";
 
-const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, closeDialog}) => {
-  const classes = useStyles();
-  const [image, setImage] = React.useState({
-    url: ''
-  });
 
+const EditorDialog = React.memo((props) => {
+  const {[FORM.tags]: {image}} = useSelector(selectForm);
+  const {dialogState} = useSelector(selectTag);
+
+  return <ContextEditorDialog {...{...props, dialogState, image}}/>;
+});
+
+
+const ContextEditorDialog = (props) => {
+  const {updateHandler, dialogState, openDialog, image} = props;
   const dispatch = useDispatch();
-  React.useEffect(() => {
-    let url = dialogInit.image.url;
-    setImage((image) => ({...image, url}));
-  }, [dialogInit.image.url]);
+  const closeDialog = useCallback(() => {
+
+    dispatch(_closeDialog());
+  }, [dispatch]);
+  const classes = useStyles();
 
   const [switchState, setSwitchState] = React.useState({
     addMultiple: false,
@@ -59,26 +62,11 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
       return;
     }
     const url = window.URL.createObjectURL(file[0]);
-    setImage((image) => ({...image, url}));
-  }, []);
-
-  const uploadImage = useCallback((value) => {
-    if (image.url) {
-      getImageForm(image.url).then(res => {
-        dispatch(addTagImg(value, res, updateHandler));
-      });
-    }
-  }, [dispatch, image.url, updateHandler]);
-
+    dispatch(changeFormField({form: FORM.tags, image: {url}}));
+  }, [dispatch]);
   const addMultiple = useCallback(() => {
     switchState.addMultiple ? openDialog() : closeDialog();
   }, [closeDialog, openDialog, switchState.addMultiple]);
-
-  const onSubmit = useCallback((value) => {
-    dispatch(modifyTag(value, image, updateHandler));
-    uploadImage(value);
-    addMultiple();
-  }, [addMultiple, dispatch, image, updateHandler, uploadImage]);
 
   return (
     <div>
@@ -108,17 +96,16 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
               />
             ))
           }
-
           <div className={classes.imgWrapper}>
             <input
               onChange={handleChangeImage}
               accept="image/*"
               type="file"
-              id={"tag"}
+              id={"tag-img"}
               className={classes.hidden}
             />
             <Box boxShadow={4} className={classes.box}>
-              <label htmlFor={"tag"}>
+              <label htmlFor={"tag-img"}>
                 <ButtonBase focusRipple component={'div'}>
                   {
                     image.url ? (
@@ -152,11 +139,18 @@ const EditorDialog = ({updateHandler, dialogInit, dialogState, openDialog, close
           <Button onClick={handleClose} color="primary">
             取消
           </Button>
-          <Button form={'form'} type={'submit'} color="primary">
+          <SubmitBtn
+            formName={FORM.tags}
+            hookParam={{
+              addMultiple,
+              updateHandler
+            }}
+            color="primary"
+          >
             {
               dialogState.action === 'add' ? '添加' : '更新'
             }
-          </Button>
+          </SubmitBtn>
         </DialogActions>
       </Dialog>
     </div>

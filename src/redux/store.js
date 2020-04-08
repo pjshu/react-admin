@@ -4,6 +4,7 @@ import postReducer from './postSlice';
 import tagReducer from './tagSlice';
 import globalReducer from './globalSlice';
 import imagesReducer from './imageSlice';
+import formReducer from './formSlice';
 
 export default configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export default configureStore({
     post: postReducer,
     tag: tagReducer,
     global: globalReducer,
-    images: imagesReducer
+    images: imagesReducer,
+    form: formReducer
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false

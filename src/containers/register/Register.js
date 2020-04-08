@@ -4,7 +4,7 @@ import RegisterUser from './RegisterUser';
 import useStyles from './register.style';
 import RegisterEmail from "./RegisterEmail";
 import Modal from "./Modal";
-import {closeModal, decrementActiveStep, increaseActiveStep, register, selectRegister} from "../../redux/userSlice";
+import {decrementActiveStep, increaseActiveStep, selectRegister} from "../../redux/userSlice";
 import {useDispatch, useSelector} from "react-redux";
 
 

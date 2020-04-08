@@ -2,8 +2,9 @@ import React from 'react';
 import useStyles from './login.style';
 import {Link} from 'react-router-dom';
 import router from '../../contants/router';
-import {Field, SubmitBtn, CommonBtn} from "../../components/Form";
-import {FORM} from "../../redux";
+import {Field, SubmitBtn} from "../../components/Form";
+import {FORM} from "../../redux/formSlice";
+import {Button} from "@material-ui/core";
 
 function Login() {
   const classes = useStyles();
@@ -37,13 +38,13 @@ function Login() {
               </SubmitBtn>
             </div>
             <div>
-              <CommonBtn
+              <Button
                 color="primary"
                 fullWidth={true}
                 component={Link}
                 to={router.RECOVER_PASSWORD}>
                 忘记密码
-              </CommonBtn>
+              </Button>
             </div>
           </div>
         </div>

@@ -1,20 +1,18 @@
-import React, {useCallback} from "react";
+import React from "react";
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import InputWithIcon from './InputWithIcon';
-import {Avatar, Button, Grid, Paper, Typography} from "@material-ui/core";
+import {Avatar, Grid, Paper, Typography} from "@material-ui/core";
 import useStyles from './user.style';
 import {useDispatch, useSelector} from "react-redux";
-import {modifyUserInfo, selectUserInfo} from "../../redux/userSlice";
 import EditorArea from '../../components/editor/EditorArea';
 import {areEqual} from "../../helpers/misc";
-import {changeFormField as _changeFormField, FORM} from '../../redux';
+import {changeFormField, FORM, selectForm} from '../../redux/formSlice';
 import {SubmitBtn} from "../../components/Form";
 
-const changeFormField = _changeFormField['userInfo'];
 
 const User = React.memo(function User() {
-  const {form: {avatar}} = useSelector(selectUserInfo);
+  const {[FORM.userInfo]: {avatar}} = useSelector(selectForm);
   return <ContextUser avatar={avatar}/>;
 }, areEqual);
 
@@ -27,7 +25,7 @@ const ContextUser = React.memo(function ContextUser({avatar}) {
   const handleUploadAvatar = (e) => {
     const file = e.target.files;
     const url = window.URL.createObjectURL(file[0]);
-    dispatch(changeFormField({name: 'avatar', value: url}));
+    dispatch(changeFormField({form: FORM.userInfo, avatar: url}));
   };
 
   return (

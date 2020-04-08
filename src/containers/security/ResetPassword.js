@@ -1,18 +1,18 @@
 import React, {useCallback} from 'react';
 import {Button, FormHelperText, Grid} from "@material-ui/core";
-import {useDispatch, useSelector} from "react-redux";
-import {resetPassword, selectSecurity} from "../../redux/userSlice";
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import FormControl from '@material-ui/core/FormControl';
-import {validateResetPassword} from '../../helpers/validate';
+// import {useDispatch, useSelector} from "react-redux";
+// import {resetPassword, selectSecurity} from "../../redux/userSlice";
+// import OutlinedInput from '@material-ui/core/OutlinedInput';
+// import InputLabel from '@material-ui/core/InputLabel';
+// import InputAdornment from '@material-ui/core/InputAdornment';
+// import IconButton from '@material-ui/core/IconButton';
+// import Visibility from '@material-ui/icons/Visibility';
+// import VisibilityOff from '@material-ui/icons/VisibilityOff';
+// import FormControl from '@material-ui/core/FormControl';
+// import {validateResetPassword} from '../../helpers/validate';
 import useStyles from './resetPassword.style';
 import {Field, SubmitBtn} from "../../components/Form";
-import {FORM} from "../../redux";
+import {FORM} from "../../redux/formSlice";
 
 // const EyeIcon = React.memo(function EyeIcon({handleClickShowPassword}) {
 //   return (

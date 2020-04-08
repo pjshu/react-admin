@@ -4,7 +4,7 @@ import {toEditorState} from "../helpers/misc";
 
 //redux 储存braftjs 数据有问题
 // 于是用这个context储存
-
+//BUG: about(后端) -> aboutMe
 export const defaultValue = {
   article: toEditorState(null),
   excerpt: toEditorState(null),

@@ -5,7 +5,7 @@ import {closeModal, openModal, selectRegister} from "../../redux/userSlice";
 import useStyles from './modal.style';
 import {createPortal} from 'react-dom';
 import {SubmitBtn} from "../../components/Form";
-import {FORM} from "../../redux";
+import {FORM} from "../../redux/formSlice";
 
 const RootModal = document.getElementById('modal-root');
 

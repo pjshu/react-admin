@@ -5,7 +5,12 @@ import useStyles from './loading.style';
 function Loading() {
   const classes = useStyles();
   return (
-    <Grid container className={classes.root} justify={"center"} alignItems={"center"}>
+    <Grid
+      container
+      className={classes.root}
+      justify={"center"}
+      alignItems={"center"}
+    >
       <CircularProgress/>
     </Grid>
   );

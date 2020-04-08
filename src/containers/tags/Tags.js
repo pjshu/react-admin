@@ -4,37 +4,27 @@ import Table from '../../components/table';
 import EditorDialog from './EditorDialog';
 import {
   addTag,
-  closeDialog as _closeDialog,
-  initDialog,
-  selectTag,
   setDialogAsUpdate,
-  setTagValue,
 } from '../../redux/tagSlice';
 import api from '../../helpers/http';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
+import {areEqual} from "../../helpers/misc";
+import {changeFormField, FORM, initTagForm} from "../../redux/formSlice";
 
-const Tags = React.memo(function Tags({columns}) {
-  const {form, dialogState} = useSelector(selectTag);
-  return <ContextTags {...{form, dialogState, columns}}/>;
-});
 
-function ContextTags({form, dialogState, columns}) {
+function Tags({columns}) {
   const dispatch = useDispatch();
 
   // 表格"+" 按钮
   const handleAddRow = useCallback(() => {
-    dispatch(initDialog());
+    dispatch(initTagForm());
     dispatch(addTag());
   }, [dispatch]);
 
   // 表单编辑按钮
   const handleEditor = useCallback(({original}) => {
-    dispatch(setTagValue(original));
+    dispatch(changeFormField({form: FORM.tags, ...original}));
     dispatch(setDialogAsUpdate());
-  }, [dispatch]);
-
-  const closeDialog = useCallback(() => {
-    dispatch(_closeDialog());
   }, [dispatch]);
 
   const _api = React.useMemo(() => ({
@@ -50,9 +40,6 @@ function ContextTags({form, dialogState, columns}) {
         renderDialog={(updateHandler) => (
           <EditorDialog {...{
             updateHandler,
-            dialogInit: form,
-            dialogState,
-            closeDialog,
           }}/>)
         }
         handleAddRow={handleAddRow}
@@ -63,4 +50,4 @@ function ContextTags({form, dialogState, columns}) {
   );
 }
 
-export default React.memo(Tags);
+export default React.memo(Tags, areEqual);

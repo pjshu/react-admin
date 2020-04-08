@@ -6,6 +6,7 @@ import useStyles from './preview.style';
 import ReactDOM from 'react-dom';
 import {areEqual} from "../../helpers/misc";
 import EditorContext from "../../redux/editorState";
+import './prism.css';
 
 
 const modalRoot = document.getElementById('modal-root');

@@ -1,11 +1,13 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import Post from './Post';
 import {useLocation} from "react-router-dom";
 import {Loading} from "../../components/";
 import {Container, Paper} from "@material-ui/core";
 import useStyles from './post.style';
-import {useSubmit, useGetPost, useGetAllTags} from '../../hook';
-import {FORM} from "../../redux";
+import {useSubmit, useGetPost} from '../../hook';
+import {FORM} from "../../redux/formSlice";
+import {useDispatch} from "react-redux";
+import {getAllTags} from "../../redux/postSlice";
 
 
 function PostWrapper() {
@@ -15,7 +17,12 @@ function PostWrapper() {
   const postId = path[path.length - 1];
   const onSubmit = useSubmit(FORM.post, postId);
   const loading = useGetPost(postId);
-  useGetAllTags();
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // 获取所有标签,用于自动补全
+    dispatch(getAllTags());
+  }, [dispatch]);
 
   const handleKeyDown = useCallback((e) => {
     if (e.keyCode === 83 && e.ctrlKey) {
@@ -32,14 +39,12 @@ function PostWrapper() {
   return loading
     ? <Loading/>
     : (
-      <Container
-        component={Paper}
+      <Paper
         className={classes.root}
-        maxWidth={false}
         onKeyDown={handleKeyDown}
       >
         <Post {...{postId}}/>
-      </Container>
+      </Paper>
     );
 }
 

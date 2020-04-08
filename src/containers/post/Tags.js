@@ -1,18 +1,18 @@
 import React, {useCallback} from 'react';
 import {TextField} from '@material-ui/core';
 import Autocomplete from "@material-ui/lab/Autocomplete/";
-import {selectPost} from "../../redux/postSlice";
 import {useSelector} from "react-redux";
 import {Field} from "../../components/Form";
 import {objAreEqual} from "../../helpers/misc";
-import {FORM} from "../../redux";
+import {FORM, selectForm} from "../../redux/formSlice";
+
 
 const areEqual = (pre, next) => {
   return objAreEqual(pre, next);
 };
 
 const Tags = React.memo(() => {
-  const {form: {allTags}} = useSelector(selectPost);
+  const {[FORM.post]: {allTags}} = useSelector(selectForm);
   return <ContextTags allTags={allTags}/>;
 });
 

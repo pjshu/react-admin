@@ -3,7 +3,7 @@ import {Grid} from '@material-ui/core';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import {Field} from "../../components/Form";
 import {areEqual} from "../../helpers/misc";
-import {FORM} from "../../redux";
+import {FORM} from "../../redux/formSlice";
 
 function InputWithIcon({icon, label, info, name, ...other}) {
   return (

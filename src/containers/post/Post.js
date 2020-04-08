@@ -6,7 +6,7 @@ import Setting from "./Setting";
 import SpeedSetting from "./SpeedSetting";
 import {useDispatch} from "react-redux";
 import {addPostImg} from '../../redux/postSlice';
-import {FORM} from "../../redux";
+import {FORM} from "../../redux/formSlice";
 
 function Post({postId}) {
   const dispatch = useDispatch();
@@ -22,13 +22,13 @@ function Post({postId}) {
   return (
     <>
       <div id={'post-form'}>
-        <Grid container alignItems="center">
+        <div>
           <Field
             name="title"
             label="标题"
             formName={FORM.post}
           />
-        </Grid>
+        </div>
         <MyEditor
           name={'article'}
           uploadFn={uploadFn}

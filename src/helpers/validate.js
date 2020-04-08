@@ -1,5 +1,5 @@
 import {array, number, object, ref, string} from "yup";
-import {FORM} from "../redux";
+import {FORM} from "../redux/formSlice";
 //TODO
 const validatePost = object({
   id: number()
@@ -36,10 +36,10 @@ const validateLogin = object({
 });
 
 const validateRecoveryPassword = object({
-  email: string()
-    .email('请输入正确的邮箱格式')
-    .required('请输入邮箱'),
-  // TODO 验证码位数
+  // email: string()
+  //   .email('请输入正确的邮箱格式')
+  //   .required('请输入邮箱'),
+  // // TODO 验证码位数
   code: string()
     .required('请输入验证码'),
   password: string()

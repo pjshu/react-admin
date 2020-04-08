@@ -12,15 +12,14 @@ import marked from '../../config/marked';
 import {useDispatch, useSelector} from "react-redux";
 import {deletePost, openDraw} from '../../redux/postSlice';
 import {addWarningMessage} from '../../redux/globalSlice';
-import {selectPost} from '../../redux/postSlice';
 import {SubmitBtn} from "../../components/Form";
 import {areEqual, toEditorState} from "../../helpers/misc";
 import EditorContext from "../../redux/editorState";
-import {FORM} from "../../redux";
+import {FORM, selectForm} from "../../redux/formSlice";
 
 
 const SpeedSetting = React.memo(function SpeedSetting({postId}) {
-  const {form: {id}} = useSelector(selectPost);
+  const {[FORM.post]: {id}} = useSelector(selectForm);
   return <ContextSpeedSetting id={id} postId={postId}/>;
 }, areEqual);
 

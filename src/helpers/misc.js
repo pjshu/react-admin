@@ -74,7 +74,19 @@ export const objAreEqual = (prePro, nextPro, blacklist = []) => {
         }
       }
     }
-    if (pre instanceof Object && next instanceof Object) {
+    // [] instanceof Object true
+    if (pre instanceof Array && next instanceof Array) {
+      if (pre.length !== next.length) {
+        isEqual = false;
+        return;
+      }
+      for (let index in pre) {
+        if (isEqual === false) {
+          break;
+        }
+        _objAreEqual(pre[index], next[index]);
+      }
+    } else if (pre instanceof Object && next instanceof Object) {
       if (pre instanceof Function) {
         isEqual = (pre === next);
         return;
@@ -96,13 +108,6 @@ export const objAreEqual = (prePro, nextPro, blacklist = []) => {
       } else {
         isEqual = false;
       }
-    } else if (pre instanceof Array && next instanceof Array) {
-      for (let index in pre) {
-        if (isEqual === false) {
-          break;
-        }
-        _objAreEqual(pre[index], next[index]);
-      }
     } else {
       isEqual = (pre === next);
     }
@@ -112,5 +117,8 @@ export const objAreEqual = (prePro, nextPro, blacklist = []) => {
 };
 
 export const areEqual = (pre, next) => {
+  if(pre.hasOwnProperty('column')){
+    console.log(pre)
+  }
   return objAreEqual(pre, next);
 };
