@@ -7,15 +7,19 @@ import CodeHighlighter from "braft-extensions/dist/code-highlighter";
 import Emoticon, {defaultEmoticons} from 'braft-extensions/dist/emoticon';
 // 为标题区块(h1-h6)增加随机的id，便于在展示页支持锚点跳转功能
 import HeaderId from 'braft-extensions/dist/header-id';
+
+
 import 'prismjs/components/prism-python.min';
 import 'prismjs/components/prism-jsx.min';
 import 'prismjs/components/prism-bash.min';
 import 'prismjs/components/prism-c.min';
 import 'prismjs/components/prism-nasm.min';
-//https://prismjs.com/#languages-list
+// 添加某种语法高亮时需要从prismjs/components导入相应文件
+// 默认高亮html/css/js
+// 支持的语言高亮https://prismjs.com/#languages-list
 
-
-const codeHighlighterOptions = {
+// 编辑器代码高亮
+export const codeHighlighterOptions = {
   syntaxs: [
     {
       name: 'JavaScript',
@@ -47,6 +51,7 @@ const codeHighlighterOptions = {
   ]
 };
 
+
 // TODO: 自定义表情包 https://github.com/margox/braft-extensions
 const emoticons = defaultEmoticons.map(item => require(`braft-extensions/dist/assets/${item}`));
 
@@ -57,4 +62,5 @@ const emojiOption = {
 };
 
 BraftEditor.use([Table(), Markdown(), CodeHighlighter(codeHighlighterOptions), HeaderId(), Emoticon(emojiOption)]);
+
 export default BraftEditor;

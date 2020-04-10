@@ -5,6 +5,7 @@ import {addImages, queryImages, selectImages, uploadImages, uploadImagesDesc} fr
 import {useDispatch, useSelector} from "react-redux";
 import {getImageForm} from "../../helpers/misc";
 import {areEqual} from "../../helpers/misc";
+import {max_upload_image_length} from "../../config/security";
 
 const ImageWrapper = React.memo(function ImageWrapper() {
   const {pagination, images} = useSelector(selectImages);
@@ -63,8 +64,7 @@ const ContextImageWrapper = React.memo(function ContextImageWrapper({pagination,
   }, [dispatch, uploadImage]);
 
   const handleFileUpload = useCallback((e) => {
-    //TODO: 最大同时上传三个文件
-    addNewImage(Object.values(e.target.files).slice(-3));
+    addNewImage(Object.values(e.target.files).slice(-max_upload_image_length));
   }, [addNewImage]);
 
   const handleUploadAll = useCallback(() => {

@@ -11,9 +11,6 @@ import {areEqual} from "../../helpers/misc";
 
 const messageRoot = document.getElementById('message-root');
 
-//TODO:
-//BUG:
-
 const Message = React.memo(function Message({msg}) {
   const classes = useStyles();
   const [open, setOpen] = useState(true);

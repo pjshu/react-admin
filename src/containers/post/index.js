@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from "react";
 import Post from './Post';
 import {useLocation} from "react-router-dom";
 import {Loading} from "../../components/";
-import {Container, Paper} from "@material-ui/core";
+import {Paper} from "@material-ui/core";
 import useStyles from './post.style';
 import {useSubmit, useGetPost} from '../../hook';
 import {FORM} from "../../redux/formSlice";

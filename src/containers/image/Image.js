@@ -7,6 +7,8 @@ import {useDispatch, useSelector} from "react-redux";
 import CardModal from "./CardModal";
 import useStyles from './Image.style';
 import {areEqual} from "../../helpers/misc";
+import {max_upload_image_length} from '../../config/security';
+
 
 function Image(props) {
   const {
@@ -27,8 +29,7 @@ function Image(props) {
 
   const handleDrop = useCallback(e => {
     preventDefault(e);
-    //TODO: 最大同时上传三个文件
-    addNewImage(Object.values(e.dataTransfer.files).slice(-3));
+    addNewImage(Object.values(e.dataTransfer.files).slice(-max_upload_image_length));
   }, [addNewImage, preventDefault]);
 
   const onChangePage = useCallback((page) => {

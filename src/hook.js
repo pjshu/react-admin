@@ -22,6 +22,7 @@ import {
   resetEmail
 } from "./redux/userSlice";
 import {blog2Base64, toEditorState, toRaw} from "./helpers/misc";
+import {refresh_token_space} from "./config/security";
 
 
 export const useAuth = () => {
@@ -83,14 +84,13 @@ export const useAuth = () => {
 
 // 定时刷新token
 export const useRefreshToken = () => {
-  // TODO 具体时间写入配置
   const timing = useRef(-1);
   useEffect(() => {
     timing.current = setInterval(() => {
       api.auth().then(res => {
         //TODO
       });
-    }, 30 * 1000);
+    }, refresh_token_space * 1000);
     return clearInterval(timing.current);
   }, []);
 };
@@ -175,6 +175,7 @@ const useSubmitUserInfo = () => {
     const data = {...res};
     if (data.about) {
       data.about = data.about.toRAW();
+      data.about_html = data.about.toHTML();
     }
     if (data.avatar) {
       data.avatar = await blog2Base64(data.avatar);

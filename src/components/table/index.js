@@ -9,7 +9,7 @@ const tableAreEqual = (pre, next) => {
   const blacklist = ['columns','tableName'];
   return objAreEqual(pre, next, blacklist);
 };
-// TODO 添加验证
+
 const Table = (props) => {
   const {
     renderDialog,

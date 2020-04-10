@@ -7,7 +7,7 @@ import {toEditorState} from "../helpers/misc";
 //BUG: about(后端) -> aboutMe
 export const defaultValue = {
   article: toEditorState(null),
-  excerpt: toEditorState(null),
+  // excerpt: toEditorState(null),
   aboutMe: toEditorState(null),
 };
 

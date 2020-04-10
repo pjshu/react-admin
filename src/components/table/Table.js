@@ -170,19 +170,21 @@ const EnhancedTable = (props) => {
 
   const updateHandler = useCallback((value) => {
     let isNewData = true;
-    const newData = data.map(item => {
-      if (item.id === value.id) {
-        isNewData = false;
+    setData(old => {
+      const newData = old.map(item => {
+        if (item.id === value.id) {
+          isNewData = false;
+          return value;
+        }
+        return item;
+      });
+      if (isNewData) {
+        newData.push(value);
         setRowCount((rowCount) => rowCount + 1);
-        return value;
       }
-      return item;
+      return newData;
     });
-    if (isNewData) {
-      newData.push(value);
-    }
-    setData(newData);
-  }, [data, setData]);
+  }, [setData]);
 
   const numSelected = useMemo(() => {
     return Object.keys(selectedRowIds).length;

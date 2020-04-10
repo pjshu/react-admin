@@ -25,7 +25,7 @@ export const PreviewField = React.memo(({name}) => {
 
 
 function Preview({handleOnClose, modalOpen, name}) {
-  const classes = useStyles(modalOpen);
+  const classes = useStyles();
 
   React.useEffect(() => {
     if (modalOpen === true) {
@@ -38,24 +38,29 @@ function Preview({handleOnClose, modalOpen, name}) {
   // 2.编辑器光标会出现错乱,且,原因未知
   //  调用 editorRef.current.forceRender()重新,以重置光标位置
   return (
-    ReactDOM.createPortal((
-        <div className={classes.modal}>
-          <div className={classes.paper}>
-            <PreviewField name={name}/>
-            <div>
-              <Button
-                className={classes.closeButton}
-                variant="contained"
-                color="primary"
-                onClick={handleOnClose}>
-                关闭
-              </Button>
-            </div>
-          </div>
-        </div>
-      ),
-      modalRoot
-    )
+    <>
+      {
+        modalOpen ?
+          ReactDOM.createPortal((
+              <div className={classes.modal}>
+                <div className={classes.paper}>
+                  <PreviewField name={name}/>
+                  <div>
+                    <Button
+                      className={classes.closeButton}
+                      variant="contained"
+                      color="primary"
+                      onClick={handleOnClose}>
+                      关闭
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ),
+            modalRoot
+          ) : null
+      }
+    </>
   );
 }
 

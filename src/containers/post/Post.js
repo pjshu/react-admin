@@ -1,5 +1,4 @@
 import React, {useCallback} from "react";
-import {Grid} from "@material-ui/core";
 import {Field} from '../../components/Form';
 import MyEditor from '../../components/editor/Editor';
 import Setting from "./Setting";
@@ -7,6 +6,7 @@ import SpeedSetting from "./SpeedSetting";
 import {useDispatch} from "react-redux";
 import {addPostImg} from '../../redux/postSlice';
 import {FORM} from "../../redux/formSlice";
+
 
 function Post({postId}) {
   const dispatch = useDispatch();

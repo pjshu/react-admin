@@ -1,4 +1,4 @@
-import BraftEditor from './config';
+import BraftEditor from '../../config/editor';
 import React, {useCallback, useState, useContext} from "react";
 import Preview from "./Preview";
 import 'braft-editor/dist/index.css';

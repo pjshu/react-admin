@@ -1,6 +1,6 @@
 import marked from 'marked';
-
-
+// markdown html配置
+// 配置https://github.com/markedjs/marked
 marked.setOptions({
   renderer: new marked.Renderer(),
   gfm: true,

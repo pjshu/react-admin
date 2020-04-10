@@ -9,7 +9,6 @@ export default makeStyles((theme) => ({
     left: '55%',
     top: '50%',
     transform: 'translate(-50%, -45%)',
-    display: (modalOpen) => modalOpen ? '' : 'none'
   },
   paper: {
     width: 800,

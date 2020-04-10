@@ -13,7 +13,6 @@ import {Button, TextField} from "@material-ui/core";
 // formName属性指定表单名,用于从redux/formSlice.js selects 获取相应selects(必须添加
 // 如果相应的redux slice使用了field,
 // 如果Field 某个属性为组件,则必须为该组件添加key或id属性用于数据对比
-// TODO:
 // slice必须添加字段 form{},errors:{}
 // 则该slice必须添加三个action:
 //  changeFormField(state, action) { },

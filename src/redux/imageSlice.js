@@ -101,7 +101,7 @@ export const uploadImages = (form, id) => dispatch => {
 
 export const uploadImagesDesc = (desc, id) => dispatch => {
 
-  api.modifyImageInfo({describe:desc}, id).then(res => {
+  api.modifyImageInfo({describe: desc}, id).then(res => {
     if (res.status === 'success') {
       dispatch(addSuccessMessage('修改描述成功'));
     } else {

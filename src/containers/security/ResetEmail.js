@@ -16,7 +16,7 @@ function ResetEmail() {
   const {isSendCode, resendTime} = useSelector(selectValidateCode);
   const dispatch = useDispatch();
   const classes = useStyles(isSendCode);
-  //TODO 性能优化:每次计时器改变,都会重新渲染
+
   useEffect(() => {
     if (resendTime > 0) {
       dispatch(asyncDecSendCodeTime());

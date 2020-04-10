@@ -10,6 +10,7 @@ export async function getImageForm(blobUrl) {
 //转化BraftState
 export const toRaw = (data, field) => {
   try {
+    data[`${data}_html`] = data[field].toHTML();
     data[field] = data[field].toRAW();
   } catch (e) {
 
@@ -37,12 +38,12 @@ export const blog2Base64 = (data) => new Promise((resolve => {
 export const objAreEqual = (prePro, nextPro, blacklist = []) => {
   let isEqual = true;
   let compare = 0;
-  blacklist.push('cacheBusterProp');
+  blacklist.push('cacheBusterProp', 'as', 'renderInput');
   const _objAreEqual = (pre, next) => {
     compare += 1;
     if (compare > 20) {
       alert(compare);
-      console.log(prePro, compare);
+      console.log(prePro, compare, pre);
     }
     if (isEqual === false) {
       return;
@@ -117,8 +118,8 @@ export const objAreEqual = (prePro, nextPro, blacklist = []) => {
 };
 
 export const areEqual = (pre, next) => {
-  if(pre.hasOwnProperty('column')){
-    console.log(pre)
+  if (pre.hasOwnProperty('column')) {
+    console.log(pre);
   }
   return objAreEqual(pre, next);
 };
