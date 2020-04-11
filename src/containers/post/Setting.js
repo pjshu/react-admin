@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {Drawer, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField,} from '@material-ui/core';
 import {Field} from '../../components/Form';
 import Tags from './Tags';
@@ -10,7 +10,7 @@ import {closeDrawer, selectPost, setAutoSaveChecked, setAutoSaveTime} from '../.
 import Switch from '@material-ui/core/Switch';
 import EditorArea from "../../components/editor/EditorArea";
 import {areEqual} from "../../helpers/misc";
-import {useSubmit} from "../../hook";
+import {useTiming} from "../../hook";
 import {FORM} from "../../redux/formSlice";
 
 
@@ -67,29 +67,16 @@ const ContextSetting = React.memo(function ContextSetting(props) {
 
 const MemoAutoSave = React.memo(function MemoAutoSave({postId}) {
   const {autoSave} = useSelector(selectPost);
-  return <ContextAutoSave {...{autoSave, open: autoSave.open, postId}}/>;
+  useTiming(autoSave, postId);
+  return (
+    <ContextAutoSave {...{autoSave, open: autoSave.open}}/>
+  );
 }, areEqual);
 
-const ContextAutoSave = React.memo(function ContextAutoSave({autoSave, open, postId}) {
-  const timerId = React.useRef();
+const ContextAutoSave = React.memo(function ContextAutoSave({autoSave, open}) {
+
+  const classes = useStyles();
   const dispatch = useDispatch();
-  const classes = useStyles(open);
-  const onSubmit = useSubmit(FORM.post,postId);
-
-  const timingUpload = useCallback(() => {
-    return setInterval(() => {
-      onSubmit();
-    }, autoSave.time * 1000 * 60);
-  }, [autoSave.time, onSubmit]);
-
-  // 计时器
-  useEffect(() => {
-    if (autoSave.open && autoSave.time > 0) {
-      timerId.current = timingUpload();
-    }
-    return () => clearInterval(timerId.current);
-  }, [autoSave.time, autoSave.open, timingUpload]);
-
   const handleAutoSaveChange = useCallback((e) => {
     const time = e.target.value;
     if (time > 0) {
@@ -97,35 +84,47 @@ const ContextAutoSave = React.memo(function ContextAutoSave({autoSave, open, pos
     }
   }, [dispatch]);
 
+  const title = useMemo(() => {
+    return autoSave.time === 0 ? '自动保存已关闭' : `自动保存周期为${autoSave.time}分钟`;
+  }, [autoSave.time]);
+
+  const inputLabelProps = {
+    shrink: true,
+  };
   const handleAutoSaveChecked = useCallback((e) => {
     dispatch(setAutoSaveChecked(e.target.checked));
   }, [dispatch]);
 
   return (
     <>
-      <div>
-        自动保存:
-        <Switch
-          checked={open}
-          onChange={handleAutoSaveChecked}
-          color="primary"
-          name="checkedB"
-          inputProps={{'aria-label': 'primary checkbox'}}
-        />
-      </div>
-      <TextField
-        className={classes.autoSave}
-        title={autoSave.time === 0 ? '自动保存已关闭' : `自动保存周期为${autoSave.time}分钟`}
-        value={autoSave.time}
-        id="outlined-number"
-        label="自动保存周期(分钟)"
-        type="number"
-        InputLabelProps={{
-          shrink: true,
-        }}
-        variant="outlined"
-        onChange={handleAutoSaveChange}
-      />
+      {
+        open ? (
+          <>
+            <div>
+              自动保存:
+              <Switch
+                checked={open}
+                onChange={handleAutoSaveChecked}
+                color="primary"
+                name="checkedB"
+                inputProps={{'aria-label': 'primary checkbox'}}
+              />
+            </div>
+            <TextField
+              className={classes.autoSave}
+              title={title}
+              value={autoSave.time}
+              id="outlined-number"
+              label="自动保存周期(分钟)"
+              type="number"
+              InputLabelProps={inputLabelProps}
+              variant="outlined"
+              onChange={handleAutoSaveChange}
+            />
+          </>
+        ) : null
+      }
+
     </>
   );
 }, areEqual);

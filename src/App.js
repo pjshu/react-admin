@@ -9,6 +9,8 @@ import MessageQueue from './containers/messageQueue/MessageQueue';
 import security from './config/security';
 import ErrorBoundaries from './components/ErrorBoundaries';
 import EditorContext, {defaultValue, reducer, action} from "./redux/editorState";
+import {Provider} from 'react-redux';
+import store from "./redux/store";
 
 
 // sentry sdk 检测报错信息
@@ -26,9 +28,12 @@ const RecoveryPass = lazy(() => import("./containers/recoveryPass/RecoveryPasswo
 const App = React.memo(function App() {
   const [state, dispatch] = useReducer(reducer, defaultValue);
   return (
-    <EditorContext.Provider value={{state, dispatch, action}}>
-      <ContextApp/>
-    </EditorContext.Provider>
+    <Provider store={store}>
+      <EditorContext.Provider value={{state, dispatch, action}}>
+        <ContextApp/>
+      </EditorContext.Provider>
+    </Provider>
+
   );
 });
 
@@ -50,4 +55,5 @@ const ContextApp = React.memo(function ContextApp() {
   );
 });
 
+// export default App
 export default process.env.NODE_ENV === "development" ? hot(module)(App) : App;

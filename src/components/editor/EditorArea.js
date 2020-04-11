@@ -34,7 +34,7 @@ const ModalEditor = React.memo(({name, uploadFn, setModalOpen}) => {
 },areEqual);
 
 
-function EditorArea({uploadFn, field, label, name}) {
+function EditorArea({uploadFn, label, name}) {
   const [modalOpen, setModalOpen] = useState(false);
   const classes = useStyles();
   const handleOnOpen = () => {
@@ -52,7 +52,7 @@ function EditorArea({uploadFn, field, label, name}) {
       </div>
       {
         modalOpen ?
-          <ModalEditor {...{field, uploadFn, setModalOpen, name}}/> :
+          <ModalEditor {...{uploadFn, setModalOpen, name}}/> :
           null
       }
     </div>

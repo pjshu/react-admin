@@ -1,14 +1,13 @@
 import React from 'react';
 import {toEditorState} from "../helpers/misc";
 
-
 //redux 储存braftjs 数据有问题
 // 于是用这个context储存
 //BUG: about(后端) -> aboutMe
 export const defaultValue = {
   article: toEditorState(null),
-  // excerpt: toEditorState(null),
-  aboutMe: toEditorState(null),
+  excerpt: toEditorState(null),
+  about: toEditorState(null),
 };
 
 
@@ -18,15 +17,14 @@ export function reducer(state, action) {
       return {...state, article: action.value};
     case 'changeExcerpt':
       return {...state, excerpt: action.value};
-    case 'changeAboutMe':
-      return {...state, aboutMe: action.value};
+    case 'changeAbout':
+      return {...state, about: action.value};
     default:
       throw new Error();
   }
 }
 
 export const action = {
-  // 这里参数不能改成其他,用于objAreEqual 函数数据对比
   article: (value) => ({
     type: 'changeArticle',
     value
@@ -35,8 +33,8 @@ export const action = {
     type: 'changeExcerpt',
     value
   }),
-  aboutMe: (value) => ({
-    type: 'changeAboutMe',
+  about: (value) => ({
+    type: 'changeAbout',
     value
   }),
 };

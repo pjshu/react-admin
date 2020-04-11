@@ -1,12 +1,10 @@
 import BraftEditor from '../../config/editor';
-import React, {useCallback, useState, useContext} from "react";
+import React, {useCallback, useState, useContext, useMemo} from "react";
 import Preview from "./Preview";
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/table.css';
 import 'braft-extensions/dist/emoticon.css';
-// import 'braft-extensions/dist/code-highlighter.css'
 import EditorContext from "../../redux/editorState";
-import {areEqual} from "../../helpers/misc";
 
 
 // uploadFn 控制图片上传
@@ -42,14 +40,15 @@ const ContextMyEditor = React.memo(function ContextMyEditor({name, value, upload
     uploadFn(form, successFn, errorFn);
   }, [uploadFn]);
 
-  const extendControls = [{
+  const extendControls = useMemo(() => [{
     key: 'preview',
     type: 'button',
     text: '预览',
     onClick: handleOnOpen
-  }];
+  }], [handleOnOpen]);
 
-  const media = {uploadFn: myUploadFn};
+  const media = useMemo(() => ({uploadFn: myUploadFn}), [myUploadFn]);
+
   return (
     <>
       <Preview {...{modalOpen, handleOnClose, name}}/>
@@ -61,15 +60,19 @@ const ContextMyEditor = React.memo(function ContextMyEditor({name, value, upload
       />
     </>
   );
-}, areEqual);
+}, (pre, next) => {
+  return pre.value === next.value;
+});
 
 
 function MyEditor({name, ...props}) {
-  const {state, dispatch, action} = useContext(EditorContext);
+  const {state: {[name]: value}, dispatch, action} = useContext(EditorContext);
   const handleOnChange = useCallback((value) => {
     dispatch(action[name](value));
   }, [action, dispatch, name]);
-  return <ContextMyEditor {...{...props, value: state[name], name, handleOnChange}}/>;
+  return <ContextMyEditor {...{...props, value, name, handleOnChange}}/>;
 }
 
-export default React.memo(MyEditor, areEqual);
+export default React.memo(MyEditor, () => {
+  return false;
+});

@@ -70,7 +70,7 @@ const ContextUser = React.memo(function ContextUser({avatar}) {
         </Grid>
 
         <Grid item container direction={"column"} spacing={5}>
-          <EditorArea field={'about'} label={'用户介绍'} name={'aboutMe'}/>
+          <EditorArea label={'用户介绍'} name={'about'}/>
         </Grid>
       </Grid>
 

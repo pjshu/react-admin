@@ -240,3 +240,23 @@ export const useSubmit = (formName, ...other) => {
     });
   }, [dispatch, form, onSubmit, other, schema]);
 };
+
+
+// 定时提交
+export const useTiming = (autoSave, postId) => {
+  const onSubmit = useSubmit(FORM.post, postId);
+  const timerId = React.useRef();
+  const timingUpload = useCallback(() => {
+    return setInterval(() => {
+      onSubmit();
+    }, autoSave.time * 1000 * 60);
+  }, [autoSave.time, onSubmit]);
+
+  // 计时器
+  useEffect(() => {
+    if (autoSave.open && autoSave.time > 0) {
+      timerId.current = timingUpload();
+    }
+    return () => clearInterval(timerId.current);
+  }, [autoSave.time, autoSave.open, timingUpload]);
+};

@@ -13,7 +13,6 @@ import 'prismjs/components/prism-python.min';
 import 'prismjs/components/prism-jsx.min';
 import 'prismjs/components/prism-bash.min';
 import 'prismjs/components/prism-c.min';
-import 'prismjs/components/prism-nasm.min';
 // 添加某种语法高亮时需要从prismjs/components导入相应文件
 // 默认高亮html/css/js
 // 支持的语言高亮https://prismjs.com/#languages-list
@@ -44,15 +43,12 @@ export const codeHighlighterOptions = {
     }, {
       name: 'C',
       syntax: 'c'
-    }, {
-      name: 'Nasm',
-      syntax: 'nasm'
     }
   ]
 };
 
 
-// TODO: 自定义表情包 https://github.com/margox/braft-extensions
+// // TODO: 自定义表情包 https://github.com/margox/braft-extensions
 const emoticons = defaultEmoticons.map(item => require(`braft-extensions/dist/assets/${item}`));
 
 const emojiOption = {

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback, useEffect, useMemo} from "react";
 import Post from './Post';
 import {useLocation} from "react-router-dom";
 import {Loading} from "../../components/";
@@ -13,8 +13,12 @@ import {getAllTags} from "../../redux/postSlice";
 function PostWrapper() {
   const classes = useStyles();
   const {pathname} = useLocation();
-  const path = pathname.split('/');
-  const postId = path[path.length - 1];
+
+  const postId = useMemo(() => {
+    const path = pathname.split('/');
+    return path[path.length - 1];
+  }, [pathname]);
+
   const onSubmit = useSubmit(FORM.post, postId);
   const loading = useGetPost(postId);
 

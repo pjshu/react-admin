@@ -1,5 +1,7 @@
 import BraftEditor from "braft-editor";
 
+let count = 0;
+
 export async function getImageForm(blobUrl) {
   const form = new FormData();
   const blob = await fetch(blobUrl).then(r => r.blob());
@@ -20,6 +22,7 @@ export const toRaw = (data, field) => {
 export const toEditorState = (data) => {
   return BraftEditor.createEditorState(data);
 };
+
 export const blog2Base64 = (data) => new Promise((resolve => {
   fetch(data).then(res => {
     res.blob().then(res => {
@@ -41,6 +44,8 @@ export const objAreEqual = (prePro, nextPro, blacklist = []) => {
   blacklist.push('cacheBusterProp', 'as', 'renderInput');
   const _objAreEqual = (pre, next) => {
     compare += 1;
+    // count += 1;
+    // console.log(count);
     if (compare > 20) {
       alert(compare);
       console.log(prePro, compare, pre);
