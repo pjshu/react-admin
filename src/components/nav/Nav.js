@@ -28,7 +28,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import Alert from '@material-ui/lab/Alert';
 import {useDispatch, useSelector} from "react-redux";
 import {clearAllMessage, removeMessage, selectMessage} from "../../redux/globalSlice";
-import {logout, useLogout} from '../../redux/userSlice';
+import {logout, useLogoutApi} from '../../redux/userSlice';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import {areEqual} from "../../helpers/misc";
 
@@ -36,7 +36,7 @@ const Nav = React.memo(function Nav() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
-  const logoutApi = useLogout();
+  const logoutApi = useLogoutApi();
   const [messageMenu, setMessageMenu] = React.useState({
     anchorEl: null,
     open: false,

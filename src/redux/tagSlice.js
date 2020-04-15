@@ -1,9 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
 import api from "../helpers/http";
-import {addErrorMessage, addLoadingMessage, addSuccessMessage, setMessageState} from "./globalSlice";
 import {v4 as uuidV4} from 'uuid';
 import {getImageForm} from "../helpers/misc";
 import {initTagForm, changeFormField, FORM} from "./formSlice";
+import {useCallback} from "react";
+import {useGlobalAction} from "./index";
 
 export const slice = createSlice({
   name: 'tag',
@@ -44,38 +45,43 @@ export const addTag = () => dispatch => {
     }
   });
 };
-export const addTagImg = (value, updateHandler) => dispatch => {
-  const upload = (image) => {
+export const useAddTagImgApi = () => {
+  const {addLoadingMessage, setMessageState} = useGlobalAction();
+  const upload = useCallback((image, value, updateHandler) => {
     const messageId = uuidV4();
-    dispatch(addLoadingMessage({id: messageId, message: '图片正在上传'}));
+    addLoadingMessage({id: messageId, message: '图片正在上传'});
     api.addTagImg(image, value.id).then(res => {
       if (res.status === 'success') {
         updateHandler({...value, image: {url: res.data.url}});
-        dispatch(setMessageState({id: messageId, state: 'success', message: '图片上传成功'}));
+        setMessageState({id: messageId, state: 'success', message: '图片上传成功'});
       } else {
-        dispatch(setMessageState({id: messageId, state: 'error', message: '图片上传失败'}));
+        setMessageState({id: messageId, state: 'error', message: '图片上传失败'});
       }
     });
-  };
+  }, [addLoadingMessage, setMessageState]);
 
-  if (value.image.url) {
-    getImageForm(value.image.url).then(res => {
-      upload(res);
-    });
-  }
+  return useCallback((value, updateHandler) => {
+    if (value.image.url) {
+      getImageForm(value.image.url).then(res => {
+        upload(res, value, updateHandler);
+      });
+    }
+  }, [upload]);
 };
 
 
-export const modifyTag = (value, updateHandler) => dispatch => {
-  api.modifyTag(value, value.id).then(res => {
-    if (res.status === 'success') {
-      updateHandler({...value});
-      dispatch(initTagForm());
-      dispatch(addSuccessMessage('标签修改成功'));
-    } else {
-      dispatch(addErrorMessage('标签修改失败'));
-    }
-  });
+export const useModifyTagApi = () => {
+  const [addSuccessMessage, addErrorMessage] = useGlobalAction();
+  return useCallback((value, updateHandler) =>
+    api.modifyTag(value, value.id).then(res => {
+      if (res.status === 'success') {
+        updateHandler({...value});
+        initTagForm();
+        addSuccessMessage('标签修改成功');
+      } else {
+        addErrorMessage('标签修改失败');
+      }
+    }), [addErrorMessage, addSuccessMessage]);
 };
 
 export const selectTag = state => state.tag;

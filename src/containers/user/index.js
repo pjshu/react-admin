@@ -1,11 +1,11 @@
 import User from './User';
 import React, {useEffect, useState} from "react";
 import {Loading} from "../../components";
-import {useGetUserInfo} from "../../redux/userSlice";
+import {useGetUserInfoApi} from "../../redux/userSlice";
 
 export default () => {
   const [loading, setLoading] = useState(true);
-  const getUserInfo = useGetUserInfo();
+  const getUserInfo = useGetUserInfoApi();
   useEffect(() => {
     getUserInfo(setLoading);
   }, [getUserInfo]);

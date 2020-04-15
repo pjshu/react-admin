@@ -4,7 +4,7 @@ import router from "./contants/router";
 import {useHistory, useLocation} from "react-router-dom";
 import {formatTime} from "./helpers/datetime";
 import {modifyPost} from "./redux/postSlice";
-import {addTagImg, modifyTag} from "./redux/tagSlice";
+import {addTagImg, modifyTag, useAddTagImgApi, useModifyTagApi} from "./redux/tagSlice";
 import {useDispatch, useSelector} from "react-redux";
 import EditorContext from "./redux/editorState";
 import {addErrorMessage} from "./redux/globalSlice";
@@ -19,11 +19,19 @@ import {
   resetSendCodeTime,
   sendRecPassCode,
   resetPassword,
-  resetEmail, useSendRecPassCode, useRegister, useModifyUserInfo
+  resetEmail, useSendRecPassCode,
+  useRegister,
+  useModifyUserInfoApi,
+  useResetEmailApi,
+  useResetPasswordApi,
+  useSendRecPassCodeApi,
+  useLoginApi,
+  useRecoveryPasswordApi
 } from "./redux/userSlice";
 import {blog2Base64, toEditorState, convertEditorState} from "./helpers/misc";
 import {refresh_token_space} from "./config/security";
 import {EDITOR} from "./config/editor";
+import {useSelectForm} from "./redux";
 
 
 const useAuth = () => {
@@ -140,14 +148,14 @@ const useSubmitPost = () => {
 };
 
 const useSubmitLogin = () => {
-  const loginApi = useLogin();
+  const loginApi = useLoginApi();
   return useCallback((res) => {
     loginApi(res);
   }, [loginApi]);
 };
 
 const useSubmitRecPass = () => {
-  const recPassApi = useRecoveryPassword();
+  const recPassApi = useRecoveryPasswordApi();
   const {[FORM.recoveryPasswordSendCode]: {email}} = useSelector(selectForm);
 
   return useCallback((values) => {
@@ -156,7 +164,7 @@ const useSubmitRecPass = () => {
 };
 
 const useRecPassFormRendCode = () => {
-  const sendRecPassCodeApi = useSendRecPassCode();
+  const sendRecPassCodeApi = useSendRecPassCodeApi();
   const dispatch = useDispatch();
   return useCallback((res) => {
     dispatch(resetSendCodeTime());
@@ -174,7 +182,7 @@ const useSubmitRegister = () => {
 };
 
 const useSubmitUserInfo = () => {
-  const modifyUserInfo = useModifyUserInfo();
+  const modifyUserInfo = useModifyUserInfoApi();
   return useCallback(async (res) => {
     const data = {...res};
     convertEditorState(data, 'about');
@@ -186,26 +194,27 @@ const useSubmitUserInfo = () => {
 };
 
 const useResetEmail = () => {
-  const resetEmail = useResetEmail();
+  const resetEmail = useResetEmailApi();
   return useCallback((res) => {
     resetEmail(res);
   }, [resetEmail]);
 };
 
 const useResetPassword = () => {
-  const resetPassword = useResetPassword();
+  const resetPassword = useResetPasswordApi();
   return useCallback((res) => {
     resetPassword(res);
   }, [resetPassword]);
 };
 
 const useSubmitTagsForm = () => {
-  const dispatch = useDispatch();
+  const modifyTag = useModifyTagApi();
+  const addTagImg = useAddTagImgApi();
   return useCallback((value, {updateHandler, addMultiple}) => {
-    dispatch(modifyTag(value, updateHandler));
-    dispatch(addTagImg(value, updateHandler));
+    modifyTag(value, updateHandler);
+    addTagImg(value, updateHandler);
     addMultiple();
-  }, [dispatch]);
+  }, [addTagImg, modifyTag]);
 };
 
 // 表单提交方法统一导出
@@ -224,8 +233,7 @@ const submitHooks = {
 const useSubmit = (formName, ...other) => {
   const schema = validations[formName];
   const useSubmit = submitHooks[formName];
-  const {[formName]: form} = useSelector(selectForm);
-  const dispatch = useDispatch();
+  const {[formName]: form} = useSelectForm();
   const onSubmit = useSubmit();
   return useCallback(() => {
     schema.validate({

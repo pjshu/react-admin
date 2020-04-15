@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import {Button, Grid} from "@material-ui/core";
 import {
   resetSendCodeTime,
-  useSendRestEmailCode,
+  useSendRestEmailCodeApi,
   selectValidateCode,
   setIsSendCode, useAsyncDecSendCodeTime
 } from '../../redux/userSlice';
@@ -15,8 +15,8 @@ function ResetEmail() {
   const {isSendCode, resendTime} = useSelector(selectValidateCode);
   const dispatch = useDispatch();
   const classes = useStyles(isSendCode);
-  const asyncDecSendCodeTime = useAsyncDecSendCodeTime();
-  const sendRestEmailCode = useSendRestEmailCode();
+  const asyncDecSendCodeTime = useAsyncDecSendCodeTimeApi();
+  const sendRestEmailCode = useSendRestEmailCodeApi();
   useEffect(() => {
     if (resendTime > 0) {
       asyncDecSendCodeTime();

@@ -1,57 +1,61 @@
-import {createSlice} from '@reduxjs/toolkit';
+import React, {useCallback} from 'react';
 import api from "../helpers/http";
 import {useRouter} from "../hook";
-import {addErrorMessage, addSuccessMessage} from "./globalSlice";
 import {changeFormField, FORM} from "./formSlice";
-import {useHistory} from 'react-router-dom';
-import {useDispatch} from "react-redux";
-import {useCallback} from "react";
+import useMethods from 'use-methods';
+import {useGlobalAction, useUserAction} from "./index";
 
-export const slice = createSlice({
-  name: 'user',
-  initialState: {
-    register: {
-      modalOpen: false,
-      activeStep: 0
-    },
-    resendTime: 0,
-    isSendCode: false
+const defaultValue = {
+  register: {
+    modalOpen: false,
+    activeStep: 0
   },
-  reducers: {
-    resetSendCodeTime(state) {
-      state.resendTime = 60;
-    },
-    clearRendCodeState(state) {
-      state.resendTime = 0;
-      state.isSendCode = false;
-    },
-    setIsSendCode(state) {
-      state.isSendCode = true;
-    },
-    decSendCodeTime(state) {
-      state.resendTime -= 1;
-    },
-    increaseActiveStep(state) {
-      state.register.activeStep += 1;
-    },
-    decrementActiveStep(state) {
-      state.register.activeStep -= 1;
-    },
-    closeModal(state) {
-      state.register.modalOpen = false;
-    },
-    openModal(state) {
-      state.register.modalOpen = true;
-    },
+  resendTime: 0,
+  isSendCode: false
+};
+
+const methods = state => ({
+  resetSendCodeTime() {
+    state.resendTime = 60;
+  },
+  clearRendCodeState() {
+    state.resendTime = 0;
+    state.isSendCode = false;
+  },
+  setIsSendCode() {
+    state.isSendCode = true;
+  },
+  decSendCodeTime() {
+    state.resendTime -= 1;
+  },
+  increaseActiveStep() {
+    state.register.activeStep += 1;
+  },
+  decrementActiveStep() {
+    state.register.activeStep -= 1;
+  },
+  closeModal() {
+    state.register.modalOpen = false;
+  },
+  openModal() {
+    state.register.modalOpen = true;
   },
 });
 
-export const {resetSendCodeTime, setIsSendCode, decSendCodeTime, clearRendCodeState} = slice.actions;
-export const {increaseActiveStep, decrementActiveStep, openModal, closeModal} = slice.actions;
+export const UserContext = React.createContext();
+
+export default React.memo(function UserProvider(children) {
+  const [state, action] = useMethods(methods, defaultValue);
+  return (
+    <UserContext.Provider value={[state, action]}>
+      {children}
+    </UserContext.Provider>
+  );
+});
 
 
-export const useLogin = () => {
-  const dispatch = useDispatch();
+export const useLoginApi = () => {
+  const {addSuccessMessage, addErrorMessage} = useGlobalAction();
   const router = useRouter();
   return useCallback((values) => {
     return api.login(values).then(res => {
@@ -60,161 +64,152 @@ export const useLogin = () => {
         localStorage.setItem('identify', data.id);
         localStorage.setItem('Authorization', data.token);
         router.toAdmin();
-        dispatch(addSuccessMessage('登录成功'));
+        addSuccessMessage('登录成功');
       } else {
-        dispatch(addErrorMessage('登录失败'));
+        addErrorMessage('登录失败');
       }
     });
-  }, [dispatch, router]);
+  }, [addErrorMessage, addSuccessMessage, router]);
 };
 
-export const useRecoveryPassword = () => {
-  const dispatch = useDispatch();
+export const useRecoveryPasswordApi = () => {
   const router = useRouter();
+  const {addSuccessMessage, addErrorMessage} = useGlobalAction();
+  const {clearRendCodeState} = useUserAction();
   return useCallback((values) =>
     api.RecPassword(values).then(res => {
       if (res.status === 'success') {
-        dispatch(addSuccessMessage('密码修改成功'));
+        addSuccessMessage('密码修改成功');
         router.toLogin();
-        dispatch(clearRendCodeState());
+        clearRendCodeState();
       } else {
-        dispatch(addErrorMessage('密码修改失败'));
+        addErrorMessage('密码修改失败');
       }
-    }), [dispatch, router]);
+    }), [addErrorMessage, addSuccessMessage, clearRendCodeState, router]);
 };
 
-export const useSendRecPassCode = () => {
-  const dispatch = useDispatch();
+export const useSendRecPassCodeApi = () => {
+  const {addSuccessMessage, addErrorMessage} = useGlobalAction();
+  const {setIsSendCode} = useUserAction();
   return useCallback((values) =>
     api.sendRecPassCode(values).then(res => {
       if (res.status === 'success') {
-        dispatch(setIsSendCode());
-        dispatch(addSuccessMessage('邮件发送成功,请检查邮箱'));
+        setIsSendCode();
+        addSuccessMessage('邮件发送成功,请检查邮箱');
       } else {
-        dispatch(addErrorMessage(res.data.msg));
+        addErrorMessage(res.data.msg);
       }
-    }), [dispatch]);
+    }), [addErrorMessage, addSuccessMessage, setIsSendCode]);
 };
 
-export const useAsyncDecSendCodeTime = () => {
-  const dispatch = useDispatch();
+export const useAsyncDecSendCodeTimeApi = () => {
+  const {decSendCodeTime} = useUserAction();
   return useCallback(() =>
       setTimeout(() => {
-        dispatch(decSendCodeTime());
+        decSendCodeTime();
       }, 1000)
-    , [dispatch]);
+    , [decSendCodeTime]);
 };
 
 export const useRegister = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
+  const {addSuccessMessage, addErrorMessage} = useGlobalAction();
   return useCallback((values) =>
     api.register(values).then(res => {
       if (res.status === 'success') {
-        dispatch(addSuccessMessage('注册成功'));
+        addSuccessMessage('注册成功');
         router.toLogin();
       } else {
-        dispatch(addErrorMessage(res.data.msg));
+        addErrorMessage(res.data.msg);
       }
-    }), [dispatch, router]);
+    }), [addErrorMessage, addSuccessMessage, router]);
 };
 
 export const useCheckRegister = () => {
-  const dispatch = useDispatch();
+  const {addSuccessMessage} = useGlobalAction();
   return useCallback((setLoading) =>
     api.checkRegister().then(res => {
       if (res.status && res.status === 'success') {
         setLoading(false);
       } else {
-        dispatch(addSuccessMessage('您已注册'));
+        addSuccessMessage('您已注册');
       }
-    }), [dispatch]);
+    }), [addSuccessMessage]);
 };
 
-export const useSendRestEmailCode = () => {
-  const dispatch = useDispatch();
+export const useSendRestEmailCodeApi = () => {
+  const {addSuccessMessage, addErrorMessage} = useGlobalAction();
   return useCallback(() =>
     api.sendRestEmailCode().then(res => {
       if (res.status === 'success') {
-        dispatch(addSuccessMessage('验证码发送成,请查收邮箱'));
+        addSuccessMessage('验证码发送成,请查收邮箱');
       } else {
-        dispatch(addErrorMessage(res.data.msg));
+        addErrorMessage(res.data.msg);
       }
-    }), [dispatch]);
+    }), [addErrorMessage, addSuccessMessage]);
 };
 
-export const useResetEmail = () => {
-  const dispatch = useDispatch();
+export const useResetEmailApi = () => {
+  const {addSuccessMessage, addErrorMessage} = useGlobalAction();
   return useCallback((values) =>
     api.resetEmail(values).then(res => {
       if (res.status === 'success') {
-        dispatch(addSuccessMessage('邮件修改成功'));
+        addSuccessMessage('邮件修改成功');
       } else {
-        dispatch(addErrorMessage(res.data.msg));
+        addErrorMessage(res.data.msg);
       }
-    }), [dispatch]);
+    }), [addErrorMessage, addSuccessMessage]);
 };
 
-export const useResetPassword = () => {
-  const dispatch = useDispatch();
+export const useResetPasswordApi = () => {
+  const {addSuccessMessage, addErrorMessage} = useGlobalAction();
   return useCallback((values) =>
     api.resetPassword(values).then(res => {
       if (res.status === 'success') {
-        dispatch(addSuccessMessage('密码修改成功'));
+        addSuccessMessage('密码修改成功');
       } else {
-        dispatch(addErrorMessage('密码修改失败'));
+        addErrorMessage('密码修改失败');
         /**
          * data.msg.old_password.[0: "error"]
          */
       }
-    }), [dispatch]);
+    }), [addErrorMessage, addSuccessMessage]);
 };
 
-export const useGetUserInfo = () => {
-  const dispatch = useDispatch();
+export const useGetUserInfoApi = () => {
+  const {addErrorMessage} = useGlobalAction();
   return useCallback((setLoading) =>
     api.getUserInfo().then(res => {
       if (res.status === 'success') {
-        dispatch(changeFormField({...res.data, form: FORM.userInfo}));
+        changeFormField({...res.data, form: FORM.userInfo});
         setLoading(false);
       } else {
-        dispatch(addErrorMessage('获取用户信息失败'));
+        addErrorMessage('获取用户信息失败');
       }
-    }), [dispatch]);
+    }), [addErrorMessage]);
 };
 
-export const useModifyUserInfo = () => {
-  const dispatch = useDispatch();
+export const useModifyUserInfoApi = () => {
+  const {addSuccessMessage, addErrorMessage} = useGlobalAction();
   return useCallback((values) =>
     api.modifyUserInfo(values).then(res => {
       if (res.status === 'success') {
-        dispatch(addSuccessMessage('用户信息修改成功'));
+        addSuccessMessage('用户信息修改成功');
       } else {
-        dispatch(addErrorMessage('用户信息修改失败'));
+        addErrorMessage('用户信息修改失败');
       }
-    }), [dispatch]);
+    }), [addErrorMessage, addSuccessMessage]);
 };
 
-export const useLogout = () => {
+export const useLogoutApi = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const {addErrorMessage} = useGlobalAction();
   return useCallback(() =>
     api.logout().then(res => {
       if (res.status === 'success') {
         router.toLogin();
       } else {
-        dispatch(addErrorMessage('登出失败'));
+        addErrorMessage('登出失败');
       }
-    }), [dispatch, router]);
+    }), [addErrorMessage, router]);
 };
-
-
-export const selectRegister = state => state.user.register;
-
-export const selectValidateCode = state => ({
-  resendTime: state.user.resendTime,
-  isSendCode: state.user.isSendCode,
-});
-
-
-export default slice.reducer;

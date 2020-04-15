@@ -38,6 +38,7 @@
     "react-table": "^7.0.0",
     "scheduler": "latest",
     "source-map-explorer": "^2.4.1",
+    "use-methods": "^0.5.1",
     "uuid": "^7.0.2",
     "yup": "^0.28.3"
   },
