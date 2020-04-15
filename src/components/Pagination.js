@@ -1,6 +1,5 @@
 import React, {useCallback} from 'react';
-import {createMuiTheme, MuiThemeProvider} from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import {createMuiTheme, MuiThemeProvider, CssBaseline} from "@material-ui/core";
 import Pagination from "material-ui-flat-pagination";
 import useStyles from './pagination.style';
 

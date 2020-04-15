@@ -20,7 +20,7 @@ export const PreviewField = React.memo(function PreviewField({name}) {
       dangerouslySetInnerHTML={{__html: value.toHTML()}}
     />
   );
-}, areEqual);
+});
 
 
 function Preview({handleOnClose, modalOpen, name}) {
@@ -63,4 +63,4 @@ function Preview({handleOnClose, modalOpen, name}) {
   );
 }
 
-export default React.memo(Preview, areEqual);
+export default React.memo(Preview);

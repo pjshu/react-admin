@@ -235,11 +235,6 @@ const EnhancedTable = (props) => {
   );
 };
 
-// TODO 注意,表单头,写死不重新渲染,以后扩展可能有bug
-const headerAreEqual = (prevProps, nextProps) => {
-  return true;
-};
-
 const TableHeader = React.memo(({headerGroups}) => {
   const classes = useStyles();
   return (
@@ -270,12 +265,24 @@ const TableHeader = React.memo(({headerGroups}) => {
       ))}
     </MuiTableHeader>
   );
-}, headerAreEqual);
+}, () => {
+  // TODO 注意,表单头,写死不重新渲染,以后扩展可能有bug
+  return true;
+});
 
 
 const MemoPagination = React.memo((props) => {
   const {rowCount, pageSize, pageIndex, handleChangePage, handleChangeRowsPerPage} = props;
   const classes = useStyles();
+
+  const labelDisplayedRows = useCallback(({from, to, count}) => {
+    return `${from}-${to}/${count}`;
+  }, []);
+  const SelectProps = useMemo(() => ({
+    inputProps: {'aria-label': 'rows per page'},
+    // native: true,
+  }), []);
+
   return (
     <TablePagination
       classes={{
@@ -284,31 +291,30 @@ const MemoPagination = React.memo((props) => {
       }}
       // 写入配置
       labelRowsPerPage={'每页:'}
-      labelDisplayedRows={
-        ({from, to, count}) => {
-          return `${from}-${to}/${count}`;
-        }
-      }
+      labelDisplayedRows={labelDisplayedRows}
       rowsPerPageOptions={[5, 10, 25]}
       colSpan={3}
       count={rowCount}
       rowsPerPage={pageSize}
       page={pageIndex}
-      SelectProps={{
-        inputProps: {'aria-label': 'rows per page'},
-        // native: true,
-      }}
+      SelectProps={SelectProps}
       onChangePage={handleChangePage}
       onChangeRowsPerPage={handleChangeRowsPerPage}
       ActionsComponent={TablePaginationActions}
     />
   );
-}, areEqual);
+}, (pre, next) => {
+  return pre.rowCount === next.rowCount &&
+    pre.pageSize === next.pageSize &&
+    pre.pageIndex === next.pageIndex;
+});
 
-const tableAreEqual = (pre, next) => {
-  //不对比columns字段
-  const blacklist = ['columns', 'tableName'];
-  return objAreEqual(pre, next, blacklist);
-};
+// const tableAreEqual = (pre, next) => {
+//   //不对比columns字段
+//   const blacklist = ['columns', 'tableName'];
+//   return objAreEqual(pre, next, blacklist);
+// };
 
-export default React.memo(EnhancedTable, tableAreEqual);
+export default React.memo(EnhancedTable, () => {
+  return true;
+});

@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo} from 'react';
 import {changeFormField, selectForm} from "../redux/formSlice";
-import {objAreEqual} from '../helpers/misc';
+// import {objAreEqual} from '../helpers/misc';
 import {useDispatch, useSelector} from "react-redux";
 import {useSubmit} from "../hook";
 import {Button, TextField} from "@material-ui/core";
@@ -21,11 +21,11 @@ import {Button, TextField} from "@material-ui/core";
 // 且changeFormField 与相应slice selcet必须从 redux/index 导出
 //SubmitBtn用于提交 必须传入handleOnSubmit属性,用于处理提交
 //CommonBtn 用于处理路由跳转等其他功能
-
-const areEqual = (pre, next) => {
-  const blacklist = ['cacheBusterProp', 'as'];
-  return objAreEqual(pre, next, blacklist);
-};
+//
+// const areEqual = (pre, next) => {
+//   const blacklist = ['cacheBusterProp', 'as'];
+//   return objAreEqual(pre, next, blacklist);
+// };
 
 const Field = React.memo(function Field(props) {
   const {as, label, name, formName, getValue, children, ...rest} = props;
@@ -44,7 +44,9 @@ const Field = React.memo(function Field(props) {
   }, [errors, name]);
 
   return <ContextField {...{as, label, name, formName, value, error, getValue, children, ...rest}}/>;
-}, areEqual);
+}, () => {
+  return true;
+});
 
 
 const ContextField = React.memo(function ContextField(props) {
@@ -80,7 +82,11 @@ const ContextField = React.memo(function ContextField(props) {
       {...rest}
     />
   );
-}, areEqual);
+}, (pre, next) => {
+  return pre.getValue === next.getValue &&
+    pre.value === next.value &&
+    pre.error === next.error;
+});
 
 const SubmitBtn = React.memo(function SubmitBtn(props) {
   const {children, formName, hookParam, as, ...rest} = props;
@@ -101,7 +107,9 @@ const SubmitBtn = React.memo(function SubmitBtn(props) {
       {children}
     </Button>
   );
-}, areEqual);
+}, (pre, next) => {
+  return pre.hookParam === next.hookParam;
+});
 
 
 export {Field, SubmitBtn};

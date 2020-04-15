@@ -27,7 +27,9 @@ const ContextSetting = React.memo(function ContextSetting(props) {
   const handleCloseDrawer = useCallback(() => {
     dispatch(closeDrawer());
   }, [dispatch]);
-
+  const inputProps = useMemo(() => ({
+    readOnly: true
+  }));
   return (
     <Drawer
       variant="persistent"
@@ -46,7 +48,7 @@ const ContextSetting = React.memo(function ContextSetting(props) {
           label="修改日期"
           formName={FORM.post}
           variant={'standard'}
-          InputProps={{readOnly: true}}
+          InputProps={inputProps}
         />
         <EditorArea
           name={'excerpt'}

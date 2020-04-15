@@ -1,6 +1,6 @@
 import React, {Suspense} from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
-import {areEqual} from "../helpers/misc";
+// import {areEqual} from "../helpers/misc";
 import {unstable_createResource} from './react-cache-copy';
 
 
@@ -26,4 +26,4 @@ function LoadingImg({src, alt}) {
   );
 }
 
-export default React.memo(LoadingImg, areEqual);
+export default React.memo(LoadingImg);

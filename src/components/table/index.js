@@ -6,7 +6,7 @@ import {objAreEqual} from "../../helpers/misc";
 
 const tableAreEqual = (pre, next) => {
   //不对比columns字段
-  const blacklist = ['columns','tableName'];
+  const blacklist = ['columns', 'tableName'];
   return objAreEqual(pre, next, blacklist);
 };
 
@@ -61,4 +61,6 @@ const Table = (props) => {
   );
 };
 
-export default React.memo(Table, tableAreEqual);
+export default React.memo(Table, () => {
+  return true;
+});

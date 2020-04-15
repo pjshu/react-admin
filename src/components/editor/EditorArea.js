@@ -31,7 +31,7 @@ const ModalEditor = React.memo(({name, uploadFn, setModalOpen}) => {
       </Button>
     </div>
   ), modalRoot);
-},areEqual);
+});
 
 
 function EditorArea({uploadFn, label, name}) {
@@ -59,4 +59,4 @@ function EditorArea({uploadFn, label, name}) {
   );
 }
 
-export default React.memo(EditorArea, areEqual);
+export default React.memo(EditorArea);

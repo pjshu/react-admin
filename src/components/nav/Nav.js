@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {
   AppBar,
   Badge,
@@ -96,7 +96,7 @@ const Nav = React.memo(function Nav() {
       </main>
     </div>
   );
-}, areEqual);
+});
 
 const MessageBox = React.memo(function MessageBox({setMessageMenu}) {
   const {message} = useSelector(selectMessage);
@@ -109,7 +109,7 @@ const MessageBox = React.memo(function MessageBox({setMessageMenu}) {
     }
   }, [message.length, setMessageMenu]);
   return <ContextMessageBox messageLength={message.length} handleMenuClick={handleMenuClick}/>;
-}, areEqual);
+});
 
 
 const ContextMessageBox = React.memo(function ContextMessageBox({messageLength, handleMenuClick}) {
@@ -125,7 +125,7 @@ const ContextMessageBox = React.memo(function ContextMessageBox({messageLength, 
       <MailIcon/>
     </Badge>
   );
-}, areEqual);
+});
 
 
 const MemoMenu = React.memo(function MemoMenu(props) {
@@ -136,7 +136,7 @@ const MemoMenu = React.memo(function MemoMenu(props) {
 const ContextMemoMenu = React.memo(function MemoMenu(props) {
   const {handleMenuClose, messageMenu, handleClearAll, message} = props;
   const classes = useStyles();
-  const paperProps = {
+  const paperProps = useMemo({
     style: {
       minHeight: 100,
       maxHeight: 400,
@@ -144,7 +144,7 @@ const ContextMemoMenu = React.memo(function MemoMenu(props) {
       maxWidth: 350,
       overflow: 'scroll'
     },
-  };
+  }, []);
   return (
     <Menu
       id="long-menu"
@@ -222,6 +222,6 @@ const MemoDraw = React.memo(function MemoDraw({open}) {
       </List>
     </Drawer>
   );
-}, areEqual);
+});
 
 export default Nav;

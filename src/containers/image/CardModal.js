@@ -86,7 +86,7 @@ const CardModal = React.memo(function CardModal(props) {
       }
     </>
   );
-}, areEqual);
+});
 
 
 const ContextCardModal = React.memo(function ContextCardModal(props) {

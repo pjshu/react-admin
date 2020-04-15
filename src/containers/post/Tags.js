@@ -40,6 +40,9 @@ const ContextTags = React.memo(function ContextTags({allTags}) {
       />
     </div>
   );
-}, areEqual);
+}, () => {
+  return true
+});
+
 
 export default Tags;

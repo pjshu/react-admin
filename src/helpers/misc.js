@@ -33,49 +33,36 @@ export const blog2Base64 = (data) => new Promise((resolve => {
   });
 }));
 
+
+export const simpleObjAreEqual = (handleSpecial) => {
+  let isEqual = true;
+
+};
+
 // 对象对比函数
 // TODO 优化算法
 // 或者使用immutable
 export const objAreEqual = (prePro, nextPro, blacklist = []) => {
   let isEqual = true;
   let compare = 0;
-  blacklist.push('cacheBusterProp', 'as', 'renderInput');
   const _objAreEqual = (pre, next) => {
     compare += 1;
-    // count += 1;
-    // console.log(count);
     if (compare > 20) {
-      alert(compare);
       console.log(prePro, compare, pre);
     }
     if (isEqual === false) {
       return;
     }
-    // pre不能为undefine 且有key属性
     if (pre && next) {
-      if (pre.hasOwnProperty('key')) {
-        if (next.hasOwnProperty('key')) {
-          isEqual = pre.key === next.key;
-          return;
-        }
-        isEqual = false;
-        return;
+      if (pre.key && next.key) {
+        isEqual = pre.key === next.key;
+
+      } else if (pre.id && next.id) {
+        isEqual = pre.id === next.id;
       }
-      if (pre.hasOwnProperty('id')) {
-        if (next.hasOwnProperty('id')) {
-          isEqual = pre.id === next.id;
-          return;
-        }
-        isEqual = false;
-        return;
-      }
-      // TODO
-      //暂且通过convertOptions属性判断是不是 BraftEditor对象
-      if (pre.hasOwnProperty('convertOptions')) {
-        if (next.hasOwnProperty('convertOptions')) {
-          isEqual = pre === next;
-          return;
-        }
+      //通过convertOptions属性判断是不是 BraftEditor对象
+      else if (pre.convertOptions && next.convertOptions) {
+        isEqual = pre === next;
       }
     }
     // [] instanceof Object true
@@ -121,8 +108,5 @@ export const objAreEqual = (prePro, nextPro, blacklist = []) => {
 };
 
 export const areEqual = (pre, next) => {
-  if (pre.hasOwnProperty('column')) {
-    console.log(pre);
-  }
   return objAreEqual(pre, next);
 };

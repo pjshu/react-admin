@@ -2,7 +2,6 @@ import React, {useCallback} from 'react';
 import {Box, Button, Card, CardActionArea, CardActions, CardMedia} from '@material-ui/core';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import useStyles from './card.style';
-import {areEqual} from "../../helpers/misc";
 import {useDispatch} from "react-redux";
 import {setClickCardId, openCardModal} from '../../redux/imageSlice';
 
@@ -62,4 +61,10 @@ const MyCard = (props) => {
   );
 };
 
-export default React.memo(MyCard, areEqual);
+export default React.memo(MyCard, (pre, next) => {
+  return pre.image.url === next.image.url &&
+    pre.upload === next.upload &&
+    pre.id === next.id &&
+    pre.handleDelete === next.handleDelete &&
+    pre.uploadImage === next.uploadImage;
+});
