@@ -1,16 +1,16 @@
 import Register from "./Register";
 import React, {useEffect, useState} from 'react';
 import {Loading} from "../../components";
-import {checkRegister} from '../../redux/userSlice';
+import {checkRegister, useCheckRegister} from '../../redux/userSlice';
 import {useDispatch} from "react-redux";
 
 
 function Index() {
   const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
+  const checkRegister = useCheckRegister();
   useEffect(() => {
-    dispatch(checkRegister(setLoading));
-  }, [dispatch]);
+    checkRegister(setLoading);
+  }, [checkRegister]);
 
   return loading ?
     <Loading/> :

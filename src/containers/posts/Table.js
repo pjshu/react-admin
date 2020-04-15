@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo} from 'react';
-import {toPost} from "../../history";
+import {useRouter} from "../../hook";
 import Table from '../../components/table';
 import Chip from "@material-ui/core/Chip";
 import {useDispatch} from "react-redux";
@@ -56,14 +56,14 @@ function Tables() {
     ],
     []
   );
-
+  const router = useRouter();
   const handleAddRow = useCallback(() => {
     dispatch(addPost());
   }, [dispatch]);
 
   const handleEditor = useCallback(({original}) => {
-    toPost(original.id);
-  }, []);
+    router.toPost(original.id);
+  }, [router]);
 
   const _api = useMemo(() => ({
     query: api.queryPosts,

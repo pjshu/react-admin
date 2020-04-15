@@ -1,7 +1,7 @@
 import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 import api from './helpers/http';
 import router from "./contants/router";
-import {useLocation} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import {formatTime} from "./helpers/datetime";
 import {modifyPost} from "./redux/postSlice";
 import {addTagImg, modifyTag} from "./redux/tagSlice";
@@ -12,21 +12,21 @@ import {FORM, selectForm, clearFormError, changeFormField, changeFormError} from
 import {validations} from "./helpers/validate";
 import {
   closeModal,
-  login,
+  useLogin,
   modifyUserInfo,
-  recoveryPassword,
+  useRecoveryPassword,
   register,
   resetSendCodeTime,
   sendRecPassCode,
   resetPassword,
-  resetEmail
+  resetEmail, useSendRecPassCode, useRegister, useModifyUserInfo
 } from "./redux/userSlice";
 import {blog2Base64, toEditorState, convertEditorState} from "./helpers/misc";
 import {refresh_token_space} from "./config/security";
 import {EDITOR} from "./config/editor";
 
 
-export const useAuth = () => {
+const useAuth = () => {
   const from = useRef(router.ADMIN);
   const {state: routeState} = useLocation();
   const [state, setState] = React.useState({
@@ -84,7 +84,7 @@ export const useAuth = () => {
 };
 
 // 定时刷新token
-export const useRefreshToken = () => {
+const useRefreshToken = () => {
   const timing = useRef(-1);
   useEffect(() => {
     timing.current = setInterval(() => {
@@ -97,7 +97,7 @@ export const useRefreshToken = () => {
 };
 
 
-export const useGetPost = (postId) => {
+const useGetPost = (postId) => {
   const [loading, setLoading] = useState(true);
 
   // 由于需要使用useContext,useGetPost不写成非hook形式,所以不放在postSlice.js内
@@ -134,68 +134,69 @@ const useSubmitPost = () => {
     const data = {...form, article, excerpt};
     convertEditorState(data, 'article');
     convertEditorState(data, 'excerpt');
-    console.log(data.article_html);
     data.create_date = formatTime(data.create_date);
     dispatch(modifyPost(data, postId));
   }, [article, dispatch, excerpt]);
 };
 
 const useSubmitLogin = () => {
-  const dispatch = useDispatch();
+  const loginApi = useLogin();
   return useCallback((res) => {
-    dispatch(login(res));
-  }, [dispatch]);
+    loginApi(res);
+  }, [loginApi]);
 };
 
 const useSubmitRecPass = () => {
-  const dispatch = useDispatch();
+  const recPassApi = useRecoveryPassword();
   const {[FORM.recoveryPasswordSendCode]: {email}} = useSelector(selectForm);
 
   return useCallback((values) => {
-    dispatch(recoveryPassword({...values, email}));
-  }, [dispatch, email]);
+    recPassApi({...values, email});
+  }, [email, recPassApi]);
 };
 
 const useRecPassFormRendCode = () => {
+  const sendRecPassCodeApi = useSendRecPassCode();
   const dispatch = useDispatch();
   return useCallback((res) => {
     dispatch(resetSendCodeTime());
-    dispatch(sendRecPassCode(res));
-  }, [dispatch]);
+    sendRecPassCodeApi(res);
+  }, [dispatch, sendRecPassCodeApi]);
 };
 
 const useSubmitRegister = () => {
   const dispatch = useDispatch();
+  const registerApi = useRegister();
   return useCallback((res) => {
     dispatch(closeModal());
-    dispatch(register(res));
-  }, [dispatch]);
+    registerApi(res);
+  }, [dispatch, registerApi]);
 };
 
 const useSubmitUserInfo = () => {
-  const dispatch = useDispatch();
+  const modifyUserInfo = useModifyUserInfo();
   return useCallback(async (res) => {
     const data = {...res};
     convertEditorState(data, 'about');
     if (data.avatar) {
       data.avatar = await blog2Base64(data.avatar);
     }
-    dispatch(modifyUserInfo(data));
-  }, [dispatch]);
+    modifyUserInfo(data);
+  }, [modifyUserInfo]);
 };
 
 const useResetEmail = () => {
-  const dispatch = useDispatch();
+  const resetEmail = useResetEmail();
   return useCallback((res) => {
-    dispatch(resetEmail(res));
-  }, [dispatch]);
+    resetEmail(res);
+  }, [resetEmail]);
 };
 
 const useResetPassword = () => {
-  const dispatch = useDispatch();
+  const resetPassword = useResetPassword();
   return useCallback((res) => {
-    dispatch(resetPassword(res));
-  }, [dispatch]);
+    resetPassword(res);
+  }, [resetPassword]);
 };
 
 const useSubmitTagsForm = () => {
@@ -220,7 +221,7 @@ const submitHooks = {
   [FORM.tags]: useSubmitTagsForm
 };
 
-export const useSubmit = (formName, ...other) => {
+const useSubmit = (formName, ...other) => {
   const schema = validations[formName];
   const useSubmit = submitHooks[formName];
   const {[formName]: form} = useSelector(selectForm);
@@ -243,7 +244,7 @@ export const useSubmit = (formName, ...other) => {
 
 
 // 定时提交
-export const useTiming = (autoSave, postId) => {
+const useTiming = (autoSave, postId) => {
   const onSubmit = useSubmit(FORM.post, postId);
   const timerId = React.useRef();
   const timingUpload = useCallback(() => {
@@ -259,4 +260,33 @@ export const useTiming = (autoSave, postId) => {
     }
     return () => clearInterval(timerId.current);
   }, [autoSave.time, autoSave.open, timingUpload]);
+};
+
+//控制路由跳转
+const useRouter = () => {
+  const history = useHistory();
+  return {
+    toAdmin: () => {
+      history.push(router.ADMIN);
+    },
+    toPost: (postId) => {
+      history.push(`${router.ADMIN_POST}/${postId}`);
+    },
+    toLogin: () => {
+      history.push(router.LOGIN);
+    }
+  };
+};
+
+export {
+  //控制路由跳转
+  useRouter,
+  // 定时提交
+  useTiming,
+  //form组件提交
+  useSubmit,
+  useGetPost,
+  // 定时刷新token
+  useRefreshToken,
+  useAuth
 };

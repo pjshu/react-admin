@@ -1,15 +1,14 @@
 import User from './User';
 import React, {useEffect, useState} from "react";
 import {Loading} from "../../components";
-import {useDispatch} from "react-redux";
-import {getUserInfo} from "../../redux/userSlice";
+import {useGetUserInfo} from "../../redux/userSlice";
 
 export default () => {
   const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
+  const getUserInfo = useGetUserInfo();
   useEffect(() => {
-    dispatch(getUserInfo(setLoading));
-  }, [dispatch]);
+    getUserInfo(setLoading);
+  }, [getUserInfo]);
 
   return loading ? <Loading/> : <User/>;
 };

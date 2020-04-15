@@ -1,8 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
 import api from "../helpers/http";
-import {toAdmin, toLogin} from "../history";
+import {useRouter} from "../hook";
 import {addErrorMessage, addSuccessMessage} from "./globalSlice";
 import {changeFormField, FORM} from "./formSlice";
+import {useHistory} from 'react-router-dom';
+import {useDispatch} from "react-redux";
+import {useCallback} from "react";
 
 export const slice = createSlice({
   name: 'user',
@@ -47,132 +50,162 @@ export const {resetSendCodeTime, setIsSendCode, decSendCodeTime, clearRendCodeSt
 export const {increaseActiveStep, decrementActiveStep, openModal, closeModal} = slice.actions;
 
 
-export const login = values => dispatch => {
-  api.login(values).then(res => {
-    if (res.status === 'success') {
-      const data = res.data;
-      localStorage.setItem('identify', data.id);
-      localStorage.setItem('Authorization', data.token);
-      toAdmin();
-      dispatch(addSuccessMessage('登录成功'));
-    } else {
-      dispatch(addErrorMessage('登录失败'));
-    }
-  });
+export const useLogin = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  return useCallback((values) => {
+    return api.login(values).then(res => {
+      if (res.status === 'success') {
+        const data = res.data;
+        localStorage.setItem('identify', data.id);
+        localStorage.setItem('Authorization', data.token);
+        router.toAdmin();
+        dispatch(addSuccessMessage('登录成功'));
+      } else {
+        dispatch(addErrorMessage('登录失败'));
+      }
+    });
+  }, [dispatch, router]);
 };
 
-export const recoveryPassword = values => dispatch => {
-  api.RecPassword(values).then(res => {
-    if (res.status === 'success') {
-      dispatch(addSuccessMessage('密码修改成功'));
-      toLogin();
-      dispatch(clearRendCodeState());
-    } else {
-      dispatch(addErrorMessage('密码修改失败'));
-    }
-  });
+export const useRecoveryPassword = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  return useCallback((values) =>
+    api.RecPassword(values).then(res => {
+      if (res.status === 'success') {
+        dispatch(addSuccessMessage('密码修改成功'));
+        router.toLogin();
+        dispatch(clearRendCodeState());
+      } else {
+        dispatch(addErrorMessage('密码修改失败'));
+      }
+    }), [dispatch, router]);
 };
 
-export const sendRecPassCode = values => dispatch => {
-  api.sendRecPassCode(values).then(res => {
-    if (res.status === 'success') {
-      dispatch(setIsSendCode());
-      dispatch(addSuccessMessage('邮件发送成功,请检查邮箱'));
-    } else {
-      dispatch(addErrorMessage(res.data.msg));
-    }
-  });
+export const useSendRecPassCode = () => {
+  const dispatch = useDispatch();
+  return useCallback((values) =>
+    api.sendRecPassCode(values).then(res => {
+      if (res.status === 'success') {
+        dispatch(setIsSendCode());
+        dispatch(addSuccessMessage('邮件发送成功,请检查邮箱'));
+      } else {
+        dispatch(addErrorMessage(res.data.msg));
+      }
+    }), [dispatch]);
 };
 
-export const asyncDecSendCodeTime = () => dispatch => {
-  setTimeout(() => {
-    dispatch(decSendCodeTime());
-  }, 1000);
+export const useAsyncDecSendCodeTime = () => {
+  const dispatch = useDispatch();
+  return useCallback(() =>
+      setTimeout(() => {
+        dispatch(decSendCodeTime());
+      }, 1000)
+    , [dispatch]);
 };
 
-export const register = (values) => dispatch => {
-  api.register(values).then(res => {
-    if (res.status === 'success') {
-      dispatch(addSuccessMessage('注册成功'));
-      toLogin();
-    } else {
-      dispatch(addErrorMessage(res.data.msg));
-    }
-  });
+export const useRegister = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  return useCallback((values) =>
+    api.register(values).then(res => {
+      if (res.status === 'success') {
+        dispatch(addSuccessMessage('注册成功'));
+        router.toLogin();
+      } else {
+        dispatch(addErrorMessage(res.data.msg));
+      }
+    }), [dispatch, router]);
 };
 
-export const checkRegister = (setLoading) => dispatch => {
-  api.checkRegister().then(res => {
-    if (res.status && res.status === 'success') {
-      setLoading(false);
-    } else {
-      dispatch(addSuccessMessage('您已注册'));
-    }
-  });
+export const useCheckRegister = () => {
+  const dispatch = useDispatch();
+  return useCallback((setLoading) =>
+    api.checkRegister().then(res => {
+      if (res.status && res.status === 'success') {
+        setLoading(false);
+      } else {
+        dispatch(addSuccessMessage('您已注册'));
+      }
+    }), [dispatch]);
 };
 
-export const sendRestEmailCode = () => dispatch => {
-  api.sendRestEmailCode().then(res => {
-    if (res.status === 'success') {
-      dispatch(addSuccessMessage('验证码发送成,请查收邮箱'));
-    } else {
-      dispatch(addErrorMessage(res.data.msg));
-    }
-  });
+export const useSendRestEmailCode = () => {
+  const dispatch = useDispatch();
+  return useCallback(() =>
+    api.sendRestEmailCode().then(res => {
+      if (res.status === 'success') {
+        dispatch(addSuccessMessage('验证码发送成,请查收邮箱'));
+      } else {
+        dispatch(addErrorMessage(res.data.msg));
+      }
+    }), [dispatch]);
 };
 
-export const resetEmail = (values) => dispatch => {
-  api.resetEmail(values).then(res => {
-    if (res.status === 'success') {
-      dispatch(addSuccessMessage('邮件修改成功'));
-    } else {
-      dispatch(addErrorMessage(res.data.msg));
-    }
-  });
+export const useResetEmail = () => {
+  const dispatch = useDispatch();
+  return useCallback((values) =>
+    api.resetEmail(values).then(res => {
+      if (res.status === 'success') {
+        dispatch(addSuccessMessage('邮件修改成功'));
+      } else {
+        dispatch(addErrorMessage(res.data.msg));
+      }
+    }), [dispatch]);
 };
 
-export const resetPassword = (values) => dispatch => {
-  api.resetPassword(values).then(res => {
-    if (res.status === 'success') {
-      dispatch(addSuccessMessage('密码修改成功'));
-    } else {
-      dispatch(addErrorMessage('密码修改失败'));
-      /**
-       * data.msg.old_password.[0: "error"]
-       */
-    }
-  });
+export const useResetPassword = () => {
+  const dispatch = useDispatch();
+  return useCallback((values) =>
+    api.resetPassword(values).then(res => {
+      if (res.status === 'success') {
+        dispatch(addSuccessMessage('密码修改成功'));
+      } else {
+        dispatch(addErrorMessage('密码修改失败'));
+        /**
+         * data.msg.old_password.[0: "error"]
+         */
+      }
+    }), [dispatch]);
 };
 
-export const getUserInfo = (setLoading) => dispatch => {
-  api.getUserInfo().then(res => {
-    if (res.status === 'success') {
-      dispatch(changeFormField({...res.data, form: FORM.userInfo}));
-      setLoading(false);
-    } else {
-      dispatch(addErrorMessage('获取用户信息失败'));
-    }
-  });
+export const useGetUserInfo = () => {
+  const dispatch = useDispatch();
+  return useCallback((setLoading) =>
+    api.getUserInfo().then(res => {
+      if (res.status === 'success') {
+        dispatch(changeFormField({...res.data, form: FORM.userInfo}));
+        setLoading(false);
+      } else {
+        dispatch(addErrorMessage('获取用户信息失败'));
+      }
+    }), [dispatch]);
 };
 
-export const modifyUserInfo = (values) => dispatch => {
-  api.modifyUserInfo(values).then(res => {
-    if (res.status === 'success') {
-      dispatch(addSuccessMessage('用户信息修改成功'));
-    } else {
-      dispatch(addErrorMessage('用户信息修改失败'));
-    }
-  });
+export const useModifyUserInfo = () => {
+  const dispatch = useDispatch();
+  return useCallback((values) =>
+    api.modifyUserInfo(values).then(res => {
+      if (res.status === 'success') {
+        dispatch(addSuccessMessage('用户信息修改成功'));
+      } else {
+        dispatch(addErrorMessage('用户信息修改失败'));
+      }
+    }), [dispatch]);
 };
 
-export const logout = () => dispatch => {
-  api.logout().then(res => {
-    if (res.status === 'success') {
-      toLogin();
-    } else {
-      dispatch(addErrorMessage('登出失败'));
-    }
-  });
+export const useLogout = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  return useCallback(() =>
+    api.logout().then(res => {
+      if (res.status === 'success') {
+        router.toLogin();
+      } else {
+        dispatch(addErrorMessage('登出失败'));
+      }
+    }), [dispatch, router]);
 };
 
 

@@ -1,8 +1,7 @@
 import React, {lazy, Suspense, useReducer} from 'react';
-import {Route, Router, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import router from './contants/router';
 import './global.css';
-import history from "./history";
 import {Loading} from "./components";
 import {hot} from 'react-hot-loader';
 import MessageQueue from './containers/messageQueue/MessageQueue';
@@ -40,7 +39,7 @@ const App = React.memo(function App() {
 const ContextApp = React.memo(function ContextApp() {
   return (
     <Suspense fallback={<Loading/>}>
-      <Router history={history}>
+      <Router>
         <ErrorBoundaries>
           <MessageQueue/>
           <Switch>

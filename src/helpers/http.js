@@ -1,10 +1,12 @@
-import axios from "axios";
-import {toLogin} from "../history";
+import Axios from "axios";
+import {useEffect, useMemo} from "react";
+import router from '../contants/router'
+
+const axios = Axios.create();
 
 let base = '/admin/api/';
 let localhost = 'http://127.0.0.1:5000';
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
-
 if (process.env.NODE_ENV === 'development') {
   base = localhost + base;
 } else {
@@ -14,35 +16,8 @@ if (process.env.NODE_ENV === 'development') {
 
 axios.defaults.baseURL = base;
 
-axios.interceptors.request.use(config => {
-  const identify = localStorage.identify;
-  const Authorization = localStorage.Authorization;
-  if (identify && Authorization) {
-    config.headers.identify = identify;
-    config.headers.Authorization = `Bearer ${Authorization}`;
-  }
-  return config;
-}, error => {
-  //请求超时
-  return Promise.resolve(error);
-});
 
-axios.interceptors.response.use(res => {
-  return res.data;
-}, error => {
-  const data = error.response;
-  if (data) {
-    const status = data.status;
-    if (status === 401) {
-      toLogin();
-    } else if (status === 401) {
-      // toAdmin();
-    }
-  }
-  return Promise.resolve(error.response);
-});
-
-export const api = {
+const api = {
   tags: '/tags%',
   tagsImage: '/images/tags%',
   allTags: '/posts/tags/all',
@@ -56,6 +31,55 @@ export const api = {
   checkRegister: '/user/register',
   images: '/images%',
 };
+
+const useAxiosLoader = () => {
+  const history = useHistory();
+  const interceptors = useMemo(() => ({
+    request: config => {
+      const identify = localStorage.identify;
+      const Authorization = localStorage.Authorization;
+      if (identify && Authorization) {
+        config.headers.identify = identify;
+        config.headers.Authorization = `Bearer ${Authorization}`;
+      }
+      return config;
+    },
+    response: response => {
+      return response.data;
+    },
+    requestError: error => {
+      return Promise.resolve(error);
+    },
+    responseError: error => {
+      const data = error.response;
+      if (data) {
+        const status = data.status;
+        if (status === 401) {
+          history.push(router.LOGIN)
+          // toLogin();
+        } else if (status === 401) {
+          // toAdmin();
+        }
+      }
+      return Promise.resolve(error.response);
+    }
+  }), [history]);
+
+  useEffect(() => {
+    const reqInterceptor = axios.interceptors.request.use(
+      interceptors.request, interceptors.requestError
+    );
+    const resInterceptor = axios.interceptors.response.use(
+      interceptors.response, interceptors.responseError
+    );
+    return () => {
+      axios.interceptors.request.eject(reqInterceptor);
+      axios.interceptors.response.eject(resInterceptor);
+    };
+  }, [interceptors]);
+};
+
+
 const generateApi = (resource, method = 'get', type, ...config) => (data = null, id = null) => {
   if (type === 'form') {
     config.push({
@@ -69,6 +93,12 @@ const generateApi = (resource, method = 'get', type, ...config) => (data = null,
      */
     axios({method, url, params: data, ...config}) :
     axios({method, url, data: data, ...config});
+};
+
+export {
+  axios,
+  api,
+  useAxiosLoader
 };
 
 export default {
