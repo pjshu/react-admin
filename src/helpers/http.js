@@ -1,7 +1,7 @@
 import axios from "axios";
 import {toLogin} from "../history";
 
-let base = '/api/admin/';
+let base = '/admin/api/';
 let localhost = 'http://127.0.0.1:5000';
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 

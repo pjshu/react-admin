@@ -1,13 +1,14 @@
 import React from 'react';
 import {toEditorState} from "../helpers/misc";
+import {EDITOR} from "../config/editor";
 
 //redux 储存braftjs 数据有问题
 // 于是用这个context储存
 //BUG: about(后端) -> aboutMe
 export const defaultValue = {
-  article: toEditorState(null),
-  excerpt: toEditorState(null),
-  about: toEditorState(null),
+  article: toEditorState(null, EDITOR.article),
+  excerpt: toEditorState(null, EDITOR.excerpt),
+  about: toEditorState(null, EDITOR.about),
 };
 
 

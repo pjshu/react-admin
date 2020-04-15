@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import {Button} from "@material-ui/core";
 import Prism from './prism';
-import 'braft-extensions/dist/emoticon.css';
 import useStyles from './preview.style';
 import ReactDOM from 'react-dom';
 import {areEqual} from "../../helpers/misc";
@@ -12,7 +11,7 @@ import './prism.css';
 const modalRoot = document.getElementById('modal-root');
 
 
-export const PreviewField = React.memo(({name}) => {
+export const PreviewField = React.memo(function PreviewField({name}) {
   const {state} = useContext(EditorContext);
   const value = state[name];
   const classes = useStyles();

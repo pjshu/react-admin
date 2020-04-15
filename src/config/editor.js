@@ -7,8 +7,6 @@ import CodeHighlighter from "braft-extensions/dist/code-highlighter";
 import Emoticon, {defaultEmoticons} from 'braft-extensions/dist/emoticon';
 // 为标题区块(h1-h6)增加随机的id，便于在展示页支持锚点跳转功能
 import HeaderId from 'braft-extensions/dist/header-id';
-
-
 import 'prismjs/components/prism-python.min';
 import 'prismjs/components/prism-jsx.min';
 import 'prismjs/components/prism-bash.min';
@@ -18,7 +16,7 @@ import 'prismjs/components/prism-c.min';
 // 支持的语言高亮https://prismjs.com/#languages-list
 
 // 编辑器代码高亮
-export const codeHighlighterOptions = {
+const codeHighlighterOptions = {
   syntaxs: [
     {
       name: 'JavaScript',
@@ -47,16 +45,44 @@ export const codeHighlighterOptions = {
   ]
 };
 
+export const EDITOR = {
+  article: 'article',
+  about: 'about',
+  excerpt: 'excerpt'
+};
+
+// TODO excludeEditors设置无效
+// 表格点击崩溃
+const tableConfig = {
+  defaultColumns: 3, // 默认列数
+  defaultRows: 3, // 默认行数
+  withDropdown: false, // 插入表格前是否弹出下拉菜单
+  columnResizable: false, // 是否允许拖动调整列宽，默认false
+  exportAttrString: '', // 指定输出HTML时附加到table标签上的属性字符串
+  excludeEditors: [EDITOR.excerpt] // 指定该模块对哪些BraftEditor无效
+};
 
 // // TODO: 自定义表情包 https://github.com/margox/braft-extensions
-const emoticons = defaultEmoticons.map(item => require(`braft-extensions/dist/assets/${item}`));
-
 const emojiOption = {
-  emoticons: emoticons, // 指定可用表情图片列表，默认为空
+  emoticons: defaultEmoticons.map(item => require(`braft-extensions/dist/assets/${item}`)), // 指定可用表情图片列表，默认为空
   closeOnBlur: true, // 指定是否在点击表情选择器之外的地方时关闭表情选择器，默认false
   closeOnSelect: true // 指定是否在选择表情后关闭表情选择器，默认false
 };
 
-BraftEditor.use([Table(), Markdown(), CodeHighlighter(codeHighlighterOptions), HeaderId(), Emoticon(emojiOption)]);
+const markdownConfig = {
+  excludeEditors: [EDITOR.excerpt]
+};
+
+const HeaderIdConfig = {
+  excludeEditors: [EDITOR.excerpt]
+};
+
+BraftEditor.use([
+  Table(tableConfig),
+  Markdown(markdownConfig),
+  CodeHighlighter(codeHighlighterOptions),
+  HeaderId(HeaderIdConfig),
+  Emoticon(emojiOption)]
+);
 
 export default BraftEditor;

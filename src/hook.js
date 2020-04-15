@@ -21,8 +21,9 @@ import {
   resetPassword,
   resetEmail
 } from "./redux/userSlice";
-import {blog2Base64, toEditorState, toRaw} from "./helpers/misc";
+import {blog2Base64, toEditorState, convertEditorState} from "./helpers/misc";
 import {refresh_token_space} from "./config/security";
+import {EDITOR} from "./config/editor";
 
 
 export const useAuth = () => {
@@ -98,6 +99,7 @@ export const useRefreshToken = () => {
 
 export const useGetPost = (postId) => {
   const [loading, setLoading] = useState(true);
+
   // 由于需要使用useContext,useGetPost不写成非hook形式,所以不放在postSlice.js内
   const {dispatch: dispatchEditorState, action} = useContext(EditorContext);
   const dispatch = useDispatch();
@@ -107,8 +109,8 @@ export const useGetPost = (postId) => {
       if (res.status === 'success') {
         const {data: {article, excerpt, ...values}} = res;
         dispatch(changeFormField({...values, form: FORM.post}));
-        dispatchEditorState(action.article(toEditorState(article)));
-        dispatchEditorState(action.excerpt(toEditorState(excerpt)));
+        dispatchEditorState(action.article(toEditorState(article, EDITOR.article)));
+        dispatchEditorState(action.excerpt(toEditorState(excerpt, EDITOR.excerpt)));
         setLoading(false);
       } else {
         dispatch(addErrorMessage('请求错误'));
@@ -130,8 +132,9 @@ const useSubmitPost = () => {
 
   return useCallback((form, postId) => {
     const data = {...form, article, excerpt};
-    toRaw(data, 'article');
-    toRaw(data, 'excerpt');
+    convertEditorState(data, 'article');
+    convertEditorState(data, 'excerpt');
+    console.log(data.article_html);
     data.create_date = formatTime(data.create_date);
     dispatch(modifyPost(data, postId));
   }, [article, dispatch, excerpt]);
@@ -173,10 +176,7 @@ const useSubmitUserInfo = () => {
   const dispatch = useDispatch();
   return useCallback(async (res) => {
     const data = {...res};
-    if (data.about) {
-      data.about = data.about.toRAW();
-      data.about_html = data.about.toHTML();
-    }
+    convertEditorState(data, 'about');
     if (data.avatar) {
       data.avatar = await blog2Base64(data.avatar);
     }

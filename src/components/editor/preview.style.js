@@ -1,5 +1,4 @@
 import {makeStyles} from "@material-ui/core/styles";
-import 'braft-editor/dist/output.css';
 
 
 export default makeStyles((theme) => ({

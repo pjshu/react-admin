@@ -14,13 +14,14 @@ import {setClickCardId, closeCardModal} from '../../redux/imageSlice';
 const CardModal = React.memo(function CardModal(props) {
   const {handleUpdate, handleDelete} = props;
   const {images, clickCardId, cardModalOpen} = useSelector(selectImages);
+
   const dispatch = useDispatch();
   //从images数组中获取被点击图片详细信息
   const image = images.filter(item => item.id === clickCardId)[0];
   const {count, image: {url}, upload, relationship, describe} = image || {
     image: {url: ''}
   };
-  const getNextMoveId = React.useCallback((images) => {
+  const getNextMoveId = useCallback((images) => {
     let miss = false;
     for (let item of images) {
       if (item.id === clickCardId) {
@@ -31,6 +32,7 @@ const CardModal = React.memo(function CardModal(props) {
       }
     }
   }, [clickCardId, dispatch]);
+
 
   const handleNextCard = useCallback(() => {
     const lastCardId = images[images.length - 1].id;

@@ -16,6 +16,7 @@ import {SubmitBtn} from "../../components/Form";
 import {areEqual, toEditorState} from "../../helpers/misc";
 import EditorContext from "../../redux/editorState";
 import {FORM, selectForm} from "../../redux/formSlice";
+import {EDITOR} from "../../config/editor";
 
 
 const SpeedSetting = React.memo(function SpeedSetting({postId}) {
@@ -74,14 +75,14 @@ const ContextSpeedSetting = React.memo(function ({id, postId}) {
 const UploadMarkdown = React.memo(({postId}) => {
   const classes = useStyles();
   const disPatch = useDispatch();
-  const {disPatchEditorState,action} = useContext(EditorContext);
+  const {disPatchEditorState, action} = useContext(EditorContext);
 
   const readText = useCallback((file) => {
     const reader = new FileReader();
     reader.readAsText(file[0]);
     reader.onload = function (res) {
       let htmlString = marked(res.target.result);
-      disPatchEditorState(action.article(toEditorState(htmlString)))
+      disPatchEditorState(action.article(toEditorState(htmlString, EDITOR.article)));
     };
   }, [action, disPatchEditorState]);
 

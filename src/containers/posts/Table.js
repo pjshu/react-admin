@@ -5,14 +5,15 @@ import Chip from "@material-ui/core/Chip";
 import {useDispatch} from "react-redux";
 import {addPost} from "../../redux/postSlice";
 import api from '../../helpers/http';
+import {areEqual} from "../../helpers/misc";
 
-const Tags = ({values}) => (
+const Tags = React.memo(({values}) => (
   <>
     {values.map(tag => (
       <Chip key={tag} label={tag}/>
     ))}
   </>
-);
+), areEqual);
 
 function Tables() {
   const dispatch = useDispatch();
@@ -81,4 +82,4 @@ function Tables() {
   );
 }
 
-export default React.memo(Tables)
+export default React.memo(Tables);

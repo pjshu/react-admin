@@ -1,6 +1,4 @@
-import BraftEditor from "braft-editor";
-
-let count = 0;
+import BraftEditor from "../config/editor";
 
 export async function getImageForm(blobUrl) {
   const form = new FormData();
@@ -10,17 +8,17 @@ export async function getImageForm(blobUrl) {
 }
 
 //转化BraftState
-export const toRaw = (data, field) => {
+export const convertEditorState = (data, field) => {
   try {
-    data[`${data}_html`] = data[field].toHTML();
+    data[`${field}_html`] = data[field].toHTML();
     data[field] = data[field].toRAW();
   } catch (e) {
 
   }
 };
 
-export const toEditorState = (data) => {
-  return BraftEditor.createEditorState(data);
+export const toEditorState = (data, editorId) => {
+  return BraftEditor.createEditorState(data, {editorId});
 };
 
 export const blog2Base64 = (data) => new Promise((resolve => {
