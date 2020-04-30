@@ -40,7 +40,7 @@ const ConfirmModal = React.memo(() => {
 });
 
 
-function MyModal() {
+function SubmitModal() {
   const dispatch = useDispatch();
   const {modalOpen} = useSelector(selectRegister);
   const classes = useStyles();
@@ -67,4 +67,4 @@ function MyModal() {
     </Grid>
   );
 }
-export default React.memo(MyModal)
+export default React.memo(SubmitModal)

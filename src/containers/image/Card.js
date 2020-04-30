@@ -4,6 +4,7 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import useStyles from './card.style';
 import {useDispatch} from "react-redux";
 import {setClickCardId, openCardModal} from '../../redux/imageSlice';
+import {areEqual} from "../../helpers/misc";
 
 const MyCard = (props) => {
   const classes = useStyles();
@@ -61,10 +62,4 @@ const MyCard = (props) => {
   );
 };
 
-export default React.memo(MyCard, (pre, next) => {
-  return pre.image.url === next.image.url &&
-    pre.upload === next.upload &&
-    pre.id === next.id &&
-    pre.handleDelete === next.handleDelete &&
-    pre.uploadImage === next.uploadImage;
-});
+export default React.memo(MyCard, areEqual);

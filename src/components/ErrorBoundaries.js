@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import {captureException, withScope} from '@sentry/browser';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   }
 });
 
-class ErrorBoundaries extends PureComponent {
+class ErrorBoundaries extends Component {
   constructor(props) {
     super(props);
     this.state = {eventId: null};

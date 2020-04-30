@@ -1,3 +1,5 @@
+// @flow
+
 import {createSlice} from '@reduxjs/toolkit';
 import api from "../helpers/http";
 import {addErrorMessage, addLoadingMessage, addSuccessMessage, setMessageState} from "./globalSlice";
@@ -66,7 +68,7 @@ export const addTagImg = (value, updateHandler) => dispatch => {
 };
 
 
-export const modifyTag = (value, updateHandler) => dispatch => {
+export const modifyTag = (value:Object, updateHandler) => dispatch => {
   api.modifyTag(value, value.id).then(res => {
     if (res.status === 'success') {
       updateHandler({...value});

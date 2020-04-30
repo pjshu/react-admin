@@ -16,9 +16,8 @@ const toLogin = () => {
   history.push(router.LOGIN);
 };
 
-const toPreView = () => {
-  history.push();
+const toRecoveryPass = () => {
+  history.push(router.RECOVER_PASSWORD);
 };
-
-export {toAdmin, toPost, toLogin, toPreView};
+export {toAdmin, toPost, toLogin, toRecoveryPass};
 export default history;

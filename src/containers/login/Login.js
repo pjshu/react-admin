@@ -11,13 +11,13 @@ function Login() {
 
   return (
     <div className={classes.container}>
-      <div className={classes.paper}>
+      <form className={classes.paper}>
         <div className={classes.fullWidth}>
           <div>
             {
               [
-                {name: "username", label: "用户名"},
-                {name: "password", label: "密码", type: "password"}
+                {name: "username", label: "用户名", variant: "outlined"},
+                {name: "password", label: "密码", type: "password", variant: "outlined"}
               ].map(item => (
                 <div key={item.name} className={classes.spacing}>
                   <Field formName={FORM.login} {...item}/>
@@ -48,7 +48,7 @@ function Login() {
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

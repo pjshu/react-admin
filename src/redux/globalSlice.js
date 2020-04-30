@@ -72,7 +72,6 @@ export const slice = createSlice({
 });
 export const {addWarningMessage, addErrorMessage, addLoadingMessage, addSuccessMessage} = slice.actions;
 export const {removeMessage, setMessageState, clearAllMessage} = slice.actions;
-export const {closeMessage} = slice.actions;
 export const selectMessage = state => state.global;
 
 export default slice.reducer;

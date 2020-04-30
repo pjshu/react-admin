@@ -7,7 +7,7 @@ import {FORM} from "../../redux/formSlice";
 function RegisterEmail() {
   const classes = useStyles();
   return (
-    <Grid container direction={"column"}>
+    <Grid container direction={"column"} className={classes.root}>
       <div className={classes.wrapper}>
         <Field
           formName={FORM.register}

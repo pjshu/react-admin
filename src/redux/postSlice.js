@@ -8,7 +8,7 @@ import {changeFormField, FORM} from "./formSlice";
 export const slice = createSlice({
   name: 'post',
   initialState: {
-    drawOpen: true,
+    drawOpen: false,
     autoSave: {
       open: true,
       time: 1

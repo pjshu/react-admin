@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import {registerSentrySDK} from './config/security';
 
+registerSentrySDK();
 // if (process.env.NODE_ENV === 'development') {
 //   const whyDidYouRender = require('@welldone-software/why-did-you-render');
 //   whyDidYouRender(React, {
@@ -11,10 +13,11 @@ import * as serviceWorker from './serviceWorker';
 //   });
 // }
 
-
+// experimental 模式hot loader无效
+const root = document.getElementById('root');
 
 ReactDOM.createRoot(
-  document.getElementById('root')
+  root
 ).render(<App/>);
 
 // If you want your app to work offline and load faster, you can change

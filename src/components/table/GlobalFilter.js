@@ -4,7 +4,7 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import useStyles from './globalFilter.style';
-import {areEqual} from "../../helpers/misc";
+
 
 const GlobalFilter = ({globalFilter, setGlobalFilter}) => {
   const classes = useStyles();

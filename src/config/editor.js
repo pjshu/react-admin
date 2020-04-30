@@ -1,5 +1,5 @@
 import BraftEditor from "braft-editor";
-import Table from "braft-extensions/dist/table";
+// import Table from "braft-extensions/dist/table";
 // Markdown语法支持模块, 该模块暂时不支持markdown表格语法
 // TODO: 支持关闭markdown语法支持
 import Markdown from "braft-extensions/dist/markdown";
@@ -51,16 +51,16 @@ export const EDITOR = {
   excerpt: 'excerpt'
 };
 
-// TODO excludeEditors设置无效
+// BUG： excludeEditors设置无效
 // 表格点击崩溃
-const tableConfig = {
-  defaultColumns: 3, // 默认列数
-  defaultRows: 3, // 默认行数
-  withDropdown: false, // 插入表格前是否弹出下拉菜单
-  columnResizable: false, // 是否允许拖动调整列宽，默认false
-  exportAttrString: '', // 指定输出HTML时附加到table标签上的属性字符串
-  excludeEditors: [EDITOR.excerpt] // 指定该模块对哪些BraftEditor无效
-};
+// const tableConfig = {
+//   defaultColumns: 3, // 默认列数
+//   defaultRows: 3, // 默认行数
+//   withDropdown: false, // 插入表格前是否弹出下拉菜单
+//   columnResizable: false, // 是否允许拖动调整列宽，默认false
+//   exportAttrString: '', // 指定输出HTML时附加到table标签上的属性字符串
+//   excludeEditors: [EDITOR.excerpt] // 指定该模块对哪些BraftEditor无效
+// };
 
 // // TODO: 自定义表情包 https://github.com/margox/braft-extensions
 const emojiOption = {
@@ -78,7 +78,7 @@ const HeaderIdConfig = {
 };
 
 BraftEditor.use([
-  Table(tableConfig),
+  // Table(tableConfig),
   Markdown(markdownConfig),
   CodeHighlighter(codeHighlighterOptions),
   HeaderId(HeaderIdConfig),

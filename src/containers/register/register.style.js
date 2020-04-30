@@ -8,10 +8,9 @@ export default makeStyles((theme) => ({
     height: '100%'
   },
   container: {
-    maxWidth: 800,
+    width: 800,
     minWidth: 760,
     height: '100%',
-    width: '100%',
   },
   form: {
     width: '100%',

@@ -3,8 +3,8 @@ import {Button, Grid} from "@material-ui/core";
 import {
   asyncDecSendCodeTime,
   resetSendCodeTime,
-  sendRestEmailCode,
   selectValidateCode,
+  sendRestEmailCode,
   setIsSendCode
 } from '../../redux/userSlice';
 import {useDispatch, useSelector} from "react-redux";
@@ -33,8 +33,7 @@ function ResetEmail() {
   }, [dispatch]);
 
   return (
-
-    <Grid container direction={"column"} spacing={5}>
+    <Grid component={'form'} container direction={"column"} spacing={5}>
       <Grid item>
         <Field
           formName={FORM.resetEmail}

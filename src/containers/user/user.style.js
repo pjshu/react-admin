@@ -32,5 +32,8 @@ export default makeStyles((theme) => ({
   },
   inputIcon: {
     width: '350px'
+  },
+  submitBTN: {
+    marginTop: 40
   }
 }));

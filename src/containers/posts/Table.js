@@ -17,8 +17,7 @@ const Tags = React.memo(({values}) => (
 
 function Tables() {
   const dispatch = useDispatch();
-  const columns = React.useMemo(
-    () => [
+  const columns = React.useMemo(() => [
       {
         id: 'id',
         Header: 'id',

@@ -131,12 +131,12 @@ const ContextMessageBox = React.memo(function ContextMessageBox({messageLength, 
 const MemoMenu = React.memo(function MemoMenu(props) {
   const {message} = useSelector(selectMessage);
   return <ContextMemoMenu {...{message, ...props}}/>;
-}, areEqual);
+});
 
 const ContextMemoMenu = React.memo(function MemoMenu(props) {
   const {handleMenuClose, messageMenu, handleClearAll, message} = props;
   const classes = useStyles();
-  const paperProps = useMemo({
+  const paperProps = useMemo(() => ({
     style: {
       minHeight: 100,
       maxHeight: 400,
@@ -144,7 +144,7 @@ const ContextMemoMenu = React.memo(function MemoMenu(props) {
       maxWidth: 350,
       overflow: 'scroll'
     },
-  }, []);
+  }), []);
   return (
     <Menu
       id="long-menu"
@@ -190,7 +190,7 @@ const MemoAlert = React.memo(function MemoAlert({msg, handleMenuClose}) {
       {msg.message}/{msg.time}
     </Alert>
   );
-}, areEqual);
+});
 
 
 const MemoDraw = React.memo(function MemoDraw({open}) {

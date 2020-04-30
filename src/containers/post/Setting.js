@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {Drawer, FormControl, Grid, IconButton, InputLabel, MenuItem, Select, TextField,} from '@material-ui/core';
 import {Field} from '../../components/Form';
 import Tags from './Tags';
@@ -29,7 +29,7 @@ const ContextSetting = React.memo(function ContextSetting(props) {
   }, [dispatch]);
   const inputProps = useMemo(() => ({
     readOnly: true
-  }));
+  }), []);
   return (
     <Drawer
       variant="persistent"

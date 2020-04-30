@@ -2,13 +2,7 @@ import React, {useCallback, useState} from 'react';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import EnhancedTable from './Table';
-import {objAreEqual} from "../../helpers/misc";
 
-const tableAreEqual = (pre, next) => {
-  //不对比columns字段
-  const blacklist = ['columns', 'tableName'];
-  return objAreEqual(pre, next, blacklist);
-};
 
 const Table = (props) => {
   const {
@@ -61,6 +55,7 @@ const Table = (props) => {
   );
 };
 
-export default React.memo(Table, () => {
+export default React.memo(Table, (pre, next) => {
+  console.log(pre,'table');
   return true;
 });

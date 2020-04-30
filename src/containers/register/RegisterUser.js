@@ -16,12 +16,12 @@ function RegisterUser() {
       >
         {
           [
-            {name: 'nickname', label: '昵称', variant: "outlined"},
-            {name: 'username', label: '用户名', variant: "outlined"}
+            {name: 'nickname', label: '昵称'},
+            {name: 'username', label: '用户名'}
           ].map(item => (
             <Field
               key={item.name}
-              {...{...item, fullWidth: false, formName: FORM.register}}
+              {...{...item, fullWidth: false, variant: "outlined", formName: FORM.register}}
             />))
         }
       </Grid>
@@ -29,10 +29,12 @@ function RegisterUser() {
       <Grid container justify="space-around" className={classes.password}>
         {
           [
-            {name: 'password', label: '密码', type: "password",},
+            {name: 'password', label: '密码', type: "password"},
             {name: 'confirm_password', label: '确认密码', type: "password"},
           ].map(item => (
-            <Field key={item.name} {...{...item, variant: "outlined", fullWidth: false, formName: FORM.register}}/>
+            <Field key={item.name}
+                   {...{...item, variant: "outlined", fullWidth: false, formName: FORM.register}}
+            />
           ))
         }
       </Grid>

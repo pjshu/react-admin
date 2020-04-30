@@ -27,7 +27,7 @@ import {
   useTable
 } from 'react-table';
 import useStyles from './table.style';
-import {objAreEqual, areEqual} from "../../helpers/misc";
+import {objAreEqual} from "../../helpers/misc";
 
 
 const EnhancedTable = (props) => {
@@ -235,7 +235,7 @@ const EnhancedTable = (props) => {
   );
 };
 
-const TableHeader = React.memo(({headerGroups}) => {
+const TableHeader = ({headerGroups}) => {
   const classes = useStyles();
   return (
     <MuiTableHeader>
@@ -265,10 +265,7 @@ const TableHeader = React.memo(({headerGroups}) => {
       ))}
     </MuiTableHeader>
   );
-}, () => {
-  // TODO 注意,表单头,写死不重新渲染,以后扩展可能有bug
-  return true;
-});
+};
 
 
 const MemoPagination = React.memo((props) => {
@@ -278,6 +275,7 @@ const MemoPagination = React.memo((props) => {
   const labelDisplayedRows = useCallback(({from, to, count}) => {
     return `${from}-${to}/${count}`;
   }, []);
+
   const SelectProps = useMemo(() => ({
     inputProps: {'aria-label': 'rows per page'},
     // native: true,
@@ -315,6 +313,6 @@ const MemoPagination = React.memo((props) => {
 //   return objAreEqual(pre, next, blacklist);
 // };
 
-export default React.memo(EnhancedTable, () => {
-  return true;
+export default React.memo(EnhancedTable, (pre, next) => {
+  return objAreEqual(pre.data, next.data);
 });

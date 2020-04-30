@@ -1,9 +1,9 @@
 import React, {useCallback, useMemo} from 'react';
 import {changeFormField, selectForm} from "../redux/formSlice";
-// import {objAreEqual} from '../helpers/misc';
 import {useDispatch, useSelector} from "react-redux";
 import {useSubmit} from "../hook";
 import {Button, TextField} from "@material-ui/core";
+import {objAreEqual} from "../helpers/misc";
 
 //使用方法与formik类似:
 // Field默认as={TextField}
@@ -27,6 +27,10 @@ import {Button, TextField} from "@material-ui/core";
 //   return objAreEqual(pre, next, blacklist);
 // };
 
+const areEqual = (pre, next) => {
+  return objAreEqual(pre, next, ['as']);
+};
+
 const Field = React.memo(function Field(props) {
   const {as, label, name, formName, getValue, children, ...rest} = props;
   const {errors, [formName]: form} = useSelector(selectForm);
@@ -36,7 +40,7 @@ const Field = React.memo(function Field(props) {
 
   const error = useMemo(() => {
     const field = errors['name'];
-    const value = errors['value'];
+    const value = field === name ? errors['value'] : '';
     return {
       text: value,
       isError: field === name
@@ -82,11 +86,7 @@ const ContextField = React.memo(function ContextField(props) {
       {...rest}
     />
   );
-}, (pre, next) => {
-  return pre.getValue === next.getValue &&
-    pre.value === next.value &&
-    pre.error === next.error;
-});
+}, areEqual);
 
 const SubmitBtn = React.memo(function SubmitBtn(props) {
   const {children, formName, hookParam, as, ...rest} = props;

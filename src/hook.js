@@ -1,3 +1,5 @@
+// @flow
+
 import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 import api from './helpers/http';
 import router from "./contants/router";
@@ -8,7 +10,7 @@ import {addTagImg, modifyTag} from "./redux/tagSlice";
 import {useDispatch, useSelector} from "react-redux";
 import EditorContext from "./redux/editorState";
 import {addErrorMessage} from "./redux/globalSlice";
-import {FORM, selectForm, clearFormError, changeFormField, changeFormError} from "./redux/formSlice";
+import {changeFormError, changeFormField, clearFormError, FORM, selectForm} from "./redux/formSlice";
 import {validations} from "./helpers/validate";
 import {
   closeModal,
@@ -16,12 +18,12 @@ import {
   modifyUserInfo,
   recoveryPassword,
   register,
-  resetSendCodeTime,
-  sendRecPassCode,
+  resetEmail,
   resetPassword,
-  resetEmail
+  resetSendCodeTime,
+  sendRecPassCode
 } from "./redux/userSlice";
-import {blog2Base64, toEditorState, convertEditorState} from "./helpers/misc";
+import {blob2Base64, convertEditorState, toEditorState} from "./helpers/misc";
 import {refresh_token_space} from "./config/security";
 import {EDITOR} from "./config/editor";
 
@@ -97,7 +99,7 @@ export const useRefreshToken = () => {
 };
 
 
-export const useGetPost = (postId) => {
+export const useGetPost = (postId: number) => {
   const [loading, setLoading] = useState(true);
 
   // 由于需要使用useContext,useGetPost不写成非hook形式,所以不放在postSlice.js内
@@ -130,11 +132,10 @@ const useSubmitPost = () => {
   const {state: {article, excerpt}} = useContext(EditorContext);
   const dispatch = useDispatch();
 
-  return useCallback((form, postId) => {
+  return useCallback((form: Object, postId: number) => {
     const data = {...form, article, excerpt};
     convertEditorState(data, 'article');
     convertEditorState(data, 'excerpt');
-    console.log(data.article_html);
     data.create_date = formatTime(data.create_date);
     dispatch(modifyPost(data, postId));
   }, [article, dispatch, excerpt]);
@@ -147,16 +148,16 @@ const useSubmitLogin = () => {
   }, [dispatch]);
 };
 
-const useSubmitRecPass = () => {
+const useSubmitRecPass: Function = () => {
   const dispatch = useDispatch();
   const {[FORM.recoveryPasswordSendCode]: {email}} = useSelector(selectForm);
 
-  return useCallback((values) => {
+  return useCallback((values: Object) => {
     dispatch(recoveryPassword({...values, email}));
   }, [dispatch, email]);
 };
 
-const useRecPassFormRendCode = () => {
+const useRecPassFormRendCode: Function = () => {
   const dispatch = useDispatch();
   return useCallback((res) => {
     dispatch(resetSendCodeTime());
@@ -164,7 +165,7 @@ const useRecPassFormRendCode = () => {
   }, [dispatch]);
 };
 
-const useSubmitRegister = () => {
+const useSubmitRegister: Function = () => {
   const dispatch = useDispatch();
   return useCallback((res) => {
     dispatch(closeModal());
@@ -172,35 +173,35 @@ const useSubmitRegister = () => {
   }, [dispatch]);
 };
 
-const useSubmitUserInfo = () => {
+const useSubmitUserInfo: Function = () => {
   const dispatch = useDispatch();
   return useCallback(async (res) => {
     const data = {...res};
     convertEditorState(data, 'about');
     if (data.avatar) {
-      data.avatar = await blog2Base64(data.avatar);
+      data.avatar = await blob2Base64(data.avatar);
     }
     dispatch(modifyUserInfo(data));
   }, [dispatch]);
 };
 
-const useResetEmail = () => {
+const useResetEmail: Function = () => {
   const dispatch = useDispatch();
   return useCallback((res) => {
     dispatch(resetEmail(res));
   }, [dispatch]);
 };
 
-const useResetPassword = () => {
+const useResetPassword: Function = () => {
   const dispatch = useDispatch();
   return useCallback((res) => {
     dispatch(resetPassword(res));
   }, [dispatch]);
 };
 
-const useSubmitTagsForm = () => {
+const useSubmitTagsForm: Function = () => {
   const dispatch = useDispatch();
-  return useCallback((value, {updateHandler, addMultiple}) => {
+  return useCallback((value: Object, {updateHandler, addMultiple}: Object<Function>) => {
     dispatch(modifyTag(value, updateHandler));
     dispatch(addTagImg(value, updateHandler));
     addMultiple();
@@ -220,7 +221,7 @@ const submitHooks = {
   [FORM.tags]: useSubmitTagsForm
 };
 
-export const useSubmit = (formName, ...other) => {
+export const useSubmit = (formName: string, ...other) => {
   const schema = validations[formName];
   const useSubmit = submitHooks[formName];
   const {[formName]: form} = useSelector(selectForm);
@@ -243,7 +244,7 @@ export const useSubmit = (formName, ...other) => {
 
 
 // 定时提交
-export const useTiming = (autoSave, postId) => {
+export const useTiming = (autoSave: Object, postId: number) => {
   const onSubmit = useSubmit(FORM.post, postId);
   const timerId = React.useRef();
   const timingUpload = useCallback(() => {

@@ -20,19 +20,17 @@ import {Field, SubmitBtn} from "../../components/Form";
 import {FORM, selectForm, changeFormField} from "../../redux/formSlice";
 
 
-const EditorDialog = React.memo((props) => {
+function EditorDialog(props) {
   const {[FORM.tags]: {image}} = useSelector(selectForm);
   const {dialogState} = useSelector(selectTag);
-
   return <ContextEditorDialog {...{...props, dialogState, image}}/>;
-});
+}
 
 
 const ContextEditorDialog = (props) => {
   const {updateHandler, dialogState, openDialog, image} = props;
   const dispatch = useDispatch();
   const closeDialog = useCallback(() => {
-
     dispatch(_closeDialog());
   }, [dispatch]);
   const classes = useStyles();
@@ -156,6 +154,5 @@ const ContextEditorDialog = (props) => {
     </div>
   );
 };
-
 
 export default React.memo(EditorDialog, areEqual);

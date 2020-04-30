@@ -2,8 +2,12 @@ import React from 'react';
 import {Grid} from '@material-ui/core';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import {Field} from "../../components/Form";
-import {areEqual} from "../../helpers/misc";
+import {objAreEqual} from "../../helpers/misc";
 import {FORM} from "../../redux/formSlice";
+
+const areEqual = (pre, next) => {
+  return objAreEqual(pre, next, ['icon']);
+};
 
 function InputWithIcon({icon, label, info, name, ...other}) {
   return (

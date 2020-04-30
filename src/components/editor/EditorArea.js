@@ -4,7 +4,6 @@ import MyEditor from "../../components/editor/Editor";
 import useStyles from './editorArea.style';
 import ReactDOM from 'react-dom';
 import {PreviewField} from './Preview';
-import {areEqual} from "../../helpers/misc";
 
 
 const modalRoot = document.getElementById('modal-root');

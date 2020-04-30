@@ -3,9 +3,11 @@ import {Button, Grid, Step, StepContent, StepLabel, Stepper,} from "@material-ui
 import RegisterUser from './RegisterUser';
 import useStyles from './register.style';
 import RegisterEmail from "./RegisterEmail";
-import Modal from "./Modal";
+import SubmitModal from "./Modal";
 import {decrementActiveStep, increaseActiveStep, selectRegister} from "../../redux/userSlice";
 import {useDispatch, useSelector} from "react-redux";
+import {changeFormError, selectForm} from "../../redux/formSlice";
+import {validateRegister} from "../../helpers/validate";
 
 
 function Content({step, ...other}) {
@@ -22,25 +24,6 @@ function Register() {
   const {activeStep} = useSelector(selectRegister);
   const dispatch = useDispatch();
   const steps = ['创建用户(必选)', '添加邮箱(可选)'];
-  const formRef = React.useRef();
-
-  const canNext = useCallback(() => {
-    const errors = formRef.current.errors;
-    if (activeStep === 0) {
-      for (let key of Object.keys(errors)) {
-        if (key !== 'email' && errors[key]) {
-          return false;
-        }
-      }
-    }
-    return true;
-  }, [activeStep]);
-
-  const handleNext = useCallback(() => {
-    if (canNext()) {
-      dispatch(increaseActiveStep());
-    }
-  }, [canNext, dispatch]);
 
   const handleBack = useCallback(() => {
     dispatch(decrementActiveStep());
@@ -50,6 +33,7 @@ function Register() {
   return (
     <div className={classes.root}>
       <Grid
+        component={'form'}
         container
         justify="center"
         alignItems="center"
@@ -72,16 +56,9 @@ function Register() {
                       </Button>
                       {
                         activeStep !== steps.length - 1 ? (
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={handleNext}
-                              className={classes.button}
-                            >
-                              下一步
-                            </Button>
+                            <NextButton/>
                           ) :
-                          <Modal/>
+                          <SubmitModal/>
                       }
                     </div>
                   </div>
@@ -94,5 +71,43 @@ function Register() {
   );
 }
 
+
+const NextButton = () => {
+  const dispatch = useDispatch();
+  const classes = useStyles();
+  const {register} = useSelector(selectForm);
+
+  const handleNext = useCallback(() => {
+    validateRegister.validate({
+      ...register,
+    }).then((res) => {
+      dispatch(increaseActiveStep());
+    }).catch(({path = '', errors = ['']}) => {
+      dispatch(changeFormError({
+        name: path,
+        value: errors[0]
+      }));
+    });
+    // if (activeStep === 0) {
+    //   for (let key of Object.keys(errors)) {
+    //     if (key !== 'email' && errors[key]) {
+    //       return false;
+    //     }
+    //   }
+    // }
+  }, [dispatch, register]);
+
+
+  return (
+    <Button
+      variant="contained"
+      color="primary"
+      onClick={handleNext}
+      className={classes.button}
+    >
+      下一步
+    </Button>
+  );
+};
 
 export default Register;

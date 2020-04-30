@@ -1,5 +1,8 @@
+// @flow
+
 import axios from "axios";
 import {toLogin} from "../history";
+import {api_security_string} from "../config/security";
 
 let base = '/admin/api/';
 let localhost = 'http://127.0.0.1:5000';
@@ -42,7 +45,7 @@ axios.interceptors.response.use(res => {
   return Promise.resolve(error.response);
 });
 
-export const api = {
+const api = {
   tags: '/tags%',
   tagsImage: '/images/tags%',
   allTags: '/posts/tags/all',
@@ -56,19 +59,26 @@ export const api = {
   checkRegister: '/user/register',
   images: '/images%',
 };
-const generateApi = (resource, method = 'get', type, ...config) => (data = null, id = null) => {
-  if (type === 'form') {
-    config.push({
-      headers: {'Content-Type': 'multipart/form-data'}
-    });
-  }
-  const url = api[resource].replace('%', id ? `/${id}` : '');
-  return method === 'get' ?
-    /**
-     * @param data {Object}
-     */
-    axios({method, url, params: data, ...config}) :
-    axios({method, url, data: data, ...config});
+
+Object.keys(api).forEach(key => {
+  api[key] = `/${api_security_string}` + api[key];
+});
+
+const generateApi = (resource: string, method: string = 'get', type: string, ...config) =>
+  (data: Object = null, id = null) => {
+    if (type === 'form') {
+      config.push({
+        headers: {'Content-Type': 'multipart/form-data'}
+      });
+    }
+    const url = api[resource].replace('%', id ? `/${id}` : '');
+    return method === 'get' ?
+      axios({method, url, params: data, ...config}) :
+      axios({method, url, data: data, ...config});
+  };
+
+export {
+  api
 };
 
 export default {

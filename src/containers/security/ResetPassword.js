@@ -1,5 +1,5 @@
-import React, {useCallback} from 'react';
-import {Button, FormHelperText, Grid} from "@material-ui/core";
+import React from 'react';
+import {Grid} from "@material-ui/core";
 // import {useDispatch, useSelector} from "react-redux";
 // import {resetPassword, selectSecurity} from "../../redux/userSlice";
 // import OutlinedInput from '@material-ui/core/OutlinedInput';
@@ -64,7 +64,7 @@ import {FORM} from "../../redux/formSlice";
 function ResetPassword() {
   const classes = useStyles();
   return (
-    <Grid container direction={"column"} spacing={5}>
+    <Grid component={'form'} container direction={"column"} spacing={5}>
       {
         [
           {'name': 'old_password', label: '旧密码'},
@@ -77,6 +77,7 @@ function ResetPassword() {
               className={classes.textfield}
               name={value.name}
               label={value.label}
+              type={'password'}
             />
           </Grid>
         ))

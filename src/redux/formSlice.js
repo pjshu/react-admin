@@ -26,7 +26,9 @@ export const slice = createSlice({
     userInfo: {
       username: '',
       nickname: '',
-      avatar: ''
+      avatar: '',
+      motto: '',
+      ICP: ''
     },
     resetPassword: {
       old_password: '', password: '', confirm_password: ''
@@ -94,5 +96,6 @@ export const FORM = {
 
 export const {changeFormField, changeFormError, clearFormError, initTagForm} = slice.actions;
 export const selectForm = state => state.form;
+export const selectFormError = state => state.form.error;
 export default slice.reducer;
 

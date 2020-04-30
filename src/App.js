@@ -6,19 +6,11 @@ import history from "./history";
 import {Loading} from "./components";
 import {hot} from 'react-hot-loader';
 import MessageQueue from './containers/messageQueue/MessageQueue';
-import security from './config/security';
 import ErrorBoundaries from './components/ErrorBoundaries';
-import EditorContext, {defaultValue, reducer, action} from "./redux/editorState";
+import EditorContext, {action, defaultValue, reducer} from "./redux/editorState";
 import {Provider} from 'react-redux';
 import store from "./redux/store";
 
-
-// sentry sdk 检测报错信息
-//https://sentry.io/
-if (process.env.NODE_ENV !== "development") {
-  const Sentry = require('@sentry/browser');
-  Sentry.init({dsn: security.dsn});
-}
 
 const Root = lazy(() => import("./components"));
 const Register = lazy(() => import("./containers/register"));
@@ -33,7 +25,6 @@ const App = React.memo(function App() {
         <ContextApp/>
       </EditorContext.Provider>
     </Provider>
-
   );
 });
 

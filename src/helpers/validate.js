@@ -9,7 +9,7 @@ const validatePost = object({
     .ensure(),
   tags: array(),
   visibility: string()
-    .matches(/(私密|公开')/),
+    .matches(/(私密|公开)/),
   excerpt: string()
     // .required('请输入摘录')
     .max(300, '摘录不超过300字'),

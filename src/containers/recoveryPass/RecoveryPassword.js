@@ -37,6 +37,7 @@ const RecoveryPassword = () => {
             alignItems={"center"}
           >
             <Field
+              variant="outlined"
               name={'email'}
               label={"邮箱"}
               formName={FORM.recoveryPasswordSendCode}

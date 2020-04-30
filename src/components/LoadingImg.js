@@ -1,6 +1,5 @@
 import React, {Suspense} from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
-// import {areEqual} from "../helpers/misc";
 import {unstable_createResource} from './react-cache-copy';
 
 

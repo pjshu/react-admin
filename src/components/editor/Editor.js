@@ -74,5 +74,5 @@ function MyEditor({name, ...props}) {
 }
 
 export default React.memo(MyEditor, () => {
-  return false;
+  return true;
 });
