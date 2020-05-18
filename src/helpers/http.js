@@ -1,7 +1,7 @@
 // @flow
 
 import axios from "axios";
-import {toLogin} from "../history";
+import {toAdmin, toLogin} from "../history";
 import {api_security_string} from "../config/security";
 
 let base = '/admin/api/';
@@ -31,15 +31,19 @@ axios.interceptors.request.use(config => {
 });
 
 axios.interceptors.response.use(res => {
-  return res.data;
+  const data = res.data;
+  if (data.data && data.data.id && data.data.token) {
+    localStorage.setItem('identify', data.data.id);
+    localStorage.setItem('Authorization', data.data.token);
+    toAdmin();
+  }
+  return data;
 }, error => {
   const data = error.response;
   if (data) {
     const status = data.status;
     if (status === 401) {
       toLogin();
-    } else if (status === 401) {
-      // toAdmin();
     }
   }
   return Promise.resolve(error.response);

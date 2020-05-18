@@ -31,10 +31,12 @@ import {clearAllMessage, removeMessage, selectMessage} from "../../redux/globalS
 import {logout} from '../../redux/userSlice';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import {areEqual} from "../../helpers/misc";
+import {useRefreshToken} from "../../hook";
 
 const Nav = React.memo(function Nav() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  useRefreshToken();
   const [open, setOpen] = React.useState(false);
   const [messageMenu, setMessageMenu] = React.useState({
     anchorEl: null,

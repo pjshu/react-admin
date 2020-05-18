@@ -50,10 +50,6 @@ export const {increaseActiveStep, decrementActiveStep, openModal, closeModal} = 
 export const login = values => dispatch => {
   api.login(values).then(res => {
     if (res.status === 'success') {
-      const data = res.data;
-      localStorage.setItem('identify', data.id);
-      localStorage.setItem('Authorization', data.token);
-      toAdmin();
       dispatch(addSuccessMessage('登录成功'));
     } else {
       dispatch(addErrorMessage('登录失败'));

@@ -65,6 +65,7 @@ const ContextUser = React.memo(function ContextUser({avatar}) {
                 <Grid item>
                   <InputWithIcon
                     className={classes.inputIcon}
+                    autoComplete={'on'}
                     {...item}
                   />
                 </Grid>

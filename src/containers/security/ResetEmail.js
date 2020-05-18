@@ -36,6 +36,7 @@ function ResetEmail() {
     <Grid component={'form'} container direction={"column"} spacing={5}>
       <Grid item>
         <Field
+          autoComplete={'on'}
           formName={FORM.resetEmail}
           disabled={!isSendCode}
           name={'email'}

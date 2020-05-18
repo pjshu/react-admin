@@ -93,6 +93,7 @@ const ContextAutoSave = React.memo(function ContextAutoSave({autoSave, open}) {
   const inputLabelProps = {
     shrink: true,
   };
+
   const handleAutoSaveChecked = useCallback((e) => {
     dispatch(setAutoSaveChecked(e.target.checked));
   }, [dispatch]);

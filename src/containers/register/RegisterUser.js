@@ -32,8 +32,10 @@ function RegisterUser() {
             {name: 'password', label: '密码', type: "password"},
             {name: 'confirm_password', label: '确认密码', type: "password"},
           ].map(item => (
-            <Field key={item.name}
-                   {...{...item, variant: "outlined", fullWidth: false, formName: FORM.register}}
+            <Field
+              key={item.name}
+
+              {...{...item, autoComplete: 'on', variant: "outlined", fullWidth: false, formName: FORM.register}}
             />
           ))
         }

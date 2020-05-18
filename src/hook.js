@@ -90,11 +90,13 @@ export const useRefreshToken = () => {
   const timing = useRef(-1);
   useEffect(() => {
     timing.current = setInterval(() => {
+      console.log('refresh token');
       api.auth().then(res => {
+        console.log(res);
         //TODO
       });
-    }, refresh_token_space * 1000);
-    return clearInterval(timing.current);
+    }, refresh_token_space);
+    // return clearInterval(timing.current);
   }, []);
 };
 
@@ -137,6 +139,7 @@ const useSubmitPost = () => {
     convertEditorState(data, 'article');
     convertEditorState(data, 'excerpt');
     data.create_date = formatTime(data.create_date);
+    data.change_date = formatTime(new Date());
     dispatch(modifyPost(data, postId));
   }, [article, dispatch, excerpt]);
 };
@@ -250,7 +253,7 @@ export const useTiming = (autoSave: Object, postId: number) => {
   const timingUpload = useCallback(() => {
     return setInterval(() => {
       onSubmit();
-    }, autoSave.time * 1000 * 60);
+    }, autoSave.time * 60 * 1000);
   }, [autoSave.time, onSubmit]);
 
   // 计时器

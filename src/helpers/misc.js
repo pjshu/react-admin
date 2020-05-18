@@ -104,6 +104,7 @@ export const objAreEqual = (prePro, nextPro, blacklist = []) => {
   const deepCompare = (pre, next) => {
     compare += 1;
     if (compare > 25) {
+      alert(compare);
       console.log(prePro, compare);
     }
     if (isEqual === false || specialCompare(pre, next)) {
