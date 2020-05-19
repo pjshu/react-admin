@@ -10778,10 +10778,10 @@ react-app-rewire-hot-loader@^2.0.1:
   resolved "https://registry.npm.taobao.org/react-app-rewire-hot-loader/download/react-app-rewire-hot-loader-2.0.1.tgz#9b47d299dac4d861dafdf18b49c3698d0ff04a52"
   integrity sha1-m0fSmdrE2GHa/fGLScNpjQ/wSlI=
 
-react-app-rewired@^2.1.5:
-  version "2.1.5"
-  resolved "https://registry.npm.taobao.org/react-app-rewired/download/react-app-rewired-2.1.5.tgz#592ec2eae5c3c5cd96c80930b5dc3f6c34da1dc6"
-  integrity sha1-WS7C6uXDxc2WyAkwtdw/bDTaHcY=
+react-app-rewired@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.npm.taobao.org/react-app-rewired/download/react-app-rewired-2.1.6.tgz#33ee3076a7f34d6a7c94e649cac67e7c8c580de8"
+  integrity sha1-M+4wdqfzTWp8lOZJysZ+fIxYDeg=
   dependencies:
     semver "^5.6.0"
 
@@ -10823,24 +10823,25 @@ react-dev-utils@^10.2.0:
     strip-ansi "6.0.0"
     text-table "0.2.0"
 
-react-dom@^0.0.0-experimental-e5d06e34b:
-  version "0.0.0-experimental-e5d06e34b"
-  resolved "https://registry.npm.taobao.org/react-dom/download/react-dom-0.0.0-experimental-e5d06e34b.tgz?cache=0&sync_timestamp=1586484982729&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-dom%2Fdownload%2Freact-dom-0.0.0-experimental-e5d06e34b.tgz#e90fd8a1f5ac18045798f276734feecdf107442e"
-  integrity sha1-6Q/YofWsGARXmPJ2c0/uzfEHRC4=
+react-dom@^16.13.1:
+  version "16.13.1"
+  resolved "https://registry.npm.taobao.org/react-dom/download/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
+  integrity sha1-wb03MxoEhsB47lTEdAcgmTsuDn8=
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-    scheduler "0.0.0-experimental-e5d06e34b"
+    prop-types "^15.6.2"
+    scheduler "^0.19.1"
 
 react-error-overlay@^6.0.6:
   version "6.0.6"
   resolved "https://registry.npm.taobao.org/react-error-overlay/download/react-error-overlay-6.0.6.tgz#ac4d9dc4c1b5c536c2c312bf66aa2b09bfa384e2"
   integrity sha1-rE2dxMG1xTbCwxK/ZqorCb+jhOI=
 
-react-hot-loader@^4.12.20:
-  version "4.12.20"
-  resolved "https://registry.npm.taobao.org/react-hot-loader/download/react-hot-loader-4.12.20.tgz#c2c42362a7578e5c30357a5ff7afa680aa0bef8a"
-  integrity sha1-wsQjYqdXjlwwNXpf96+mgKoL74o=
+react-hot-loader@^4.12.21:
+  version "4.12.21"
+  resolved "https://registry.npm.taobao.org/react-hot-loader/download/react-hot-loader-4.12.21.tgz?cache=0&sync_timestamp=1588232980480&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-hot-loader%2Fdownload%2Freact-hot-loader-4.12.21.tgz#332e830801fb33024b5a147d6b13417f491eb975"
+  integrity sha1-My6DCAH7MwJLWhR9axNBf0keuXU=
   dependencies:
     fast-levenshtein "^2.0.6"
     global "^4.3.0"
@@ -10986,13 +10987,14 @@ react-transition-group@^4.0.0, react-transition-group@^4.3.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@^0.0.0-experimental-e5d06e34b:
-  version "0.0.0-experimental-e5d06e34b"
-  resolved "https://registry.npm.taobao.org/react/download/react-0.0.0-experimental-e5d06e34b.tgz?cache=0&sync_timestamp=1586484995419&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact%2Fdownload%2Freact-0.0.0-experimental-e5d06e34b.tgz#bfdbe2b228e1d1967330fc18b9e05331818f610d"
-  integrity sha1-v9visijh0ZZzMPwYueBTMYGPYQ0=
+react@^16.13.1:
+  version "16.13.1"
+  resolved "https://registry.npm.taobao.org/react/download/react-16.13.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact%2Fdownload%2Freact-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
+  integrity sha1-LoGIIvGpdDEiwGPWQQ2FweOv5I4=
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
+    prop-types "^15.6.2"
 
 read-package-json-fast@^1.1.1, read-package-json-fast@^1.1.3:
   version "1.1.3"
@@ -11632,14 +11634,6 @@ saxes@^3.1.9:
   dependencies:
     xmlchars "^2.1.1"
 
-scheduler@0.0.0-experimental-e5d06e34b:
-  version "0.0.0-experimental-e5d06e34b"
-  resolved "https://registry.npm.taobao.org/scheduler/download/scheduler-0.0.0-experimental-e5d06e34b.tgz?cache=0&sync_timestamp=1586485005649&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fscheduler%2Fdownload%2Fscheduler-0.0.0-experimental-e5d06e34b.tgz#59a67c60b34c2c136b2f6d8daf9af74f91d97659"
-  integrity sha1-WaZ8YLNMLBNrL22Nr5r3T5HZdlk=
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-
 scheduler@^0.19.0:
   version "0.19.0"
   resolved "https://registry.npm.taobao.org/scheduler/download/scheduler-0.19.0.tgz?cache=0&sync_timestamp=1583961397409&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fscheduler%2Fdownload%2Fscheduler-0.19.0.tgz#a715d56302de403df742f4a9be11975b32f5698d"
@@ -11648,7 +11642,7 @@ scheduler@^0.19.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
-scheduler@latest:
+scheduler@^0.19.1, scheduler@latest:
   version "0.19.1"
   resolved "https://registry.npm.taobao.org/scheduler/download/scheduler-0.19.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fscheduler%2Fdownload%2Fscheduler-0.19.1.tgz#4f3e2ed2c1a7d65681f4c854fa8c5a1ccb40f196"
   integrity sha1-Tz4u0sGn1laB9MhU+oxaHMtA8ZY=

@@ -15,6 +15,8 @@ registerSentrySDK();
 // experimental 模式hot loader无效
 const root = document.getElementById('root');
 
-ReactDOM.createRoot(
-  root
-).render(<App/>);
+ReactDOM.render(<App/>, root);
+
+// ReactDOM.createRoot(
+//   root
+// ).render(<App/>);

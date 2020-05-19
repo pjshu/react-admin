@@ -39,10 +39,10 @@ const Message = React.memo(function Message({msg}) {
   );
 }, areEqual);
 
-const MessageQueue = React.memo(function MessageQueue(props) {
+const MessageQueue = React.memo(function MessageQueue() {
   const {message} = useSelector(selectMessage);
-  return <ContextMessageQueue message={message} {...props}/>;
-}, areEqual);
+  return <ContextMessageQueue message={message}/>;
+});
 
 // length为消息条最大个数
 // autoHideDuration 为自动隐藏时间
@@ -114,7 +114,11 @@ const ContextMessageQueue = React.memo(function ContextMessageQueue({length = 3,
       }
     </>
   );
-}, areEqual);
+}, ((pre, next) => {
+  return pre.handleClearAll === next.handleClearAll &&
+    pre.handleMenuClose === next.handleMenuClose &&
+    pre.message.length === next.message.length;
+}));
 
 
 export default () => ReactDOM.createPortal(<MessageQueue/>, messageRoot);

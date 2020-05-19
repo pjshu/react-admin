@@ -35,7 +35,6 @@ axios.interceptors.response.use(res => {
   if (data.data && data.data.id && data.data.token) {
     localStorage.setItem('identify', data.data.id);
     localStorage.setItem('Authorization', data.data.token);
-    toAdmin();
   }
   return data;
 }, error => {

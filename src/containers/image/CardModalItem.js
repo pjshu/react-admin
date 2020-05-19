@@ -47,7 +47,7 @@ export const Links = React.memo(function Links({url}) {
         </CopyToClipboard>
         <CopyToClipboard
           title={'点击复制'}
-          text={`[!image_name](${url})`} onCopy={handleCopySuccess}>
+          text={`![image_name](${url})`} onCopy={handleCopySuccess}>
           <Button>
             <Typography
               className={classes.typography}
@@ -59,7 +59,7 @@ export const Links = React.memo(function Links({url}) {
                markdown:
              </span>
               <span>
-               [!image_name]({url})
+               ![image_name]({url})
               </span>
             </Typography>
           </Button>
