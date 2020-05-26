@@ -1,7 +1,7 @@
 // @flow
 
 import axios from "axios";
-import {toAdmin, toLogin} from "../history";
+import {toLogin} from "../history";
 import {api_security_string} from "../config/security";
 
 let base = '/admin/api/';
