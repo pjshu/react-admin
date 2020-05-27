@@ -1,83 +1,78 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {formatTime} from "../helpers/datetime";
+import {fromJS, Map} from "immutable";
+
+const defaultData = {
+  post: {
+    id: -1,
+    title: '',
+    tags: [],
+    visibility: '私密',
+    allTags: [],
+    comments: 0,
+    create_date: formatTime(new Date()),
+    change_date: formatTime(new Date())
+  },
+  tags: {
+    id: -1,
+    name: '',
+    describe: '',
+    count: 0,
+    image: {
+      url: ''
+    }
+  },
+  userInfo: {
+    username: '',
+    nickname: '',
+    avatar: '',
+    motto: '',
+    ICP: ''
+  },
+  resetPassword: {
+    old_password: '', password: '', confirm_password: ''
+  },
+  resetEmail: {
+    email: '', code: ''
+  },
+  register: {
+    username: '',
+    nickname: '',
+    password: '',
+    confirm_password: '',
+    email: ''
+  },
+  // 重置密码时邮件验证
+  recoveryPasswordSendCode: {
+    email: '',
+  },
+  recoveryPassword: {
+    code: '', password: '', confirm_password: ''
+  },
+  login: {
+    username: '', password: ''
+  },
+  errors: {
+    name: '', value: ''
+  }
+};
 
 export const slice = createSlice({
   name: 'post',
-  initialState: {
-    post: {
-      id: -1,
-      title: '',
-      tags: [],
-      visibility: '私密',
-      allTags: [],
-      comments: 0,
-      create_date: formatTime(new Date()),
-      change_date: formatTime(new Date())
-    },
-    tags: {
-      id: -1,
-      name: '',
-      describe: '',
-      count: 0,
-      image: {
-        url: ''
-      }
-    },
-    userInfo: {
-      username: '',
-      nickname: '',
-      avatar: '',
-      motto: '',
-      ICP: ''
-    },
-    resetPassword: {
-      old_password: '', password: '', confirm_password: ''
-    },
-    resetEmail: {
-      email: '', code: ''
-    },
-    register: {
-      username: '',
-      nickname: '',
-      password: '',
-      confirm_password: '',
-      email: ''
-    },
-    // 重置密码时邮件验证
-    recoveryPasswordSendCode: {
-      email: '',
-    },
-    recoveryPassword: {
-      code: '', password: '', confirm_password: ''
-    },
-    login: {
-      username: '', password: ''
-    },
-    errors: {
-      name: '', value: ''
-    }
-  },
+  initialState: fromJS(defaultData),
   reducers: {
     initTagForm(state) {
-      const form = state[FORM.tags];
-      Object.keys(form).forEach(key => {
-        form[key] = '';
-      });
-      form.count = 0;
-      form.image = {url: ''};
+      return state.update(FORM.tags, () => fromJS(defaultData[FORM.tags]));
     },
     changeFormField(state, action) {
       const {form, ...values} = action.payload;
-      Object.keys(values).forEach(key => {
-        state[form][key] = values[key];
-      });
+      return state.update(form, (value) => value.mergeDeep(values));
     },
     changeFormError(state, action) {
-      const {name, value} = action.payload;
-      state.errors = {name, value};
+      return state.update('errors', () => Map(action.payload));
     },
     clearFormError(state) {
-      state.errors = {name: '', value: ''};
+      return state.update('errors', () => Map({name: '', value: ''}));
     }
   }
 });
@@ -96,6 +91,5 @@ export const FORM = {
 
 export const {changeFormField, changeFormError, clearFormError, initTagForm} = slice.actions;
 export const selectForm = state => state.form;
-export const selectFormError = state => state.form.error;
 export default slice.reducer;
 

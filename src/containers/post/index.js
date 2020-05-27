@@ -40,9 +40,7 @@ function PostWrapper() {
   // 但onSubmit函数在表单字段改变时会改变
   // 传递onSubmit到子组件会引起重新渲染
   // 所以将 <Container> 提取到这个组件而不是Post组件
-  return loading
-    ? <Loading/>
-    : (
+  return loading ? <Loading/> : (
       <Paper
         className={classes.root}
         onKeyDown={handleKeyDown}

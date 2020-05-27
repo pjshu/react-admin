@@ -7,17 +7,12 @@ import {setClickCardId, openCardModal} from '../../redux/imageSlice';
 import {areEqual} from "../../helpers/misc";
 
 const MyCard = (props) => {
+  const {imageItem, handleDelete, uploadImage} = props;
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const {
-    image: {url},
-    upload,
-    id,
-    handleDelete,
-    uploadImage,
-  } = props;
-
+  const url = imageItem.getIn(['image', 'url']);
+  const upload = imageItem.get('upload');
+  const id = imageItem.get('id');
   const handleOnDelete = useCallback(() => {
     handleDelete(upload, id);
   }, [handleDelete, id, upload]);

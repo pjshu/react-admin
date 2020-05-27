@@ -61,7 +61,8 @@ export const HiddenField = React.memo(() => {
 export const Timing = React.memo(() => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const {resendTime} = useSelector(selectValidateCode);
+  const data = useSelector(selectValidateCode);
+  const resendTime = data.get('resendTime')
 
   useEffect(() => {
     if (resendTime > 0) {

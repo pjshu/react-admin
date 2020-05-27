@@ -13,7 +13,7 @@ export default makeStyles((theme) => ({
     width: 800,
     minHeight: 700,
     maxHeight: 900,
-    overflow: 'scroll',
+    overflow: 'auto',
     backgroundColor: theme.palette.background.paper,
     // border: '2px solid #000',
     boxShadow: theme.shadows[5],

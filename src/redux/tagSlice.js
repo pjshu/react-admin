@@ -6,32 +6,37 @@ import {addErrorMessage, addLoadingMessage, addSuccessMessage, setMessageState} 
 import {v4 as uuidV4} from 'uuid';
 import {getImageForm} from "../helpers/misc";
 import {initTagForm, changeFormField, FORM} from "./formSlice";
+import {fromJS, Map} from "immutable";
 
 export const slice = createSlice({
   name: 'tag',
-  initialState: {
+  initialState: fromJS({
     dialogState: {
       action: 'add',
       open: false
     }
-  },
+  }),
   reducers: {
     setDialogAsAdd(state) {
-      state.dialogState.action = 'add';
-      state.dialogState.open = true;
+      return state.update('dialogState', () => Map({
+        action: 'add',
+        open: true
+      }));
     },
     setDialogAsUpdate(state) {
-      state.dialogState.action = 'update';
-      state.dialogState.open = true;
+      return state.update('dialogState', () => Map({
+        action: 'update',
+        open: true
+      }));
     },
     closeDialog(state) {
-      state.dialogState.open = false;
+      return state.updateIn(['dialogState', 'open'], () => false);
     },
   }
 });
 
 
-export const {initDialog, setDialogAsAdd, setDialogAsUpdate, closeDialog} = slice.actions;
+export const {setDialogAsAdd, setDialogAsUpdate, closeDialog} = slice.actions;
 
 
 export const addTag = () => dispatch => {
@@ -46,6 +51,7 @@ export const addTag = () => dispatch => {
     }
   });
 };
+
 export const addTagImg = (value, updateHandler) => dispatch => {
   const upload = (image) => {
     const messageId = uuidV4();
@@ -68,7 +74,7 @@ export const addTagImg = (value, updateHandler) => dispatch => {
 };
 
 
-export const modifyTag = (value:Object, updateHandler) => dispatch => {
+export const modifyTag = (value: Object, updateHandler) => dispatch => {
   api.modifyTag(value, value.id).then(res => {
     if (res.status === 'success') {
       updateHandler({...value});

@@ -42,7 +42,8 @@ const ConfirmModal = React.memo(() => {
 
 function SubmitModal() {
   const dispatch = useDispatch();
-  const {modalOpen} = useSelector(selectRegister);
+  const data = useSelector(selectRegister);
+  const modalOpen = data.get('modalOpen')
   const classes = useStyles();
 
   const handleOpen = useCallback(() => {

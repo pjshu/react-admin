@@ -7,7 +7,7 @@ import {FORM, selectForm} from "../../redux/formSlice";
 
 
 const Tags = React.memo(() => {
-  const {[FORM.post]: {allTags}} = useSelector(selectForm);
+  const allTags = useSelector(selectForm).getIn([FORM.post, 'allTags']);
   return <ContextTags allTags={allTags}/>;
 });
 
@@ -15,6 +15,7 @@ const ContextTags = React.memo(function ContextTags({allTags}) {
   const getValue = useCallback((e, value) => {
     return value;
   }, []);
+
   return (
     <div>
       <Field
@@ -35,8 +36,6 @@ const ContextTags = React.memo(function ContextTags({allTags}) {
       />
     </div>
   );
-}, () => {
-  return true;
 });
 
 

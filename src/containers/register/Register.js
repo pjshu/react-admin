@@ -21,7 +21,8 @@ function Content({step, ...other}) {
 
 function Register() {
   const classes = useStyles();
-  const {activeStep} = useSelector(selectRegister);
+  const data = useSelector(selectRegister);
+  const activeStep = data.get('activeStep');
   const dispatch = useDispatch();
   const steps = ['创建用户(必选)', '添加邮箱(可选)'];
 
@@ -75,7 +76,8 @@ function Register() {
 const NextButton = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const {register} = useSelector(selectForm);
+  const data = useSelector(selectForm);
+  const register = data.get('register');
 
   const handleNext = useCallback(() => {
     validateRegister.validate({

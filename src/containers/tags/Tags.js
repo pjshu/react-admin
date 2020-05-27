@@ -38,9 +38,7 @@ function Tags({columns}) {
       <Table
         tableName={'标签'}
         renderDialog={(updateHandler) => (
-          <EditorDialog {...{
-            updateHandler,
-          }}/>)
+          <EditorDialog {...{updateHandler}}/>)
         }
         handleAddRow={handleAddRow}
         handleEditor={handleEditor}

@@ -11,8 +11,7 @@ const modalRoot = document.getElementById('modal-root');
 
 
 export const PreviewField = React.memo(function PreviewField({name}) {
-  const {state} = useContext(EditorContext);
-  const value = state[name];
+  const {state:{[name]:value}} = useContext(EditorContext);
   const classes = useStyles();
   return (<div
       className={`${classes.table} ${classes.post} ${classes.emoji}`}
@@ -38,25 +37,25 @@ function Preview({handleOnClose, modalOpen, name}) {
   return (
     <>
       {
-        modalOpen ?
-          ReactDOM.createPortal((
-              <div className={classes.modal}>
-                <div className={classes.paper}>
-                  <PreviewField name={name}/>
-                  <div>
-                    <Button
-                      className={classes.closeButton}
-                      variant="contained"
-                      color="primary"
-                      onClick={handleOnClose}>
-                      关闭
-                    </Button>
-                  </div>
+        modalOpen &&
+        ReactDOM.createPortal((
+            <div className={classes.modal}>
+              <div className={classes.paper}>
+                <PreviewField name={name}/>
+                <div>
+                  <Button
+                    className={classes.closeButton}
+                    variant="contained"
+                    color="primary"
+                    onClick={handleOnClose}>
+                    关闭
+                  </Button>
                 </div>
               </div>
-            ),
-            modalRoot
-          ) : null
+            </div>
+          ),
+          modalRoot
+        )
       }
     </>
   );

@@ -2,10 +2,11 @@ import {createSlice} from '@reduxjs/toolkit';
 import api from '../helpers/http';
 import {addErrorMessage, addLoadingMessage, addSuccessMessage, setMessageState} from "./globalSlice";
 import {v4 as uuidV4} from "uuid";
+import {fromJS} from "immutable";
 
 export const slice = createSlice({
   name: 'images',
-  initialState: {
+  initialState: fromJS({
     clickCardId: -1,
     images: [],
     cardModalOpen: false,
@@ -14,48 +15,48 @@ export const slice = createSlice({
       page: 0,
       rowsPerPage: 8
     }
-  },
+  }),
   reducers: {
     deleteImage(state, action) {
-      state.images = state.images.filter(image => !action.payload.includes(image.id));
+      return state.update('images', value =>
+        value.filter(image => !action.payload.includes(image.get('id')))
+      );
     },
     setImages(state, action) {
-      state.images = action.payload;
+      return state.update('images', () => fromJS(action.payload));
     },
     addImages(state, action) {
-      state.images = [...action.payload, ...state.images];
+      return state.update('images', value => value.concat(fromJS(action.payload)));
     },
     // 更新图片id,url,name
     updateImage(state, action) {
       const payload = action.payload;
-      state.images = state.images.map(image => {
-        return image.id === payload.old_id ?
-          {...image, id: payload.id, image: {name: payload.image.name, url: payload.image.url}, upload: false} :
-          image;
-      });
+      const update = {...payload, upload: false};
+      return state.update('images', value => value.map(image =>
+        image.get('id') === payload.old_id ? image.mergeDeep(update) : image
+      ));
     },
     changeImageDescribe(state, action) {
       const payload = action.payload;
-      state.images = state.images.map(image => {
-        return image.id === payload.id ?
-          {...image, describe: payload.describe} :
-          image;
-      });
+      return state.update('images', value =>
+        value.map(image =>
+          image.get('id') === payload.id ? image.mergeDeep(payload) : image
+        ));
     },
     setCount(state, action) {
-      state.pagination.count = action.payload;
+      return state.updateIn(['pagination', 'count'], () => action.payload);
     },
     setPage(state, action) {
-      state.pagination.page = action.payload;
+      return state.updateIn(['pagination', 'page'], () => action.payload);
     },
     setClickCardId(state, action) {
-      state.clickCardId = action.payload;
+      return state.update('clickCardId', () => action.payload);
     },
     closeCardModal(state) {
-      state.cardModalOpen = false;
+      return state.update('cardModalOpen', () => false);
     },
     openCardModal(state) {
-      state.cardModalOpen = true;
+      return state.update('cardModalOpen', () => true);
     }
   }
 });
@@ -99,10 +100,10 @@ export const uploadImages = (form, id) => dispatch => {
   });
 };
 
-export const uploadImagesDesc = (desc, id) => dispatch => {
-
-  api.modifyImageInfo({describe: desc}, id).then(res => {
+export const uploadImagesDesc = (describe, id) => dispatch => {
+  api.modifyImageInfo({describe}, id).then(res => {
     if (res.status === 'success') {
+      dispatch(updateImage({id, describe, old_id:id}))
       dispatch(addSuccessMessage('修改描述成功'));
     } else {
       dispatch(addErrorMessage('修改描述失败'));

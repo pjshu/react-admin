@@ -1,6 +1,5 @@
 import {array, number, object, ref, string} from "yup";
 import {FORM} from "../redux/formSlice";
-//TODO
 const validatePost = object({
   id: number()
     .min(0, 'id不能小于0')

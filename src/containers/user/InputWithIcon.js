@@ -2,7 +2,7 @@ import React from 'react';
 import {Grid} from '@material-ui/core';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import {Field} from "../../components/Form";
-import {objAreEqual} from "../../helpers/misc";
+import {areEqual as objAreEqual} from "../../helpers/misc";
 import {FORM} from "../../redux/formSlice";
 
 const areEqual = (pre, next) => {

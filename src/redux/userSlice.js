@@ -3,42 +3,45 @@ import api from "../helpers/http";
 import {toAdmin, toLogin} from "../history";
 import {addErrorMessage, addSuccessMessage} from "./globalSlice";
 import {changeFormField, FORM} from "./formSlice";
+import {fromJS} from "immutable";
 
 export const slice = createSlice({
   name: 'user',
-  initialState: {
+  initialState: fromJS({
     register: {
       modalOpen: false,
       activeStep: 0
     },
     resendTime: 0,
     isSendCode: false
-  },
+  }),
   reducers: {
     resetSendCodeTime(state) {
-      state.resendTime = 60;
+      return state.update('resendTime', () => 60);
     },
     clearRendCodeState(state) {
-      state.resendTime = 0;
-      state.isSendCode = false;
+      return state.merge({
+        isSendCode: false,
+        resendTime: 0
+      });
     },
     setIsSendCode(state) {
-      state.isSendCode = true;
+      return state.update('isSendCode', () => true);
     },
     decSendCodeTime(state) {
-      state.resendTime -= 1;
+      return state.update('resendTime', (value) => value - 1);
     },
     increaseActiveStep(state) {
-      state.register.activeStep += 1;
+      return state.updateIn(['register', 'activeStep'], (value) => value + 1);
     },
     decrementActiveStep(state) {
-      state.register.activeStep -= 1;
+      return state.updateIn(['register', 'activeStep'], (value) => value - 1);
     },
     closeModal(state) {
-      state.register.modalOpen = false;
+      return state.updateIn(['register', 'modalOpen'], () => false);
     },
     openModal(state) {
-      state.register.modalOpen = true;
+      return state.updateIn(['register', 'modalOpen'], () => true);
     },
   },
 });
@@ -165,6 +168,8 @@ export const modifyUserInfo = (values) => dispatch => {
 export const logout = () => dispatch => {
   api.logout().then(res => {
     if (res.status === 'success') {
+      localStorage.removeItem('identify');
+      localStorage.removeItem('Authorization');
       toLogin();
     } else {
       dispatch(addErrorMessage('登出失败'));
@@ -175,10 +180,7 @@ export const logout = () => dispatch => {
 
 export const selectRegister = state => state.user.register;
 
-export const selectValidateCode = state => ({
-  resendTime: state.user.resendTime,
-  isSendCode: state.user.isSendCode,
-});
+export const selectValidateCode = state => state.user;
 
 
 export default slice.reducer;

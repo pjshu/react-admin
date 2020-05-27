@@ -15,9 +15,9 @@ import {FORM} from "../../redux/formSlice";
 
 
 const Setting = React.memo(function Setting({uploadFn, postId}) {
-  const {drawOpen} = useSelector(selectPost);
+  const drawOpen = useSelector(selectPost).get('drawOpen');
   return <ContextSetting {...{drawOpen, uploadFn, postId}}/>;
-}, areEqual);
+});
 
 const ContextSetting = React.memo(function ContextSetting(props) {
   const {uploadFn, drawOpen, postId} = props;
@@ -30,6 +30,7 @@ const ContextSetting = React.memo(function ContextSetting(props) {
   const inputProps = useMemo(() => ({
     readOnly: true
   }), []);
+
   return (
     <Drawer
       variant="persistent"
@@ -65,18 +66,18 @@ const ContextSetting = React.memo(function ContextSetting(props) {
       </Grid>
     </Drawer>
   );
-}, areEqual);
+});
 
 const MemoAutoSave = React.memo(function MemoAutoSave({postId}) {
-  const {autoSave} = useSelector(selectPost);
+  const autoSave = useSelector(selectPost).get('autoSave');
   useTiming(autoSave, postId);
   return (
-    <ContextAutoSave {...{autoSave, open: autoSave.open}}/>
+    <ContextAutoSave autoSaveTime={autoSave.get('time')} autoSaveOpen={autoSave.get('open')}/>
   );
-}, areEqual);
+});
 
-const ContextAutoSave = React.memo(function ContextAutoSave({autoSave, open}) {
-
+const ContextAutoSave = React.memo(function ContextAutoSave(props) {
+  const {autoSaveTime, autoSaveOpen} = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const handleAutoSaveChange = useCallback((e) => {
@@ -87,8 +88,8 @@ const ContextAutoSave = React.memo(function ContextAutoSave({autoSave, open}) {
   }, [dispatch]);
 
   const title = useMemo(() => {
-    return autoSave.time === 0 ? '自动保存已关闭' : `自动保存周期为${autoSave.time}分钟`;
-  }, [autoSave.time]);
+    return autoSaveTime === 0 ? '自动保存已关闭' : `自动保存周期为${autoSaveTime}分钟`;
+  }, [autoSaveTime]);
 
   const inputLabelProps = {
     shrink: true,
@@ -100,37 +101,34 @@ const ContextAutoSave = React.memo(function ContextAutoSave({autoSave, open}) {
 
   return (
     <>
+      <div>
+        自动保存:
+        <Switch
+          checked={autoSaveOpen}
+          onChange={handleAutoSaveChecked}
+          color="primary"
+          name="checkedB"
+          inputProps={{'aria-label': 'primary checkbox'}}
+        />
+      </div>
       {
-        open ? (
-          <>
-            <div>
-              自动保存:
-              <Switch
-                checked={open}
-                onChange={handleAutoSaveChecked}
-                color="primary"
-                name="checkedB"
-                inputProps={{'aria-label': 'primary checkbox'}}
-              />
-            </div>
-            <TextField
-              className={classes.autoSave}
-              title={title}
-              value={autoSave.time}
-              id="outlined-number"
-              label="自动保存周期(分钟)"
-              type="number"
-              InputLabelProps={inputLabelProps}
-              variant="outlined"
-              onChange={handleAutoSaveChange}
-            />
-          </>
-        ) : null
+        autoSaveOpen && (
+          <TextField
+            className={classes.autoSave}
+            title={title}
+            value={autoSaveTime}
+            id="outlined-number"
+            label="自动保存周期(分钟)"
+            type="number"
+            InputLabelProps={inputLabelProps}
+            variant="outlined"
+            onChange={handleAutoSaveChange}
+          />
+        )
       }
-
     </>
   );
-}, areEqual);
+});
 
 
 const MemoArticleState = React.memo(() => {

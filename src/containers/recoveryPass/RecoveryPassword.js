@@ -12,7 +12,8 @@ import {FORM} from "../../redux/formSlice";
 
 
 const RecoveryPassword = () => {
-  const {isSendCode} = useSelector(selectValidateCode);
+  const data = useSelector(selectValidateCode);
+  const isSendCode = data.get('isSendCode');
   const classes = useStyles();
 
   return (
@@ -47,7 +48,7 @@ const RecoveryPassword = () => {
             <Timing/>
           </Grid>
           {
-            isSendCode ? <HiddenField/> : null
+            isSendCode && <HiddenField/>
           }
         </Paper>
       </Grid>

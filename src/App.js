@@ -33,7 +33,7 @@ const ContextApp = React.memo(function ContextApp() {
     <Suspense fallback={<Loading/>}>
       <Router history={history}>
         <ErrorBoundaries>
-          <MessageQueue/>
+          {/*<MessageQueue/>*/}
           <Switch>
             <Route path={router.LOGIN}><Login/></Route>
             <Route path={router.REGISTER}><Register/></Route>

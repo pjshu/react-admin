@@ -12,17 +12,17 @@ import marked from '../../config/marked';
 import {useDispatch, useSelector} from "react-redux";
 import {deletePost, openDraw} from '../../redux/postSlice';
 import {addWarningMessage} from '../../redux/globalSlice';
-import {SubmitBtn} from "../../components/Form";
-import {areEqual, toEditorState} from "../../helpers/misc";
+import {toEditorState} from "../../helpers/misc";
 import EditorContext from "../../redux/editorState";
 import {FORM, selectForm} from "../../redux/formSlice";
 import {EDITOR} from "../../config/editor";
+import {useSubmit} from "../../hook";
 
 
 const SpeedSetting = React.memo(function SpeedSetting({postId}) {
-  const {[FORM.post]: {id}} = useSelector(selectForm);
+  const id = useSelector(selectForm).getIn([FORM.post, 'id']);
   return <ContextSpeedSetting id={id} postId={postId}/>;
-}, areEqual);
+});
 
 const ContextSpeedSetting = React.memo(function ({id, postId}) {
   const classes = useStyles();
@@ -57,9 +57,9 @@ const ContextSpeedSetting = React.memo(function ({id, postId}) {
     >
       {[
         {icon: <DeleteOutlineIcon/>, name: '删除', onClick: handleOnDelete},
-        {icon: <SaveIcon/>, name: '保存', type: "submit", form: 'post-form'},
+        {icon: <SubmitPost postId={postId}/>, name: '保存'},
         {icon: <SettingsIcon/>, name: '设置', onClick: openSetting},
-        {icon: <UploadMarkdown {...{postId}}/>, name: '上传markdown'},
+        {icon: <UploadMarkdown/>, name: '上传markdown'},
       ].map(({name, ...other}) => (
         <SpeedDialAction
           key={name}
@@ -70,12 +70,23 @@ const ContextSpeedSetting = React.memo(function ({id, postId}) {
       ))}
     </SpeedDial>
   );
-}, areEqual);
+});
 
-const UploadMarkdown = React.memo(({postId}) => {
+const SubmitPost = React.memo(function SubmitPost({postId}) {
+  const onSubmit = useSubmit(FORM.post, postId);
+  const handleOnClick = useCallback((e) => {
+    e.preventDefault();
+    onSubmit();
+  }, [onSubmit]);
+  return (
+    <SaveIcon onClick={handleOnClick}/>
+  );
+});
+
+const UploadMarkdown = React.memo(function UploadMarkdown() {
   const classes = useStyles();
   const disPatch = useDispatch();
-  const {disPatchEditorState, action} = useContext(EditorContext);
+  const {dispatch: disPatchEditorState, action} = useContext(EditorContext);
 
   const readText = useCallback((file) => {
     const reader = new FileReader();
@@ -105,19 +116,16 @@ const UploadMarkdown = React.memo(({postId}) => {
         multiple
         onChange={handleFileUpload}/>
       <label htmlFor="upload-file">
-        <SubmitBtn
-          as={IconButton}
+        <IconButton
           color="primary"
           component="span"
           className={classes.uploadBtn}
-          formName={FORM.post}
-          hookParam={postId}
         >
           <InsertDriveFileOutlinedIcon color="action"/>
-        </SubmitBtn>
+        </IconButton>
       </label>
     </>
   );
-}, areEqual);
+});
 
 export default SpeedSetting;

@@ -8,6 +8,10 @@ import {addPostImg} from '../../redux/postSlice';
 import {FORM} from "../../redux/formSlice";
 
 
+const contentStyle = {
+  height: '500px'
+};
+
 function Post({postId}) {
   const dispatch = useDispatch();
 
@@ -15,32 +19,27 @@ function Post({postId}) {
     dispatch(addPostImg(form, postId, successFn, errorFn));
   }, [dispatch, postId]);
 
-  const contentStyle = {
-    height: '500px'
-  };
 
   return (
-    <>
-      <div id={'post-form'}>
-        <div>
-          <Field
-            name="title"
-            label="标题"
-            formName={FORM.post}
-          />
-        </div>
-        <MyEditor
-          name={'article'}
-          uploadFn={uploadFn}
-          contentStyle={contentStyle}
+    <form>
+      <div>
+        <Field
+          name="title"
+          label="标题"
+          formName={FORM.post}
         />
-        <Setting
-          uploadFn={uploadFn}
-          postId={postId}
-        />
-        <SpeedSetting/>
       </div>
-    </>
+      <MyEditor
+        name={'article'}
+        uploadFn={uploadFn}
+        contentStyle={contentStyle}
+      />
+      <Setting
+        uploadFn={uploadFn}
+        postId={postId}
+      />
+      <SpeedSetting postId={postId}/>
+    </form>
   );
 };
 

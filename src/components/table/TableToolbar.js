@@ -29,13 +29,13 @@ const TableToolbar = props => {
     >
       <div>
         {
-          handleAddRow ? (
+          handleAddRow && (
             <Tooltip title="Add">
               <IconButton aria-label="add" onClick={handleAddRow}>
                 <AddIcon/>
               </IconButton>
             </Tooltip>
-          ) : null
+          )
         }
       </div>
       {numSelected > 0 ? (

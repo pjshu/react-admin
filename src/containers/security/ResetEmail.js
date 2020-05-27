@@ -13,8 +13,11 @@ import {Field, SubmitBtn} from "../../components/Form";
 import {FORM} from "../../redux/formSlice";
 
 function ResetEmail() {
-  const {isSendCode, resendTime} = useSelector(selectValidateCode);
+  const data = useSelector(selectValidateCode);
+  const isSendCode = data.get('isSendCode');
+  const resendTime = data.get('resendTime');
   const dispatch = useDispatch();
+
   const classes = useStyles(isSendCode);
 
   useEffect(() => {

@@ -4,32 +4,30 @@ import {toAdmin, toPost} from "../history";
 import {addErrorMessage, addLoadingMessage, addSuccessMessage, setMessageState} from './globalSlice';
 import {v4 as uuidV4} from 'uuid';
 import {changeFormField, FORM} from "./formSlice";
+import {fromJS} from "immutable";
 
 
 export const slice = createSlice({
   name: 'post',
-  initialState: {
+  initialState: fromJS({
     drawOpen: false,
     autoSave: {
       open: true,
       time: 1
     }
-  },
+  }),
   reducers: {
-    addAllTags(state, action) {
-      state.form.allTags = action.payload;
-    },
     closeDrawer(state) {
-      state.drawOpen = false;
+      return state.update('drawOpen', () => false);
     },
     openDraw(state) {
-      state.drawOpen = true;
+      return state.update('drawOpen', () => true);
     },
     setAutoSaveTime(state, action) {
-      state.autoSave.time = action.payload;
+      return state.updateIn(['autoSave', 'time'], () => action.payload);
     },
     setAutoSaveChecked(state, action) {
-      state.autoSave.open = action.payload;
+      return state.updateIn(['autoSave', 'open'], () => action.payload);
     },
   }
 });
@@ -37,7 +35,7 @@ export const slice = createSlice({
 export const {closeDrawer, openDraw} = slice.actions;
 export const {setAutoSaveTime, setAutoSaveChecked} = slice.actions;
 
-
+//TODO
 export const getAllTags = () => dispatch => {
   api.getAllTags().then(res => {
     dispatch(changeFormField({allTags: res.data, form: FORM.post}));

@@ -1,7 +1,7 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useRef, useCallback, useEffect, useMemo, useState} from "react";
 import Alert from '@material-ui/lab/Alert';
-import {useSelector} from "react-redux";
-import {selectMessage} from "../../redux/globalSlice";
+import {useSelector, useDispatch} from "react-redux";
+import {selectMessage, setMessageState} from "../../redux/globalSlice";
 import List from '@material-ui/core/List';
 import {Box, Fade, ListItem, Snackbar} from '@material-ui/core';
 import {getTimeStamp} from '../../helpers/datetime';
@@ -19,20 +19,22 @@ const Message = React.memo(function Message({msg}) {
     setOpen(false);
   }, []);
 
+  const styles = useMemo(() => ({
+    root: classes.snackbar
+  }), [classes.snackbar]);
+
   return (
-    <Snackbar classes={{
-      root: classes.snackbar
-    }} open={open}>
+    <Snackbar classes={styles} open={open}>
       <Fade in={open}>
         <Box
           component={Alert}
           className={classes.box}
           variant="filled"
-          severity={msg.state}
+          severity={msg.get("state")}
           boxShadow={5}
           onClose={handleOnclose}
         >
-          {msg.message}
+          {msg.get('message')}
         </Box>
       </Fade>
     </Snackbar>
@@ -40,85 +42,74 @@ const Message = React.memo(function Message({msg}) {
 }, areEqual);
 
 const MessageQueue = React.memo(function MessageQueue() {
-  const {message} = useSelector(selectMessage);
-  return <ContextMessageQueue message={message}/>;
+  const messages = useSelector(selectMessage).get('message');
+  return <ContextMessageQueue messages={messages}/>;
 });
 
 // length为消息条最大个数
 // autoHideDuration 为自动隐藏时间
-const ContextMessageQueue = React.memo(function ContextMessageQueue({length = 3, autoHideDuration = 3000, message}) {
-  const [newlyMessages, setNewlyMessages] = useState([]);
-  const timerId = React.useRef();
+const ContextMessageQueue = React.memo(function ContextMessageQueue(props) {
+  const {MAX_MESSAGE_LENGTH = 3, autoHideDuration = 3000, messages} = props;
+  const dispatch = useDispatch();
+  const [newMessages, setNewMessages] = useState([]);
+  const timerId = useRef();
   const classes = useStyles();
+  const addNewMessage = useCallback((message) => {
+    setNewMessages(newMessages => [...newMessages, message]);
+  }, []);
 
-  const newMessageLength = useMemo(() => {
-    return newlyMessages.length;
-  }, [newlyMessages.length]);
 
-  const addNewlyMessage = useCallback((message) => {
-    let isNew = true;
-    for (let newlyMessage of newlyMessages) {
-      if (message.id === newlyMessage.id) {
-        isNew = false;
-        break;
-      }
-    }
-    if (isNew) {
-      setNewlyMessages([...newlyMessages, message]);
-    }
-  }, [newlyMessages]);
+  //检查是否newMessages列表需要添加该消息
+  const checkNewMessages = useCallback((diffTime = autoHideDuration - 1, message = null) => {
+    let isNew = newMessages.length < MAX_MESSAGE_LENGTH || diffTime < autoHideDuration;
+    isNew = message ? newMessages.includes(message) : isNew;
+    return isNew;
+  }, [autoHideDuration, MAX_MESSAGE_LENGTH, newMessages]);
 
-  const checkNewlyMessages = React.useCallback((diffTime = autoHideDuration - 1) => {
-    return newMessageLength >= length || diffTime > autoHideDuration;
-  }, [autoHideDuration, length, newMessageLength]);
-
-  //添加消息条
+  //添加消息条,
   useEffect(() => {
-    if (checkNewlyMessages()) {
-      return;
-    }
-    for (let item of message.slice().reverse()) {
-      let diffTime = getTimeStamp() - getTimeStamp(item.time);
-      if (checkNewlyMessages(diffTime)) {
-        break;
+    //从最新添加的(MAX_MESSAGE_LENGTH)个消息条中
+    //找到没有隐藏的消息条(隐藏延迟时间 > 已经存在时间)
+    for (let item of messages.slice(-MAX_MESSAGE_LENGTH)) {
+      let diffTime = getTimeStamp() - getTimeStamp(item.get('time'));
+      if (!item.get('hidden') && checkNewMessages(diffTime, item)) {
+        return;
       }
-      addNewlyMessage(item);
+      addNewMessage(item);
     }
-  }, [addNewlyMessage, checkNewlyMessages, message]);
+  }, [MAX_MESSAGE_LENGTH, addNewMessage, checkNewMessages, messages]);
+
   // 定时清除消息条
   useEffect(() => {
-    if (newMessageLength > 0) {
+    if (newMessages.length > 0) {
       timerId.current = setTimeout(() => {
-        setNewlyMessages(newlyMessages => newlyMessages.slice(1,));
+        setNewMessages(newMessages =>
+          newMessages.slice(1,)
+        );
       }, autoHideDuration);
     }
     return () => clearTimeout(timerId.current);
-  }, [autoHideDuration, newMessageLength]);
+  }, [autoHideDuration, dispatch, newMessages.length]);
 
   return (
     <>
       {
-        newMessageLength === 0 ?
-          null :
-          (
-            <List className={classes.root}>
-              {
-                newlyMessages.map(msg => (
-                  <ListItem key={msg.id} className={classes.listItem}>
-                    <Message msg={msg}/>
-                  </ListItem>
-                ))
-              }
-            </List>
-          )
+        newMessages.length !== 0 &&
+        (
+          <List className={classes.root}>
+            {
+              newMessages.map(msg => (
+                <ListItem key={msg.get('id')} className={classes.listItem}>
+                  <Message msg={msg}/>
+                </ListItem>
+              ))
+            }
+          </List>
+        )
       }
     </>
   );
-}, ((pre, next) => {
-  return pre.handleClearAll === next.handleClearAll &&
-    pre.handleMenuClose === next.handleMenuClose &&
-    pre.message.length === next.message.length;
-}));
+});
 
 
 export default () => ReactDOM.createPortal(<MessageQueue/>, messageRoot);

@@ -28,10 +28,11 @@ const GlobalFilter = ({globalFilter, setGlobalFilter}) => {
         <SearchIcon/>
       </div>
       {
-        cacheFilter ? (
+        cacheFilter && (
           <div onClick={handleClearFilter} className={classes.deleteIcon}>
             <DeleteForeverIcon/>
-          </div>) : null
+          </div>
+        )
       }
       <InputBase
         value={cacheFilter || ''}

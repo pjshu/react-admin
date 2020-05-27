@@ -21,19 +21,22 @@ import {FORM, selectForm, changeFormField} from "../../redux/formSlice";
 
 
 function EditorDialog(props) {
-  const {[FORM.tags]: {image}} = useSelector(selectForm);
-  const {dialogState} = useSelector(selectTag);
-  return <ContextEditorDialog {...{...props, dialogState, image}}/>;
+  const form = useSelector(selectForm);
+  const dialogState = useSelector(selectTag).get('dialogState');
+  const url = form.getIn([FORM.tags, 'image', 'url']);
+  return <ContextEditorDialog {...{...props, dialogState, url}}/>;
 }
 
-
 const ContextEditorDialog = (props) => {
-  const {updateHandler, dialogState, openDialog, image} = props;
+  const {updateHandler, dialogState, openDialog, url} = props;
   const dispatch = useDispatch();
+  const action = dialogState.get('action');
+
   const closeDialog = useCallback(() => {
     dispatch(_closeDialog());
   }, [dispatch]);
   const classes = useStyles();
+
 
   const [switchState, setSwitchState] = React.useState({
     addMultiple: false,
@@ -59,8 +62,8 @@ const ContextEditorDialog = (props) => {
     if (!file) {
       return;
     }
-    const url = window.URL.createObjectURL(file[0]);
-    dispatch(changeFormField({form: FORM.tags, image: {url}}));
+    const URL = window.URL.createObjectURL(file[0]);
+    dispatch(changeFormField({form: FORM.tags, image: {url: URL}}));
   }, [dispatch]);
   const addMultiple = useCallback(() => {
     switchState.addMultiple ? openDialog() : closeDialog();
@@ -69,10 +72,10 @@ const ContextEditorDialog = (props) => {
   return (
     <div>
       <Dialog
-        open={dialogState.open}
+        open={dialogState.get('open')}
         onClose={handleClose}
       >
-        <DialogTitle>{dialogState.action === 'add' ? '添加' : '修改'}标签</DialogTitle>
+        <DialogTitle>{action === 'add' ? '添加' : '修改'}标签</DialogTitle>
         <DialogContent>
           {/*<DialogContentText>Demo add item to react table.</DialogContentText>*/}
           {
@@ -81,20 +84,21 @@ const ContextEditorDialog = (props) => {
               {label: '描述', name: 'describe',},
               {label: '文章数量', name: 'count', disabled: true},
             ].map(({label, name, ...rest}) => (
-              <Field
-                key={name}
-                formName={FORM.tags}
-                autoFocus
-                margin="dense"
-                label={label}
-                name={name}
-                fullWidth
-                type="text"
-                {...rest}
-              />
+              <div key={name}>
+                <Field
+                  formName={FORM.tags}
+                  autoFocus
+                  margin="dense"
+                  label={label}
+                  name={name}
+                  fullWidth
+                  type="text"
+                  {...rest}
+                />
+              </div>
             ))
           }
-          <div className={classes.imgWrapper}>
+          <div className={classes.imgContainer}>
             <input
               onChange={handleChangeImage}
               accept="image/*"
@@ -105,17 +109,18 @@ const ContextEditorDialog = (props) => {
             <Box boxShadow={4} className={classes.box}>
               <label htmlFor={"tag-img"}>
                 <ButtonBase focusRipple component={'div'}>
-                  {
-                    image.url ? (
-                      <img
-                        title={'点击上传图片'}
-                        src={image.url}
-                        alt="标签插图"
-                      />
-                    ) : (
-                      <span>点击上传图片</span>
-                    )
-                  }
+                  <div className={classes.imgWrapper}>
+                    {
+                      url ? (
+                        <img
+                          src={url}
+                          alt={"点击上传图片"}
+                        />
+                      ) : (
+                        <span>点击上传图片</span>
+                      )
+                    }
+                  </div>
                 </ButtonBase>
               </label>
             </Box>
@@ -123,7 +128,7 @@ const ContextEditorDialog = (props) => {
         </DialogContent>
         <DialogActions>
           {
-            dialogState.action === 'add' ? (
+            action === 'add' ? (
               <Tooltip title="添加多条">
                 <Switch
                   checked={switchState.addMultiple}
@@ -146,7 +151,7 @@ const ContextEditorDialog = (props) => {
             color="primary"
           >
             {
-              dialogState.action === 'add' ? '添加' : '更新'
+              action === 'add' ? '添加' : '更新'
             }
           </SubmitBtn>
         </DialogActions>

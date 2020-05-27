@@ -67,12 +67,12 @@ const ContextMyEditor = React.memo(function ContextMyEditor({name, value, upload
 
 function MyEditor({name, ...props}) {
   const {state: {[name]: value}, dispatch, action} = useContext(EditorContext);
+
   const handleOnChange = useCallback((value) => {
     dispatch(action[name](value));
   }, [action, dispatch, name]);
+
   return <ContextMyEditor {...{...props, value, name, handleOnChange}}/>;
 }
 
-export default React.memo(MyEditor, () => {
-  return true;
-});
+export default React.memo(MyEditor, () => true);

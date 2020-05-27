@@ -4,7 +4,6 @@ import React, {useCallback} from "react";
 import {useDispatch} from "react-redux";
 import {addSuccessMessage} from '../../redux/globalSlice';
 import useStyles from './CardModalItem.style';
-import {areEqual} from "../../helpers/misc";
 
 export const UseInfo = React.memo(({count, relationship}) => {
   return (
@@ -13,22 +12,24 @@ export const UseInfo = React.memo(({count, relationship}) => {
         <Typography variant="body2" color="textSecondary" component="p">
           使用列表({count})
           {
-            relationship.map(item => (
-              <span key={item.name}>{item.type}:{item.name};</span>
+            relationship && relationship.map(item => (
+              <span key={item.get('name')}>{item.get('type')}:{item.get('name')};</span>
             ))
           }
         </Typography>
       </Grid>
     </Fade>
   );
-}, areEqual);
+});
 
 export const Links = React.memo(function Links({url}) {
   const classes = useStyles();
   const dispatch = useDispatch();
+
   const handleCopySuccess = useCallback(() => {
     dispatch(addSuccessMessage('复制成功'));
   }, [dispatch]);
+
   return (
     <Fade in={true} timeout={500}>
       <Grid item>

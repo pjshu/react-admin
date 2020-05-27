@@ -8,9 +8,8 @@ module.exports = function override(config, env) {
   config.resolve.alias = {
     ...config.resolve.alias,
     'immutable': path.resolve(process.cwd(), 'node_modules', 'immutable'),
-    'react-dom': 'react-dom'
     // 'react-dom@experimental': '@hot-loader/react-dom',
-    // 'react-redux': process.env.NODE_ENV === 'development' ? 'react-redux' : 'react-redux/lib'
+    'react-dom': 'react-dom'
   };
   config.optimization = {
     ...config.optimization,

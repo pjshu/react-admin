@@ -90,9 +90,7 @@ export const useRefreshToken = () => {
   const timing = useRef(-1);
   useEffect(() => {
     timing.current = setInterval(() => {
-      console.log('refresh token');
       api.auth().then(res => {
-        console.log(res);
         //TODO
       });
     }, refresh_token_space);
@@ -153,8 +151,8 @@ const useSubmitLogin = () => {
 
 const useSubmitRecPass: Function = () => {
   const dispatch = useDispatch();
-  const {[FORM.recoveryPasswordSendCode]: {email}} = useSelector(selectForm);
-
+  const formData = useSelector(selectForm);
+  const email = formData.getIn([FORM.recoveryPasswordSendCode, 'email']);
   return useCallback((values: Object) => {
     dispatch(recoveryPassword({...values, email}));
   }, [dispatch, email]);
@@ -227,12 +225,14 @@ const submitHooks = {
 export const useSubmit = (formName: string, ...other) => {
   const schema = validations[formName];
   const useSubmit = submitHooks[formName];
-  const {[formName]: form} = useSelector(selectForm);
+  const formData = useSelector(selectForm);
+  const form = formData.get(formName);
+
   const dispatch = useDispatch();
   const onSubmit = useSubmit();
   return useCallback(() => {
     schema.validate({
-      ...form,
+      ...form.toJS(),
     }).then((res) => {
       onSubmit(res, ...other);
       dispatch(clearFormError());
@@ -250,17 +250,19 @@ export const useSubmit = (formName: string, ...other) => {
 export const useTiming = (autoSave: Object, postId: number) => {
   const onSubmit = useSubmit(FORM.post, postId);
   const timerId = React.useRef();
+  const time = autoSave.get('time');
+  const open = autoSave.get('open');
   const timingUpload = useCallback(() => {
     return setInterval(() => {
       onSubmit();
-    }, autoSave.time * 60 * 1000);
-  }, [autoSave.time, onSubmit]);
+    }, time * 60 * 1000);
+  }, [time, onSubmit]);
 
   // 计时器
   useEffect(() => {
-    if (autoSave.open && autoSave.time > 0) {
+    if (open && time > 0) {
       timerId.current = timingUpload();
     }
     return () => clearInterval(timerId.current);
-  }, [autoSave.time, autoSave.open, timingUpload]);
+  }, [time, open, timingUpload]);
 };

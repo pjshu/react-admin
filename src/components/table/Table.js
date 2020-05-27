@@ -27,7 +27,7 @@ import {
   useTable
 } from 'react-table';
 import useStyles from './table.style';
-import {objAreEqual} from "../../helpers/misc";
+import {areEqual as objAreEqual} from "../../helpers/misc";
 
 
 const EnhancedTable = (props) => {
@@ -192,7 +192,7 @@ const EnhancedTable = (props) => {
 
   return (
     <TableContainer component={Paper}>
-      {renderDialog ? renderDialog(updateHandler) : null}
+      {renderDialog && renderDialog(updateHandler)}
       <TableToolbar
         {...{
           numSelected,

@@ -3,7 +3,8 @@ import {changeFormField, selectForm} from "../redux/formSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useSubmit} from "../hook";
 import {Button, TextField} from "@material-ui/core";
-import {objAreEqual} from "../helpers/misc";
+import {areEqual as objAreEqual} from "../helpers/misc";
+import {Iterable} from "immutable";
 
 //使用方法与formik类似:
 // Field默认as={TextField}
@@ -32,29 +33,29 @@ const areEqual = (pre, next) => {
 };
 
 const Field = React.memo(function Field(props) {
-  const {as, label, name, formName, getValue, children, ...rest} = props;
-  const {errors, [formName]: form} = useSelector(selectForm);
-  const value = useMemo(() => {
-    return form[name];
-  }, [form, name]);
+  const {name, formName, ...rest} = props;
+  const formData = useSelector(selectForm);
+  const form = formData.get(formName);
+  const errors = formData.get('errors');
+  let value = form.get(name);
 
   const error = useMemo(() => {
-    const field = errors['name'];
-    const value = field === name ? errors['value'] : '';
+    const field = errors.get('name');
+    const value = field === name ? errors.get('value') : '';
     return {
       text: value,
       isError: field === name
     };
   }, [errors, name]);
 
-  return <ContextField {...{as, label, name, formName, value, error, getValue, children, ...rest}}/>;
-}, () => {
-  return true;
-});
+  return <ContextField {...{name, formName, value, error, ...rest}}/>;
+
+}, areEqual);
 
 
 const ContextField = React.memo(function ContextField(props) {
-  const {as, label, name, formName, getValue, children, value, error, ...rest} = props;
+  let {as, label, name, formName, getValue, children, value, error, ...rest} = props;
+  value = Iterable.isIterable(value) ? value.toJS() : value;
   const dispatch = useDispatch();
 
   const handleFormChange = useCallback((e, other) => {
@@ -67,25 +68,27 @@ const ContextField = React.memo(function ContextField(props) {
     dispatch(changeFormField({[name]: value, form: formName}));
   }, [dispatch, formName, getValue, name]);
 
-  if (as) {
-    return React.createElement(
+  if (rest['options']) {
+    rest.options = rest['options'].toJS();
+  }
+
+  return as ?
+    React.createElement(
       as,
       {value, onChange: handleFormChange, label, ...rest},
       children
+    ) : (
+      <TextField
+        value={value}
+        onChange={handleFormChange}
+        label={label}
+        color="primary"
+        fullWidth={true}
+        error={error.isError}
+        helperText={error.text}
+        {...rest}
+      />
     );
-  }
-  return (
-    <TextField
-      value={value}
-      onChange={handleFormChange}
-      label={label}
-      color="primary"
-      fullWidth={true}
-      error={error.isError}
-      helperText={error.text}
-      {...rest}
-    />
-  );
 }, areEqual);
 
 const SubmitBtn = React.memo(function SubmitBtn(props) {
@@ -107,9 +110,7 @@ const SubmitBtn = React.memo(function SubmitBtn(props) {
       {children}
     </Button>
   );
-}, (pre, next) => {
-  return pre.hookParam === next.hookParam;
-});
+}, areEqual);
 
 
 export {Field, SubmitBtn};

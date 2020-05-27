@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useMemo} from "react";
 import {Box, Button, ButtonGroup, Grid, Paper, TextField} from "@material-ui/core";
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
@@ -13,21 +13,50 @@ import {setClickCardId, closeCardModal} from '../../redux/imageSlice';
 
 const CardModal = React.memo(function CardModal(props) {
   const {handleUpdate, handleDelete} = props;
-  const {images, clickCardId, cardModalOpen} = useSelector(selectImages);
+  const imagesData = useSelector(selectImages);
+
+  const images = imagesData.get('images');
+  const clickCardId = imagesData.get('clickCardId');
+  const cardModalOpen = imagesData.get('cardModalOpen');
+  return (
+    <>
+      {
+        cardModalOpen && (
+          <ContextCardModal
+            {...{handleUpdate, handleDelete, images, clickCardId}}/>
+        )
+      }
+    </>
+  );
+});
+
+
+const ContextCardModal = React.memo(function ContextCardModal(props) {
+  const {handleUpdate, handleDelete, images, clickCardId} = props;
+  const classes = useStyles();
 
   const dispatch = useDispatch();
   //从images数组中获取被点击图片详细信息
-  const image = images.filter(item => item.id === clickCardId)[0];
-  const {count, image: {url}, upload, relationship, describe} = image || {
-    image: {url: ''}
-  };
+  const image = images.filter(item => item.get('id') === clickCardId).get(0);
+
+  const [upload,url,describe, count, relationship] = useMemo(() => {
+    return image ?
+      [image.get('upload'), image.getIn(['image', 'url']), image.get('describe'), image.get('count'), image.get('relationship')] :
+      [null, '', '']
+  },[image])
+
+
+  const [cacheDescribe, setCacheDescribe] = React.useState(describe);
+
+  const [tabs, setTabs] = React.useState(0);
+
   const getNextMoveId = useCallback((images) => {
     let miss = false;
     for (let item of images) {
-      if (item.id === clickCardId) {
+      if (item.get('id') === clickCardId) {
         miss = true;
       } else if (miss === true) {
-        dispatch(setClickCardId(item.id));
+        dispatch(setClickCardId(item.get('id')));
         break;
       }
     }
@@ -35,7 +64,7 @@ const CardModal = React.memo(function CardModal(props) {
 
 
   const handleNextCard = useCallback(() => {
-    const lastCardId = images[images.length - 1].id;
+    const lastCardId = images.getIn([-1, 'id']);
     if (clickCardId !== lastCardId) {
       getNextMoveId(images);
     } else {
@@ -44,9 +73,9 @@ const CardModal = React.memo(function CardModal(props) {
   }, [clickCardId, dispatch, getNextMoveId, images]);
 
   const handlePreCard = useCallback(() => {
-    const firstCardId = images[0].id;
+    const firstCardId = images.getIn([0, 'id']);
     if (clickCardId !== firstCardId) {
-      getNextMoveId(images.slice().reverse());
+      getNextMoveId(images.reverse());
     } else {
       dispatch(addWarningMessage('已是第一张'));
     }
@@ -66,45 +95,6 @@ const CardModal = React.memo(function CardModal(props) {
     dispatch(closeCardModal());
   }, [clickCardId, dispatch, handleDelete, upload]);
 
-  return (
-    <>
-      {
-        cardModalOpen ? (
-          <ContextCardModal
-            {...{
-              relationship,
-              describe,
-              count,
-              url,
-              handleNextCard,
-              handlePreCard,
-              handleUploadDesc,
-              handleOnDelete,
-              handleOnClose,
-            }}/>
-        ) : null
-      }
-    </>
-  );
-});
-
-
-const ContextCardModal = React.memo(function ContextCardModal(props) {
-  const {
-    relationship,
-    describe,
-    count,
-    url,
-    handleNextCard,
-    handlePreCard,
-    handleUploadDesc,
-    handleOnDelete,
-    handleOnClose
-  } = props;
-  const classes = useStyles();
-
-  const [cacheDescribe, setCacheDescribe] = React.useState(describe);
-  const [tabs, setTabs] = React.useState(0);
 
   const handleUpload = useCallback(() => {
     handleUploadDesc(cacheDescribe);
@@ -161,7 +151,8 @@ const ContextCardModal = React.memo(function ContextCardModal(props) {
           {
             tabs === 0 ?
               <Links url={url}/> :
-              <UseInfo {...{count, relationship}}/>
+              <UseInfo {...{count, relationship}}
+              />
           }
           <Grid item>
             <TextField

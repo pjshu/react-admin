@@ -4,7 +4,6 @@ import {Avatar, Grid, Paper, Typography} from "@material-ui/core";
 import useStyles from './user.style';
 import {useDispatch, useSelector} from "react-redux";
 import EditorArea from '../../components/editor/EditorArea';
-import {areEqual} from "../../helpers/misc";
 import {changeFormField, FORM, selectForm} from '../../redux/formSlice';
 import {SubmitBtn} from "../../components/Form";
 import FingerprintIcon from '@material-ui/icons/Fingerprint';
@@ -14,15 +13,13 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 
 
 const User = React.memo(function User() {
-  const {[FORM.userInfo]: {avatar}} = useSelector(selectForm);
+  const avatar = useSelector(selectForm).getIn([FORM.userInfo, 'avatar']);
   return <ContextUser avatar={avatar}/>;
-}, areEqual);
+});
 
 const ContextUser = React.memo(function ContextUser({avatar}) {
   const dispatch = useDispatch();
   const classes = useStyles();
-  //blob url to base64
-
 
   const handleUploadAvatar = (e) => {
     const file = e.target.files;

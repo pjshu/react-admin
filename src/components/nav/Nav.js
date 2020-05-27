@@ -30,13 +30,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {clearAllMessage, removeMessage, selectMessage} from "../../redux/globalSlice";
 import {logout} from '../../redux/userSlice';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import {areEqual} from "../../helpers/misc";
 import {useRefreshToken} from "../../hook";
 
 const Nav = React.memo(function Nav() {
   const classes = useStyles();
   const dispatch = useDispatch();
   useRefreshToken();
+
   const [open, setOpen] = React.useState(false);
   const [messageMenu, setMessageMenu] = React.useState({
     anchorEl: null,
@@ -101,16 +101,18 @@ const Nav = React.memo(function Nav() {
 });
 
 const MessageBox = React.memo(function MessageBox({setMessageMenu}) {
-  const {message} = useSelector(selectMessage);
+  const messageData = useSelector(selectMessage);
+  const message = messageData.get('message');
+  const length = message.size;
   const handleMenuClick = useCallback((e) => {
-    if (message.length !== 0) {
+    if (length !== 0) {
       setMessageMenu({
         open: true,
         anchorEl: e.currentTarget
       });
     }
-  }, [message.length, setMessageMenu]);
-  return <ContextMessageBox messageLength={message.length} handleMenuClick={handleMenuClick}/>;
+  }, [length, setMessageMenu]);
+  return <ContextMessageBox messageLength={length} handleMenuClick={handleMenuClick}/>;
 });
 
 
@@ -131,22 +133,24 @@ const ContextMessageBox = React.memo(function ContextMessageBox({messageLength, 
 
 
 const MemoMenu = React.memo(function MemoMenu(props) {
-  const {message} = useSelector(selectMessage);
+  const message = useSelector(selectMessage).get('message');
   return <ContextMemoMenu {...{message, ...props}}/>;
 });
 
 const ContextMemoMenu = React.memo(function MemoMenu(props) {
   const {handleMenuClose, messageMenu, handleClearAll, message} = props;
   const classes = useStyles();
+
   const paperProps = useMemo(() => ({
     style: {
       minHeight: 100,
       maxHeight: 400,
       minWidth: 300,
       maxWidth: 350,
-      overflow: 'scroll'
+      overflow: 'auto'
     },
   }), []);
+
   return (
     <Menu
       id="long-menu"
@@ -160,36 +164,39 @@ const ContextMemoMenu = React.memo(function MemoMenu(props) {
         清空全部
       </MenuItem>
       {message.map((msg) => (
-        <MenuItem className={classes.fullWidth} key={msg.id} onClose={handleMenuClose}>
+        <MenuItem className={classes.fullWidth} key={msg.get('id')} onClose={handleMenuClose}>
           <MemoAlert msg={msg} handleMenuClose={handleMenuClose}/>
         </MenuItem>
       ))}
     </Menu>
   );
-}, areEqual);
+});
 
 // 单独提取成组件的原因:如果不提取,Alert组件中的handleDeleteMessage函数只能写成內联形式(需要传入id属性)
 const MemoAlert = React.memo(function MemoAlert({msg, handleMenuClose}) {
-  const {message} = useSelector(selectMessage);
+  const message = useSelector(selectMessage).get('message');
   const dispatch = useDispatch();
   const classes = useStyles();
+  const id = msg.get('id');
+  const length = message.size;
 
   const handleDeleteMessage = useCallback(() => {
     //这里不能把dispatch提出到外面
-    if (message.length === 1) {
-      dispatch(removeMessage(msg.id));
+    if (length === 1) {
+      dispatch(removeMessage(id));
       handleMenuClose();
     } else {
-      dispatch(removeMessage(msg.id));
+      dispatch(removeMessage(id));
     }
-  }, [dispatch, handleMenuClose, message.length, msg.id]);
+  }, [dispatch, handleMenuClose, length, id]);
 
   return (
     <Alert
       onClose={handleDeleteMessage}
       className={classes.fullWidth}
-      variant="filled" severity={msg.state}>
-      {msg.message}/{msg.time}
+      variant="filled" severity={msg.get('state')}
+    >
+      {msg.get('message')}/{msg.get('time')}
     </Alert>
   );
 });

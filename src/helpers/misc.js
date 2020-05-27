@@ -1,4 +1,5 @@
 import BraftEditor from "../config/editor";
+import {Iterable} from "immutable";
 
 export async function getImageForm(blobUrl) {
   const form = new FormData();
@@ -35,9 +36,7 @@ export const blob2Base64 = (data) => new Promise((resolve => {
 
 
 // 对象对比函数
-// TODO 优化算法
-// 或者使用immutable
-export const objAreEqual = (prePro, nextPro, blacklist = []) => {
+export const areEqual = (prePro, nextPro, blacklist = []) => {
   let isEqual = true;
   let compare = 0;
   // 对比数组
@@ -107,6 +106,10 @@ export const objAreEqual = (prePro, nextPro, blacklist = []) => {
       alert(compare);
       console.log(prePro, compare);
     }
+    if (Iterable.isIterable(pre)) {
+      isEqual = pre === next;
+      return;
+    }
     if (isEqual === false || specialCompare(pre, next)) {
       return;
     }
@@ -120,8 +123,4 @@ export const objAreEqual = (prePro, nextPro, blacklist = []) => {
   };
   deepCompare(prePro, nextPro);
   return isEqual;
-};
-
-export const areEqual = (pre, next) => {
-  return objAreEqual(pre, next);
 };

@@ -4,7 +4,7 @@ import {Loading} from "../../components";
 import {Redirect} from 'react-router-dom';
 import {useAuth} from "../../hook";
 
-const Index = React.memo(function Index(){
+function LoginWrapper(){
   const [state, from] = useAuth();
   return (
     <>
@@ -14,6 +14,6 @@ const Index = React.memo(function Index(){
       }
     </>
   );
-});
+};
 
-export default Index;
+export default React.memo(LoginWrapper);
