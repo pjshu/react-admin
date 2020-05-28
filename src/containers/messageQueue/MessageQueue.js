@@ -63,24 +63,20 @@ function MessageQueue() {
   }, [dispatch, messages, open]);
 
   return (
-    <>
-      {
-        open &&
-        (
-          <List className={classes.root}>
-            {
-              messages.map(msg => (
-                <ListItem key={msg.get('id')} className={classes.listItem}>
-                  <Message msg={msg}/>
-                </ListItem>
-              ))
-            }
-          </List>
-        )
-      }
-    </>
+    open &&
+    (
+      <List className={classes.root}>
+        {
+          messages.map(msg => (
+            <ListItem key={msg.get('id')} className={classes.listItem}>
+              <Message msg={msg}/>
+            </ListItem>
+          ))
+        }
+      </List>
+    )
   );
-};
+}
 
 
 export default React.memo(() => ReactDOM.createPortal(<MessageQueue/>, messageRoot));
