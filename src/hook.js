@@ -93,6 +93,7 @@ export const useAuth = () => {
 
 // 定时刷新token
 export const useRefreshToken = () => {
+  //BUG
   const timing = useRef(-1);
   useEffect(() => {
     timing.current = setInterval(() => {

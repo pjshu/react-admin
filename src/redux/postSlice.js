@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import api from "../helpers/http";
 import {toAdmin, toPost} from "../history";
-import {addErrorMessage, addLoadingMessage, addSuccessMessage, setMessageState} from './globalSlice';
+import {addErrorMessage, addLoadingMessage, addSuccessMessage, updateMessageState} from './globalSlice';
 import {v4 as uuidV4} from 'uuid';
 import {changeFormField, FORM} from "./formSlice";
 import {fromJS} from "immutable";
@@ -84,10 +84,10 @@ export const addPostImg = (form, postId, successFn, errorFn) => dispatch => {
     const {data, status} = res;
     if (status === 'success') {
       successFn(data);
-      dispatch(setMessageState({id: messageId, state: 'success', message: '图片上传成功'}));
+      dispatch(updateMessageState({id: messageId, state: 'success', message: '图片上传成功'}));
     } else {
       errorFn();
-      dispatch(setMessageState({id: messageId, state: 'error', message: '图片上传失败'}));
+      dispatch(updateMessageState({id: messageId, state: 'error', message: '图片上传失败'}));
     }
   });
 };

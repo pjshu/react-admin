@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import api from '../helpers/http';
-import {addErrorMessage, addLoadingMessage, addSuccessMessage, setMessageState} from "./globalSlice";
+import {addErrorMessage, addLoadingMessage, addSuccessMessage, updateMessageState} from "./globalSlice";
 import {v4 as uuidV4} from "uuid";
 import {fromJS} from "immutable";
 
@@ -70,10 +70,10 @@ export const deleteImageApi = (id_list) => dispatch => {
   dispatch(addLoadingMessage({id: messageId, message: '正在删除'}));
   api.deleteImage({id_list}).then(res => {
     if (res.status === 'success') {
-      dispatch(setMessageState({id: messageId, state: 'success', message: '图片删除成功'}));
+      dispatch(updateMessageState({id: messageId, state: 'success', message: '图片删除成功'}));
       dispatch(deleteImage(id_list));
     } else {
-      dispatch(setMessageState({id: messageId, state: 'success', message: '图片删除失败'}));
+      dispatch(updateMessageState({id: messageId, state: 'success', message: '图片删除失败'}));
     }
   });
 };

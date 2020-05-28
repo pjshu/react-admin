@@ -131,7 +131,6 @@ const MemoMenu = React.memo(function MemoMenu(props) {
   const {handleMenuClose, messageMenu, handleClearAll} = props;
   const message = useSelector(selectMessage);
   const classes = useStyles();
-
   const paperProps = useMemo(() => ({
     style: {
       minHeight: 100,

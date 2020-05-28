@@ -1,13 +1,12 @@
-import React, {useRef, useCallback, useEffect, useMemo, useState} from "react";
+import React, {useRef, useEffect, useMemo, useState} from "react";
 import Alert from '@material-ui/lab/Alert';
 import {useSelector, useDispatch} from "react-redux";
-import {selectMessage, setMessageState} from "../../redux/globalSlice";
+import {createLastMessageSelect, updateMessageState} from "../../redux/globalSlice";
 import List from '@material-ui/core/List';
-import {Box, Fade, ListItem, Snackbar} from '@material-ui/core';
-import {getTimeStamp} from '../../helpers/datetime';
+import {Box, Slide, ListItem, Snackbar} from '@material-ui/core';
 import useStyles from './messageQueue.style';
 import ReactDOM from 'react-dom';
-import {areEqual} from "../../helpers/misc";
+import {maxMessageLength, messageAutoHideDuration} from "../../config/misc";
 
 const messageRoot = document.getElementById('message-root');
 
@@ -25,7 +24,7 @@ const Message = React.memo(function Message({msg}) {
 
   return (
     <Snackbar classes={styles} open={open}>
-      <Fade in={open}>
+      <Slide in={open} direction={"down"}>
         <Box
           component={Alert}
           className={classes.box}
@@ -36,65 +35,41 @@ const Message = React.memo(function Message({msg}) {
         >
           {msg.get('message')}
         </Box>
-      </Fade>
+      </Slide>
     </Snackbar>
   );
-}, areEqual);
+});
 
-// length为消息条最大个数
-// autoHideDuration 为自动隐藏时间
-const MessageQueue = React.memo(function MessageQueue(props) {
-  const {MAX_MESSAGE_LENGTH = 3, autoHideDuration = 3000} = props;
-  const messages = useSelector(selectMessage);
+function MessageQueue() {
+  // length为消息条最大个数
+  // autoHideDuration 为自动隐藏时间
+  const messages = useSelector(createLastMessageSelect(maxMessageLength));
   const dispatch = useDispatch();
-  const [newMessages, setNewMessages] = useState([]);
   const timerId = useRef();
   const classes = useStyles();
-  const addNewMessage = useCallback((message) => {
-    setNewMessages(newMessages => [...newMessages, message]);
-  }, []);
-
-
-  //检查是否newMessages列表需要添加该消息
-  const checkNewMessages = useCallback((diffTime = autoHideDuration - 1, message = null) => {
-    let isNew = newMessages.length < MAX_MESSAGE_LENGTH || diffTime < autoHideDuration;
-    isNew = message ? newMessages.includes(message) : isNew;
-    return isNew;
-  }, [autoHideDuration, MAX_MESSAGE_LENGTH, newMessages]);
-
-  //添加消息条,
-  useEffect(() => {
-    //从最新添加的(MAX_MESSAGE_LENGTH)个消息条中
-    //找到没有隐藏的消息条(隐藏延迟时间 > 已经存在时间)
-    for (let item of messages.slice(-MAX_MESSAGE_LENGTH)) {
-      let diffTime = getTimeStamp() - getTimeStamp(item.get('time'));
-      if (!item.get('hidden') && checkNewMessages(diffTime, item)) {
-        return;
-      }
-      addNewMessage(item);
-    }
-  }, [MAX_MESSAGE_LENGTH, addNewMessage, checkNewMessages, messages]);
-
+  //检查最新的消息是否隐藏,如果隐藏则关闭整个消息队列
+  const open = useMemo(() => messages.size !== 0, [messages]);
   // 定时清除消息条
   useEffect(() => {
-    if (newMessages.length > 0) {
+    if (open) {
       timerId.current = setTimeout(() => {
-        setNewMessages(newMessages =>
-          newMessages.slice(1,)
-        );
-      }, autoHideDuration);
+        dispatch(updateMessageState({
+          id: messages.getIn([0, 'id']),
+          hidden: true
+        }));
+      }, messageAutoHideDuration);
     }
     return () => clearTimeout(timerId.current);
-  }, [autoHideDuration, dispatch, newMessages.length]);
+  }, [dispatch, messages, open]);
 
   return (
     <>
       {
-        newMessages.length !== 0 &&
+        open &&
         (
           <List className={classes.root}>
             {
-              newMessages.map(msg => (
+              messages.map(msg => (
                 <ListItem key={msg.get('id')} className={classes.listItem}>
                   <Message msg={msg}/>
                 </ListItem>
@@ -105,8 +80,8 @@ const MessageQueue = React.memo(function MessageQueue(props) {
       }
     </>
   );
-});
+};
 
 
-export default () => ReactDOM.createPortal(<MessageQueue/>, messageRoot);
+export default React.memo(() => ReactDOM.createPortal(<MessageQueue/>, messageRoot));
 

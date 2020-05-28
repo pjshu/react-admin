@@ -2,7 +2,7 @@
 
 import {createSlice} from '@reduxjs/toolkit';
 import api from "../helpers/http";
-import {addErrorMessage, addLoadingMessage, addSuccessMessage, setMessageState} from "./globalSlice";
+import {addErrorMessage, addLoadingMessage, addSuccessMessage, updateMessageState} from "./globalSlice";
 import {v4 as uuidV4} from 'uuid';
 import {getImageForm} from "../helpers/misc";
 import {initTagForm, changeFormField, FORM} from "./formSlice";
@@ -59,9 +59,9 @@ export const addTagImg = (value, updateHandler) => dispatch => {
     api.addTagImg(image, value.id).then(res => {
       if (res.status === 'success') {
         updateHandler({...value, image: {url: res.data.url}});
-        dispatch(setMessageState({id: messageId, state: 'success', message: '图片上传成功'}));
+        dispatch(updateMessageState({id: messageId, state: 'success', message: '图片上传成功'}));
       } else {
-        dispatch(setMessageState({id: messageId, state: 'error', message: '图片上传失败'}));
+        dispatch(updateMessageState({id: messageId, state: 'error', message: '图片上传失败'}));
       }
     });
   };

@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSelector, createSlice} from '@reduxjs/toolkit';
 import getCurrentTime from "../helpers/datetime";
 import {v4 as uuidV4} from 'uuid';
 import {fromJS, Map} from "immutable";
@@ -53,7 +53,7 @@ export const slice = createSlice({
       payload.state = 'info';
       return state.update('message', (value) => value.push(Map(payload)));
     },
-    setMessageState(state, action) {
+    updateMessageState(state, action) {
       const payload = action.payload;
       return state.update('message', value => {
         return value.map(item =>
@@ -71,7 +71,10 @@ export const slice = createSlice({
   }
 });
 export const {addWarningMessage, addErrorMessage, addLoadingMessage, addSuccessMessage} = slice.actions;
-export const {removeMessage, setMessageState, clearAllMessage} = slice.actions;
+export const {removeMessage, updateMessageState, clearAllMessage} = slice.actions;
 export const selectMessage = state => state.global.get('message');
-
+export const createLastMessageSelect = (MAX_MESSAGE_LENGTH) =>
+  createSelector(selectMessage, (message) =>
+    message.slice(-MAX_MESSAGE_LENGTH).filter(msg => !msg.get('hidden'))
+  );
 export default slice.reducer;
