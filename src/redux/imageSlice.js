@@ -103,7 +103,7 @@ export const uploadImages = (form, id) => dispatch => {
 export const uploadImagesDesc = (describe, id) => dispatch => {
   api.modifyImageInfo({describe}, id).then(res => {
     if (res.status === 'success') {
-      dispatch(updateImage({id, describe, old_id:id}))
+      dispatch(updateImage({id, describe, old_id: id}));
       dispatch(addSuccessMessage('修改描述成功'));
     } else {
       dispatch(addErrorMessage('修改描述失败'));
@@ -111,6 +111,6 @@ export const uploadImagesDesc = (describe, id) => dispatch => {
   });
 };
 
-export const selectImages = state => state.images;
-
+export const selectImagesSlice = state => state.images;
+export const selectImages = state => state.images.get('images');
 export default slice.reducer;

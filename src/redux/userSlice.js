@@ -178,9 +178,8 @@ export const logout = () => dispatch => {
 };
 
 
-export const selectRegister = state => state.user.register;
-
-export const selectValidateCode = state => state.user;
-
-
+export const selectResendTime = state => state.user.get('resendTime');
+export const selectIsSendCode = state => state.user.get('isSendCode');
+export const selectModalOpen = state => state.user.getIn(['register', 'modalOpen']);
+export const selectActiveStep = state => state.user.getIn(['register', 'activeStep']);
 export default slice.reducer;

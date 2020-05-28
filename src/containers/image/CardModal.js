@@ -7,47 +7,26 @@ import {selectImages} from "../../redux/imageSlice";
 import {Links, UseInfo} from "./CardModalItem";
 import useStyles from './cardModal.style';
 import {LoadingImg} from '../../components';
-import {areEqual} from "../../helpers/misc";
 import {addWarningMessage} from "../../redux/globalSlice";
 import {setClickCardId, closeCardModal} from '../../redux/imageSlice';
+import {getAttr} from "../../helpers/misc";
 
 const CardModal = React.memo(function CardModal(props) {
   const {handleUpdate, handleDelete} = props;
-  const imagesData = useSelector(selectImages);
-
-  const images = imagesData.get('images');
-  const clickCardId = imagesData.get('clickCardId');
-  const cardModalOpen = imagesData.get('cardModalOpen');
-  return (
-    <>
-      {
-        cardModalOpen && (
-          <ContextCardModal
-            {...{handleUpdate, handleDelete, images, clickCardId}}/>
-        )
-      }
-    </>
-  );
-});
-
-
-const ContextCardModal = React.memo(function ContextCardModal(props) {
-  const {handleUpdate, handleDelete, images, clickCardId} = props;
+  const images = useSelector(selectImages);
+  const [clickCardId, cardModalOpen] = getAttr(images, ['clickCardId', 'cardModalOpen']);
   const classes = useStyles();
-
   const dispatch = useDispatch();
-  //从images数组中获取被点击图片详细信息
   const image = images.filter(item => item.get('id') === clickCardId).get(0);
 
-  const [upload,url,describe, count, relationship] = useMemo(() => {
+  //从images数组中获取被点击图片详细信息
+  const [upload, url, describe, count, relationship] = useMemo(() => {
     return image ?
       [image.get('upload'), image.getIn(['image', 'url']), image.get('describe'), image.get('count'), image.get('relationship')] :
-      [null, '', '']
-  },[image])
-
+      [null, '', ''];
+  }, [image]);
 
   const [cacheDescribe, setCacheDescribe] = React.useState(describe);
-
   const [tabs, setTabs] = React.useState(0);
 
   const getNextMoveId = useCallback((images) => {
@@ -61,7 +40,6 @@ const ContextCardModal = React.memo(function ContextCardModal(props) {
       }
     }
   }, [clickCardId, dispatch]);
-
 
   const handleNextCard = useCallback(() => {
     const lastCardId = images.getIn([-1, 'id']);
@@ -113,77 +91,85 @@ const ContextCardModal = React.memo(function ContextCardModal(props) {
   }, []);
 
   return (
-    <div className={classes.root}>
-      <div
-        onClick={handlePreCard}
-        title={'上一张'}
-        className={classes.preButton}
-      >
-        <ArrowLeftIcon/>
-      </div>
-      <div
-        onClick={handleNextCard}
-        title={'下一张'}
-        className={classes.nextButton}
-      >
-        <ArrowRightIcon/>
-      </div>
-      <Box className={classes.imgWrapper} boxShadow={5} component={Paper}>
-        <Grid container justify={'center'}>
-          <LoadingImg src={url} alt=""/>
-        </Grid>
-        <Grid container direction={'column'} alignItems={'center'} spacing={4}>
-          <Grid item container>
-            <ButtonGroup
-              className={classes.buttonGroup}
-              fullWidth={true}
-              color="primary"
-              aria-label="outlined primary button group"
-            >
-              <Button onClick={handleToFirstTab}>
-                链接
-              </Button>
-              <Button onClick={handleToSecondTab}>
-                使用列表
-              </Button>
-            </ButtonGroup>
-          </Grid>
-          {
-            tabs === 0 ?
-              <Links url={url}/> :
-              <UseInfo {...{count, relationship}}
-              />
-          }
-          <Grid item>
-            <TextField
-              className={classes.describe}
-              id="outlined-multiline-static"
-              label="描述"
-              multiline
-              rows="8"
-              variant="outlined"
-              value={cacheDescribe || ''}
-              onChange={handleCacheDescChange}
-            />
-          </Grid>
-        </Grid>
-        <div className={classes.actionBtn}>
-          {
-            [
-              {label: '关闭', onClick: handleOnClose},
-              {label: '删除', onClick: handleOnDelete},
-              {label: '更新', onClick: handleUpload},
-            ].map(item => (
-              <Button key={item.label} color="primary" onClick={item.onClick}>
-                {item.label}
-              </Button>
-            ))
-          }
-        </div>
-
-      </Box>
-    </div>
+    <>
+      {
+        cardModalOpen && (
+          <>
+            <div className={classes.root}>
+              <div
+                onClick={handlePreCard}
+                title={'上一张'}
+                className={classes.preButton}
+              >
+                <ArrowLeftIcon/>
+              </div>
+              <div
+                onClick={handleNextCard}
+                title={'下一张'}
+                className={classes.nextButton}
+              >
+                <ArrowRightIcon/>
+              </div>
+              <Box className={classes.imgWrapper} boxShadow={5} component={Paper}>
+                <Grid container justify={'center'}>
+                  <LoadingImg src={url} alt=""/>
+                </Grid>
+                <Grid container direction={'column'} alignItems={'center'} spacing={4}>
+                  <Grid item container>
+                    <ButtonGroup
+                      className={classes.buttonGroup}
+                      fullWidth={true}
+                      color="primary"
+                      aria-label="outlined primary button group"
+                    >
+                      <Button onClick={handleToFirstTab}>
+                        链接
+                      </Button>
+                      <Button onClick={handleToSecondTab}>
+                        使用列表
+                      </Button>
+                    </ButtonGroup>
+                  </Grid>
+                  {
+                    tabs === 0 ?
+                      <Links url={url}/> :
+                      <UseInfo {...{count, relationship}}
+                      />
+                  }
+                  <Grid item>
+                    <TextField
+                      className={classes.describe}
+                      id="outlined-multiline-static"
+                      label="描述"
+                      multiline
+                      rows="8"
+                      variant="outlined"
+                      value={cacheDescribe || ''}
+                      onChange={handleCacheDescChange}
+                    />
+                  </Grid>
+                </Grid>
+                <div className={classes.actionBtn}>
+                  {
+                    [
+                      {label: '关闭', onClick: handleOnClose},
+                      {label: '删除', onClick: handleOnDelete},
+                      {label: '更新', onClick: handleUpload},
+                    ].map(item => (
+                      <Button key={item.label} color="primary" onClick={item.onClick}>
+                        {item.label}
+                      </Button>
+                    ))
+                  }
+                </div>
+              </Box>
+            </div>
+          </>
+        )
+      }
+    </>
   );
-}, areEqual);
+});
+
 
 export default CardModal;

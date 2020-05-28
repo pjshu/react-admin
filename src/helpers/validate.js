@@ -27,10 +27,10 @@ const validateUserInfo = object({
 
 const validateLogin = object({
   username: string()
-    .max('30', '用户名不能超过30位')
+    .max('40', '用户名不能超过40位')
     .required('请输入用户名'),
   password: string()
-    .max('30', '密码不能超过30位')
+    .max('40', '密码不能超过40位')
     .required('请输入密码')
 });
 

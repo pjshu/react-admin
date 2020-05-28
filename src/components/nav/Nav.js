@@ -101,22 +101,17 @@ const Nav = React.memo(function Nav() {
 });
 
 const MessageBox = React.memo(function MessageBox({setMessageMenu}) {
-  const messageData = useSelector(selectMessage);
-  const message = messageData.get('message');
-  const length = message.size;
+  const message = useSelector(selectMessage);
+  const messageLength = message.size;
   const handleMenuClick = useCallback((e) => {
-    if (length !== 0) {
+    if (messageLength !== 0) {
       setMessageMenu({
         open: true,
         anchorEl: e.currentTarget
       });
     }
-  }, [length, setMessageMenu]);
-  return <ContextMessageBox messageLength={length} handleMenuClick={handleMenuClick}/>;
-});
+  }, [messageLength, setMessageMenu]);
 
-
-const ContextMessageBox = React.memo(function ContextMessageBox({messageLength, handleMenuClick}) {
   const classes = useStyles();
   return (
     <Badge
@@ -133,12 +128,8 @@ const ContextMessageBox = React.memo(function ContextMessageBox({messageLength, 
 
 
 const MemoMenu = React.memo(function MemoMenu(props) {
-  const message = useSelector(selectMessage).get('message');
-  return <ContextMemoMenu {...{message, ...props}}/>;
-});
-
-const ContextMemoMenu = React.memo(function MemoMenu(props) {
-  const {handleMenuClose, messageMenu, handleClearAll, message} = props;
+  const {handleMenuClose, messageMenu, handleClearAll} = props;
+  const message = useSelector(selectMessage);
   const classes = useStyles();
 
   const paperProps = useMemo(() => ({
@@ -174,7 +165,7 @@ const ContextMemoMenu = React.memo(function MemoMenu(props) {
 
 // 单独提取成组件的原因:如果不提取,Alert组件中的handleDeleteMessage函数只能写成內联形式(需要传入id属性)
 const MemoAlert = React.memo(function MemoAlert({msg, handleMenuClose}) {
-  const message = useSelector(selectMessage).get('message');
+  const message = useSelector(selectMessage);
   const dispatch = useDispatch();
   const classes = useStyles();
   const id = msg.get('id');
@@ -194,7 +185,8 @@ const MemoAlert = React.memo(function MemoAlert({msg, handleMenuClose}) {
     <Alert
       onClose={handleDeleteMessage}
       className={classes.fullWidth}
-      variant="filled" severity={msg.get('state')}
+      variant="filled"
+      severity={msg.get('state')}
     >
       {msg.get('message')}/{msg.get('time')}
     </Alert>

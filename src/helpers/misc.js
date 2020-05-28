@@ -34,6 +34,9 @@ export const blob2Base64 = (data) => new Promise((resolve => {
   });
 }));
 
+export const getAttr = (value, fields) => {
+  return fields.map(field => field instanceof Array ? value.getIn(field) : value.get(field));
+};
 
 // 对象对比函数
 export const areEqual = (prePro, nextPro, blacklist = []) => {
@@ -121,6 +124,7 @@ export const areEqual = (prePro, nextPro, blacklist = []) => {
       isEqual = (pre === next);
     }
   };
+
   deepCompare(prePro, nextPro);
   return isEqual;
 };

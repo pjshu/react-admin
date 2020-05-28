@@ -1,9 +1,7 @@
 import React from 'react';
 import {Container, Grid} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
-import {
-  selectValidateCode
-} from '../../redux/userSlice';
+import {selectIsSendCode} from '../../redux/userSlice';
 import {useSelector} from "react-redux";
 import useStyles from './recoveryPassword.style';
 import {Field} from '../../components/Form';
@@ -12,8 +10,7 @@ import {FORM} from "../../redux/formSlice";
 
 
 const RecoveryPassword = () => {
-  const data = useSelector(selectValidateCode);
-  const isSendCode = data.get('isSendCode');
+  const isSendCode = useSelector(selectIsSendCode);
   const classes = useStyles();
 
   return (

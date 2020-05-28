@@ -4,15 +4,15 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import useStyles from './card.style';
 import {useDispatch} from "react-redux";
 import {setClickCardId, openCardModal} from '../../redux/imageSlice';
-import {areEqual} from "../../helpers/misc";
+import {areEqual, getAttr} from "../../helpers/misc";
 
 const MyCard = (props) => {
   const {imageItem, handleDelete, uploadImage} = props;
   const classes = useStyles();
   const dispatch = useDispatch();
-  const url = imageItem.getIn(['image', 'url']);
-  const upload = imageItem.get('upload');
-  const id = imageItem.get('id');
+  const [url, upload, id] = getAttr(imageItem, [
+    ['image', 'url'], 'upload', 'id'
+  ]);
   const handleOnDelete = useCallback(() => {
     handleDelete(upload, id);
   }, [handleDelete, id, upload]);

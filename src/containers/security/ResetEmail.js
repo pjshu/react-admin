@@ -3,8 +3,9 @@ import {Button, Grid} from "@material-ui/core";
 import {
   asyncDecSendCodeTime,
   resetSendCodeTime,
-  selectValidateCode,
   sendRestEmailCode,
+  selectIsSendCode,
+  selectResendTime,
   setIsSendCode
 } from '../../redux/userSlice';
 import {useDispatch, useSelector} from "react-redux";
@@ -13,9 +14,8 @@ import {Field, SubmitBtn} from "../../components/Form";
 import {FORM} from "../../redux/formSlice";
 
 function ResetEmail() {
-  const data = useSelector(selectValidateCode);
-  const isSendCode = data.get('isSendCode');
-  const resendTime = data.get('resendTime');
+  const isSendCode = useSelector(selectIsSendCode);
+  const resendTime = useSelector(selectResendTime);
   const dispatch = useDispatch();
 
   const classes = useStyles(isSendCode);

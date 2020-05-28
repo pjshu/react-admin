@@ -4,9 +4,9 @@ import RegisterUser from './RegisterUser';
 import useStyles from './register.style';
 import RegisterEmail from "./RegisterEmail";
 import SubmitModal from "./Modal";
-import {decrementActiveStep, increaseActiveStep, selectRegister} from "../../redux/userSlice";
+import {decrementActiveStep, increaseActiveStep, selectActiveStep} from "../../redux/userSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {changeFormError, selectForm} from "../../redux/formSlice";
+import {changeFormError, createFormSelector, FORM} from "../../redux/formSlice";
 import {validateRegister} from "../../helpers/validate";
 
 
@@ -21,8 +21,7 @@ function Content({step, ...other}) {
 
 function Register() {
   const classes = useStyles();
-  const data = useSelector(selectRegister);
-  const activeStep = data.get('activeStep');
+  const activeStep = useSelector(selectActiveStep);
   const dispatch = useDispatch();
   const steps = ['创建用户(必选)', '添加邮箱(可选)'];
 
@@ -76,9 +75,7 @@ function Register() {
 const NextButton = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const data = useSelector(selectForm);
-  const register = data.get('register');
-
+  const register = useSelector(createFormSelector(FORM.register));
   const handleNext = useCallback(() => {
     validateRegister.validate({
       ...register,

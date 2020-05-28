@@ -6,21 +6,23 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import useStyles from "./setting.style";
 import CreateDate from "../../components/TimePickField";
 import {useDispatch, useSelector} from "react-redux";
-import {closeDrawer, selectPost, setAutoSaveChecked, setAutoSaveTime} from '../../redux/postSlice';
+import {
+  closeDrawer,
+  selectDrawOpen,
+  setAutoSaveChecked,
+  setAutoSaveTime,
+  selectAutoSave
+} from '../../redux/postSlice';
 import Switch from '@material-ui/core/Switch';
 import EditorArea from "../../components/editor/EditorArea";
-import {areEqual} from "../../helpers/misc";
+import {areEqual, getAttr} from "../../helpers/misc";
 import {useTiming} from "../../hook";
 import {FORM} from "../../redux/formSlice";
 
 
-const Setting = React.memo(function Setting({uploadFn, postId}) {
-  const drawOpen = useSelector(selectPost).get('drawOpen');
-  return <ContextSetting {...{drawOpen, uploadFn, postId}}/>;
-});
-
-const ContextSetting = React.memo(function ContextSetting(props) {
-  const {uploadFn, drawOpen, postId} = props;
+const Setting = React.memo(function Setting(props) {
+  const {uploadFn, postId} = props;
+  const drawOpen = useSelector(selectDrawOpen);
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -68,18 +70,15 @@ const ContextSetting = React.memo(function ContextSetting(props) {
   );
 });
 
-const MemoAutoSave = React.memo(function MemoAutoSave({postId}) {
-  const autoSave = useSelector(selectPost).get('autoSave');
-  useTiming(autoSave, postId);
-  return (
-    <ContextAutoSave autoSaveTime={autoSave.get('time')} autoSaveOpen={autoSave.get('open')}/>
-  );
-});
 
-const ContextAutoSave = React.memo(function ContextAutoSave(props) {
-  const {autoSaveTime, autoSaveOpen} = props;
+const MemoAutoSave = React.memo(function MemoAutoSave({postId}) {
+  const autoSave = useSelector(selectAutoSave);
+  const [autoSaveTime, autoSaveOpen] = getAttr(autoSave, [
+    'time', 'open'
+  ]);
   const classes = useStyles();
   const dispatch = useDispatch();
+  useTiming(autoSave, postId);
   const handleAutoSaveChange = useCallback((e) => {
     const time = e.target.value;
     if (time > 0) {

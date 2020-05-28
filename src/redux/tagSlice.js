@@ -86,5 +86,5 @@ export const modifyTag = (value: Object, updateHandler) => dispatch => {
   });
 };
 
-export const selectTag = state => state.tag;
+export const selectDialogState = state => state.tag.get('dialogState');
 export default slice.reducer;

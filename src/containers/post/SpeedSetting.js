@@ -14,17 +14,13 @@ import {deletePost, openDraw} from '../../redux/postSlice';
 import {addWarningMessage} from '../../redux/globalSlice';
 import {toEditorState} from "../../helpers/misc";
 import EditorContext from "../../redux/editorState";
-import {FORM, selectForm} from "../../redux/formSlice";
+import {createFieldSelector, FORM} from "../../redux/formSlice";
 import {EDITOR} from "../../config/editor";
 import {useSubmit} from "../../hook";
 
 
 const SpeedSetting = React.memo(function SpeedSetting({postId}) {
-  const id = useSelector(selectForm).getIn([FORM.post, 'id']);
-  return <ContextSpeedSetting id={id} postId={postId}/>;
-});
-
-const ContextSpeedSetting = React.memo(function ({id, postId}) {
+  const id = useSelector(createFieldSelector([FORM.post, 'id']));
   const classes = useStyles();
   const [settingOpen, setSettingOpen] = useState(false);
   const disPatch = useDispatch();

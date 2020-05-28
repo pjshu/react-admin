@@ -29,7 +29,7 @@ function RegisterUser() {
       <Grid container justify="space-around" className={classes.password}>
         {
           [
-            {name: 'password', label: '密码', type: "password"},
+            {name: 'password', label: '密码', type: "password",autoComplete:'on'},
             {name: 'confirm_password', label: '确认密码', type: "password"},
           ].map(item => (
             <Field

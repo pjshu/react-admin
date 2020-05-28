@@ -4,7 +4,7 @@ import {Avatar, Grid, Paper, Typography} from "@material-ui/core";
 import useStyles from './user.style';
 import {useDispatch, useSelector} from "react-redux";
 import EditorArea from '../../components/editor/EditorArea';
-import {changeFormField, FORM, selectForm} from '../../redux/formSlice';
+import {changeFormField, createFieldSelector, FORM} from '../../redux/formSlice';
 import {SubmitBtn} from "../../components/Form";
 import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import GradeIcon from '@material-ui/icons/Grade';
@@ -13,11 +13,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 
 
 const User = React.memo(function User() {
-  const avatar = useSelector(selectForm).getIn([FORM.userInfo, 'avatar']);
-  return <ContextUser avatar={avatar}/>;
-});
-
-const ContextUser = React.memo(function ContextUser({avatar}) {
+  const avatar = useSelector(createFieldSelector([FORM.userInfo, 'avatar']));
   const dispatch = useDispatch();
   const classes = useStyles();
 

@@ -92,6 +92,7 @@ export const addPostImg = (form, postId, successFn, errorFn) => dispatch => {
   });
 };
 
-export const selectPost = state => state.post;
+export const selectDrawOpen = state => state.post.get('drawOpen');
+export const selectAutoSave= state => state.post.get('autoSave');
 
 export default slice.reducer;

@@ -2,8 +2,7 @@ import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import useStyles from "./recoveryPassword.style";
 import {
-  asyncDecSendCodeTime,
-  selectValidateCode,
+  asyncDecSendCodeTime, selectResendTime,
 } from "../../redux/userSlice";
 import {Grid} from "@material-ui/core";
 import {Field, SubmitBtn} from "../../components/Form";
@@ -61,8 +60,7 @@ export const HiddenField = React.memo(() => {
 export const Timing = React.memo(() => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const data = useSelector(selectValidateCode);
-  const resendTime = data.get('resendTime')
+  const resendTime = useSelector(selectResendTime);
 
   useEffect(() => {
     if (resendTime > 0) {

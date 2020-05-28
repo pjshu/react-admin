@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSelector, createSlice} from "@reduxjs/toolkit";
 import {formatTime} from "../helpers/datetime";
 import {fromJS, Map} from "immutable";
 
@@ -91,5 +91,18 @@ export const FORM = {
 
 export const {changeFormField, changeFormError, clearFormError, initTagForm} = slice.actions;
 export const selectForm = state => state.form;
+
+export const errorSelector = state => state.form.get('errors');
+
+export const createFieldSelector = (field) => createSelector(
+  selectForm,
+  state => state.getIn(field)
+);
+
+export const createFormSelector = (formName) => createSelector(
+  selectForm,
+  state => state.get(formName)
+);
+
 export default slice.reducer;
 

@@ -16,8 +16,8 @@ function Login() {
           <div>
             {
               [
-                {name: "username", label: "用户名", variant: "outlined"},
-                {name: "password", label: "密码", type: "password", variant: "outlined"}
+                {name: "username", label: "用户名", variant: "outlined", autoComplete: "on"},
+                {name: "password", label: "密码", type: "password", variant: "outlined", autoComplete: "on"}
               ].map(item => (
                 <div key={item.name} className={classes.spacing}>
                   <Field formName={FORM.login} {...item}/>

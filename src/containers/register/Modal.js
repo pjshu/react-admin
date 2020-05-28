@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {Button, Grid} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
-import {closeModal, openModal, selectRegister} from "../../redux/userSlice";
+import {closeModal, openModal, selectModalOpen} from "../../redux/userSlice";
 import useStyles from './modal.style';
 import {createPortal} from 'react-dom';
 import {SubmitBtn} from "../../components/Form";
@@ -42,8 +42,7 @@ const ConfirmModal = React.memo(() => {
 
 function SubmitModal() {
   const dispatch = useDispatch();
-  const data = useSelector(selectRegister);
-  const modalOpen = data.get('modalOpen')
+  const modalOpen = useSelector(selectModalOpen);
   const classes = useStyles();
 
   const handleOpen = useCallback(() => {

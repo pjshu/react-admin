@@ -10,7 +10,13 @@ import {addTagImg, modifyTag} from "./redux/tagSlice";
 import {useDispatch, useSelector} from "react-redux";
 import EditorContext from "./redux/editorState";
 import {addErrorMessage} from "./redux/globalSlice";
-import {changeFormError, changeFormField, clearFormError, FORM, selectForm} from "./redux/formSlice";
+import {
+  changeFormError,
+  changeFormField,
+  clearFormError, createFieldSelector,
+  createFormSelector,
+  FORM,
+} from "./redux/formSlice";
 import {validations} from "./helpers/validate";
 import {
   closeModal,
@@ -23,7 +29,7 @@ import {
   resetSendCodeTime,
   sendRecPassCode
 } from "./redux/userSlice";
-import {blob2Base64, convertEditorState, toEditorState} from "./helpers/misc";
+import {blob2Base64, convertEditorState, getAttr, toEditorState} from "./helpers/misc";
 import {refresh_token_space} from "./config/security";
 import {EDITOR} from "./config/editor";
 
@@ -151,8 +157,7 @@ const useSubmitLogin = () => {
 
 const useSubmitRecPass: Function = () => {
   const dispatch = useDispatch();
-  const formData = useSelector(selectForm);
-  const email = formData.getIn([FORM.recoveryPasswordSendCode, 'email']);
+  const email = useSelector(createFieldSelector([FORM.recoveryPasswordSendCode, 'email']));
   return useCallback((values: Object) => {
     dispatch(recoveryPassword({...values, email}));
   }, [dispatch, email]);
@@ -225,11 +230,9 @@ const submitHooks = {
 export const useSubmit = (formName: string, ...other) => {
   const schema = validations[formName];
   const useSubmit = submitHooks[formName];
-  const formData = useSelector(selectForm);
-  const form = formData.get(formName);
-
-  const dispatch = useDispatch();
   const onSubmit = useSubmit();
+  const form = useSelector(createFormSelector(formName));
+  const dispatch = useDispatch();
   return useCallback(() => {
     schema.validate({
       ...form.toJS(),
@@ -250,8 +253,7 @@ export const useSubmit = (formName: string, ...other) => {
 export const useTiming = (autoSave: Object, postId: number) => {
   const onSubmit = useSubmit(FORM.post, postId);
   const timerId = React.useRef();
-  const time = autoSave.get('time');
-  const open = autoSave.get('open');
+  const [time, open] = getAttr(autoSave, ['time', 'open']);
   const timingUpload = useCallback(() => {
     return setInterval(() => {
       onSubmit();

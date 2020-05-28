@@ -13,22 +13,16 @@ import {
 } from '@material-ui/core';
 
 import {useDispatch, useSelector} from "react-redux";
-import {selectTag, closeDialog as _closeDialog} from '../../redux/tagSlice';
+import {closeDialog as _closeDialog, selectDialogState} from '../../redux/tagSlice';
 import useStyles from './editorDialog.style';
-import {areEqual} from "../../helpers/misc";
 import {Field, SubmitBtn} from "../../components/Form";
-import {FORM, selectForm, changeFormField} from "../../redux/formSlice";
+import {FORM, changeFormField, createFieldSelector} from "../../redux/formSlice";
 
 
-function EditorDialog(props) {
-  const form = useSelector(selectForm);
-  const dialogState = useSelector(selectTag).get('dialogState');
-  const url = form.getIn([FORM.tags, 'image', 'url']);
-  return <ContextEditorDialog {...{...props, dialogState, url}}/>;
-}
-
-const ContextEditorDialog = (props) => {
-  const {updateHandler, dialogState, openDialog, url} = props;
+const EditorDialog = (props) => {
+  const {updateHandler, openDialog} = props;
+  const url = useSelector(createFieldSelector([FORM.tags, 'image', 'url']));
+  const dialogState = useSelector(selectDialogState);
   const dispatch = useDispatch();
   const action = dialogState.get('action');
 
@@ -160,4 +154,4 @@ const ContextEditorDialog = (props) => {
   );
 };
 
-export default React.memo(EditorDialog, areEqual);
+export default React.memo(EditorDialog);

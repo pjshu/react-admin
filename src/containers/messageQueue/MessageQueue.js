@@ -41,15 +41,11 @@ const Message = React.memo(function Message({msg}) {
   );
 }, areEqual);
 
-const MessageQueue = React.memo(function MessageQueue() {
-  const messages = useSelector(selectMessage).get('message');
-  return <ContextMessageQueue messages={messages}/>;
-});
-
 // length为消息条最大个数
 // autoHideDuration 为自动隐藏时间
-const ContextMessageQueue = React.memo(function ContextMessageQueue(props) {
-  const {MAX_MESSAGE_LENGTH = 3, autoHideDuration = 3000, messages} = props;
+const MessageQueue = React.memo(function MessageQueue(props) {
+  const {MAX_MESSAGE_LENGTH = 3, autoHideDuration = 3000} = props;
+  const messages = useSelector(selectMessage);
   const dispatch = useDispatch();
   const [newMessages, setNewMessages] = useState([]);
   const timerId = useRef();

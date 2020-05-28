@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useReducer} from 'react';
 import {toEditorState} from "../helpers/misc";
 import {EDITOR} from "../config/editor";
 
@@ -42,5 +42,14 @@ export const action = {
 
 
 const EditorContext = React.createContext();
+
+export const EditorProvider = React.memo(function Provider({children}) {
+  const [state, dispatch] = useReducer(reducer, defaultValue);
+  return (
+    <EditorContext.Provider value={{state, dispatch, action}}>
+      {children}
+    </EditorContext.Provider>
+  );
+});
 
 export default EditorContext;

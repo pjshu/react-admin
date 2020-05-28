@@ -1,18 +1,18 @@
 import React from "react";
 import {
   queryImages,
-  selectImages,
+  selectImagesSlice,
 } from "../../redux/imageSlice";
 import {useDispatch, useSelector} from "react-redux";
-import Image from './Image'
+import Image from './Image';
+import {getAttr} from "../../helpers/misc";
 
 function ImageWrapper() {
-  const imagesData = useSelector(selectImages);
+  const imagesData = useSelector(selectImagesSlice);
   const dispatch = useDispatch();
-
-  const pagination = imagesData.get('pagination');
-  const images = imagesData.get('images');
-  const rowsPerPage = pagination.get('rowsPerPage');
+  const [pagination, images, rowsPerPage] = getAttr(imagesData, [
+    'pagination', 'images', 'rowsPerPage'
+  ]);
   const page = pagination.get('page');
 
   const query = React.useMemo(() => ({
