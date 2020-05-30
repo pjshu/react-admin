@@ -1,28 +1,24 @@
-import React, {useCallback, useEffect, useMemo} from "react";
+import React, {useCallback, useEffect} from "react";
 import Post from './Post';
-import {useLocation} from "react-router-dom";
-import {Loading} from "../../components/";
+import {useParams} from "react-router-dom";
+import Loading from "../../components/Loading";
 import {Paper} from "@material-ui/core";
 import useStyles from './post.style';
-import {useSubmit, useGetPost} from '../../hook';
-import {FORM} from "../../redux/formSlice";
+import {useGetPost} from '../../hooks/post';
+import FORM from "../../contants/form.json";
 import {useDispatch} from "react-redux";
 import {getAllTags} from "../../redux/postSlice";
-
+import {useSubmit} from "../../hooks/Submit";
+import {useSubmitPost} from '../../hooks/post';
+import {validatePost} from '../../helpers/validate';
 
 function PostWrapper() {
   const classes = useStyles();
-  const {pathname} = useLocation();
-
-  const postId = useMemo(() => {
-    const path = pathname.split('/');
-    return path[path.length - 1];
-  }, [pathname]);
-
-  const onSubmit = useSubmit(FORM.post, postId);
-  const loading = useGetPost(postId);
-
+  const {pid: postId} = useParams();
   const dispatch = useDispatch();
+  const onSubmit = useSubmitPost(postId);
+  const handleOnSubmit = useSubmit(FORM.post, onSubmit, validatePost);
+  const loading = useGetPost(postId);
   useEffect(() => {
     // 获取所有标签,用于自动补全
     dispatch(getAllTags());
@@ -31,16 +27,17 @@ function PostWrapper() {
   const handleKeyDown = useCallback((e) => {
     if (e.keyCode === 83 && e.ctrlKey) {
       e.preventDefault();
-      onSubmit();
+      handleOnSubmit();
     }
-  }, [onSubmit]);
+  }, [handleOnSubmit]);
 
   // 由于Post 页面最顶层组件需要监听ctrl+s快捷键,用于保存文章
-  // 需要调用onSubmit函数
-  // 但onSubmit函数在表单字段改变时会改变
-  // 传递onSubmit到子组件会引起重新渲染
+  // 需要调用handleOnSubmit函数
+  // 但handleOnSubmit函数在表单字段改变时会改变
+  // 传递handleOnSubmit到子组件会引起重新渲染
   // 所以将 <Container> 提取到这个组件而不是Post组件
-  return loading ? <Loading/> : (
+  return loading ?
+    <Loading/> : (
       <Paper
         className={classes.root}
         onKeyDown={handleKeyDown}

@@ -16,8 +16,8 @@ import {
 import Switch from '@material-ui/core/Switch';
 import EditorArea from "../../components/editor/EditorArea";
 import {areEqual, getAttr} from "../../helpers/misc";
-import {useTiming} from "../../hook";
-import {FORM} from "../../redux/formSlice";
+import {useTiming} from "../../hooks/post";
+import FORM from "../../contants/form.json";
 
 
 const Setting = React.memo(function Setting(props) {

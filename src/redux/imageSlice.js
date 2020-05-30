@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import api from '../helpers/http';
+import api from '../helpers/api/security';
 import {addErrorMessage, addLoadingMessage, addSuccessMessage, updateMessageState} from "./globalSlice";
 import {v4 as uuidV4} from "uuid";
 import {fromJS} from "immutable";

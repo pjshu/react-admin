@@ -4,7 +4,7 @@ import Preview from "./Preview";
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/table.css';
 import 'braft-extensions/dist/emoticon.css';
-import EditorContext from "../../redux/editorState";
+import {EditorContext} from "../../redux/editorState";
 
 
 // uploadFn 控制图片上传

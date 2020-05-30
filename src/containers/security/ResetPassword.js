@@ -11,8 +11,9 @@ import {Grid} from "@material-ui/core";
 // import FormControl from '@material-ui/core/FormControl';
 // import {validateResetPassword} from '../../helpers/validate';
 import useStyles from './resetPassword.style';
-import {Field, SubmitBtn} from "../../components/Form";
-import {FORM} from "../../redux/formSlice";
+import {Field} from "../../components/Form";
+import FORM from "../../contants/form.json";
+import {Submit} from "./Submit";
 
 // const EyeIcon = React.memo(function EyeIcon({handleClickShowPassword}) {
 //   return (
@@ -84,14 +85,7 @@ function ResetPassword() {
         ))
       }
       <Grid item>
-        <SubmitBtn
-          formName={FORM.resetPassword}
-          className={classes.passwordField}
-          variant="contained"
-          color="primary"
-        >
-          修改密码
-        </SubmitBtn>
+        <Submit/>
       </Grid>
     </Grid>
   );

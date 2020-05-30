@@ -1,5 +1,5 @@
 import React, {useReducer} from 'react';
-import {toEditorState} from "../helpers/misc";
+import {toEditorState} from "../components/editor/helper";
 import {EDITOR} from "../config/editor";
 
 //redux 储存braftjs 数据有问题
@@ -51,5 +51,5 @@ export const EditorProvider = React.memo(function Provider({children}) {
     </EditorContext.Provider>
   );
 });
-
-export default EditorContext;
+export default EditorProvider
+export {EditorContext};

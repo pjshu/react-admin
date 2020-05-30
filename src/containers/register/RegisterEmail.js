@@ -2,7 +2,7 @@ import React from 'react';
 import {Grid} from "@material-ui/core";
 import useStyles from './registerEmail.style';
 import {Field} from "../../components/Form";
-import {FORM} from "../../redux/formSlice";
+import FORM from "../../contants/form.json";
 
 function RegisterEmail() {
   const classes = useStyles();

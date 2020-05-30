@@ -10,8 +10,9 @@ import {
 } from '../../redux/userSlice';
 import {useDispatch, useSelector} from "react-redux";
 import useStyles from './resetEmail.style';
-import {Field, SubmitBtn} from "../../components/Form";
-import {FORM} from "../../redux/formSlice";
+import {Field} from "../../components/Form";
+import FORM from "../../contants/form.json";
+import {ResetEmailBtn} from './Submit';
 
 function ResetEmail() {
   const isSendCode = useSelector(selectIsSendCode);
@@ -78,14 +79,7 @@ function ResetEmail() {
           />
         </Grid>
         <Grid item>
-          <SubmitBtn
-            className={classes.button}
-            variant="contained"
-            color="primary"
-            formName={FORM.resetEmail}
-          >
-            提交
-          </SubmitBtn>
+          <ResetEmailBtn/>
         </Grid>
       </Grid>
     </Grid>

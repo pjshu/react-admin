@@ -1,11 +1,12 @@
 // @flow
 
 import {createSlice} from '@reduxjs/toolkit';
-import api from "../helpers/http";
+import api from "../helpers/api/security";
 import {addErrorMessage, addLoadingMessage, addSuccessMessage, updateMessageState} from "./globalSlice";
 import {v4 as uuidV4} from 'uuid';
 import {getImageForm} from "../helpers/misc";
-import {initTagForm, changeFormField, FORM} from "./formSlice";
+import {initTagForm, changeFormField} from "./formSlice";
+import FORM from "../contants/form.json";
 import {fromJS, Map} from "immutable";
 
 export const slice = createSlice({

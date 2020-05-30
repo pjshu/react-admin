@@ -2,9 +2,15 @@ import React from 'react';
 import useStyles from './login.style';
 import {Link} from 'react-router-dom';
 import router from '../../contants/router';
-import {Field, SubmitBtn} from "../../components/Form";
-import {FORM} from "../../redux/formSlice";
+import {Field} from "../../components/Form";
+import FORM from "../../contants/form.json";
 import {Button} from "@material-ui/core";
+import SubmitButton from './Submit';
+
+const fields = [
+  {name: "username", label: "用户名", variant: "outlined", autoComplete: "on"},
+  {name: "password", label: "密码", type: "password", variant: "outlined", autoComplete: "on"}
+];
 
 function Login() {
   const classes = useStyles();
@@ -15,10 +21,7 @@ function Login() {
         <div className={classes.fullWidth}>
           <div>
             {
-              [
-                {name: "username", label: "用户名", variant: "outlined", autoComplete: "on"},
-                {name: "password", label: "密码", type: "password", variant: "outlined", autoComplete: "on"}
-              ].map(item => (
+              fields.map(item => (
                 <div key={item.name} className={classes.spacing}>
                   <Field formName={FORM.login} {...item}/>
                 </div>
@@ -29,13 +32,7 @@ function Login() {
         <div className={classes.fullWidth}>
           <div>
             <div>
-              <SubmitBtn
-                variant="outlined"
-                fullWidth={true}
-                formName={FORM.login}
-              >
-                登陆
-              </SubmitBtn>
+              <SubmitButton/>
             </div>
             <div>
               <Button

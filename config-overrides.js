@@ -11,47 +11,38 @@ module.exports = function override(config, env) {
     // 'react-dom@experimental': '@hot-loader/react-dom',
     'react-dom': 'react-dom'
   };
-  config.optimization = {
-    ...config.optimization,
-    splitChunks: {
-      chunks: 'all',   // initial、async和all
-      minSize: 30000, // 形成一个新代码块最小的体积
-      maxAsyncRequests: 5,   // 按需加载时候最大的并行请求数
-      maxInitialRequests: 3,   // 最大初始化请求数
-      automaticNameDelimiter: '~',   // 打包分割符
-      name: true,
-      cacheGroups: {
-        vendors: { // 打包两个页面的公共代码
-          minChunks: 2, // 引入两次及以上被打包
-          name: 'vendors', // 分离包的名字
-          chunks: 'all'
-        }
-        // braftEditor: {
-        //   test: /braft/,
-        //   priority: 100,
-        //   name: 'braftEditor',
-        //   chunks: 'async'
-        // },
-        // vendors: { // 项目基本框架等
-        //   chunks: 'all',
-        //   test: /(react|react-dom|react-dom-router|redux)/,
-        //   priority: 101,
-        //   name: 'vendors',
-        // },
-        // 'async-commons': {  // 异步加载公共包、组件等
-        //   chunks: 'async',
-        //   minChunks: 2,
-        //   name: 'async-commons',
-        //   priority: 90,
-        // },
-        // commons: { // 其他同步加载公共包
-        //   chunks: 'all',
-        //   minChunks: 2,
-        //   name: 'commons',
-        //   priority: 80,
-        // }
-      }
-    }
-  };
+  if (env === 'production') {
+    config.externals = [
+      {
+        module: 'immutable',
+        entry: 'https://cdn.bootcdn.net/ajax/libs/immutable/3.8.2/immutable.min.js',
+        global: 'immutable'
+      },
+      {
+        module: 'react-dom',
+        entry: 'https://cdn.bootcdn.net/ajax/libs/react-dom/16.13.1/cjs/react-dom.production.min.js',
+        global: 'react-dom'
+      },
+    ];
+  }
+  // }
+  // config.optimization = {
+  //   ...config.optimization,
+  //   splitChunks: {
+  //     chunks: 'all',   // initial、async和all
+  //     minSize: 30000, // 形成一个新代码块最小的体积
+  //     maxAsyncRequests: 5,   // 按需加载时候最大的并行请求数
+  //     maxInitialRequests: 3,   // 最大初始化请求数
+  //     automaticNameDelimiter: '~',   // 打包分割符
+  //     name: true,
+  //     cacheGroups: {
+  //       vendors: { // 打包两个页面的公共代码
+  //         minChunks: 2, // 引入两次及以上被打包
+  //         name: 'vendors', // 分离包的名字
+  //         chunks: 'all'
+  //       }
+  //     }
+  //   }
+  // };
   return config;
 };

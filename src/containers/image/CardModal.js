@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectImages} from "../../redux/imageSlice";
 import {Links, UseInfo} from "./CardModalItem";
 import useStyles from './cardModal.style';
-import {LoadingImg} from '../../components';
+import LoadingImg from '../../components/LoadingImg';
 import {addWarningMessage} from "../../redux/globalSlice";
 import {setClickCardId, closeCardModal} from '../../redux/imageSlice';
 import {getAttr} from "../../helpers/misc";

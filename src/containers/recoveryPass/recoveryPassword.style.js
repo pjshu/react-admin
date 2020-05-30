@@ -12,14 +12,6 @@ export default makeStyles({
   textField: {
     width: '265px'
   },
-  button: {
-    marginLeft: '25px',
-    width: '125px',
-    height: '45px'
-  },
-  // validateCode: (isSendCode) => ({
-  //   display: isSendCode ? '' : "none"
-  // }),
   fullWidth: {
     width: '100%'
   },

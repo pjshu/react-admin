@@ -1,8 +1,8 @@
 import Login from './Login';
 import React from 'react';
-import {Loading} from "../../components";
+import Loading from "../../components/Loading";
 import {Redirect} from 'react-router-dom';
-import {useAuth} from "../../hook";
+import {useAuth} from "../../hooks/auth";
 
 function LoginWrapper(){
   const [state, from] = useAuth();

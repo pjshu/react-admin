@@ -4,8 +4,9 @@ import {Avatar, Grid, Paper, Typography} from "@material-ui/core";
 import useStyles from './user.style';
 import {useDispatch, useSelector} from "react-redux";
 import EditorArea from '../../components/editor/EditorArea';
-import {changeFormField, createFieldSelector, FORM} from '../../redux/formSlice';
-import {SubmitBtn} from "../../components/Form";
+import {changeFormField, createFieldSelector} from '../../redux/formSlice';
+import FORM from '../../contants/form.json';
+import Submit from "./Submit";
 import FingerprintIcon from '@material-ui/icons/Fingerprint';
 import GradeIcon from '@material-ui/icons/Grade';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
@@ -73,15 +74,7 @@ const User = React.memo(function User() {
       </Grid>
 
       <Grid item>
-        <SubmitBtn
-          className={classes.submitBTN}
-          formName={FORM.userInfo}
-          type={"submit"}
-          variant="contained"
-          color="primary"
-        >
-          提交
-        </SubmitBtn>
+        <Submit/>
       </Grid>
     </Grid>
   );

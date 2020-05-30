@@ -1,4 +1,3 @@
-import BraftEditor from "../config/editor";
 import {Iterable} from "immutable";
 
 export async function getImageForm(blobUrl) {
@@ -8,19 +7,6 @@ export async function getImageForm(blobUrl) {
   return form;
 }
 
-//转化BraftState
-export const convertEditorState = (data, field) => {
-  try {
-    data[`${field}_html`] = data[field].toHTML();
-    data[field] = data[field].toRAW();
-  } catch (e) {
-
-  }
-};
-
-export const toEditorState = (data, editorId) => {
-  return BraftEditor.createEditorState(data, {editorId});
-};
 
 export const blob2Base64 = (data) => new Promise((resolve => {
   fetch(data).then(res => {

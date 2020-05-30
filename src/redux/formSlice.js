@@ -1,6 +1,7 @@
 import {createSelector, createSlice} from "@reduxjs/toolkit";
 import {formatTime} from "../helpers/datetime";
 import {fromJS, Map} from "immutable";
+import FORM from '../contants/form.json';
 
 const defaultData = {
   post: {
@@ -76,18 +77,6 @@ export const slice = createSlice({
     }
   }
 });
-
-export const FORM = {
-  recoveryPassword: 'recoveryPassword',
-  recoveryPasswordSendCode: 'recoveryPasswordSendCode',
-  login: 'login',
-  register: 'register',
-  userInfo: 'userInfo',
-  resetEmail: 'resetEmail',
-  resetPassword: 'resetPassword',
-  post: 'post',
-  tags: 'tags'
-};
 
 export const {changeFormField, changeFormError, clearFormError, initTagForm} = slice.actions;
 export const selectForm = state => state.form;

@@ -4,7 +4,7 @@ import Table from '../../components/table';
 import Chip from "@material-ui/core/Chip";
 import {useDispatch} from "react-redux";
 import {addPost} from "../../redux/postSlice";
-import api from '../../helpers/http';
+import api from '../../helpers/api/security';
 import {areEqual} from "../../helpers/misc";
 
 const Tags = React.memo(({values}) => (

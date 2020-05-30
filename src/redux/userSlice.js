@@ -1,8 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
-import api from "../helpers/http";
+import api from "../helpers/api/security";
+import commonApi from "../helpers/api/common";
 import {toAdmin, toLogin} from "../history";
 import {addErrorMessage, addSuccessMessage} from "./globalSlice";
-import {changeFormField, FORM} from "./formSlice";
+import {changeFormField} from "./formSlice";
+import FORM from "../contants/form.json";
 import {fromJS} from "immutable";
 
 export const slice = createSlice({
@@ -51,7 +53,7 @@ export const {increaseActiveStep, decrementActiveStep, openModal, closeModal} = 
 
 
 export const login = values => dispatch => {
-  api.login(values).then(res => {
+  commonApi.login(values).then(res => {
     if (res.status === 'success') {
       toAdmin();
       dispatch(addSuccessMessage('登录成功'));

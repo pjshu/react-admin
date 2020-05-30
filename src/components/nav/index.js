@@ -3,7 +3,7 @@ import Nav from "./Nav";
 import Loading from "../Loading";
 import {Redirect, useLocation} from 'react-router-dom';
 import router from '../../contants/router';
-import {useAuth} from "../../hook";
+import {useAuth} from "../../hooks/auth";
 
 function Root() {
   const [state] = useAuth();

@@ -3,7 +3,6 @@ import {IconButton} from '@material-ui/core';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
-import SaveIcon from '@material-ui/icons/Save';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import SettingsIcon from '@material-ui/icons/Settings';
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
@@ -12,12 +11,12 @@ import marked from '../../config/marked';
 import {useDispatch, useSelector} from "react-redux";
 import {deletePost, openDraw} from '../../redux/postSlice';
 import {addWarningMessage} from '../../redux/globalSlice';
-import {toEditorState} from "../../helpers/misc";
-import EditorContext from "../../redux/editorState";
-import {createFieldSelector, FORM} from "../../redux/formSlice";
+import {toEditorState} from "../../components/editor/helper";
+import {EditorContext} from "../../redux/editorState";
+import {createFieldSelector} from "../../redux/formSlice";
+import FORM from "../../contants/form.json";
 import {EDITOR} from "../../config/editor";
-import {useSubmit} from "../../hook";
-
+import {SubmitPost} from './Submit'
 
 const SpeedSetting = React.memo(function SpeedSetting({postId}) {
   const id = useSelector(createFieldSelector([FORM.post, 'id']));
@@ -68,16 +67,6 @@ const SpeedSetting = React.memo(function SpeedSetting({postId}) {
   );
 });
 
-const SubmitPost = React.memo(function SubmitPost({postId}) {
-  const onSubmit = useSubmit(FORM.post, postId);
-  const handleOnClick = useCallback((e) => {
-    e.preventDefault();
-    onSubmit();
-  }, [onSubmit]);
-  return (
-    <SaveIcon onClick={handleOnClick}/>
-  );
-});
 
 const UploadMarkdown = React.memo(function UploadMarkdown() {
   const classes = useStyles();

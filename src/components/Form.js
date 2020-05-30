@@ -1,8 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import {changeFormField, errorSelector, createFieldSelector} from "../redux/formSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {useSubmit} from "../hook";
-import {Button, TextField} from "@material-ui/core";
+import {TextField} from "@material-ui/core";
 import {areEqual as objAreEqual} from "../helpers/misc";
 import {Iterable} from "immutable";
 //使用方法与formik类似:
@@ -19,9 +18,6 @@ import {Iterable} from "immutable";
 //  changeFormError(state, action) { },
 //  clearFormError(state) { }
 // 且changeFormField 与相应slice selcet必须从 redux/index 导出
-//SubmitBtn用于提交 必须传入handleOnSubmit属性,用于处理提交
-//CommonBtn 用于处理路由跳转等其他功能
-//
 // const areEqual = (pre, next) => {
 //   const blacklist = ['cacheBusterProp', 'as'];
 //   return objAreEqual(pre, next, blacklist);
@@ -82,24 +78,4 @@ const Field = React.memo(function Field(props) {
 }, areEqual);
 
 
-const SubmitBtn = React.memo(function SubmitBtn(props) {
-  const {children, formName, hookParam, as, ...rest} = props;
-  const onSubmit = useSubmit(formName, hookParam);
-
-  return as ? React.createElement(
-    as,
-    {onClick: onSubmit, ...rest},
-    children
-  ) : (
-    <Button
-      color="primary"
-      onClick={onSubmit}
-      {...rest}
-    >
-      {children}
-    </Button>
-  );
-}, areEqual);
-
-
-export {Field, SubmitBtn};
+export {Field};

@@ -52,7 +52,7 @@ const TableToolbar = props => {
         </Typography>
       )}
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
+        <Tooltip title="删除">
           <IconButton onClick={deleteHandler}>
             <DeleteIcon/>
           </IconButton>

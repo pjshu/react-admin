@@ -30,7 +30,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {clearAllMessage, removeMessage, selectMessage} from "../../redux/globalSlice";
 import {logout} from '../../redux/userSlice';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import {useRefreshToken} from "../../hook";
+import {useRefreshToken} from "../../hooks/auth";
 
 const Nav = React.memo(function Nav() {
   const classes = useStyles();

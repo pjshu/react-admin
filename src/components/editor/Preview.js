@@ -3,7 +3,7 @@ import {Button} from "@material-ui/core";
 import Prism from './prism';
 import useStyles from './preview.style';
 import ReactDOM from 'react-dom';
-import EditorContext from "../../redux/editorState";
+import {EditorContext} from "../../redux/editorState";
 import './prism.css';
 
 

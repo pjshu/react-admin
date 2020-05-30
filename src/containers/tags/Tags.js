@@ -6,11 +6,11 @@ import {
   addTag,
   setDialogAsUpdate,
 } from '../../redux/tagSlice';
-import api from '../../helpers/http';
+import api from '../../helpers/api/security';
 import {useDispatch} from "react-redux";
 import {areEqual} from "../../helpers/misc";
-import {changeFormField, FORM, initTagForm} from "../../redux/formSlice";
-
+import {changeFormField, initTagForm} from "../../redux/formSlice";
+import FORM from "../../contants/form.json";
 
 function Tags({columns}) {
   const dispatch = useDispatch();

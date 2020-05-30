@@ -15,9 +15,10 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {closeDialog as _closeDialog, selectDialogState} from '../../redux/tagSlice';
 import useStyles from './editorDialog.style';
-import {Field, SubmitBtn} from "../../components/Form";
-import {FORM, changeFormField, createFieldSelector} from "../../redux/formSlice";
-
+import {Field} from "../../components/Form";
+import {changeFormField, createFieldSelector} from "../../redux/formSlice";
+import FORM from "../../contants/form.json";
+import SubmitButton from "./Submit";
 
 const EditorDialog = (props) => {
   const {updateHandler, openDialog} = props;
@@ -71,7 +72,6 @@ const EditorDialog = (props) => {
       >
         <DialogTitle>{action === 'add' ? '添加' : '修改'}标签</DialogTitle>
         <DialogContent>
-          {/*<DialogContentText>Demo add item to react table.</DialogContentText>*/}
           {
             [
               {label: '标签名', name: 'name',},
@@ -136,18 +136,7 @@ const EditorDialog = (props) => {
           <Button onClick={handleClose} color="primary">
             取消
           </Button>
-          <SubmitBtn
-            formName={FORM.tags}
-            hookParam={{
-              addMultiple,
-              updateHandler
-            }}
-            color="primary"
-          >
-            {
-              action === 'add' ? '添加' : '更新'
-            }
-          </SubmitBtn>
+          <SubmitButton {...{action, addMultiple, updateHandler}}/>
         </DialogActions>
       </Dialog>
     </div>

@@ -1,9 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
-import api from "../helpers/http";
+import api from "../helpers/api/security";
 import {toAdmin, toPost} from "../history";
 import {addErrorMessage, addLoadingMessage, addSuccessMessage, updateMessageState} from './globalSlice';
 import {v4 as uuidV4} from 'uuid';
-import {changeFormField, FORM} from "./formSlice";
+import {changeFormField} from "./formSlice";
+import FORM from "../contants/form.json";
 import {fromJS} from "immutable";
 
 

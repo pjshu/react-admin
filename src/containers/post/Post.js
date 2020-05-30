@@ -5,7 +5,7 @@ import Setting from "./Setting";
 import SpeedSetting from "./SpeedSetting";
 import {useDispatch} from "react-redux";
 import {addPostImg} from '../../redux/postSlice';
-import {FORM} from "../../redux/formSlice";
+import FORM from "../../contants/form.json";
 
 
 const contentStyle = {

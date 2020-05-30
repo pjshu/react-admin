@@ -6,9 +6,9 @@ import RegisterEmail from "./RegisterEmail";
 import SubmitModal from "./Modal";
 import {decrementActiveStep, increaseActiveStep, selectActiveStep} from "../../redux/userSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {changeFormError, createFormSelector, FORM} from "../../redux/formSlice";
+import {changeFormError, createFormSelector} from "../../redux/formSlice";
 import {validateRegister} from "../../helpers/validate";
-
+import FORM from "../../contants/form.json";
 
 function Content({step, ...other}) {
   if (step === 0) {

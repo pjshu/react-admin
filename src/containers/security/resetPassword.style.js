@@ -10,8 +10,4 @@ export default makeStyles((theme) => ({
   formHelperText: {
     color: 'red'
   },
-  passwordField: {
-    width: '125px',
-    height: '45px'
-  }
 }));

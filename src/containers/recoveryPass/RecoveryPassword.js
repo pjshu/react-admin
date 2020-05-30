@@ -5,9 +5,9 @@ import {selectIsSendCode} from '../../redux/userSlice';
 import {useSelector} from "react-redux";
 import useStyles from './recoveryPassword.style';
 import {Field} from '../../components/Form';
-import {Timing, HiddenField} from "./Items";
-import {FORM} from "../../redux/formSlice";
-
+import {HiddenField} from "./Field";
+import FORM from "../../contants/form.json";
+import {Timing} from './Submit'
 
 const RecoveryPassword = () => {
   const isSendCode = useSelector(selectIsSendCode);

@@ -1,0 +1,11 @@
+{
+  "recoveryPassword": "recoveryPassword",
+  "recoveryPasswordSendCode": "recoveryPasswordSendCode",
+  "login": "login",
+  "register": "register",
+  "userInfo": "userInfo",
+  "resetEmail": "resetEmail",
+  "resetPassword": "resetPassword",
+  "post": "post",
+  "tags": "tags"
+}

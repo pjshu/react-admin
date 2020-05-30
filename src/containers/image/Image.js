@@ -17,7 +17,6 @@ import {areEqual, getImageForm} from "../../helpers/misc";
 import {v4 as uuidV4} from "uuid";
 import {max_upload_image_length} from "../../config/security";
 
-
 function Image(props) {
   const {images, pagination} = props;
   const classes = useStyles();
@@ -34,8 +33,8 @@ function Image(props) {
       relationship: [],
       count: 0,
       upload: true, // 需要上传的图片设置该字段为true
-    }
-  },[])
+    };
+  }, []);
 
   const addNewImage = useCallback((files) => {
     const cacheFiles = [];

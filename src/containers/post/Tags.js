@@ -3,7 +3,8 @@ import {TextField} from '@material-ui/core';
 import Autocomplete from "@material-ui/lab/Autocomplete/";
 import {useSelector} from "react-redux";
 import {Field} from "../../components/Form";
-import {createFieldSelector, FORM} from "../../redux/formSlice";
+import {createFieldSelector} from "../../redux/formSlice";
+import FORM from "../../contants/form.json";
 
 const Tags = React.memo(function Tags() {
   const allTags = useSelector(createFieldSelector([FORM.post, 'allTags']));
