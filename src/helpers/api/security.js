@@ -1,6 +1,6 @@
 // @flow
 import {createGenerateApiFunc} from './axios';
-import {api_security_string} from '../../config/security';
+import {api_security_string} from '../../config/security_api';
 
 const api = {
   tags: '/tags%',
