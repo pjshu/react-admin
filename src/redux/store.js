@@ -2,13 +2,11 @@ import {
   configureStore,
   getDefaultMiddleware,
   isPlain,
-  createSerializableStateInvariantMiddleware
+  createSerializableStateInvariantMiddleware,
+  combineReducers
 } from '@reduxjs/toolkit';
-import userReducer from './userSlice';
-import postReducer from './postSlice';
-import tagReducer from './tagSlice';
+
 import globalReducer from './globalSlice';
-import imagesReducer from './imageSlice';
 import formReducer from './formSlice';
 import {Iterable} from 'immutable';
 
@@ -22,17 +20,34 @@ const serializableMiddleware = createSerializableStateInvariantMiddleware({
   getEntries
 });
 
+const staticReducers = {
+  global: globalReducer,
+  form: formReducer,
+};
 
-export default configureStore({
-  reducer: {
-    user: userReducer,
-    post: postReducer,
-    tag: tagReducer,
-    global: globalReducer,
-    images: imagesReducer,
-    form: formReducer
-  },
+const asyncReducers = {};
+
+function createReducer(asyncReducers = {}) {
+  return combineReducers({
+    ...staticReducers,
+    ...asyncReducers
+  });
+}
+
+const store = configureStore({
+  asyncReducers: {},
+
+  reducer: createReducer(),
   middleware: [...getDefaultMiddleware({
     serializableCheck: false
   }), serializableMiddleware],
 });
+
+export const injectReducer = (key, asyncReducer) => {
+  if (!asyncReducers[key]) {
+    asyncReducers[key] = asyncReducer;
+    store.replaceReducer(createReducer(asyncReducers));
+  }
+};
+
+export default store;

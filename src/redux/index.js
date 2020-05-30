@@ -1,6 +1,6 @@
 import {Map} from "immutable";
 
-const reducer = {
+export const reducers = {
   changeFormField(state, action) {
     const {form, ...values} = action.payload;
     return state.update(form, (value) => value.mergeDeep(values));

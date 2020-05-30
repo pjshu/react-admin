@@ -11,8 +11,11 @@ import {getAllTags} from "../../redux/postSlice";
 import {useSubmit} from "../../hooks/Submit";
 import {useSubmitPost} from '../../hooks/post';
 import {validatePost} from '../../helpers/validate';
+import reducer from '../../redux/postSlice';
+import {injectReducer} from '../../redux/store';
 
 function PostWrapper() {
+  injectReducer('post', reducer);
   const classes = useStyles();
   const {pid: postId} = useParams();
   const dispatch = useDispatch();

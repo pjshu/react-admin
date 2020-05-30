@@ -9,22 +9,20 @@ module.exports = function override(config, env) {
     ...config.resolve.alias,
     'immutable': path.resolve(process.cwd(), 'node_modules', 'immutable'),
     // 'react-dom@experimental': '@hot-loader/react-dom',
-    'react-dom': 'react-dom'
+    // 'react-dom': 'react-dom'
   };
-  if (env === 'production') {
-    config.externals = [
-      {
-        module: 'immutable',
-        entry: 'https://cdn.bootcdn.net/ajax/libs/immutable/3.8.2/immutable.min.js',
-        global: 'immutable'
-      },
-      {
-        module: 'react-dom',
-        entry: 'https://cdn.bootcdn.net/ajax/libs/react-dom/16.13.1/cjs/react-dom.production.min.js',
-        global: 'react-dom'
-      },
-    ];
-  }
+  config.externals = [
+    {
+      module: 'immutable',
+      entry: 'https://cdn.bootcdn.net/ajax/libs/immutable/3.8.2/immutable.min.js',
+      global: 'immutable'
+    },
+    {
+      module: 'react-dom',
+      entry: 'https://cdn.bootcdn.net/ajax/libs/react-dom/16.13.1/cjs/react-dom.production.min.js',
+      global: 'react-dom'
+    },
+  ];
   // }
   // config.optimization = {
   //   ...config.optimization,

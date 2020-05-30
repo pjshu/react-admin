@@ -1,8 +1,11 @@
 import Tags from "./Tags";
 
 import React from 'react';
+import {injectReducer} from "../../redux/store";
+import reducer from "../../redux/tagSlice";
 
 function Index() {
+  injectReducer('tag', reducer);
   const columns = React.useMemo(
     () => [
       {

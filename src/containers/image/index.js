@@ -6,8 +6,11 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import Image from './Image';
 import {getAttr} from "../../helpers/misc";
+import {injectReducer} from "../../redux/store";
+import reducer from '../../redux/imageSlice';
 
 function ImageWrapper() {
+  injectReducer('images', reducer);
   const imagesData = useSelector(selectImagesSlice);
   const dispatch = useDispatch();
   const [pagination, images, rowsPerPage] = getAttr(imagesData, [
@@ -27,7 +30,7 @@ function ImageWrapper() {
   }, [dispatch, query]);
 
   return <Image {...{images, pagination}}/>;
-};
+}
 
 
 export default React.memo(ImageWrapper);
