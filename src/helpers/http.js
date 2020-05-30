@@ -64,7 +64,9 @@ const api = {
 };
 
 Object.keys(api).forEach(key => {
-  api[key] = `/${api_security_string}` + api[key];
+  if (key !== 'sessions') {
+    api[key] = `/${api_security_string}` + api[key];
+  }
 });
 
 const generateApi = (resource: string, method: string = 'get', type: string, ...config) =>
