@@ -64,7 +64,7 @@ export const login = values => dispatch => {
 };
 
 export const recoveryPassword = values => dispatch => {
-  api.RecPassword(values).then(res => {
+  commonApi.RecPassword(values).then(res => {
     if (res.status === 'success') {
       dispatch(addSuccessMessage('密码修改成功'));
       toLogin();
@@ -76,7 +76,7 @@ export const recoveryPassword = values => dispatch => {
 };
 
 export const sendRecPassCode = values => dispatch => {
-  api.sendRecPassCode(values).then(res => {
+  commonApi.sendRecPassCode(values).then(res => {
     if (res.status === 'success') {
       dispatch(setIsSendCode());
       dispatch(addSuccessMessage('邮件发送成功,请检查邮箱'));
@@ -93,7 +93,7 @@ export const asyncDecSendCodeTime = () => dispatch => {
 };
 
 export const register = (values) => dispatch => {
-  api.register(values).then(res => {
+  commonApi.register(values).then(res => {
     if (res.status === 'success') {
       dispatch(addSuccessMessage('注册成功'));
       toLogin();
@@ -104,7 +104,7 @@ export const register = (values) => dispatch => {
 };
 
 export const checkRegister = (setLoading) => dispatch => {
-  api.checkRegister().then(res => {
+  commonApi.checkRegister().then(res => {
     if (res.status && res.status === 'success') {
       setLoading(false);
     } else {
@@ -114,6 +114,7 @@ export const checkRegister = (setLoading) => dispatch => {
 };
 
 export const sendRestEmailCode = () => dispatch => {
+  import('')
   api.sendRestEmailCode().then(res => {
     if (res.status === 'success') {
       dispatch(addSuccessMessage('验证码发送成,请查收邮箱'));

@@ -1,6 +1,6 @@
 // @flow
-import {createGenerateApiFunc} from './axios';
 import {api_security_string} from '../../config/security_api';
+import {createGenerateApiFunc} from './axios'
 
 const api = {
   tags: '/tags%',
@@ -10,9 +10,7 @@ const api = {
   postsImage: '/images/posts%',
   user: '/user',
   resetPassword: '/user/password/reset',
-  recoveryPassword: '/user/password/recovery',
   email: '/user/email',
-  checkRegister: '/user/register',
   images: '/images%',
   sessions: '/sessions',
 };
@@ -36,15 +34,9 @@ export default {
   addTag: generateApi('tags', 'post'),
   addTagImg: generateApi('tagsImage', 'post', 'form'),
   addPostImg: generateApi('postsImage', 'post', 'form'),
-  checkRegister: generateApi('checkRegister', 'get'),
-  register: generateApi('user', 'post'),
   modifyUserInfo: generateApi('user', 'patch'),
   getUserInfo: generateApi('user', 'get'),
   resetPassword: generateApi('resetPassword', 'patch'),
-
-  sendRecPassCode: generateApi('recoveryPassword', 'get'),
-  RecPassword: generateApi('recoveryPassword', 'put'),
-
   // 修改邮箱时调用,发送验证码
   sendRestEmailCode: generateApi('email', 'get'),
   // 修改邮箱时调用(带上验证码与新邮箱地址)
