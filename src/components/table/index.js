@@ -18,8 +18,8 @@ const Table = (props) => {
   //handleAddR用于处理 + 号按钮行为
   // handleEditor 处理编辑行为
   // api 包括删除,更新,添加三🛎种api
-  const [data, setData] = useState([]);
 
+  const [data, setData] = useState([]);
   const updateMyData = useCallback((rowIndex, columnId, value) => {
     setData(old =>
       old.map((row, index) => {

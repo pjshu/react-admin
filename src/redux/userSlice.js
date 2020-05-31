@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit';
-import api from "../helpers/api/security";
 import commonApi from "../helpers/api/common";
 import {toAdmin, toLogin} from "../history";
 import {addErrorMessage, addSuccessMessage} from "./globalSlice";
@@ -114,69 +113,81 @@ export const checkRegister = (setLoading) => dispatch => {
 };
 
 export const sendRestEmailCode = () => dispatch => {
-  import('')
-  api.sendRestEmailCode().then(res => {
-    if (res.status === 'success') {
-      dispatch(addSuccessMessage('验证码发送成,请查收邮箱'));
-    } else {
-      dispatch(addErrorMessage(res.data.msg));
-    }
+  import('../helpers/api/security').then(({sendRestEmailCode}) => {
+    sendRestEmailCode().then(res => {
+      if (res.status === 'success') {
+        dispatch(addSuccessMessage('验证码发送成,请查收邮箱'));
+      } else {
+        dispatch(addErrorMessage(res.data.msg));
+      }
+    });
   });
+
 };
 
 export const resetEmail = (values) => dispatch => {
-  api.resetEmail(values).then(res => {
-    if (res.status === 'success') {
-      dispatch(addSuccessMessage('邮件修改成功'));
-    } else {
-      dispatch(addErrorMessage(res.data.msg));
-    }
+  import('../helpers/api/security').then(({resetEmail}) => {
+    resetEmail(values).then(res => {
+      if (res.status === 'success') {
+        dispatch(addSuccessMessage('邮件修改成功'));
+      } else {
+        dispatch(addErrorMessage(res.data.msg));
+      }
+    });
   });
 };
 
 export const resetPassword = (values) => dispatch => {
-  api.resetPassword(values).then(res => {
-    if (res.status === 'success') {
-      dispatch(addSuccessMessage('密码修改成功'));
-    } else {
-      dispatch(addErrorMessage('密码修改失败'));
-      /**
-       * data.msg.old_password.[0: "error"]
-       */
-    }
+  import('../helpers/api/security').then(({resetPassword}) => {
+    resetPassword(values).then(res => {
+      if (res.status === 'success') {
+        dispatch(addSuccessMessage('密码修改成功'));
+      } else {
+        dispatch(addErrorMessage('密码修改失败'));
+        /**
+         * data.msg.old_password.[0: "error"]
+         */
+      }
+    });
   });
 };
 
 export const getUserInfo = (setLoading) => dispatch => {
-  api.getUserInfo().then(res => {
-    if (res.status === 'success') {
-      dispatch(changeFormField({...res.data, form: FORM.userInfo}));
-      setLoading(false);
-    } else {
-      dispatch(addErrorMessage('获取用户信息失败'));
-    }
+  import('../helpers/api/security').then(({getUserInfo}) => {
+    getUserInfo().then(res => {
+      if (res.status === 'success') {
+        dispatch(changeFormField({...res.data, form: FORM.userInfo}));
+        setLoading(false);
+      } else {
+        dispatch(addErrorMessage('获取用户信息失败'));
+      }
+    });
   });
 };
 
 export const modifyUserInfo = (values) => dispatch => {
-  api.modifyUserInfo(values).then(res => {
-    if (res.status === 'success') {
-      dispatch(addSuccessMessage('用户信息修改成功'));
-    } else {
-      dispatch(addErrorMessage('用户信息修改失败'));
-    }
+  import('../helpers/api/security').then(({modifyUserInfo}) => {
+    modifyUserInfo(values).then(res => {
+      if (res.status === 'success') {
+        dispatch(addSuccessMessage('用户信息修改成功'));
+      } else {
+        dispatch(addErrorMessage('用户信息修改失败'));
+      }
+    });
   });
 };
 
 export const logout = () => dispatch => {
-  api.logout().then(res => {
-    if (res.status === 'success') {
-      localStorage.removeItem('identify');
-      localStorage.removeItem('Authorization');
-      toLogin();
-    } else {
-      dispatch(addErrorMessage('登出失败'));
-    }
+  import('../helpers/api/security').then(({logout}) => {
+    logout().then(res => {
+      if (res.status === 'success') {
+        localStorage.removeItem('identify');
+        localStorage.removeItem('Authorization');
+        toLogin();
+      } else {
+        dispatch(addErrorMessage('登出失败'));
+      }
+    });
   });
 };
 

@@ -123,10 +123,12 @@ const EnhancedTable = (props) => {
 
 
   useEffect(() => {
-    api.query(query).then(res => {
-      const {data: {values, total}} = res;
-      setData(values);
-      setRowCount(total);
+    api.then((module) => {
+      module.query(query).then(res => {
+        const {data: {values, total}} = res;
+        setData(values);
+        setRowCount(total);
+      });
     });
   }, [api, query, setData]);
 
@@ -150,11 +152,13 @@ const EnhancedTable = (props) => {
   };
 
   const deleteData = useCallback((id_list, newData) => {
-    api.delete({id_list}).then(res => {
-      if (res.status === 'success') {
-        setData(newData);
-        setRowCount(rowCount - 1);
-      }
+    api.then((module) => {
+      module.delete({id_list}).then(res => {
+        if (res.status === 'success') {
+          setData(newData);
+          setRowCount(rowCount - 1);
+        }
+      });
     });
   }, [api, rowCount, setData]);
 

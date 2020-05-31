@@ -1,7 +1,6 @@
 // @flow
 
 import {createSlice} from '@reduxjs/toolkit';
-import api from "../helpers/api/security";
 import {addErrorMessage, addLoadingMessage, addSuccessMessage, updateMessageState} from "./globalSlice";
 import {v4 as uuidV4} from 'uuid';
 import {getImageForm} from "../helpers/misc";
@@ -41,15 +40,17 @@ export const {setDialogAsAdd, setDialogAsUpdate, closeDialog} = slice.actions;
 
 
 export const addTag = () => dispatch => {
-  api.addTag().then(res => {
-    const {data, status} = res;
-    if (status === 'success') {
-      dispatch(changeFormField({form: FORM.tags, id: data.id}));
-      dispatch(setDialogAsAdd());
-      dispatch(addSuccessMessage('标签添加成功'));
-    } else {
-      dispatch(addErrorMessage('标签添加失败'));
-    }
+  import("../helpers/api/security").then(({addTag}) => {
+    addTag().then(res => {
+      const {data, status} = res;
+      if (status === 'success') {
+        dispatch(changeFormField({form: FORM.tags, id: data.id}));
+        dispatch(setDialogAsAdd());
+        dispatch(addSuccessMessage('标签添加成功'));
+      } else {
+        dispatch(addErrorMessage('标签添加失败'));
+      }
+    });
   });
 };
 
@@ -57,16 +58,17 @@ export const addTagImg = (value, updateHandler) => dispatch => {
   const upload = (image) => {
     const messageId = uuidV4();
     dispatch(addLoadingMessage({id: messageId, message: '图片正在上传'}));
-    api.addTagImg(image, value.id).then(res => {
-      if (res.status === 'success') {
-        updateHandler({...value, image: {url: res.data.url}});
-        dispatch(updateMessageState({id: messageId, state: 'success', message: '图片上传成功'}));
-      } else {
-        dispatch(updateMessageState({id: messageId, state: 'error', message: '图片上传失败'}));
-      }
+    import("../helpers/api/security").then(({addTagImg}) => {
+      addTagImg(image, value.id).then(res => {
+        if (res.status === 'success') {
+          updateHandler({...value, image: {url: res.data.url}});
+          dispatch(updateMessageState({id: messageId, state: 'success', message: '图片上传成功'}));
+        } else {
+          dispatch(updateMessageState({id: messageId, state: 'error', message: '图片上传失败'}));
+        }
+      });
     });
   };
-
   if (value.image.url) {
     getImageForm(value.image.url).then(res => {
       upload(res);
@@ -76,15 +78,18 @@ export const addTagImg = (value, updateHandler) => dispatch => {
 
 
 export const modifyTag = (value: Object, updateHandler) => dispatch => {
-  api.modifyTag(value, value.id).then(res => {
-    if (res.status === 'success') {
-      updateHandler({...value});
-      dispatch(initTagForm());
-      dispatch(addSuccessMessage('标签修改成功'));
-    } else {
-      dispatch(addErrorMessage('标签修改失败'));
-    }
+  import("../helpers/api/security").then(({modifyTag}) => {
+    modifyTag(value, value.id).then(res => {
+      if (res.status === 'success') {
+        updateHandler({...value});
+        dispatch(initTagForm());
+        dispatch(addSuccessMessage('标签修改成功'));
+      } else {
+        dispatch(addErrorMessage('标签修改失败'));
+      }
+    });
   });
+
 };
 
 export const selectDialogState = state => state.tag.get('dialogState');

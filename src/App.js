@@ -9,12 +9,12 @@ import MessageQueue from './containers/messageQueue/MessageQueue';
 import ErrorBoundaries from './components/ErrorBoundaries';
 import {Provider} from 'react-redux';
 import store from "./redux/store";
-
+import Login from "./containers/login";
 
 const Root = lazy(() => import("./components/nav"));
 const Register = lazy(() => import("./containers/register"));
-const Login = lazy(() => import("./containers/login"));
-const RecoveryPass = lazy(() => import("./containers/recoveryPass/RecoveryPassword"));
+// const Login = lazy(() => import("./containers/login"));
+const RecoveryPass = lazy(() => import("./containers/recoveryPass"));
 
 function App() {
   return (

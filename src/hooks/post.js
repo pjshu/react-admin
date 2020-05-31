@@ -3,7 +3,6 @@
 import {useState, useContext, useCallback, useEffect, useRef} from 'react';
 import {EditorContext} from "../redux/editorState";
 import {useDispatch} from "react-redux";
-import api from "../helpers/api/security";
 import {changeFormField} from "../redux/formSlice";
 import FORM from "../contants/form.json";
 import {getAttr} from "../helpers/misc";
@@ -57,8 +56,9 @@ export const useGetPost = (postId: number) => {
   const {dispatch: dispatchEditorState, action} = useContext(EditorContext);
   const dispatch = useDispatch();
 
-  const getPost = useCallback(() => {
-    return api.getPost(null, postId).then(res => {
+  const getPost = useCallback(async () => {
+    const {getPost} = await import("../helpers/api/security");
+    return getPost(null, postId).then(res => {
       if (res.status === 'success') {
         const {data: {article, excerpt, ...values}} = res;
         dispatch(changeFormField({...values, form: FORM.post}));

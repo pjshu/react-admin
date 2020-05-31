@@ -4,7 +4,6 @@ import Table from '../../components/table';
 import Chip from "@material-ui/core/Chip";
 import {useDispatch} from "react-redux";
 import {addPost} from "../../redux/postSlice";
-import api from '../../helpers/api/security';
 import {areEqual} from "../../helpers/misc";
 
 const Tags = React.memo(({values}) => (
@@ -64,11 +63,13 @@ function Tables() {
     toPost(original.id);
   }, []);
 
-  const _api = useMemo(() => ({
-    query: api.queryPosts,
-    // modifyPost: api.modifyPost,
-    delete: api.deletePost
-  }), []);
+  const _api = useMemo(async () => {
+    const {queryPosts, deletePost} = await import('../../helpers/api/security');
+    return {
+      query: queryPosts,
+      delete: deletePost
+    };
+  }, []);
 
   return (
     <Table

@@ -47,18 +47,18 @@ module.exports = function override(config, env) {
         },
         common: { // 打包两个页面的公共代码
           minChunks: 2, // 引入两次及以上被打包
-          name: 'vendors', // 分离包的名字
+          name: 'common', // 分离包的名字
           chunks: 'all',
           priority: 8,
         },
-        security: {
-          test: /(helpers\/api\/security.js|config\/security_api.js)/i,
-          chunks: 'all',
-          name: 'security',
-          priority: 1000,
-          reuseExistingChunk: true,
-          minSize: 0
-        },
+        // security: {
+        //   test: /(helpers\/api\/security.js|config\/security_api.js)/i,
+        //   chunks: 'all',
+        //   name: 'security',
+        //   priority: 1000,
+        //   reuseExistingChunk: true,
+        //   minSize: 0
+        // },
       }
     }
   };

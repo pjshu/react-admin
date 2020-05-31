@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit';
-import api from '../helpers/api/security';
 import {addErrorMessage, addLoadingMessage, addSuccessMessage, updateMessageState} from "./globalSlice";
 import {v4 as uuidV4} from "uuid";
 import {fromJS} from "immutable";
@@ -68,46 +67,54 @@ export const {setClickCardId, closeCardModal, openCardModal} = slice.actions;
 export const deleteImageApi = (id_list) => dispatch => {
   const messageId = uuidV4();
   dispatch(addLoadingMessage({id: messageId, message: '正在删除'}));
-  api.deleteImage({id_list}).then(res => {
-    if (res.status === 'success') {
-      dispatch(updateMessageState({id: messageId, state: 'success', message: '图片删除成功'}));
-      dispatch(deleteImage(id_list));
-    } else {
-      dispatch(updateMessageState({id: messageId, state: 'success', message: '图片删除失败'}));
-    }
+  import('../helpers/api/security').then(({deleteImage}) => {
+    deleteImage({id_list}).then(res => {
+      if (res.status === 'success') {
+        dispatch(updateMessageState({id: messageId, state: 'success', message: '图片删除成功'}));
+        dispatch(deleteImage(id_list));
+      } else {
+        dispatch(updateMessageState({id: messageId, state: 'success', message: '图片删除失败'}));
+      }
+    });
   });
 };
 
 export const queryImages = (query) => dispatch => {
-  api.queryImages(query).then(res => {
-    const {data, status} = res;
-    if (status === 'success') {
-      dispatch(setCount(data.total));
-      dispatch(setImages(data.values));
-    } else {
-      //TODO
-    }
+  import('../helpers/api/security').then(({queryImages}) => {
+    queryImages(query).then(res => {
+      const {data, status} = res;
+      if (status === 'success') {
+        dispatch(setCount(data.total));
+        dispatch(setImages(data.values));
+      } else {
+        //TODO
+      }
+    });
   });
 };
 
 export const uploadImages = (form, id) => dispatch => {
-  api.addImages(form).then(res => {
-    if (res.status === 'success') {
-      const data = res.data;
-      dispatch(updateImage({...data, old_id: id}));
-      dispatch(addSuccessMessage('图片上传成功'));
-    }
+  import('../helpers/api/security').then(({addImages}) => {
+    addImages(form).then(res => {
+      if (res.status === 'success') {
+        const data = res.data;
+        dispatch(updateImage({...data, old_id: id}));
+        dispatch(addSuccessMessage('图片上传成功'));
+      }
+    });
   });
 };
 
 export const uploadImagesDesc = (describe, id) => dispatch => {
-  api.modifyImageInfo({describe}, id).then(res => {
-    if (res.status === 'success') {
-      dispatch(updateImage({id, describe, old_id: id}));
-      dispatch(addSuccessMessage('修改描述成功'));
-    } else {
-      dispatch(addErrorMessage('修改描述失败'));
-    }
+  import('../helpers/api/security').then(({modifyImageInfo}) => {
+    modifyImageInfo({describe}, id).then(res => {
+      if (res.status === 'success') {
+        dispatch(updateImage({id, describe, old_id: id}));
+        dispatch(addSuccessMessage('修改描述成功'));
+      } else {
+        dispatch(addErrorMessage('修改描述失败'));
+      }
+    });
   });
 };
 

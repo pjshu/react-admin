@@ -6,7 +6,6 @@ import {
   addTag,
   setDialogAsUpdate,
 } from '../../redux/tagSlice';
-import api from '../../helpers/api/security';
 import {useDispatch} from "react-redux";
 import {areEqual} from "../../helpers/misc";
 import {changeFormField, initTagForm} from "../../redux/formSlice";
@@ -27,11 +26,14 @@ function Tags({columns}) {
     dispatch(setDialogAsUpdate());
   }, [dispatch]);
 
-  const _api = React.useMemo(() => ({
-    query: api.queryTags,
-    delete: api.deleteTag,
-    modify: api.modifyTag,
-  }), []);
+  const _api = React.useMemo(async () => {
+    const {modifyTag, deleteTag, queryTags} = await import('../../helpers/api/security');
+    return {
+      query: queryTags,
+      delete: deleteTag,
+      modify: modifyTag
+    };
+  }, []);
 
   return (
     <Container maxWidth={false}>
