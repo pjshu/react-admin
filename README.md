@@ -1,3 +1,22 @@
+
+## 使用
+```bash
+# yarn
+yarn  && yarn pro_build
+# npm
+npm install && npm run pro_build
+```
+
+## api
+- https://github.com/pjshu/react-blog 
+
+## 你可能需要:
+- 博客页面
+    - https://github.com/pjshu/flask-blog
+- 后台管理面板
+    - https://github.com/pjshu/react-admin
+
+
 TODO:
 - 支持markdown与富文本切换(参考掘金)
 - 日志查询

@@ -3,7 +3,7 @@ import {Box, Button, ButtonGroup, Grid, Paper, TextField} from "@material-ui/cor
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import {useDispatch, useSelector} from "react-redux";
-import {selectImages} from "../../redux/imageSlice";
+import {selectImagesSlice} from "../../redux/imageSlice";
 import {Links, UseInfo} from "./CardModalItem";
 import useStyles from './cardModal.style';
 import LoadingImg from '../../components/LoadingImg';
@@ -13,12 +13,11 @@ import {getAttr} from "../../helpers/misc";
 
 const CardModal = React.memo(function CardModal(props) {
   const {handleUpdate, handleDelete} = props;
-  const images = useSelector(selectImages);
-  const [clickCardId, cardModalOpen] = getAttr(images, ['clickCardId', 'cardModalOpen']);
+  const imagesData = useSelector(selectImagesSlice);
+  const [clickCardId, cardModalOpen, images] = getAttr(imagesData, ['clickCardId', 'cardModalOpen', 'images']);
   const classes = useStyles();
   const dispatch = useDispatch();
   const image = images.filter(item => item.get('id') === clickCardId).get(0);
-
   //从images数组中获取被点击图片详细信息
   const [upload, url, describe, count, relationship] = useMemo(() => {
     return image ?
