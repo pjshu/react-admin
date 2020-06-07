@@ -112,14 +112,17 @@ const EnhancedTable = (props) => {
    *'totalCount':1
    * }
    */
-  const query = useMemo(() => ({
-    page: pageIndex,
-    pageSize: pageSize,
-    orderBy: sortBy.map(item => {
+  const query = useMemo(() => {
+    const orderBy = sortBy.map(item => {
       return {field: item.id, desc: item.desc};
-    }),
-    search: globalFilter
-  }), [globalFilter, sortBy, pageIndex, pageSize]);
+    });
+    return {
+      page: pageIndex,
+      pageSize: pageSize,
+      orderBy: orderBy.length !== 0 ? JSON.stringify(orderBy) : null,
+      search: globalFilter
+    };
+  }, [globalFilter, sortBy, pageIndex, pageSize]);
 
 
   useEffect(() => {

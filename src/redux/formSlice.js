@@ -59,7 +59,7 @@ const defaultData = {
 };
 
 export const slice = createSlice({
-  name: 'post',
+  name: 'form',
   initialState: fromJS(defaultData),
   reducers: {
     initTagForm(state) {

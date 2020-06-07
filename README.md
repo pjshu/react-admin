@@ -1,4 +1,11 @@
 
+## 配置
+- src/config/security.js
+    - dsn sentry.io 错误处理集成
+    - max_upload_image_length 同时上传图片最大数量
+- src/config/security_api.js
+    - api_security_string 添加该配置用于加密部分api
+
 ## 使用
 ```bash
 # yarn

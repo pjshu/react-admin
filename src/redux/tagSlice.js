@@ -89,7 +89,6 @@ export const modifyTag = (value: Object, updateHandler) => dispatch => {
       }
     });
   });
-
 };
 
 export const selectDialogState = state => state.tag.get('dialogState');
