@@ -69,6 +69,11 @@ export const slice = createSlice({
       const {form, ...values} = action.payload;
       return state.update(form, (value) => value.mergeDeep(values));
     },
+    changePostTags(state, action) {
+      const value = action.payload;
+      return state.updateIn([FORM.post, 'tags'], () => value);
+
+    },
     changeFormError(state, action) {
       return state.update('errors', () => Map(action.payload));
     },
@@ -78,7 +83,7 @@ export const slice = createSlice({
   }
 });
 
-export const {changeFormField, changeFormError, clearFormError, initTagForm} = slice.actions;
+export const {changePostTags, changeFormField, changeFormError, clearFormError, initTagForm} = slice.actions;
 export const selectForm = state => state.form;
 
 export const errorSelector = state => state.form.get('errors');
