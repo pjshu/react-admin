@@ -14,7 +14,7 @@ const TimePickField = ({format = "yyyy/MM/dd HH:mm", formName}) => {
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Field
         formName={formName}
-        name={'change_date'}
+        name={'create_date'}
         getValue={getValue}
         as={KeyboardDateTimePicker}
         margin="normal"

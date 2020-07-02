@@ -67,8 +67,8 @@ export const {setClickCardId, closeCardModal, openCardModal} = slice.actions;
 export const deleteImageApi = (id_list) => dispatch => {
   const messageId = uuidV4();
   dispatch(addLoadingMessage({id: messageId, message: '正在删除'}));
-  import('../helpers/api/security').then(({deleteImage}) => {
-    deleteImage({id_list}).then(res => {
+  import('../helpers/api/security').then(({deleteImage: deleteImageApi}) => {
+    deleteImageApi({id_list}).then(res => {
       if (res.status === 'success') {
         dispatch(updateMessageState({id: messageId, state: 'success', message: '图片删除成功'}));
         dispatch(deleteImage(id_list));
