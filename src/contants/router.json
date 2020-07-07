@@ -8,5 +8,6 @@
   "ADMIN_PIC": "/admin/picture",
   "ADMIN_TAGS": "/admin/tags",
   "ADMIN_SECURITY": "/admin/security",
-  "PREVIEW": "/admin/preview"
+  "PREVIEW": "/admin/preview",
+  "CONFIG": "/admin/config"
 }

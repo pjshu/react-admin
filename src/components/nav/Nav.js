@@ -20,6 +20,7 @@ import {Link} from "react-router-dom";
 import router from '../../contants/router';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import SettingsIcon from '@material-ui/icons/Settings';
 import FaceIcon from '@material-ui/icons/Face';
 import useStyles from './nav.style';
 import SecurityIcon from '@material-ui/icons/Security';
@@ -212,6 +213,7 @@ const MemoDraw = React.memo(function MemoDraw({open}) {
             {title: '图片', route: router.ADMIN_PIC, icon: <PermMediaIcon/>},
             {title: '用户', route: router.ADMIN_USER, icon: <FaceIcon/>},
             {title: '安全', route: router.ADMIN_SECURITY, icon: <SecurityIcon/>},
+            {title: '配置', route: router.CONFIG, icon: <SettingsIcon/>},
           ].map(item => (
             <ListItem key={item.title} title={item.title} button component={Link} to={item.route}>
               <ListItemIcon>{item.icon}</ListItemIcon>

@@ -35,7 +35,6 @@ function Post({postId}) {
         contentStyle={contentStyle}
       />
       <Setting
-        uploadFn={uploadFn}
         postId={postId}
       />
       <SpeedSetting postId={postId}/>

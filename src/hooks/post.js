@@ -5,7 +5,7 @@ import {EditorContext} from "../redux/editorState";
 import {useDispatch} from "react-redux";
 import {changeFormField} from "../redux/formSlice";
 import FORM from "../contants/form.json";
-import {getAttr} from "../helpers/misc";
+import {getAttr, blob2Base64} from "../helpers/misc";
 import {convertEditorState, toEditorState} from '../components/editor/helper';
 import {EDITOR} from "../config/editor";
 import {addErrorMessage} from "../redux/globalSlice";
@@ -14,18 +14,22 @@ import {modifyPost} from "../redux/postSlice";
 import {useSubmit} from "./Submit";
 import {validatePost} from "../helpers/validate";
 
+
 export const useSubmitPost = (postId: number) => {
-  const {state: {article, excerpt}} = useContext(EditorContext);
+  const {state: {article, excerpt: excerpt_rich_text}} = useContext(EditorContext);
   const dispatch = useDispatch();
 
-  return useCallback((form: Object) => {
-    const data = {...form, article, excerpt};
+  return useCallback(async (form: Object) => {
+    const data = {...form, article, excerpt_rich_text};
+    if (data.illustration) {
+      data['illustration'] = await blob2Base64(data.illustration);
+    }
     convertEditorState(data, 'article');
-    convertEditorState(data, 'excerpt');
+    convertEditorState(data, 'excerpt_rich_text');
     data.create_date = formatTime(data.create_date);
     data.change_date = formatTime(new Date());
     dispatch(modifyPost(data, postId));
-  }, [article, dispatch, excerpt, postId]);
+  }, [article, dispatch, excerpt_rich_text, postId]);
 };
 
 export const useTiming = (autoSave: Object, postId: number) => {
@@ -52,7 +56,6 @@ export const useTiming = (autoSave: Object, postId: number) => {
 export const useGetPost = (postId: number) => {
   const [loading, setLoading] = useState(true);
 
-  // 由于需要使用useContext,useGetPost不写成非hook形式,所以不放在postSlice.js内
   const {dispatch: dispatchEditorState, action} = useContext(EditorContext);
   const dispatch = useDispatch();
 

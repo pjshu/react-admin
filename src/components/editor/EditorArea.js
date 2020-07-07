@@ -59,3 +59,4 @@ function EditorArea({uploadFn, label, name}) {
 }
 
 export default React.memo(EditorArea);
+export {ModalEditor};

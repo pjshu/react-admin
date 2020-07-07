@@ -26,6 +26,7 @@ npm install && npm run pro_build
 
 TODO:
 - 支持markdown与富文本切换(参考掘金)
+- 上传被改动的字段
 - 日志查询
 - 消息自动清除(超过一定数量)
 - 文章加密功能

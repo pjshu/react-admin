@@ -14,14 +14,15 @@ import {
   selectAutoSave
 } from '../../redux/postSlice';
 import Switch from '@material-ui/core/Switch';
-import EditorArea from "../../components/editor/EditorArea";
 import {areEqual, getAttr} from "../../helpers/misc";
 import {useTiming} from "../../hooks/post";
 import FORM from "../../contants/form.json";
+import Excerpt from "./Excerpt";
+import Upload from "./Upload";
 
 
 const Setting = React.memo(function Setting(props) {
-  const {uploadFn, postId} = props;
+  const {postId} = props;
   const drawOpen = useSelector(selectDrawOpen);
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -53,12 +54,8 @@ const Setting = React.memo(function Setting(props) {
           variant={'standard'}
           InputProps={inputProps}
         />
-        <EditorArea
-          name={'excerpt'}
-          uploadFn={uploadFn}
-          label={'摘录'}
-          formName={FORM.post}
-        />
+        <Excerpt/>
+        <Upload/>
         <MemoAutoSave {...{postId}}/>
         <div className={classes.toolbar}>
           <IconButton onClick={handleCloseDrawer}>

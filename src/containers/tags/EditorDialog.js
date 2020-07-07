@@ -54,7 +54,7 @@ const EditorDialog = (props) => {
 
   const handleChangeImage = useCallback((e) => {
     const file = e.target.files;
-    if (!file) {
+    if (!file || file.length === 0) {
       return;
     }
     const URL = window.URL.createObjectURL(file[0]);

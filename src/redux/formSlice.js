@@ -11,6 +11,9 @@ const defaultData = {
     visibility: '私密',
     allTags: [],
     comments: 0,
+    isRichText: false,
+    excerpt: '', // 普通文本摘录
+    illustration: '',// 摘录插图,
     create_date: formatTime(new Date()),
     change_date: formatTime(new Date())
   },

@@ -35,12 +35,7 @@ const Field = React.memo(function Field(props) {
   value = Iterable.isIterable(value) ? value.toJS() : value;
 
   const handleFormChange = useCallback((e, other) => {
-    let value;
-    if (getValue) {
-      value = getValue(e, other);
-    } else {
-      value = e.target.value;
-    }
+    const value = getValue ? getValue(e, other) : e.target.value;
     dispatch(changeFormField({[name]: value, form: formName}));
   }, [dispatch, formName, getValue, name]);
 

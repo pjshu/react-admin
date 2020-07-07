@@ -14,7 +14,8 @@ function Security() {
     <Container
       className={classes.root}
       maxWidth={false}
-      component={Paper}>
+      component={Paper}
+    >
       <Grid container direction={"column"} spacing={5}>
         <Grid item>
           <ResetPassword/>
