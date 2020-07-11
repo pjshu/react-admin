@@ -70,9 +70,7 @@ export const useRefreshToken = () => {
   const timing = useRef(-1);
   useEffect(() => {
     timing.current = setInterval(() => {
-      commonApi.auth().then(res => {
-        //TODO
-      });
+      commonApi.auth();
     }, refresh_token_space);
     // return clearInterval(timing.current);
   }, []);

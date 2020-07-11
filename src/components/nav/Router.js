@@ -12,6 +12,8 @@ const User = lazy(() => import("../../containers/user"));
 const Security = lazy(() => import('../../containers/security'));
 const Image = lazy(() => import('../../containers/image'));
 const EditorProvider = lazy(() => import('../../redux/editorState'));
+const Comment = lazy(() => import('../../containers/comments'));
+const Blog = lazy(() => import('../../containers/blog'));
 
 const Root = React.memo(function Root() {
   return (
@@ -21,6 +23,8 @@ const Root = React.memo(function Root() {
         <Route path={router.ADMIN_PIC} exact><Image/></Route>
         <Route path={router.ADMIN_SECURITY} exact><Security/></Route>
         <Route path={router.CONFIG} exact><Config/></Route>
+        <Route path={router.COMMENTS} exact><Comment/></Route>
+        <Route path={router.BLOG} exact><Blog/></Route>
         <Route path={router.ADMIN} exact><Posts/></Route>
         <Switch>
           <EditorProvider>

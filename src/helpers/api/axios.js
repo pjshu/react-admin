@@ -30,9 +30,13 @@ axios.interceptors.request.use(config => {
 
 axios.interceptors.response.use(res => {
   const data = res.data;
-  if (data.data && data.data.id && data.data.token) {
-    localStorage.setItem('identify', data.data.id);
-    localStorage.setItem('Authorization', data.data.token);
+  if (data.data) {
+    if (data.data.id) {
+      localStorage.setItem('identify', data.data.id);
+    }
+    if (data.data.token) {
+      localStorage.setItem('Authorization', data.data.token);
+    }
   }
   return data;
 }, error => {

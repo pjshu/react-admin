@@ -1,5 +1,5 @@
 import EditIcon from "@material-ui/icons/Edit";
-import React from "react";
+import React, {useState, useEffect, useRef, useCallback} from "react";
 import {Checkbox} from "@material-ui/core";
 
 const EditorColumn = () => ({
@@ -9,9 +9,11 @@ const EditorColumn = () => ({
   width: 70,
   disableResizing: true,
   Cell: ({handleEditor, row}) => {
-    const handleOnClick = React.useCallback(() => {
+
+    const handleOnClick = useCallback(() => {
       handleEditor(row);
     }, [handleEditor, row]);
+
     return (
       <div>
         <EditIcon onClick={handleOnClick}/>
@@ -23,33 +25,46 @@ const EditorColumn = () => ({
 
 const IndeterminateCheckbox = React.forwardRef(
   ({indeterminate, ...rest}, ref) => {
-    const defaultRef = React.useRef();
+    const defaultRef = useRef();
     const resolvedRef = ref || defaultRef;
-
-    React.useEffect(() => {
+    useEffect(() => {
       resolvedRef.current.indeterminate = indeterminate;
     }, [resolvedRef, indeterminate]);
 
     return (
-      <>
-        <Checkbox ref={resolvedRef} {...rest} />
-      </>
+      <Checkbox ref={resolvedRef} {...rest} checked={rest.checked}/>
     );
   }
 );
 
 
-const CheckBoxColumn = (column) => ({
+const CheckBoxColumn = (column, props) => ({
   id: 'selection',
   disableSortBy: true,
   width: 70,
   disableResizing: true,
+
   Header: ({getToggleAllRowsSelectedProps}) => (
     <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
   ),
   Cell: ({row}) => (
-    <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+    <>
+      {/*{console.log(row.getToggleRowSelectedProps())}*/}
+      {/*{console.log(row.id)}*/}
+      {/*{console.log(props.instance.state.selectedRowIds)}*/}
+      <IndeterminateCheckbox
+        {...row.getToggleRowSelectedProps()}
+        // checked={props.instance.state.selectedRowIds[row.id]}
+      />
+    </>
   ),
 });
 
 export {EditorColumn, CheckBoxColumn};
+
+
+`
+function onChange(e) {
+        row.toggleRowSelected(e.target.checked);
+      }
+`;

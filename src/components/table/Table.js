@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 
 import {
   Paper,
@@ -7,15 +7,17 @@ import {
   TableCell,
   TableContainer,
   TableFooter,
-  TableHead as MuiTableHeader,
-  TablePagination,
   TableRow,
-  TableSortLabel
 } from '@material-ui/core';
 
-import TablePaginationActions from '../Pagination';
-import {CheckBoxColumn, EditorColumn} from './Column';
-
+import {
+  addColumns,
+  useUpdateHandler,
+  useQuery,
+  useGetQuery,
+  useDeleteData,
+  useDeleteHandler
+} from "../../containers/comments/tool";
 import TableToolbar from './TableToolbar';
 import {
   useFlexLayout,
@@ -24,11 +26,12 @@ import {
   useResizeColumns,
   useRowSelect,
   useSortBy,
-  useTable
+  useTable,
+  useExpanded
 } from 'react-table';
 import useStyles from './table.style';
-import {areEqual as objAreEqual} from "../../helpers/misc";
-
+import MemoPagination from './Pagination';
+import TableHeader from './Header';
 
 const EnhancedTable = (props) => {
   const {
@@ -41,7 +44,7 @@ const EnhancedTable = (props) => {
     updateMyData,
     api,
     handleAddRow,
-    handleEditor
+    handleEditor,
   } = props;
   const [rowCount, setRowCount] = useState(0);
 
@@ -68,7 +71,7 @@ const EnhancedTable = (props) => {
   } = useTable(
     {
       initialState: {
-        hiddenColumns: ['id'],
+        // hiddenColumns: ['id'],
       },
       columns,
       data,
@@ -78,62 +81,29 @@ const EnhancedTable = (props) => {
       manualSorting: true,
       manualGlobalFilter: true,
       manualPagination: true,
+      paginateExpandedRows: true,
       isMultiSortEvent: () => {
         return true;
       },
       autoResetPage: false,
       autoResetSortBy: false,
       autoResetFilters: false,
-      // pageCount: rowCount
+      pageCount: rowCount
     },
+    useFlexLayout,
     useGlobalFilter,
     useSortBy,
-    usePagination,
     useRowSelect,
     useResizeColumns,
-    useFlexLayout,
-    hooks => {
-      hooks.allColumns.push(columns => [
-        CheckBoxColumn(columns),
-        EditorColumn(),
-        ...Columns.map((item) => (
-          item(columns)
-        )),
-        ...columns
-      ]);
-    },
+    useExpanded,
+    usePagination,
+    hooks => addColumns(hooks, handleEditor, Columns),
   );
-  /**
-   *query={
-   * 'orderBy':[{field:'title',desc:true}]
-   *'page':0,
-   *'pageSize':10,
-   *'search':'str',
-   *'totalCount':1
-   * }
-   */
-  const query = useMemo(() => {
-    const orderBy = sortBy.map(item => {
-      return {field: item.id, desc: item.desc};
-    });
-    return {
-      page: pageIndex,
-      pageSize: pageSize,
-      orderBy: orderBy.length !== 0 ? JSON.stringify(orderBy) : null,
-      search: globalFilter
-    };
-  }, [globalFilter, sortBy, pageIndex, pageSize]);
-
-
-  useEffect(() => {
-    api.then((module) => {
-      module.query(query).then(res => {
-        const {data: {values, total}} = res;
-        setData(values);
-        setRowCount(total);
-      });
-    });
-  }, [api, query, setData]);
+  const query = useGetQuery({sortBy, pageIndex, pageSize, globalFilter});
+  const updateHandler = useUpdateHandler(setData, setRowCount);
+  const deleteData = useDeleteData({api, setData, setRowCount});
+  const deleteHandler = useDeleteHandler({selectedRowIds, deleteData, data});
+  useQuery({api, setData, setRowCount, query});
 
 
   const handleChangePage = useCallback((newPage) => {
@@ -144,54 +114,6 @@ const EnhancedTable = (props) => {
     setPageSize(Number(event.target.value));
   }, [setPageSize]);
 
-  const removeByIndexs = (array, indexs, ids) => {
-    return array.filter((item, i) => {
-      if (indexs.includes(i)) {
-        ids.push(item.id);
-        return false;
-      }
-      return true;
-    });
-  };
-
-  const deleteData = useCallback((id_list, newData) => {
-    api.then((module) => {
-      module.delete({id_list}).then(res => {
-        if (res.status === 'success') {
-          setData(newData);
-          setRowCount(rowCount - 1);
-        }
-      });
-    });
-  }, [api, rowCount, setData]);
-
-  const deleteHandler = useCallback(() => {
-    const id_list = [];
-    const newData = removeByIndexs(
-      data,
-      Object.keys(selectedRowIds).map(x => parseInt(x, 10)),
-      id_list
-    );
-    deleteData(id_list, newData);
-  }, [data, deleteData, selectedRowIds]);
-
-  const updateHandler = useCallback((value) => {
-    let isNewData = true;
-    setData(old => {
-      const newData = old.map(item => {
-        if (item.id === value.id) {
-          isNewData = false;
-          return value;
-        }
-        return item;
-      });
-      if (isNewData) {
-        newData.push(value);
-        setRowCount((rowCount) => rowCount + 1);
-      }
-      return newData;
-    });
-  }, [setData]);
 
   const numSelected = useMemo(() => {
     return Object.keys(selectedRowIds).length;
@@ -242,84 +164,5 @@ const EnhancedTable = (props) => {
   );
 };
 
-const TableHeader = ({headerGroups}) => {
-  const classes = useStyles();
-  return (
-    <MuiTableHeader>
-      {headerGroups.map(headerGroup => (
-        <TableRow {...headerGroup.getHeaderGroupProps()}>
-          {
-            headerGroup.headers.map(column => (
-              <TableCell
-                className={classes.cell}
-                // padding={'none'}
-                {...(column.disableSortBy
-                  ? column.getHeaderProps()
-                  : column.getHeaderProps(column.getSortByToggleProps()))
-                }
-              >
-                {column.render('Header')}
-                {column.disableSortBy ? null : (
-                  <TableSortLabel
-                    active={column.isSorted}
-                    // react-table has a unsorted state which is not treated here
-                    direction={column.isSortedDesc ? 'desc' : 'asc'}
-                  />
-                )}
-              </TableCell>
-            ))}
-        </TableRow>
-      ))}
-    </MuiTableHeader>
-  );
-};
 
-
-const MemoPagination = React.memo((props) => {
-  const {rowCount, pageSize, pageIndex, handleChangePage, handleChangeRowsPerPage} = props;
-  const classes = useStyles();
-
-  const labelDisplayedRows = useCallback(({from, to, count}) => {
-    return `${from}-${to}/${count}`;
-  }, []);
-
-  const SelectProps = useMemo(() => ({
-    inputProps: {'aria-label': 'rows per page'},
-    // native: true,
-  }), []);
-
-  return (
-    <TablePagination
-      classes={{
-        root: classes.tablePagination,
-        toolbar: classes.tablePaginationToolBar
-      }}
-      // 写入配置
-      labelRowsPerPage={'每页:'}
-      labelDisplayedRows={labelDisplayedRows}
-      rowsPerPageOptions={[5, 10, 25]}
-      colSpan={3}
-      count={rowCount}
-      rowsPerPage={pageSize}
-      page={pageIndex}
-      SelectProps={SelectProps}
-      onChangePage={handleChangePage}
-      onChangeRowsPerPage={handleChangeRowsPerPage}
-      ActionsComponent={TablePaginationActions}
-    />
-  );
-}, (pre, next) => {
-  return pre.rowCount === next.rowCount &&
-    pre.pageSize === next.pageSize &&
-    pre.pageIndex === next.pageIndex;
-});
-
-// const tableAreEqual = (pre, next) => {
-//   //不对比columns字段
-//   const blacklist = ['columns', 'tableName'];
-//   return objAreEqual(pre, next, blacklist);
-// };
-
-export default React.memo(EnhancedTable, (pre, next) => {
-  return objAreEqual(pre.data, next.data);
-});
+export default React.memo(EnhancedTable);

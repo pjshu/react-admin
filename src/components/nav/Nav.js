@@ -21,6 +21,8 @@ import router from '../../contants/router';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import SettingsIcon from '@material-ui/icons/Settings';
+import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
+import BookIcon from '@material-ui/icons/Book';
 import FaceIcon from '@material-ui/icons/Face';
 import useStyles from './nav.style';
 import SecurityIcon from '@material-ui/icons/Security';
@@ -208,12 +210,14 @@ const MemoDraw = React.memo(function MemoDraw({open}) {
       <List>
         {
           [
-            {title: '主页', route: router.ADMIN, icon: <AssignmentIcon/>},
-            {title: '标签', route: router.ADMIN_TAGS, icon: <LocalOfferIcon/>},
-            {title: '图片', route: router.ADMIN_PIC, icon: <PermMediaIcon/>},
-            {title: '用户', route: router.ADMIN_USER, icon: <FaceIcon/>},
-            {title: '安全', route: router.ADMIN_SECURITY, icon: <SecurityIcon/>},
-            {title: '配置', route: router.CONFIG, icon: <SettingsIcon/>},
+            {title: '主页', route: router.ADMIN, icon: <AssignmentIcon color={'primary'}/>},
+            {title: '标签', route: router.ADMIN_TAGS, icon: <LocalOfferIcon color={'primary'}/>},
+            {title: '图片', route: router.ADMIN_PIC, icon: <PermMediaIcon color={'primary'}/>},
+            {title: '日志', route: router.BLOG, icon: <BookIcon color={'primary'}/>},
+            {title: '评论', route: router.COMMENTS, icon: <ChatBubbleOutlineIcon color={'primary'}/>},
+            {title: '用户', route: router.ADMIN_USER, icon: <FaceIcon color={'primary'}/>},
+            {title: '安全', route: router.ADMIN_SECURITY, icon: <SecurityIcon color={'primary'}/>},
+            {title: '配置', route: router.CONFIG, icon: <SettingsIcon color={'primary'}/>},
           ].map(item => (
             <ListItem key={item.title} title={item.title} button component={Link} to={item.route}>
               <ListItemIcon>{item.icon}</ListItemIcon>

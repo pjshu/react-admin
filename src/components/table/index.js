@@ -56,6 +56,5 @@ const Table = (props) => {
 };
 
 export default React.memo(Table, (pre, next) => {
-  // console.log(pre,'table');
   return true;
 });

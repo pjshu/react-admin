@@ -13,6 +13,8 @@ const api = {
   email: '/user/email',
   images: '/images%',
   sessions: '/sessions',
+  blog: '/blog',
+  comments: '/comments'
 };
 
 Object.keys(api).forEach(key => {
@@ -47,6 +49,11 @@ const queryImages = generateApi('images', 'get');
 const modifyImageInfo = generateApi('images', 'put');
 const deleteImage = generateApi('images', 'delete');
 const logout = generateApi('sessions', 'delete');
+const changeBlog = generateApi('blog', 'put');
+const getBlog = generateApi('blog', 'get');
+const deleteBlog = generateApi('blog', 'delete');
+const queryComment = generateApi('comments', 'get');
+
 export {
   queryPosts,
   getPost,
@@ -71,4 +78,8 @@ export {
   resetEmail,
   resetPassword,
   sendRestEmailCode,
+  deleteBlog,
+  getBlog,
+  changeBlog,
+  queryComment
 };

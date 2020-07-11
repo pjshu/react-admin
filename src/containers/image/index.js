@@ -13,9 +13,11 @@ function ImageWrapper() {
   injectReducer('images', reducer);
   const imagesData = useSelector(selectImagesSlice);
   const dispatch = useDispatch();
+
   const [pagination, images, rowsPerPage] = getAttr(imagesData, [
     'pagination', 'images', 'rowsPerPage'
   ]);
+
   const page = pagination.get('page');
 
   const query = React.useMemo(() => ({

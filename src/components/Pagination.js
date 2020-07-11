@@ -2,6 +2,7 @@ import React, {useCallback} from 'react';
 import {createMuiTheme, MuiThemeProvider, CssBaseline} from "@material-ui/core";
 import Pagination from "material-ui-flat-pagination";
 import useStyles from './pagination.style';
+import PropTypes from 'prop-types';
 
 
 const theme = createMuiTheme();
@@ -28,6 +29,13 @@ const TablePaginationActions = ({count, page, rowsPerPage, onChangePage}) => {
       </MuiThemeProvider>
     </div>
   );
+};
+
+TablePaginationActions.propTypes = {
+  count: PropTypes.number,
+  page: PropTypes.number,
+  rowsPerPage: PropTypes.number,
+  onChangePage: PropTypes.func
 };
 
 export default React.memo(TablePaginationActions);

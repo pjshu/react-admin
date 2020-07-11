@@ -9,5 +9,7 @@
   "ADMIN_TAGS": "/admin/tags",
   "ADMIN_SECURITY": "/admin/security",
   "PREVIEW": "/admin/preview",
-  "CONFIG": "/admin/config"
+  "CONFIG": "/admin/config",
+  "BLOG": "/admin/blog",
+  "COMMENTS": "/admin/comments"
 }

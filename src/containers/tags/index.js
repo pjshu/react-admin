@@ -1,8 +1,7 @@
-import Tags from "./Tags";
-
 import React from 'react';
 import {injectReducer} from "../../redux/store";
 import reducer from "../../redux/tagSlice";
+import Tags from "./Tags";
 
 function Index() {
   injectReducer('tag', reducer);

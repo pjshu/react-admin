@@ -19,7 +19,7 @@ const TableToolbar = props => {
     preGlobalFilteredRows,
     setGlobalFilter,
     handleAddRow,
-    tableName
+    tableName,
   } = props;
   return (
     <Toolbar
