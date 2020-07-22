@@ -4,14 +4,12 @@ import {useParams} from "react-router-dom";
 import Loading from "../../components/Loading";
 import {Paper} from "@material-ui/core";
 import useStyles from './post.style';
-import {useGetPost} from '../../hooks/post';
+import {useGetPost, useSubmitPost} from '../../hooks/post';
 import FORM from "../../contants/form.json";
 import {useDispatch} from "react-redux";
-import {getAllTags} from "../../redux/postSlice";
+import reducer, {getAllTags} from "../../redux/postSlice";
 import {useSubmit} from "../../hooks/Submit";
-import {useSubmitPost} from '../../hooks/post';
 import {validatePost} from '../../helpers/validate';
-import reducer from '../../redux/postSlice';
 import {injectReducer} from '../../redux/store';
 
 function PostWrapper() {
@@ -19,9 +17,11 @@ function PostWrapper() {
   const classes = useStyles();
   const {pid: postId} = useParams();
   const dispatch = useDispatch();
+
   const onSubmit = useSubmitPost(postId);
   const handleOnSubmit = useSubmit(FORM.post, onSubmit, validatePost);
   const loading = useGetPost(postId);
+
   useEffect(() => {
     // 获取所有标签,用于自动补全
     dispatch(getAllTags());

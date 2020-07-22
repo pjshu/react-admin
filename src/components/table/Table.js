@@ -17,7 +17,7 @@ import {
   useGetQuery,
   useDeleteData,
   useDeleteHandler
-} from "../../containers/comments/tool";
+} from "./tool";
 import TableToolbar from './TableToolbar';
 import {
   useFlexLayout,
@@ -93,9 +93,9 @@ const EnhancedTable = (props) => {
     useFlexLayout,
     useGlobalFilter,
     useSortBy,
-    useRowSelect,
     useResizeColumns,
     useExpanded,
+    useRowSelect,
     usePagination,
     hooks => addColumns(hooks, handleEditor, Columns),
   );

@@ -1,19 +1,16 @@
-import React, {useMemo} from 'react';
-import {
-  Container,
-  Grid,
-} from "@material-ui/core";
-import useStyles from './Comment.style';
-import getDate from './data';
+import React from 'react';
+import {Container,} from "@material-ui/core";
 import Table from "../../components/table";
-import EditorDialog from "../tags/EditorDialog";
 
 function Comment({columns}) {
-  const classes = useStyles();
   const _api = React.useMemo(async () => {
     const {queryComment} = await import('../../helpers/api/security');
     return {
       query: queryComment,
+      delete: (res) =>{
+        console.log(res)
+        return new Promise()
+      },
     };
   }, []);
 
@@ -22,7 +19,7 @@ function Comment({columns}) {
       <Table
         tableName={'评论'}
         columns={columns}
-        api={getDate}
+        api={_api}
       />
     </Container>
   );

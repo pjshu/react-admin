@@ -3,6 +3,7 @@ import {formatTime} from "../helpers/datetime";
 import {fromJS, Map} from "immutable";
 import FORM from '../contants/form.json';
 
+
 const defaultData = {
   post: {
     id: -1,
@@ -70,7 +71,8 @@ export const slice = createSlice({
     },
     changeFormField(state, action) {
       const {form, ...values} = action.payload;
-      return state.update(form, (value) => value.mergeDeep(values));
+      // return state.update(form, (value) => value.mergeDeep(values));
+      return state.update(form, (value) => value.merge(values));
     },
     changePostTags(state, action) {
       const value = action.payload;

@@ -1,6 +1,7 @@
 import React, {useMemo} from 'react';
 import Comment from './Comment';
 import {Content, Extend, ExtendHeader} from './Cell';
+import {formatTime} from "../../helpers/datetime";
 
 function Index() {
   const columns = useMemo(
@@ -72,6 +73,7 @@ function Index() {
       {
         Header: '评论时间',
         accessor: 'create_date',
+        Cell: ({row}) => formatTime(row.original.create_date),
       }, {
         Header: '父评论id',
         accessor: 'comment_id',

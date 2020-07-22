@@ -16,7 +16,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {v4 as uuidV4} from 'uuid';
-import getCurrentTime from '../../helpers/datetime';
+import getCurrentTime, {formatTime} from '../../helpers/datetime';
 import Pagination from '../../components/Pagination';
 
 const deleteList = new Set([]);
@@ -213,7 +213,7 @@ function Comment() {
             key={item.id}
             data={item.content}
             id={item.id}
-            change_date={item.change_date}
+            change_date={formatTime(item.change_date)}
             isNew={item.isNew || false}
             setData={setData}
           />

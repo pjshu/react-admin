@@ -6,12 +6,15 @@ import {useDispatch} from "react-redux";
 import {addPost} from "../../redux/postSlice";
 import {areEqual} from "../../helpers/misc";
 
+
 const Tags = React.memo(({values}) => (
-  <>
+  <div style={{
+    overflowX: 'auto'
+  }}>
     {values.map(tag => (
       <Chip key={tag} label={tag}/>
     ))}
-  </>
+  </div>
 ), areEqual);
 
 function Tables() {

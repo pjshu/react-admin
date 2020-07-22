@@ -1,10 +1,10 @@
-import {CheckBoxColumn, EditorColumn} from "../../components/table/Column";
+import {CheckBoxColumn, EditorColumn} from "./Column";
 import {useCallback, useEffect, useMemo} from "react";
 
 export const addColumns = (hooks, handleEditor, Columns) => {
-  hooks.allColumns.push((columns, other) => {
+  hooks.allColumns.push((columns) => {
     const res = [
-      CheckBoxColumn(columns, other),
+      CheckBoxColumn(),
       ...Columns.map((item) => (
         item(columns)
       )),

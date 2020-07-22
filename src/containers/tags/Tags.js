@@ -2,10 +2,7 @@ import React, {useCallback} from 'react';
 import {Container} from "@material-ui/core";
 import Table from '../../components/table';
 import EditorDialog from './EditorDialog';
-import {
-  addTag,
-  setDialogAsUpdate,
-} from '../../redux/tagSlice';
+import {addTag, setDialogAsUpdate,} from '../../redux/tagSlice';
 import {useDispatch} from "react-redux";
 import {areEqual} from "../../helpers/misc";
 import {changeFormField, initTagForm} from "../../redux/formSlice";
@@ -45,7 +42,8 @@ function Tags({columns}) {
         handleAddRow={handleAddRow}
         handleEditor={handleEditor}
         columns={columns}
-        api={_api}/>
+        api={_api}
+      />
     </Container>
   );
 }

@@ -1,7 +1,10 @@
 const formatTime = (d, accuracy = 'minutes') => {
-  if (typeof d === "string") {
+  if (typeof d === 'number') {
+    d = new Date(d * 1000);
+  } else if (typeof d === "string") {
     d = new Date(d);
   }
+
   const year = d.getFullYear();
   const month = d.getMonth() + 1;
   const date = d.getDate();
