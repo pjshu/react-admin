@@ -1,5 +1,5 @@
 import EditIcon from "@material-ui/icons/Edit";
-import React, {useEffect, useRef, useCallback} from "react";
+import React, {useCallback, useEffect, useRef} from "react";
 import {Checkbox} from "@material-ui/core";
 
 const EditorColumn = () => ({
@@ -9,7 +9,6 @@ const EditorColumn = () => ({
   width: 70,
   disableResizing: true,
   Cell: ({handleEditor, row}) => {
-
     const handleOnClick = useCallback(() => {
       handleEditor(row);
     }, [handleEditor, row]);

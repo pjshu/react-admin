@@ -14,7 +14,7 @@ const api = {
   images: '/images%',
   sessions: '/sessions',
   blog: '/blog',
-  comments: '/comments'
+  comments: '/comments%'
 };
 
 Object.keys(api).forEach(key => {
@@ -53,7 +53,8 @@ const changeBlog = generateApi('blog', 'put');
 const getBlog = generateApi('blog', 'get');
 const deleteBlog = generateApi('blog', 'delete');
 const queryComment = generateApi('comments', 'get');
-
+const deleteComments = generateApi('comments', 'delete');
+const changeComments = generateApi('comments', 'put');
 export {
   queryPosts,
   getPost,
@@ -81,5 +82,7 @@ export {
   deleteBlog,
   getBlog,
   changeBlog,
-  queryComment
+  queryComment,
+  deleteComments,
+  changeComments
 };

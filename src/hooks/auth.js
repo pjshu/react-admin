@@ -72,6 +72,7 @@ export const useRefreshToken = () => {
     timing.current = setInterval(() => {
       commonApi.auth();
     }, refresh_token_space);
+    //TODO:
     // return clearInterval(timing.current);
   }, []);
 };

@@ -16,6 +16,7 @@
     "axios": "^0.19.2",
     "braft-editor": "^2.3.9",
     "braft-extensions": "^0.1.0",
+    "clsx": "^1.1.1",
     "date-fns": "^2.11.0",
     "draft-js-prism": "^1.0.6",
     "draftjs-utils": "^0.10.2",

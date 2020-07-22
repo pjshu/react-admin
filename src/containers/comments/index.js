@@ -1,21 +1,22 @@
 import React, {useMemo} from 'react';
 import Comment from './Comment';
-import {Content, Extend, ExtendHeader} from './Cell';
+import {Content} from './Cell';
+// import {Content, Extend, ExtendHeader} from './Cell';
 import {formatTime} from "../../helpers/datetime";
 
 function Index() {
   const columns = useMemo(
     () => [
-      {
-        // Build our expander column
-        id: 'expander', // Make sure it has an ID
-        Header: ({getToggleAllRowsExpandedProps, isAllRowsExpanded}) => (
-          <ExtendHeader {...{getToggleAllRowsExpandedProps, isAllRowsExpanded}}/>
-        ),
-        Cell: ({row}) => <Extend row={row}/>,
-        disableSortBy: true,
-        maxWidth: 80
-      },
+      // {
+      //   // Build our expander column
+      //   id: 'expander', // Make sure it has an ID
+      //   Header: ({getToggleAllRowsExpandedProps, isAllRowsExpanded}) => (
+      //     <ExtendHeader {...{getToggleAllRowsExpandedProps, isAllRowsExpanded}}/>
+      //   ),
+      //   Cell: ({row}) => <Extend row={row}/>,
+      //   disableSortBy: true,
+      //   maxWidth: 80
+      // },
       {
         id: 'id',
         Header: 'id',
@@ -74,18 +75,12 @@ function Index() {
         Header: '评论时间',
         accessor: 'create_date',
         Cell: ({row}) => formatTime(row.original.create_date),
-      }, {
-        Header: '父评论id',
-        accessor: 'comment_id',
-        disableSortBy: true,
-        maxWidth: 100
       },
       {
-        Header: '父回复id',
+        Header: '父评论id',
         accessor: 'parent_id',
         disableSortBy: true,
         maxWidth: 100
-
       }
     ],
     []

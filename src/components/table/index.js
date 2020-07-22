@@ -20,13 +20,13 @@ const Table = (props) => {
   // api 包括删除,更新,添加三🛎种api
 
   const [data, setData] = useState([]);
-  const updateMyData = useCallback((rowIndex, columnId, value) => {
+  const updateMyData = useCallback((rowIndex, value) => {
     setData(old =>
       old.map((row, index) => {
         if (index === rowIndex) {
           return {
             ...old[rowIndex],
-            [columnId]: value,
+            ...value
           };
         }
         return row;

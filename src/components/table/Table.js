@@ -10,14 +10,7 @@ import {
   TableRow,
 } from '@material-ui/core';
 
-import {
-  addColumns,
-  useUpdateHandler,
-  useQuery,
-  useGetQuery,
-  useDeleteData,
-  useDeleteHandler
-} from "./tool";
+import {addColumns, useDeleteData, useDeleteHandler, useGetQuery, useQuery, useUpdateHandler} from "./tool";
 import TableToolbar from './TableToolbar';
 import {
   useFlexLayout,
@@ -27,7 +20,6 @@ import {
   useRowSelect,
   useSortBy,
   useTable,
-  useExpanded
 } from 'react-table';
 import useStyles from './table.style';
 import MemoPagination from './Pagination';
@@ -94,7 +86,7 @@ const EnhancedTable = (props) => {
     useGlobalFilter,
     useSortBy,
     useResizeColumns,
-    useExpanded,
+    // useExpanded,
     useRowSelect,
     usePagination,
     hooks => addColumns(hooks, handleEditor, Columns),
@@ -130,7 +122,7 @@ const EnhancedTable = (props) => {
           deleteHandler,
           globalFilter,
           preGlobalFilteredRows,
-          setGlobalFilter
+          setGlobalFilter,
         }}
       />
       <MuiTable {...getTableProps()}>

@@ -20,10 +20,10 @@ const TableToolbar = props => {
     setGlobalFilter,
     handleAddRow,
     tableName,
+    renderToolBar,
   } = props;
   return (
-    <Toolbar
-      className={clsx(classes.root, {
+    <Toolbar className={clsx(classes.root, {
         [classes.highlight]: numSelected > 0,
       })}
     >
@@ -52,11 +52,13 @@ const TableToolbar = props => {
         </Typography>
       )}
       {numSelected > 0 ? (
-        <Tooltip title="删除">
-          <IconButton onClick={deleteHandler}>
-            <DeleteIcon/>
-          </IconButton>
-        </Tooltip>
+        <>
+          <Tooltip title="删除">
+            <IconButton onClick={deleteHandler}>
+              <DeleteIcon/>
+            </IconButton>
+          </Tooltip>
+        </>
       ) : (
         <GlobalFilter
           {...{
