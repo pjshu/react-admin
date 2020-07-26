@@ -191,7 +191,6 @@ export const logout = () => dispatch => {
   });
 };
 
-
 export const selectResendTime = state => state.user.get('resendTime');
 export const selectIsSendCode = state => state.user.get('isSendCode');
 export const selectModalOpen = state => state.user.getIn(['register', 'modalOpen']);

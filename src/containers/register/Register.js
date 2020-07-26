@@ -4,7 +4,7 @@ import RegisterUser from './RegisterUser';
 import useStyles from './register.style';
 import RegisterEmail from "./RegisterEmail";
 import SubmitModal from "./Modal";
-import {decrementActiveStep, increaseActiveStep, selectActiveStep} from "../../redux/userSlice";
+import {decrementActiveStep, increaseActiveStep, selectActiveStep, selectAll} from "../../redux/userSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {changeFormError, createFormSelector} from "../../redux/formSlice";
 import {validateRegister} from "../../helpers/validate";
@@ -24,7 +24,6 @@ function Register() {
   const activeStep = useSelector(selectActiveStep);
   const dispatch = useDispatch();
   const steps = ['创建用户(必选)', '添加邮箱(可选)'];
-
   const handleBack = useCallback(() => {
     dispatch(decrementActiveStep());
   }, [dispatch]);
@@ -78,7 +77,7 @@ const NextButton = () => {
   const register = useSelector(createFormSelector(FORM.register));
   const handleNext = useCallback(() => {
     validateRegister.validate({
-      ...register,
+      ...register.toJS(),
     }).then((res) => {
       dispatch(increaseActiveStep());
     }).catch(({path = '', errors = ['']}) => {
@@ -87,13 +86,7 @@ const NextButton = () => {
         value: errors[0]
       }));
     });
-    // if (activeStep === 0) {
-    //   for (let key of Object.keys(errors)) {
-    //     if (key !== 'email' && errors[key]) {
-    //       return false;
-    //     }
-    //   }
-    // }
+
   }, [dispatch, register]);
 
 

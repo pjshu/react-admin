@@ -1,11 +1,13 @@
 import Register from "./Register";
 import React, {useEffect, useState} from 'react';
 import Loading from "../../components/Loading";
-import {checkRegister} from '../../redux/userSlice';
+import reducer, {checkRegister} from '../../redux/userSlice';
 import {useDispatch} from "react-redux";
+import {injectReducer} from "../../redux/store";
 
 
 function RegisterWrapper() {
+  injectReducer('user', reducer);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   useEffect(() => {

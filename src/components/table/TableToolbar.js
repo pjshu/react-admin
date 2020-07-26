@@ -20,7 +20,6 @@ const TableToolbar = props => {
     setGlobalFilter,
     handleAddRow,
     tableName,
-    renderToolBar,
   } = props;
   return (
     <Toolbar className={clsx(classes.root, {

@@ -18,7 +18,7 @@ const CheckColumn = () => ({
           updateMyData(row.index, {'show': !row.original.show});
         }
       });
-    }, [row.index, row.original.show, updateMyData]);
+    }, [row.index, row.original.id, row.original.show, updateMyData]);
     return (
       <div
         onClick={handleOnClick}
