@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import {TextField} from '@material-ui/core';
 import Autocomplete from "@material-ui/lab/Autocomplete/";
 import {useDispatch, useSelector} from "react-redux";
-import {createFieldSelector, changePostTags} from "../../redux/formSlice";
+import {changePostTags, createFieldSelector} from "../../redux/formSlice";
 import FORM from "../../contants/form.json";
 import {List} from 'immutable';
 

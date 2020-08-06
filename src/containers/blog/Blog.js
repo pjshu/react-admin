@@ -18,6 +18,8 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {v4 as uuidV4} from 'uuid';
 import getCurrentTime, {formatTime} from '../../helpers/datetime';
 import Pagination from '../../components/Pagination';
+import {useDispatch} from "react-redux";
+import {addSuccessMessage} from "../../redux/globalSlice";
 
 const deleteList = new Set([]);
 const transitionProps = {unmountOnExit: true};
@@ -25,6 +27,7 @@ const transitionProps = {unmountOnExit: true};
 
 const ExtendItem = React.memo(function ({data, id, change_date, isNew, setData}) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [content, setContent] = useState(data);
   const [checked, setChecked] = useState(false);
   const query = useMemo(() => ({
@@ -73,11 +76,14 @@ const ExtendItem = React.memo(function ({data, id, change_date, isNew, setData})
     import('../../helpers/api/security').then(module => {
       module.changeBlog(query).then(res => {
         if (res.status === 'success') {
-          updateField(res);
+          dispatch(addSuccessMessage('上传成功'));
+          if (res.data) {
+            updateField(res);
+          }
         }
       });
     });
-  }, [query, updateField]);
+  }, [dispatch, query, updateField]);
 
   const label = useMemo(() => {
     return `${content.substring(0, 10)}...`;

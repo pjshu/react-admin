@@ -8,9 +8,7 @@ import {areEqual} from "../../helpers/misc";
 
 
 const Tags = React.memo(({values}) => (
-  <div style={{
-    overflowX: 'auto'
-  }}>
+  <div style={{overflowX: 'auto'}}>
     {values.map(tag => (
       <Chip key={tag} label={tag}/>
     ))}

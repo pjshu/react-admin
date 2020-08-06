@@ -4,7 +4,7 @@ import RegisterUser from './RegisterUser';
 import useStyles from './register.style';
 import RegisterEmail from "./RegisterEmail";
 import SubmitModal from "./Modal";
-import {decrementActiveStep, increaseActiveStep, selectActiveStep, selectAll} from "../../redux/userSlice";
+import {decrementActiveStep, increaseActiveStep, selectActiveStep,} from "../../redux/userSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {changeFormError, createFormSelector} from "../../redux/formSlice";
 import {validateRegister} from "../../helpers/validate";
@@ -78,7 +78,7 @@ const NextButton = () => {
   const handleNext = useCallback(() => {
     validateRegister.validate({
       ...register.toJS(),
-    }).then((res) => {
+    }).then(() => {
       dispatch(increaseActiveStep());
     }).catch(({path = '', errors = ['']}) => {
       dispatch(changeFormError({

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, Paper, makeStyles} from "@material-ui/core";
+import {Container, makeStyles, Paper} from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
@@ -14,7 +14,7 @@ function Index() {
       className={classes.root}
       maxWidth={false}
       component={Paper}>
-
+      ...
     </Container>
   );
 }

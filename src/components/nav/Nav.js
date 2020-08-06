@@ -39,7 +39,6 @@ const Nav = React.memo(function Nav() {
   const classes = useStyles();
   const dispatch = useDispatch();
   useRefreshToken();
-
   const [open, setOpen] = React.useState(false);
   const [messageMenu, setMessageMenu] = React.useState({
     anchorEl: null,

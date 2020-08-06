@@ -15,6 +15,7 @@ const defaultData = {
     isRichText: false,
     excerpt: '', // 普通文本摘录
     illustration: '',// 摘录插图,
+    illustration_changed: false,//摘录插图是否改变
     create_date: formatTime(new Date()),
     change_date: formatTime(new Date())
   },

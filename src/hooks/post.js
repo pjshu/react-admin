@@ -1,11 +1,11 @@
 // @flow
 
-import {useState, useContext, useCallback, useEffect, useRef} from 'react';
+import {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import {EditorContext} from "../redux/editorState";
 import {useDispatch} from "react-redux";
 import {changeFormField} from "../redux/formSlice";
 import FORM from "../contants/form.json";
-import {getAttr, blob2Base64} from "../helpers/misc";
+import {blob2Base64, getAttr} from "../helpers/misc";
 import {convertEditorState, toEditorState} from '../components/editor/helper';
 import {EDITOR} from "../config/editor";
 import {addErrorMessage} from "../redux/globalSlice";
@@ -37,6 +37,7 @@ export const useTiming = (autoSave: Object, postId: number) => {
   const handleOnSubmit = useSubmit(FORM.post, onSubmit, validatePost);
   const timerId = useRef();
   const [time, open] = getAttr(autoSave, ['time', 'open']);
+
   const timingUpload = useCallback(() => {
     return setInterval(() => {
       handleOnSubmit();
@@ -63,10 +64,10 @@ export const useGetPost = (postId: number) => {
     const {getPost} = await import("../helpers/api/security");
     return getPost(null, postId).then(res => {
       if (res.status === 'success') {
-        const {data: {article, excerpt, ...values}} = res;
-        dispatch(changeFormField({...values, form: FORM.post}));
+        const {data: {article, excerpt_rich_text, ...values}} = res;
+        dispatch(changeFormField({...values, form: FORM.post, illustration_changed: false}));
         dispatchEditorState(action.article(toEditorState(article, EDITOR.article)));
-        dispatchEditorState(action.excerpt(toEditorState(excerpt, EDITOR.excerpt)));
+        dispatchEditorState(action.excerpt(toEditorState(excerpt_rich_text, EDITOR.excerpt)));
         setLoading(false);
       } else {
         dispatch(addErrorMessage('请求错误'));

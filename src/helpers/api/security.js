@@ -14,7 +14,8 @@ const api = {
   images: '/images%',
   sessions: '/sessions',
   blog: '/blog',
-  comments: '/comments%'
+  comments: '/comments%',
+  rebuild: '/frontend/rebuild'
 };
 
 Object.keys(api).forEach(key => {
@@ -84,5 +85,6 @@ export {
   changeBlog,
   queryComment,
   deleteComments,
-  changeComments
+  changeComments,
+
 };

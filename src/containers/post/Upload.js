@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {Box, ButtonBase} from "@material-ui/core";
 import useStyles from './Upload.style';
 import FORM from "../../contants/form.json";
-import {createFieldSelector, changeFormField} from "../../redux/formSlice";
+import {changeFormField, createFieldSelector} from "../../redux/formSlice";
 import {useDispatch, useSelector} from "react-redux";
 
 function Upload() {
@@ -14,7 +14,7 @@ function Upload() {
     const file = e.target.files;
     if (file && file.length !== 0) {
       const value = window.URL.createObjectURL(file[0]);
-      dispatch(changeFormField({'illustration': value, form: FORM.post}));
+      dispatch(changeFormField({'illustration': value, form: FORM.post, 'illustration_changed': true}));
     }
   }, [dispatch]);
   return (
