@@ -23,8 +23,8 @@ const TableToolbar = props => {
   } = props;
   return (
     <Toolbar className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
+      [classes.highlight]: numSelected > 0,
+    })}
     >
       <div>
         {
@@ -37,7 +37,8 @@ const TableToolbar = props => {
           )
         }
       </div>
-      {numSelected > 0 ? (
+      {
+        numSelected > 0 ? (
         <Typography
           className={classes.title}
           color="inherit"
@@ -50,23 +51,26 @@ const TableToolbar = props => {
           {tableName}
         </Typography>
       )}
-      {numSelected > 0 ? (
-        <>
-          <Tooltip title="删除">
+      {
+        numSelected > 0 ? (
+          <Tooltip title="删除" style={{
+            position:'absolute',
+            left:'120px'
+          }}>
             <IconButton onClick={deleteHandler}>
               <DeleteIcon/>
             </IconButton>
           </Tooltip>
-        </>
-      ) : (
-        <GlobalFilter
-          {...{
-            globalFilter,
-            preGlobalFilteredRows,
-            setGlobalFilter
-          }}
-        />
-      )}
+        ) : (
+          <GlobalFilter
+            {...{
+              globalFilter,
+              preGlobalFilteredRows,
+              setGlobalFilter
+            }}
+          />
+        )
+      }
     </Toolbar>
   );
 };

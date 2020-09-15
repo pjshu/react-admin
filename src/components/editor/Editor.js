@@ -1,5 +1,5 @@
-import BraftEditor from '../../config/editor';
-import React, {useCallback, useState, useContext, useMemo} from "react";
+import BraftEditor, {config} from '../../config/editor';
+import React, {useCallback, useContext, useMemo, useState} from "react";
 import Preview from "./Preview";
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/table.css';
@@ -56,7 +56,7 @@ const ContextMyEditor = React.memo(function ContextMyEditor({name, value, upload
         media={media}
         value={value}
         onChange={handleOnChange}
-        {...{extendControls, ...props}}
+        {...{extendControls, ...props, ...config}}
       />
     </>
   );

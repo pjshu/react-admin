@@ -240,6 +240,9 @@ pre[class*="language-"] {
 .bf-container .public-DraftEditor-content .braft-code-block-wrapper .braft-code-block-header .syntax-switcher:hover .syntax-list {
     display: block
 }
+.syntax-list {
+  max-height: 80px!important;
+}
 
 .bf-container .public-DraftEditor-content .braft-code-block-wrapper .braft-code-block-header .syntax-switcher span {
     position: absolute;

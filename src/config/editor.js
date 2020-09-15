@@ -1,8 +1,9 @@
+import React from "react";
 import BraftEditor from "braft-editor";
 // import Table from "braft-extensions/dist/table";
 // Markdown语法支持模块, 该模块暂时不支持markdown表格语法
 // TODO: 支持关闭markdown语法支持
-import Markdown from "braft-extensions/dist/markdown";
+// import Markdown from "braft-extensions/dist/markdown";
 import CodeHighlighter from "braft-extensions/dist/code-highlighter";
 import Emoticon, {defaultEmoticons} from 'braft-extensions/dist/emoticon';
 // 为标题区块(h1-h6)增加随机的id，便于在展示页支持锚点跳转功能
@@ -73,9 +74,9 @@ const emojiOption = {
   closeOnSelect: true // 指定是否在选择表情后关闭表情选择器，默认false
 };
 
-const markdownConfig = {
-  excludeEditors: [EDITOR.excerpt]
-};
+// const markdownConfig = {
+//   excludeEditors: [EDITOR.excerpt]
+// };
 
 const HeaderIdConfig = {
   excludeEditors: [EDITOR.excerpt]
@@ -83,10 +84,23 @@ const HeaderIdConfig = {
 
 BraftEditor.use([
   // Table(tableConfig),
-  Markdown(markdownConfig),
+  // Markdown(markdownConfig),
   CodeHighlighter(codeHighlighterOptions),
   HeaderId(HeaderIdConfig),
   Emoticon(emojiOption)]
 );
 
+const config = {
+  //粘贴时去除样式
+  stripPastedStyles: true,
+  // 隐藏工具栏控件:
+  excludeControls: [
+    'superscript',    // 设置文字为上标
+    'subscript',//设置文字为下标
+    'line-height', //行高选择器
+    'letter-spacing', //字体间距
+    'clear' //内容清除工具
+  ]
+};
 export default BraftEditor;
+export {config};
