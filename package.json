@@ -13,7 +13,7 @@
     "@reduxjs/toolkit": "^1.1.0",
     "@sentry/browser": "^5.15.5",
     "@sentry/integrations": "^5.15.5",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "braft-editor": "^2.3.9",
     "braft-extensions": "^0.1.0",
     "clsx": "^1.1.1",
